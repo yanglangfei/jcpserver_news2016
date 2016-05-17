@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0"
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+  <servlet>
+    <servlet-name>QuerryAdvise</servlet-name>
+    <servlet-class>com.jucaipen.base.QuerryAdvise</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>HotNews</servlet-name>
+    <servlet-class>com.jucaipen.main.index.HotNews</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>VideoList</servlet-name>
+    <servlet-class>com.jucaipen.main.index.VideoList</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>FamousTeacher</servlet-name>
+    <servlet-class>com.jucaipen.main.index.QuerryTeacher</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryVide</servlet-name>
+    <servlet-class>com.jucaipen.main.vide.QuerryVide</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>VideoResource</servlet-name>
+    <servlet-class>com.jucaipen.main.vide.VideoResource</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>TeacherIdea</servlet-name>
+    <servlet-class>com.jucaipen.main.index.TeacherIdea</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Question</servlet-name>
+    <servlet-class>com.jucaipen.main.index.Question</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>LiveList</servlet-name>
+    <servlet-class>com.jucaipen.main.vide.LiveList</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SchoolVideoList</servlet-name>
+    <servlet-class>com.jucaipen.main.vide.SchoolVideoList</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryAskType</servlet-name>
+    <servlet-class>com.jucaipen.main.index.QuerryAskType</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>NewsDetail</servlet-name>
+    <servlet-class>com.jucaipen.main.index.NewsDetail</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>RelateNews</servlet-name>
+    <servlet-class>com.jucaipen.main.index.RelateNews</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryComments</servlet-name>
+    <servlet-class>com.jucaipen.main.index.QuerryComments</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UserInfo</servlet-name>
+    <servlet-class>com.jucaipen.main.user.UserInfo</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryProvince</servlet-name>
+    <servlet-class>com.jucaipen.base.QuerryProvince</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryCity</servlet-name>
+    <servlet-class>com.jucaipen.base.QuerryCity</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryArea</servlet-name>
+    <servlet-class>com.jucaipen.base.QuerryArea</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryExpressType</servlet-name>
+    <servlet-class>com.jucaipen.base.QuerryExpressType</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryExpressInfo</servlet-name>
+    <servlet-class>com.jucaipen.base.QuerryExpressInfo</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DownFile</servlet-name>
+    <servlet-class>com.jucaipen.base.DownFile</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CheckMobileCode</servlet-name>
+    <servlet-class>com.jucaipen.base.CheckMobileCode</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SendMobileCode</servlet-name>
+    <servlet-class>com.jucaipen.base.SendMobileCode</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdateVersion</servlet-name>
+    <servlet-class>com.jucaipen.base.UpdateVersion</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UploadUserLogo</servlet-name>
+    <servlet-class>com.jucaipen.main.user.UploadUserLogo</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CompleteInfo</servlet-name>
+    <servlet-class>com.jucaipen.main.user.CompleteInfo</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>com.jucaipen.main.user.Login</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdatePhone</servlet-name>
+    <servlet-class>com.jucaipen.main.user.UpdatePhone</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Regin</servlet-name>
+    <servlet-class>com.jucaipen.main.user.Regin</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>OtherAccountLogin</servlet-name>
+    <servlet-class>com.jucaipen.main.user.OtherAccountLogin</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>OtherAccountList</servlet-name>
+    <servlet-class>com.jucaipen.main.user.OtherAccountList</servlet-class>
+  </servlet>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <servlet-mapping>
+    <servlet-name>QuerryAdvise</servlet-name>
+    <url-pattern>/jucaipen/getadvise</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>HotNews</servlet-name>
+    <url-pattern>/jucaipen/gethotnews</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>VideoList</servlet-name>
+    <url-pattern>/jucaipen/getvideolist</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FamousTeacher</servlet-name>
+    <url-pattern>/jucaipen/getfamous</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryVide</servlet-name>
+    <url-pattern>/jucaipen/gettypevideolist</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>VideoResource</servlet-name>
+    <url-pattern>/jucaipen/getvideoresource</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TeacherIdea</servlet-name>
+    <url-pattern>/jucaipen/getidealist</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Question</servlet-name>
+    <url-pattern>/jucaipen/getquestion</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LiveList</servlet-name>
+    <url-pattern>/jucaipen/getlivelist</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SchoolVideoList</servlet-name>
+    <url-pattern>/jucaipen/getteachlist</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryAskType</servlet-name>
+    <url-pattern>/jucaipen/getasktype</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>NewsDetail</servlet-name>
+    <url-pattern>/jucaipen/getnewsdetail</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RelateNews</servlet-name>
+    <url-pattern>/jucaipen/getrelatenews</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryComments</servlet-name>
+    <url-pattern>/jucaipen/getcomments</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserInfo</servlet-name>
+    <url-pattern>/jucaipen/getuserinfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryProvince</servlet-name>
+    <url-pattern>/jucaipen/getprovince</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryCity</servlet-name>
+    <url-pattern>/jucaipen/getcity</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryArea</servlet-name>
+    <url-pattern>/jucaipen/getarea</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryExpressType</servlet-name>
+    <url-pattern>/jucaipen/getexpresstype</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryExpressInfo</servlet-name>
+    <url-pattern>/jucaipen/getexpressinfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DownFile</servlet-name>
+    <url-pattern>/jucaipen/download</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CheckMobileCode</servlet-name>
+    <url-pattern>/jucaipen/checkmobile</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SendMobileCode</servlet-name>
+    <url-pattern>/jucaipen/sendmobile</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateVersion</servlet-name>
+    <url-pattern>/jucaipen/updateversion</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UploadUserLogo</servlet-name>
+    <url-pattern>/jucaipen/uploadface</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CompleteInfo</servlet-name>
+    <url-pattern>/jucaipen/completeinfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/jucaipen/login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdatePhone</servlet-name>
+    <url-pattern>/jucaipen/updatephone</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Regin</servlet-name>
+    <url-pattern>/jucaipen/regin</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OtherAccountLogin</servlet-name>
+    <url-pattern>/jucaipen/thirdlogin</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OtherAccountList</servlet-name>
+    <url-pattern>/jucaipen/getthirdlist</url-pattern>
+  </servlet-mapping>
+
+</web-app>
