@@ -22,11 +22,11 @@ public class VideoTypeImp implements VideoTypeDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select Id,ClassName  from JCPVideoClass");
+			res = sta.executeQuery("select Id,Title  from JCP_VideoType");
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				String typeName = res.getString(SqlUtil.VIDEOCLASS_CLASSNAME);
-				VideoType vt = new VideoType(typeName, id);
+				VideoType vt = new VideoType(id, typeName);
 				fts.add(vt);
 			}
 			return fts;
@@ -42,7 +42,7 @@ public class VideoTypeImp implements VideoTypeDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPVideoClass");
+			res = sta.executeQuery("select * from JCP_VideoType");
 			fts = getFinalType(res);
 			if (fts != null && fts.size() > 0) {
 				ft = fts.get(0);
@@ -61,16 +61,12 @@ public class VideoTypeImp implements VideoTypeDao {
 			while (result.next()) {
 				int id = result.getInt(SqlUtil.VIDEOCLASS_ID);
 				String name = result.getString(SqlUtil.VIDEOCLASS_CLASSNAME);
-				int parentId = res.getInt(SqlUtil.VIDEOCLASS_PARENTID);
 				String keyWord = res.getString(SqlUtil.VIDEOCLASS_KEYWORD);
 				String descript = res.getString(SqlUtil.VIDEOCLASS_DESC);
 				int sortId = res.getInt(SqlUtil.VIDEOCLASS_SORTID);
-				int isDelete = res.getInt(SqlUtil.VIDEOCLASS_ISDELETE);
-				VideoType ft = new VideoType(name, id);
+				VideoType ft = new VideoType(id, name);
 				ft.setDescript(descript);
-				ft.setIsDelete(isDelete);
 				ft.setKeyWord(keyWord);
-				ft.setParentId(parentId);
 				ft.setSortId(sortId);
 				fts.add(ft);
 			}
@@ -87,32 +83,4 @@ public class VideoTypeImp implements VideoTypeDao {
 		return null;
 	}
 	
-	/*
-	 * 根据上级分类查询二级分类
-	 * 
-	 */
-
-	public List<VideoType> findTypeByTypeId(int parentId) {
-		fts = new ArrayList<VideoType>();
-		try {
-			dbConn = JdbcUtil.connSqlServer();
-			sta = dbConn.createStatement();
-			res = sta
-					.executeQuery("select Id,ParentId,ClassName from JCPVideoClass where ParentId="
-							+ parentId);
-			while (res.next()) {
-				int id = res.getInt(SqlUtil.VIDEOCLASS_ID);
-				int pId = res.getInt(SqlUtil.VIDEOCLASS_PARENTID);
-				String className = res.getString(SqlUtil.VIDEOCLASS_CLASSNAME);
-				VideoType videoType = new VideoType(className, id);
-				videoType.setParentId(pId);
-				fts.add(videoType);
-			}
-			return fts;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 }

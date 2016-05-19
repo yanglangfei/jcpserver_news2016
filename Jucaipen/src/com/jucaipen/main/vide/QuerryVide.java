@@ -41,8 +41,8 @@ public class QuerryVide extends HttpServlet {
 		List<VideoType> types = VideoTypeSer.findAll();
 		for(VideoType t :types){
 			JsonObject obj1=new JsonObject();
-			int id=t.getTypeId();  
-			String typeName=t.getTypeName();
+			int id=t.getId(); 
+			String typeName=t.getTitle();
 			obj1.addProperty("typeId", id);
 			obj1.addProperty("typeName", typeName);
 			JsonArray arr1=new JsonArray();

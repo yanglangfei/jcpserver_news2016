@@ -602,11 +602,11 @@ public class SqlUtil {
 	/**
 	 * 分类名称
 	 */
-	public static final String VIDEOCLASS_CLASSNAME = "ClassName";
+	public static final String VIDEOCLASS_CLASSNAME = "Title";
 	/**
 	 * 排序
 	 */
-	public static final String VIDEOCLASS_SORTID = "PxId";
+	public static final String VIDEOCLASS_SORTID = "SortId";
 	/**
 	 * 是否删除 （ 1 删除 0 正常）
 	 */

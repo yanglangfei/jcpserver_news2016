@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author Administrator
  * 
- *   直播信息
+ *   文字直播信息              -----------------------数据已更新     5.18
  *
  */
 @SuppressWarnings("serial")
@@ -39,51 +39,29 @@ public class TextLive implements Serializable{
 	 */
 	private int goods;
 	/**
-	 * 人气
+	 * 
 	 */
-	private int moods;
-	/**
-	 * 是否游客
-	 */
-	private int isYouKe;
+	private int hits;
 	/**
 	 * 讲师id
 	 */
 	private int teacherId;
 	/**
-	 * 是否结束   0 正在进行 1已结束 2未开始             
+	 * 是否结束（1未开始，2进行中，3已结束）   
 	 */
 	private int isEnd;
-	/**
-	 *  价格
-	 */
-	private double price;
-	/**
-	 * 直播类型
-	 */
-	private int liveType;
-	
-	public TextLive() {
-	}
-	
-	
-	
 	public int getPage() {
 		return page;
 	}
-
 	public void setPage(int page) {
 		this.page = page;
 	}
-
 	public int getTotlePage() {
 		return totlePage;
 	}
-
 	public void setTotlePage(int totlePage) {
 		this.totlePage = totlePage;
 	}
-
 	public int getId() {
 		return id;
 	}
@@ -114,17 +92,11 @@ public class TextLive implements Serializable{
 	public void setGoods(int goods) {
 		this.goods = goods;
 	}
-	public int getMoods() {
-		return moods;
+	public int getHits() {
+		return hits;
 	}
-	public void setMoods(int moods) {
-		this.moods = moods;
-	}
-	public int getIsYouKe() {
-		return isYouKe;
-	}
-	public void setIsYouKe(int isYouKe) {
-		this.isYouKe = isYouKe;
+	public void setHits(int hits) {
+		this.hits = hits;
 	}
 	public int getTeacherId() {
 		return teacherId;
@@ -138,33 +110,5 @@ public class TextLive implements Serializable{
 	public void setIsEnd(int isEnd) {
 		this.isEnd = isEnd;
 	}
-
-
-
-	public double getPrice() {
-		return price;
-	}
-
-
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-
-
-	public int getLiveType() {
-		return liveType;
-	}
-
-
-
-	public void setLiveType(int liveType) {
-		this.liveType = liveType;
-	}
-	
-	
-	
-	
 
 }

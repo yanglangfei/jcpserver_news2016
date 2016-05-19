@@ -53,15 +53,6 @@ public class TxtLiveSer{
 		return dao.findTextLiveByTeacherId(teacherId);
 	}
 	
-	
-	/**
-	 * @param teacherId
-	 * @return   根据讲师id获取文字直播是否免费
-	 */
-	public static TextLive findIsPayByTeacherId(int teacherId){
-		TxtLiveDao dao=new TextLiveImp();
-		return dao.findIsPayByTeacherId(teacherId);
-	}
 
 	/**
 	 * @param isEnd

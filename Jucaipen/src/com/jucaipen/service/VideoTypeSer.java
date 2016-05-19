@@ -23,13 +23,4 @@ public class VideoTypeSer {
 		VideoTypeDao dao = new VideoTypeImp();
 		return dao.findTypeById(id);
 	}
-
-	/**
-	 * @param parentId
-	 * @return   根据一级分类id查询下边二级分类的信息
-	 */
-	public static List<VideoType> findVideoTypeByParentId(int parentId) {
-		VideoTypeDao dao = new VideoTypeImp();
-		return dao.findTypeByTypeId(parentId);
-	}
 }

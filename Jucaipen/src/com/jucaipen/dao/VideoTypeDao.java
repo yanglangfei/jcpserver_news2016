@@ -20,10 +20,5 @@ public interface VideoTypeDao {
 	 */
 	public List<VideoType> findTypeByIsDelete(int isDelete);
 	
-	/**
-	 * @param parentId
-	 * @return  根据一级分类id查询二级分类
-	 */
-	public List<VideoType> findTypeByTypeId(int parentId);
 
 }

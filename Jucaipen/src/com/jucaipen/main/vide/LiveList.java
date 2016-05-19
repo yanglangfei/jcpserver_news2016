@@ -82,6 +82,9 @@ public class LiveList extends HttpServlet {
 		for(TextLive txt : txtLives){
 			int tId=txt.getTeacherId();
 			FamousTeacher teacher = FamousTeacherSer.findFamousTeacherById(tId);
+			if(teacher==null){
+				teacher=new FamousTeacher();
+			}
 			teachers.add(teacher);
 		}
 	}

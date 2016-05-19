@@ -7,8 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.jucaipen.model.ChatRoom;
+import com.jucaipen.model.VideoLive;
 import com.jucaipen.service.LiveRoomServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
@@ -21,7 +20,7 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class VideoResource extends HttpServlet {
 	private String result;
-	private ChatRoom live;
+	private VideoLive live;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

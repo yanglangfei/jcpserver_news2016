@@ -111,8 +111,10 @@ public class JdbcUtil {
 	public static Connection connVideoSqlServer(){
 		try {
 			Class.forName(SQLSERVER_DRIVER_VIDEO);
-			dbConn = DriverManager.getConnection(SQLSERVER_URL_VIDEO,
-					SQLSERVER_UNAME_VIDEO, SQLSERVER_UPWD_VIDEO);
+			/*dbConn = DriverManager.getConnection(SQLSERVER_URL_VIDEO,
+					SQLSERVER_UNAME_VIDEO, SQLSERVER_UPWD_VIDEO);*/
+			dbConn = DriverManager.getConnection(SQLSERVER_URL_TEST,
+					SQLSERVER_UNAME_TEST, SQLSERVER_UPWD_TEST);
 			return dbConn;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
