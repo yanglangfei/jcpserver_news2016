@@ -22,7 +22,7 @@ public class FaceInfoImp implements FaceInfoDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCP_face");
+			res = sta.executeQuery("SELECT * FROM JCP_Face");
 			eInfos = getExpressionInfo(res);
 			return eInfos;
 		} catch (SQLException e) {
@@ -36,7 +36,7 @@ public class FaceInfoImp implements FaceInfoDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCP_face WHERE ClassId="
+			res = sta.executeQuery("SELECT * FROM JCP_Face WHERE FK_FaceClassId="
 					+ typeId);
 			eInfos = getExpressionInfo(res);
 			return eInfos;
@@ -51,7 +51,7 @@ public class FaceInfoImp implements FaceInfoDao {
 		try {
 			dbConn=JdbcUtil.connSqlServer();
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_face WHERE Id="+id);
+			res=sta.executeQuery("SELECT * FROM JCP_Face WHERE Id="+id);
 			eInfos=getExpressionInfo(res);
 			if(eInfos.size()>0){
 				return eInfos.get(0);
@@ -68,16 +68,16 @@ public class FaceInfoImp implements FaceInfoDao {
 		try {
 			while (result.next()) {
 				int id = result.getInt("Id");
-				int typeId = result.getInt("ClassId");
-				String title = result.getString("Title");
-				String faceurl = result.getString("faceurl");
-				int pxId = result.getInt("PxId");
+				int typeId = result.getInt("FK_FaceClassId");
+				String title = result.getString("FaceName");
+				String faceurl = result.getString("FaceUrl");
+				int pxId = result.getInt("SortId");
 				ExpressionInfo info = new ExpressionInfo();
 				info.setId(id);
-				info.setTitle(title);
+				info.setName(title);
 				info.setClassId(typeId);
 				info.setFaceurl(faceurl);
-				info.setPxId(pxId);
+				info.setSortId(pxId);
 				eInfos.add(info);
 			}
 			return eInfos;

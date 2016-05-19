@@ -18,26 +18,23 @@ public class NewsClassImp implements NewsClassDao {
 	private ResultSet res;
 	private List<NewsClass> nList = new ArrayList<NewsClass>();
 
-	public List<NewsClass> findAllBigClass() {
+	public List<NewsClass> findAllNewsClass() {
 		// 获取一级分类所有信息
 		nList.clear();
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPNewsBigClass");
+			res = sta.executeQuery("select * from JCP_NewsClass");
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
-				String BigName = res.getString(SqlUtil.NEWONECLASS_BIGNAME);
+				String className = res.getString(SqlUtil.NEWONECLASS_BIGNAME);
 				String KeyWord = res.getString(SqlUtil.NEWONECLASS_KEYWORD);
 				String Description = res.getString(SqlUtil.NEWONECLASS_DESC);
-				String TempleteName = res
-						.getString(SqlUtil.NEWONECLASS_MODELNAME);
-				String FilePath = res.getString(SqlUtil.NEWONECLASS_FILEPATH);
 				String LinkUrl = res.getString(SqlUtil.NEWONECLASS_LINKURL);
 				int sortId = res.getInt(SqlUtil.NEWONECLASS_SORTID);
-				NewsClass nBigClass = new NewsClass(id, BigName, KeyWord,
-						Description, TempleteName, FilePath, sortId);
-				nBigClass.setLinkUrl(LinkUrl);
+				int parentId=res.getInt("ParentId");
+				NewsClass nBigClass = new NewsClass(id, className, KeyWord, Description, LinkUrl, sortId);
+				nBigClass.setParentId(parentId);
 				nList.add(nBigClass);
 			}
 			return nList;
@@ -48,32 +45,39 @@ public class NewsClassImp implements NewsClassDao {
 		return null;
 	}
 
-	public List<NewsClass> findBigClassById(int id) {
+	public List<NewsClass> findNewsClassByPId(int pId) {
 		// 根据id 获取分类信息
 		nList.clear();
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPNewsBigClass where Id="
-					+ id);
+			res = sta.executeQuery("select * from JCP_NewsClass where ParentId="
+					+ pId);
 			while (res.next()) {
+				int id=res.getInt("Id");
 				String BigName = res.getString(SqlUtil.NEWONECLASS_BIGNAME);
 				String KeyWord = res.getString(SqlUtil.NEWONECLASS_KEYWORD);
 				String Description = res.getString(SqlUtil.NEWONECLASS_DESC);
-				String TempleteName = res
-						.getString(SqlUtil.NEWONECLASS_MODELNAME);
-				String FilePath = res.getString(SqlUtil.NEWONECLASS_FILEPATH);
 				String LinkUrl = res.getString(SqlUtil.NEWONECLASS_LINKURL);
 				int sortId = res.getInt(SqlUtil.NEWONECLASS_SORTID);
+				int parentId=res.getInt("ParentId");
 				NewsClass nBigClass = new NewsClass(id, BigName, KeyWord,
-						Description, TempleteName, FilePath, sortId);
+						Description,LinkUrl, sortId);
 				nBigClass.setLinkUrl(LinkUrl);
+				nBigClass.setParentId(parentId);
 				nList.add(nBigClass);
+				
 			}
 			return nList;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+
+	@Override
+	public NewsClass findClassById(int id) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

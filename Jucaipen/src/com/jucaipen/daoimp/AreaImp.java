@@ -86,7 +86,8 @@ public class AreaImp implements AreaDao {
 				int cityId = result.getInt(SqlUtil.AREA_CID);
 				String name = result.getString(SqlUtil.AREA_NAME);
 				int sortId = result.getInt(SqlUtil.AREA_SORT);
-				Area area = new Area(id, cityId, name, sortId);
+				String remark=result.getString("Eremark");
+				Area area = new Area(id, cityId, name, sortId, remark);
 				area.setTotlePager(totlePager);
 				area.setPager(pager);
 				areas.add(area);

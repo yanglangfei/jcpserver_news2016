@@ -3,7 +3,7 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author ylf
+ * @author ylf          -----------------------数据已更新
  *  省份
  */
 @SuppressWarnings("serial")
@@ -27,7 +27,7 @@ public class Province implements Serializable {
 	/**
 	 * 排序
 	 */
-	private int ProSort;
+	private int sortId;
 	/**
 	 *  备注
 	 */
@@ -36,7 +36,7 @@ public class Province implements Serializable {
 	public Province(int id, String name, int sortId) {
 		this.id = id;
 		this.name = name;
-		this.ProSort = sortId;
+		this.sortId = sortId;
 	}
 	public int getId() {
 		return id;
@@ -63,10 +63,10 @@ public class Province implements Serializable {
 		this.totlePager = totlePager;
 	}
 	public int getProSort() {
-		return ProSort;
+		return sortId;
 	}
-	public void setProSort(int proSort) {
-		ProSort = proSort;
+	public void setProSort(int sortId) {
+		sortId = sortId;
 	}
 	public String getProRemark() {
 		return proRemark;

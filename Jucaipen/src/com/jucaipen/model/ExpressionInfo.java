@@ -3,7 +3,7 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author YLF
+ * @author YLF         ---------------数据已更新
  * 
  *         表情列表
  * 
@@ -21,7 +21,7 @@ public class ExpressionInfo implements Serializable {
 	/**
 	 * 标题
 	 */
-	private String Title;
+	private String name;
 	/**
 	 * 表情连接地址
 	 */
@@ -29,7 +29,7 @@ public class ExpressionInfo implements Serializable {
 	/**
 	 * 表情排序
 	 */
-	private int pxId;
+	private int sortId;
 
 	public ExpressionInfo() {
 		super();
@@ -51,13 +51,6 @@ public class ExpressionInfo implements Serializable {
 		this.classId = classId;
 	}
 
-	public String getTitle() {
-		return Title;
-	}
-
-	public void setTitle(String title) {
-		Title = title;
-	}
 
 	public String getFaceurl() {
 		return faceurl;
@@ -67,12 +60,21 @@ public class ExpressionInfo implements Serializable {
 		this.faceurl = faceurl;
 	}
 
-	public int getPxId() {
-		return pxId;
+	public String getName() {
+		return name;
 	}
 
-	public void setPxId(int pxId) {
-		this.pxId = pxId;
+	public void setName(String name) {
+		this.name = name;
 	}
+
+	public int getSortId() {
+		return sortId;
+	}
+
+	public void setSortId(int sortId) {
+		this.sortId = sortId;
+	}
+
 
 }

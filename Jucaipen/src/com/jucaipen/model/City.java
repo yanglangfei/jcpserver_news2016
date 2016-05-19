@@ -3,7 +3,7 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author ylf
+ * @author ylf          ---------------数据已更新
  * 
  *   城市
  *
@@ -34,12 +34,30 @@ public class City implements Serializable {
 	 * 排序
 	 */
 	private int sortId;
+	/**
+	 *  备注
+	 */
+	private String remark;
 	
-	public City(int id, int provinceId, String name, int sortId) {
+	public City(int id, int provinceId, String name,
+			int sortId, String remark) {
 		this.id = id;
 		this.provinceId = provinceId;
 		this.name = name;
 		this.sortId = sortId;
+		this.remark = remark;
+	}
+	public int getPager() {
+		return pager;
+	}
+	public void setPager(int pager) {
+		this.pager = pager;
+	}
+	public int getTotlePager() {
+		return totlePager;
+	}
+	public void setTotlePager(int totlePager) {
+		this.totlePager = totlePager;
 	}
 	public int getId() {
 		return id;
@@ -65,18 +83,13 @@ public class City implements Serializable {
 	public void setSortId(int sortId) {
 		this.sortId = sortId;
 	}
-	public int getPager() {
-		return pager;
+	public String getRemark() {
+		return remark;
 	}
-	public void setPager(int pager) {
-		this.pager = pager;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
-	public int getTotlePager() {
-		return totlePager;
-	}
-	public void setTotlePager(int totlePager) {
-		this.totlePager = totlePager;
-	}
+	
 	
 	
 

@@ -107,7 +107,8 @@ public class CityImp implements CityDao {
 				int provinceId = result.getInt(SqlUtil.CITY_PID);
 				String name = result.getString(SqlUtil.CITY_NAME);
 				int sortId = result.getInt(SqlUtil.CITY_SORT);
-				City city = new City(id, provinceId, name, sortId);
+				String remark=result.getString("CRemark");
+				City city = new City(id, provinceId, name, sortId, remark);
 				city.setTotlePager(totlePager);
 				city.setPager(pager);
 				cities.add(city);

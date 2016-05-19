@@ -16,7 +16,7 @@ import com.jucaipen.utils.SqlUtil;
  * @author Administrator
  * 
  * 
- *         ÷±≤• “
+ *         ÷±≤•º‰
  */
 public class LiveRoomImp implements LiveRoomDao {
 	private Connection dbConn;

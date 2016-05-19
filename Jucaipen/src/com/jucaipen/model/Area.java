@@ -3,7 +3,7 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author ylf
+ * @author ylf             ----------------------信息已更新
  * 
  *   区
  *
@@ -34,13 +34,30 @@ public class Area implements Serializable {
 	 * 分类
 	 */
 	private int sortId;
+	/**
+	 * 备注
+	 */
+	private String remark;
 	
-	public Area(int id ,int cityId, String name, int sortId) {
+	
+	
+	public Area( int id, int cityId, String name,
+			int sortId, String remark) {
 		this.id = id;
 		this.cityId = cityId;
 		this.name = name;
 		this.sortId = sortId;
+		this.remark = remark;
 	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
 	public int getId() {
 		return id;
 	}

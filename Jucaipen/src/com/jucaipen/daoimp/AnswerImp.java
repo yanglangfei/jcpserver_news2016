@@ -28,7 +28,7 @@ public class AnswerImp implements AnswerDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCPTearch_Answer "
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_Answer "
 							+ condition);
 			res.next();
 			int totlePager = res.getInt("totlePager");
@@ -45,13 +45,13 @@ public class AnswerImp implements AnswerDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta
-					.executeUpdate("INSERT INTO JCPTearch_Answer"
-							+ "(AnswerBody,TearcherId,AnswerDate,PingJia,AskId,Pingfen)"
+					.executeUpdate("INSERT INTO JCP_Answer"
+							+ "(AnswerBody,FK_TearchId,InsertDate,FreeBody,FK_AskId,Grade)"
 							+ "VALUES ('" + answer.getAnswerBody() + "',"
 							+ answer.getTeacherId() + ",'"
 							+ answer.getAnswerDate() + "','"
-							+ answer.getRemark() + "'," + answer.getAskId()
-							+ "," + answer.getPingFen() + ")");
+							+ answer.getPrivateBody() + "'," + answer.getAskId()
+							+ "," + answer.getGrade() + ")");
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -63,7 +63,7 @@ public class AnswerImp implements AnswerDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCPTearch_Answer WHERE Id="
+			res = sta.executeQuery("SELECT * FROM JCP_Answer WHERE Id="
 					+ id);
 			answers = getAnswer(res,1,1);
 			if (answers.size() > 0) {
@@ -80,7 +80,7 @@ public class AnswerImp implements AnswerDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP "+count+" * FROM JCPTearch_Answer ORDER BY AnswerDate DESC");
+					.executeQuery("SELECT TOP "+count+" * FROM JCP_Answer ORDER BY InsertDate DESC");
 			answers = getAnswer(res,1,1);
 			return answers;
 		} catch (SQLException e) {
@@ -97,7 +97,7 @@ public class AnswerImp implements AnswerDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER ( ORDER BY AnswerDate DESC) AS RowNumber,* FROM JCPTearch_Answer"
+							+ "(SELECT ROW_NUMBER() OVER ( ORDER BY InsertDate DESC) AS RowNumber,* FROM JCP_Answer"
 							+") A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
 			answers = getAnswer(res,page,totlePage);
@@ -113,8 +113,8 @@ public class AnswerImp implements AnswerDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_Answer WHERE TearcherId="
-							+ teacherId + " ORDER BY AnswerDate DESC");
+					.executeQuery("SELECT * FROM JCP_Answer WHERE FK_TearchId="
+							+ teacherId + " ORDER BY InsertDate DESC");
 			answers = getAnswer(res,1,1);
 			return answers;
 		} catch (SQLException e) {
@@ -128,8 +128,8 @@ public class AnswerImp implements AnswerDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT AnswerBody,TearcherId FROM JCPTearch_Answer WHERE AskId="
-							+ askId + " ORDER BY AnswerDate DESC");
+					.executeQuery("SELECT AnswerBody,FK_TearchId FROM JCP_Answer WHERE FK_AskId="
+							+ askId + " ORDER BY InsertDate DESC");
 			while (res.next()) {
 				String answerBody=res.getString(1);
 				int teacherId=res.getInt(2);
@@ -149,8 +149,8 @@ public class AnswerImp implements AnswerDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT TOP " + count
-					+ " * FROM JCPTearch_Answer WHERE TearcherId=" + teacherId
-					+ " ORDER BY AnswerDate DESC");
+					+ " * FROM JCP_Answer WHERE FK_TearchId=" + teacherId
+					+ " ORDER BY InsertDate DESC");
 			answers = getAnswer(res,1,1);
 			return answers;
 		} catch (SQLException e) {
@@ -166,10 +166,9 @@ public class AnswerImp implements AnswerDao {
 				int id = result.getInt("Id");
 				String answerBody = result.getString("AnswerBody");
 				int teacherId = result.getInt("TearcherId");
-				String answerDate = result.getString("AnswerDate");
-				String remark = result.getString("PingJia");
+				String answerDate = result.getString("InsertDate");
 				int askId = result.getInt("AskId");
-				int scroe = result.getInt("Pingfen");
+				int scroe = result.getInt("Grade");
 				Answer answer = new Answer();
 				answer.setPage(page);
 				answer.setTotlePage(totlePage);
@@ -177,9 +176,8 @@ public class AnswerImp implements AnswerDao {
 				answer.setAnswerBody(answerBody);
 				answer.setTeacherId(teacherId);
 				answer.setAnswerDate(answerDate);
-				answer.setRemark(remark);
 				answer.setAskId(askId);
-				answer.setPingFen(scroe);
+				answer.setGrade(scroe);
 				answers.add(answer);
 			}
 			return answers;

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.TextLive;
 import com.jucaipen.service.FamousTeacherSer;
+import com.jucaipen.service.LiveRoomServer;
 import com.jucaipen.service.TxtLiveSer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
@@ -71,6 +72,8 @@ public class LiveList extends HttpServlet {
 
 	private void initLive(int page) {
 		//初始化视频直播
+		teachers.clear();
+		//LiveRoomServer.getRoomLiveUrl(id);
 		
 		
 	}

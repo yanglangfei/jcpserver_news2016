@@ -654,7 +654,7 @@ public class SqlUtil {
 	/**
 	 * 一级分类名称
 	 */
-	public static final String NEWONECLASS_BIGNAME = "BigName";
+	public static final String NEWONECLASS_BIGNAME = "ClassName";
 	/**
 	 * 关键字
 	 */
@@ -664,21 +664,13 @@ public class SqlUtil {
 	 */
 	public static final String NEWONECLASS_DESC = "Description";
 	/**
-	 * 模版路径名称
-	 */
-	public static final String NEWONECLASS_MODELNAME = "TempleteName";
-	/**
-	 * 文件路径
-	 */
-	public static final String NEWONECLASS_FILEPATH = "FilePath";
-	/**
 	 * 连接地址
 	 */
 	public static final String NEWONECLASS_LINKURL = "LinkUrl";
 	/**
 	 * 排序id
 	 */
-	public static final String NEWONECLASS_SORTID = "PxId";
+	public static final String NEWONECLASS_SORTID = "SortId";
 	/**
 	 *   视频评论表
 	 */
