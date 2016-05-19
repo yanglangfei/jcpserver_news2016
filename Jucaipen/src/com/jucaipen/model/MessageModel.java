@@ -3,7 +3,7 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author YLF
+ * @author YLF ---------------数据已更新
  * 
  *    邮箱、短信模版
  *
@@ -15,7 +15,7 @@ public class MessageModel implements Serializable{
 	 */
 	private int id;
 	/**
-	 * 模版类型
+	 * 模版类型   1   短信    2   邮件
 	 */
 	private int modelType;
 	/**

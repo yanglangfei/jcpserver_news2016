@@ -3,7 +3,7 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author YLF
+ * @author YLF    ---------数据已更新
  * 
  *   短信信息
  *

@@ -3,8 +3,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.UUID;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +24,6 @@ import com.jucaipen.utils.StringUtil;
 public class OtherAccountLogin extends HttpServlet {
 	private User user;
 	private String result;
-	private String uuid;
 	private int uId;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private String clientAddress;
@@ -51,7 +48,6 @@ public class OtherAccountLogin extends HttpServlet {
 				loginUser(type, accountId);
 				if (user != null) {  
 					result = JsonUtil.getLoginResult(user);
-					uuid = UUID.randomUUID().toString();
 					uId = user.getId();
 					handleLoginResult(1, user);
 				} else {
@@ -74,7 +70,7 @@ public class OtherAccountLogin extends HttpServlet {
 		LoginLog log = new LoginLog();
 		log.setLoginDate(sdf.format(new Date()));
 		log.setUserId(uId);
-		log.setUserName(user.getTrueName());
+		log.setAccount(user.getMobileNum());
 		log.setPassword(user.getPassword());
 		log.setRemark("µÇÂ¼³É¹¦");
 		log.setLoginIp(clientAddress);

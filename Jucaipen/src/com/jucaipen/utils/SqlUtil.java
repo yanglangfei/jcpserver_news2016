@@ -778,11 +778,11 @@ public class SqlUtil {
 	/**
 	 *  登录日志，用户名
 	 */
-	public static final String LOGINLOG_UNAME="UserName";
+	public static final String LOGINLOG_UNAME="LoginAccount";
 	/**
 	 *  登录日志，用户密码
 	 */
-	public static final String LOGINLOG_PWD="PassWord";
+	public static final String LOGINLOG_PWD="LoginPassWord";
 	/**
 	 *  登录日志--登录时间
 	 */
@@ -794,7 +794,7 @@ public class SqlUtil {
 	/**
 	 *  登录用户ip
 	 */
-	public static final String LOGINLOG_IP="LoginIp";
+	public static final String LOGINLOG_IP="LoginIP";
 	/**
 	 * 登录日志--登录信息备注
 	 */

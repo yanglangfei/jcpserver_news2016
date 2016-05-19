@@ -9,8 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.jucaipen.model.NewsComment;
-import com.jucaipen.service.NewsCommSer;
+import com.jucaipen.model.Comment;
+import com.jucaipen.service.CommSer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -26,7 +26,7 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class AddRemark extends HttpServlet {
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	private NewsComment newsComment;
+	private Comment newsComment;
 	private int isSuccess;
 	private String result;
 
@@ -93,20 +93,7 @@ public class AddRemark extends HttpServlet {
 	 *            添加评论
 	 */
 	private void insertRemark(int uId, int cId, int nId, String bodys,int commType) {
-		if(commType==0||commType==1){
-			//新闻评论
-			newsComment = new NewsComment();
-			newsComment.setuId(uId);
-			newsComment.setBodys(bodys);
-			newsComment.setnId(nId);
-			newsComment.setInsertDate(sdf.format(new Date()));
-			newsComment.setRepCount(0);
-			newsComment.setGoodNum(0);
-			newsComment.setCommType(commType);
-			isSuccess = NewsCommSer.insertNewsComm(uId, newsComment);
-		}else{
-			//观点评论
-		}
+		
 	}
 
 }

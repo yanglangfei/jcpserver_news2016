@@ -3,7 +3,7 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author YLF
+ * @author YLF     -------------------数据已更新
  * 
  *   登录日志
  *
@@ -27,9 +27,9 @@ public class LoginLog implements Serializable{
 	 */
 	private int userId;
 	/**
-	 * 登录用户名
+	 * 登录账号
 	 */
-	private String userName;
+	private String account;
 	/**
 	 * 登录密码
 	 */
@@ -39,19 +39,45 @@ public class LoginLog implements Serializable{
 	 */
 	private String loginDate;
 	/**
-	 * 登录结果
+	 * 登录浏览器名
+	 */
+	private String browserName;
+	/**
+	 * 操作系统
+	 */
+	private String osName;
+	/**
+	 * 登录结果  1  失败   0成功
 	 */
 	private int loginResult;
 	/**
 	 * 登录设备ip
 	 */
 	private String loginIp;
+	
 	/**
-	 * 登录备注信息（失败原因）
+	 * 登录描述信息（失败原因）
 	 */
 	private String remark;
-	
-	public LoginLog() {
+	/**
+	 *  登录类型（1PC网站、2手机网站、3App等）
+	 */
+	private int loginType;
+	/**
+	 * 登录提交地址
+	 */
+	private String loginUrl;
+	public int getPager() {
+		return pager;
+	}
+	public void setPager(int pager) {
+		this.pager = pager;
+	}
+	public int getTotlePager() {
+		return totlePager;
+	}
+	public void setTotlePager(int totlePager) {
+		this.totlePager = totlePager;
 	}
 	public int getId() {
 		return id;
@@ -65,11 +91,11 @@ public class LoginLog implements Serializable{
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	public String getUserName() {
-		return userName;
+	public String getAccount() {
+		return account;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setAccount(String account) {
+		this.account = account;
 	}
 	public String getPassword() {
 		return password;
@@ -82,6 +108,18 @@ public class LoginLog implements Serializable{
 	}
 	public void setLoginDate(String loginDate) {
 		this.loginDate = loginDate;
+	}
+	public String getBrowserName() {
+		return browserName;
+	}
+	public void setBrowserName(String browserName) {
+		this.browserName = browserName;
+	}
+	public String getOsName() {
+		return osName;
+	}
+	public void setOsName(String osName) {
+		this.osName = osName;
 	}
 	public int getLoginResult() {
 		return loginResult;
@@ -101,19 +139,18 @@ public class LoginLog implements Serializable{
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public int getPager() {
-		return pager;
+	public int getLoginType() {
+		return loginType;
 	}
-	public void setPager(int pager) {
-		this.pager = pager;
+	public void setLoginType(int loginType) {
+		this.loginType = loginType;
 	}
-	public int getTotlePager() {
-		return totlePager;
+	public String getLoginUrl() {
+		return loginUrl;
 	}
-	public void setTotlePager(int totlePager) {
-		this.totlePager = totlePager;
+	public void setLoginUrl(String loginUrl) {
+		this.loginUrl = loginUrl;
 	}
-	
 	
 
 }

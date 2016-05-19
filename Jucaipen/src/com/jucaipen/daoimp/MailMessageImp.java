@@ -38,7 +38,7 @@ public class MailMessageImp implements MailMessageDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT   * FROM JCP_MailMess WHERE UserId="
+			res = sta.executeQuery("SELECT   * FROM JCP_MailMess WHERE userId="
 					+ uId+" ORDER BY SendDate DESC");
 			maList = getMailMessage(res);
 			return maList;
@@ -56,7 +56,7 @@ public class MailMessageImp implements MailMessageDao {
 			isSuccess = sta
 					.executeUpdate("INSERT INTO JCP_MailMess "
 							+ "(Email,ActionCode,MessContent,MessType,SendDate,userId) VALUES ('"
-							+ mailMessage.getEmailAddress() + "','"
+							+ mailMessage.getEmail()+ "','"
 							+ mailMessage.getActionCode() + "','"
 							+ mailMessage.getMessageContent() + "',"
 							+ mailMessage.getMsgType() + ",'"
@@ -114,7 +114,7 @@ public class MailMessageImp implements MailMessageDao {
 				int userId = result.getInt("userId");
 				MailMessage mail = new MailMessage();
 				mail.setId(id);
-				mail.setEmailAddress(email);
+				mail.setEmail(email);
 				mail.setActionCode(actionCode);
 				mail.setMessageContent(messageContent);
 				mail.setMsgType(msgType);

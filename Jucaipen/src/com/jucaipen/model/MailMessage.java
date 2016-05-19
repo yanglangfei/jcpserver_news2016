@@ -3,7 +3,7 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author YLF
+ * @author YLF         ----------------------数据已更新
  * 
  *    邮箱信息
  *
@@ -17,7 +17,7 @@ public class MailMessage implements Serializable{
 	/**
 	 * 邮箱地址
 	 */
-	private String emailAddress;
+	private String email;
 	/**
 	 * 激活码
 	 */
@@ -52,11 +52,12 @@ public class MailMessage implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getEmailAddress() {
-		return emailAddress;
+	
+	public String getEmail() {
+		return email;
 	}
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	public String getActionCode() {
 		return actionCode;
