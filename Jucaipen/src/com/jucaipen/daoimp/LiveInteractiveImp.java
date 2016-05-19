@@ -18,7 +18,6 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 	private ResultSet res;
 	private int isSuccess;
 
-	
 	/**
 	 * @return 查询新闻总页数
 	 */
@@ -26,8 +25,8 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta  
-					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCPTearch_LiveInteractive "
+			res = sta
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_TxtLive_Msg "
 							+ condition);
 			res.next();
 			int totlePager = res.getInt("totlePager");
@@ -39,22 +38,20 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 
 	}
 
-	
 	public int insertLiveInteractive(LiveInteractive interactive) {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta
-					.executeUpdate("INSERT INTO JCPTearch_LiveInteractive "
-							+ "(LiveId,UserId,DeviceType,InsertDate,Bodys,IsPass,Ip,ParentId)"
+					.executeUpdate("INSERT INTO JCP_TxtLive_Msg "
+							+ "(Fk_TxtLiveId,UserId,InsertDate,MessBody,shenhe,IP,ReceiverId)"
 							+ "VALUES (" + interactive.getLiveId() + ","
 							+ interactive.getUserId() + ","
-							+ interactive.getDeviceType() + ",'"
 							+ interactive.getInsertDate() + "','"
-							+ interactive.getBodys() + "',"
-							+ interactive.getIsShow() + ",'"
+							+ interactive.getMsgBodys() + "',"
+							+ interactive.getCheck() + ",'"
 							+ interactive.getIp() + "',"
-							+ interactive.getParentaId() + ")");
+							+ interactive.getReceiverId() + ")");
 			return isSuccess;
 		} catch (Exception e) {
 		}
@@ -66,8 +63,8 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_LiveInteractive ORDER BY InsertDate DESC");
-			lInteractives = getLiveInteractive(res,1,1);
+					.executeQuery("SELECT * FROM JCP_TxtLive_Msg ORDER BY InsertDate DESC");
+			lInteractives = getLiveInteractive(res, 1, 1);
 			return lInteractives;
 		} catch (Exception e) {
 		}
@@ -79,24 +76,24 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_LiveInteractive WHERE UserId="
+					.executeQuery("SELECT * FROM JCP_TxtLive_Msg WHERE UserId="
 							+ userId + " ORDER BY InsertDate DESC");
-			lInteractives = getLiveInteractive(res,1,1);
+			lInteractives = getLiveInteractive(res, 1, 1);
 			return lInteractives;
 		} catch (Exception e) {
 		}
 		return null;
 	}
 
-	public List<LiveInteractive> findByLiveId(int liveId,int page) {
-	    int totlePage=findTotlePager(" WHERE LiveId="+liveId);
+	public List<LiveInteractive> findByLiveId(int liveId, int page) {
+		int totlePage = findTotlePager(" WHERE Fk_TxtLiveId=" + liveId);
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_LiveInteractive WHERE LiveId="
+					.executeQuery("SELECT * FROM JCP_TxtLive_Msg WHERE Fk_TxtLiveId="
 							+ liveId + " ORDER BY InsertDate DESC");
-			lInteractives = getLiveInteractive(res,page,totlePage);
+			lInteractives = getLiveInteractive(res, page, totlePage);
 			return lInteractives;
 		} catch (Exception e) {
 		}
@@ -108,12 +105,10 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_LiveInteractive WHERE UserId="
-							+ uId
-							+ "AND LiveId="
-							+ liveId
+					.executeQuery("SELECT * FROM JCP_TxtLive_Msg WHERE UserId="
+							+ uId + "AND Fk_TxtLiveId=" + liveId
 							+ " ORDER BY InsertDate DESC");
-			lInteractives = getLiveInteractive(res,1,1);
+			lInteractives = getLiveInteractive(res, 1, 1);
 			return lInteractives;
 		} catch (Exception e) {
 		}
@@ -124,8 +119,8 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCPTearch_LiveInteractive");
-			lInteractives = getLiveInteractive(res,1,1);
+			res = sta.executeQuery("SELECT * FROM JCP_TxtLive_Msg");
+			lInteractives = getLiveInteractive(res, 1, 1);
 			if (lInteractives.size() > 0) {
 				return lInteractives.get(0);
 			}
@@ -134,22 +129,24 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 		return null;
 	}
 
-	public List<LiveInteractive> getLiveInteractive(ResultSet result,int page,int totlePage) {
+	public List<LiveInteractive> getLiveInteractive(ResultSet result, int page,
+			int totlePage) {
 		lInteractives.clear();
 		try {
 			while (result.next()) {
 				int id = result.getInt("Id");
-				int liveId = result.getInt("LiveId");
+				int liveId = result.getInt("Fk_TxtLiveId");
 				int userId = result.getInt("UserId");
-				int deviceType = result.getInt("DeviceType");
 				String insertDate = result.getString("InsertDate");
-				String bodys = result.getString("Bodys");
-				int isShow = result.getInt("IsPass");
-				String ip = result.getString("Ip");
-				int parentId = result.getInt("ParentId");
-				LiveInteractive liInteractive = new LiveInteractive(id, liveId,
-						userId, deviceType, insertDate, bodys, isShow, ip,
-						parentId);
+				String bodys = result.getString("MessBody");
+				int check = result.getInt("shenhe");
+				String ip = result.getString("IP");
+				int receiverId = result.getInt("ReceiverId");
+				int isSysAdmin = result.getInt("");
+				int isRoomAdmin = result.getInt("");
+				LiveInteractive liInteractive = new LiveInteractive(id, userId,
+						bodys, check, liveId, insertDate, receiverId,
+						isSysAdmin, isRoomAdmin, ip);
 				liInteractive.setTotlePage(totlePage);
 				liInteractive.setPage(page);
 				lInteractives.add(liInteractive);
@@ -160,5 +157,4 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 		}
 		return null;
 	}
-
 }

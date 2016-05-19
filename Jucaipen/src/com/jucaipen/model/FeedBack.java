@@ -3,7 +3,7 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author Administrator
+ * @author Administrator       --------------数据已更新
  * 
  *   意见
  *
@@ -39,9 +39,21 @@ public class FeedBack implements Serializable{
 	 */
 	private String ip;
 	/**
-	 * 状态（已处理（1）或者未处理（2））
+	 * 状态（已处理（1）或者未处理（0））
 	 */
 	private int type;
+	/**
+	 *  处理结果
+	 */
+	private String handleResult;
+	/**
+	 * 处理时间
+	 */
+	private String handleDate;
+	/**
+	 *  处理人
+	 */
+	private String handleMan;
 	
 	public FeedBack(int id, int userId, String trueName, String mobileNum,
 			String body, String insertDate, String ip, int type) {
@@ -102,7 +114,23 @@ public class FeedBack implements Serializable{
 	public void setType(int type) {
 		this.type = type;
 	}
-	
-	
+	public String getHandleResult() {
+		return handleResult;
+	}
+	public void setHandleResult(String handleResult) {
+		this.handleResult = handleResult;
+	}
+	public String getHandleDate() {
+		return handleDate;
+	}
+	public void setHandleDate(String handleDate) {
+		this.handleDate = handleDate;
+	}
+	public String getHandleMan() {
+		return handleMan;
+	}
+	public void setHandleMan(String handleMan) {
+		this.handleMan = handleMan;
+	}
 
 }

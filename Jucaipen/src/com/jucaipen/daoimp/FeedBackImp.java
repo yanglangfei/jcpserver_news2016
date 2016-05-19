@@ -11,6 +11,11 @@ import com.jucaipen.dao.FeedBackDao;
 import com.jucaipen.model.FeedBack;
 import com.jucaipen.utils.JdbcUtil;
 
+/**
+ * @author Administrator
+ *
+ *   Òâ¼û·´À¡
+ */
 public class FeedBackImp implements FeedBackDao {
 	private Connection dbConn;
 	private Statement sta;
@@ -22,7 +27,7 @@ public class FeedBackImp implements FeedBackDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("INSERT INTO JCPTearch_Feedback "
+			isSuccess = sta.executeUpdate("INSERT INTO JCP_Feedback "
 					+ "(UserId,TrueName,MobileNum,Bodys,InsertDate,Ip,Types)"
 					+ " VALUES (" + feedBack.getUserId() + ",'"
 					+ feedBack.getTrueName() + "','" + feedBack.getMobileNum()
@@ -40,7 +45,7 @@ public class FeedBackImp implements FeedBackDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_Feedback ORDER BY InsertDate DESC");
+					.executeQuery("SELECT * FROM JCP_Feedback ORDER BY handleDate DESC");
 			feedBacks = getFeedBack(res);
 			return feedBacks;
 		} catch (SQLException e) {
@@ -54,8 +59,8 @@ public class FeedBackImp implements FeedBackDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_Feedback WHERE UserId="
-							+ uId + " ORDER BY InsertDate DESC");
+					.executeQuery("SELECT * FROM JCP_Feedback WHERE UserId="
+							+ uId + " ORDER BY handleDate DESC");
 			feedBacks = getFeedBack(res);
 			return feedBacks;
 		} catch (SQLException e) {
@@ -69,8 +74,8 @@ public class FeedBackImp implements FeedBackDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_Feedback WHERE Types="
-							+ type + " ORDER BY InsertDate DESC");
+					.executeQuery("SELECT * FROM JCP_Feedback WHERE Types="
+							+ type + " ORDER BY handleDate DESC");
 			feedBacks = getFeedBack(res);
 			return feedBacks;
 		} catch (SQLException e) {
@@ -84,11 +89,11 @@ public class FeedBackImp implements FeedBackDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_Feedback WHERE UserId="
+					.executeQuery("SELECT * FROM JCP_Feedback WHERE UserId="
 							+ uId
 							+ "AND Types="
 							+ type
-							+ " ORDER BY InsertDate DESC");
+							+ " ORDER BY handleDate DESC");
 			feedBacks = getFeedBack(res);
 			return feedBacks;
 		} catch (SQLException e) {
@@ -101,7 +106,7 @@ public class FeedBackImp implements FeedBackDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCPTearch_Feedback WHERE Id="
+			res = sta.executeQuery("SELECT * FROM JCP_Feedback WHERE Id="
 					+ id);
 			feedBacks = getFeedBack(res);
 			if (feedBacks.size() > 0) {
@@ -125,8 +130,14 @@ public class FeedBackImp implements FeedBackDao {
 				String insertDate = result.getString("InsertDate");
 				String ip = result.getString("Ip");
 				int type = result.getInt("Types");
+				String handleResult=result.getString("handleRemabrk");
+				String handleDate=result.getString("handleDate");
+				String handleMan=result.getString("handleRen");
 				FeedBack feedBack = new FeedBack(id, userId, trueName,
 						mobileNum, bodys, insertDate, ip, type);
+				feedBack.setHandleDate(handleDate);
+				feedBack.setHandleMan(handleMan);
+				feedBack.setHandleResult(handleResult);
 				feedBacks.add(feedBack);
 			}
 			return feedBacks;

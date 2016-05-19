@@ -3,7 +3,7 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author Administrator
+ * @author Administrator        ---------数据已更新
  * 
  *   直播互动
  *
@@ -23,79 +23,73 @@ public class LiveInteractive implements Serializable {
 	 */
 	private int id;
 	/**
-	 * 直播id
-	 */
-	private int liveId;
-	/**
 	 * 用户id
 	 */
 	private int userId;
 	/**
-	 *  设备类型  （1：网站PC；2：手机网站；3：直播室PC；4：直播室手机；5：APP）
+	 * 互动内容
 	 */
-	private int deviceType;
+	private String msgBodys;
+	/**
+	 * 审核
+	 */
+	private int check;
+	/**
+	 * 直播id
+	 */
+	private int liveId;
 	/**
 	 * 互动时间
 	 */
 	private String insertDate;
 	/**
-	 * 互动内容
+	 *  接受者id
 	 */
-	private String bodys;
+	private int receiverId;
 	/**
-	 * 是否显示
+	 *  是否系统管理员
 	 */
-	private int isShow;
+	private int isSysAdmin;
+	/**
+	 * 是否房间管理员
+	 */
+	private int isRoomAdmin;
 	/**
 	 * 用户ip
 	 */
 	private String ip;
-	/**
-	 * 上级分类id
-	 */
-	private int parentaId;
 	
-	public LiveInteractive(int id, int liveId, int userId, int deviceType,
-			String insertDate, String bodys, int isShow, String ip,
-			int parentaId) {
+	public LiveInteractive( int id, int userId,
+			String msgBodys, int check, int liveId, String insertDate,
+			int receiverId, int isSysAdmin, int isRoomAdmin, String ip) {
 		this.id = id;
-		this.liveId = liveId;
 		this.userId = userId;
-		this.deviceType = deviceType;
+		this.msgBodys = msgBodys;
+		this.check = check;
+		this.liveId = liveId;
 		this.insertDate = insertDate;
-		this.bodys = bodys;
-		this.isShow = isShow;
+		this.receiverId = receiverId;
+		this.isSysAdmin = isSysAdmin;
+		this.isRoomAdmin = isRoomAdmin;
 		this.ip = ip;
-		this.parentaId = parentaId;
 	}
-	
 	public int getPage() {
 		return page;
 	}
-
 	public void setPage(int page) {
 		this.page = page;
 	}
-
 	public int getTotlePage() {
 		return totlePage;
 	}
-
 	public void setTotlePage(int totlePage) {
 		this.totlePage = totlePage;
 	}
-
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public int getLiveId() {
-		return liveId;
-	}
-	public void setLiveId(int liveId) {
-		this.liveId = liveId;
 	}
 	public int getUserId() {
 		return userId;
@@ -103,11 +97,23 @@ public class LiveInteractive implements Serializable {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	public int getDeviceType() {
-		return deviceType;
+	public String getMsgBodys() {
+		return msgBodys;
 	}
-	public void setDeviceType(int deviceType) {
-		this.deviceType = deviceType;
+	public void setMsgBodys(String msgBodys) {
+		this.msgBodys = msgBodys;
+	}
+	public int getCheck() {
+		return check;
+	}
+	public void setCheck(int check) {
+		this.check = check;
+	}
+	public int getLiveId() {
+		return liveId;
+	}
+	public void setLiveId(int liveId) {
+		this.liveId = liveId;
 	}
 	public String getInsertDate() {
 		return insertDate;
@@ -115,29 +121,29 @@ public class LiveInteractive implements Serializable {
 	public void setInsertDate(String insertDate) {
 		this.insertDate = insertDate;
 	}
-	public String getBodys() {
-		return bodys;
+	public int getReceiverId() {
+		return receiverId;
 	}
-	public void setBodys(String bodys) {
-		this.bodys = bodys;
+	public void setReceiverId(int receiverId) {
+		this.receiverId = receiverId;
 	}
-	public int getIsShow() {
-		return isShow;
+	public int getIsSysAdmin() {
+		return isSysAdmin;
 	}
-	public void setIsShow(int isShow) {
-		this.isShow = isShow;
+	public void setIsSysAdmin(int isSysAdmin) {
+		this.isSysAdmin = isSysAdmin;
+	}
+	public int getIsRoomAdmin() {
+		return isRoomAdmin;
+	}
+	public void setIsRoomAdmin(int isRoomAdmin) {
+		this.isRoomAdmin = isRoomAdmin;
 	}
 	public String getIp() {
 		return ip;
 	}
 	public void setIp(String ip) {
 		this.ip = ip;
-	}
-	public int getParentaId() {
-		return parentaId;
-	}
-	public void setParentaId(int parentaId) {
-		this.parentaId = parentaId;
 	}
 	
 	

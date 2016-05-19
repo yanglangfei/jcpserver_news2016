@@ -1,4 +1,4 @@
-package com.jucaipen.main.index;
+/*package com.jucaipen.main.index;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,11 +19,11 @@ import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
-/**
+*//**
  * @author Administrator
  * 
  *         获取评论信息 commType 评论类型 0 新闻评论 1 视频评论 2 观点评论
- */
+ *//*
 @SuppressWarnings("serial")
 public class QuerryComments extends HttpServlet {
 	private String result;
@@ -119,3 +119,4 @@ public class QuerryComments extends HttpServlet {
 	}
 
 }
+*/
