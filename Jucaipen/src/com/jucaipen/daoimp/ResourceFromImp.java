@@ -26,7 +26,7 @@ public class ResourceFromImp implements ResourceFromDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCPComeFrom "
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_From "
 							+ condition);
 			res.next();
 			int totlePager = res.getInt("totlePager");
@@ -46,7 +46,7 @@ public class ResourceFromImp implements ResourceFromDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT TOP 15 * FROM "
-					+ "(SELECT ROW_NUMBER() OVER (ORDER BY id) AS RowNumber,* FROM JCPComeFrom"
+					+ "(SELECT ROW_NUMBER() OVER (ORDER BY id) AS RowNumber,* FROM JCP_From"
 					+ " ) A " + "WHERE RowNumber > " + 15 * (pager - 1));
 			resourceSources = getResourceSources(res,pager,totlePager);
 			return resourceSources;
@@ -65,7 +65,7 @@ public class ResourceFromImp implements ResourceFromDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPComeFrom where Id=" + id);
+			res = sta.executeQuery("select * from JCP_From where Id=" + id);
 			resourceSources = getResourceSources(res,-1,-1);
 			if (resourceSources != null && resourceSources.size() > 0) {
 				rs = resourceSources.get(0);

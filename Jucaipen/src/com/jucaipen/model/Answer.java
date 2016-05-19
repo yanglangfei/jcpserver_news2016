@@ -46,6 +46,7 @@ public class Answer implements Serializable{
 	 */
 	private int pingFen;
 	
+	
 	public Answer() {
 		super();
 	}

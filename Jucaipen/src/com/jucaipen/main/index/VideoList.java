@@ -64,13 +64,13 @@ public class VideoList extends HttpServlet {
 
 	private void initAllData() {
 		//初始化全部数据
-		videos=VideoServer.findVideoByClassId(13);
+		videos=VideoServer.findVideoByClassId(1);
 		
 	}
 
 	private void initIndexData() {
 		//初始化首页数据
-		videos=VideoServer.findVideoByClassIdLast(2, 13);
+		videos=VideoServer.findVideoByClassIdLast(2,1);
 		
 		
 	}

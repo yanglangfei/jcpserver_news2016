@@ -50,7 +50,7 @@ public class QuerryVide extends HttpServlet {
 			for(Video v :videos){
 				JsonObject obj2=new JsonObject();
 				obj2.addProperty("title", v.getTitle());
-				obj2.addProperty("image", v.getImagesThumb());
+				obj2.addProperty("image", v.getImages());
 				obj2.addProperty("desc", v.getDescript());
 				arr1.add(obj2);
 			}

@@ -36,44 +36,6 @@ public class NewServer {
 		return dao.findNewsBybigId(bigId, pager);
 	}
 
-	/**
-	 * @param bigId
-	 * @param smallId
-	 * @param pager
-	 * @return 根据一二级分类查询新闻信息
-	 */
-	public static List<News> queryNewsById(int bigId, int smallId, int pager) {
-		NewsDao dao = new NewsImp();
-		return dao.findNewsById(bigId, smallId, pager);
-	}
-
-	/**
-	 * @return 查询首页显示的新闻信息
-	 */
-	public static List<News> queryNewsByIndexShow(int bigId) {
-		NewsDao dao = new NewsImp();
-		return dao.findIndexShow(bigId);
-	}
-	
-	
-	/**
-	 * @param bigId
-	 * @return  查询首页显示的新闻 （带有图片）
-	 */
-	public static List<News> queryNewsByIndexIsImage(int bigId){
-		NewsDao dao = new NewsImp();
-		return dao.findIndexShowIsImage(bigId);
-	}
-
-	/**
-	 * @param bigId
-	 * @param smallId
-	 * @return 首页信息
-	 */
-	public static List<News> findIndexNewsById(int bigId, int smallId,int top) {
-		NewsDao dao = new NewsImp();
-		return dao.findNewsByIndexId(bigId, smallId,top);
-	}
 
 	/**
 	 * @param id
@@ -121,6 +83,16 @@ public class NewServer {
 	public static int upDateComments(int comments,int id){
 		NewsDao dao=new NewsImp();
 		return dao.upDateComments(comments, id);
+	}
+	
+	/**
+	 * @param classId
+	 * @param page
+	 * @return   根据分类查询新闻
+	 */
+	public static List<News>  findNewsByClassId(int classId,int page){
+		NewsDao dao=new NewsImp();
+		return dao.findNewsBybigId(classId, page);
 	}
 
 }

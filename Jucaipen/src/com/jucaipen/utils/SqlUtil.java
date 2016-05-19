@@ -510,15 +510,15 @@ public class SqlUtil {
 	/**
 	 * 信息来源名称
 	 */
-	public static final String RESOURCEFOM_NAME = "ComeFromName";
+	public static final String RESOURCEFOM_NAME = "FromName";
 	/**
 	 * 信息来源网页
 	 */
-	public static final String RESOURCEFROM_HTML = "ComeFromHttp";
+	public static final String RESOURCEFROM_HTML = "FromUrl";
 	/**
 	 * 信息来源排序
 	 */
-	public static final String RESOURCEFROM_SORTID = "PxId";
+	public static final String RESOURCEFROM_SORTID = "SortId";
 	/**
 	 * 视频表
 	 */
@@ -534,7 +534,7 @@ public class SqlUtil {
 	/**
 	 * 视频描述
 	 */
-	public static final String VIDEO_DESC = "Descriptions";
+	public static final String VIDEO_DESC = "Description";
 	/**
 	 * 视频分类id
 	 */
@@ -542,11 +542,7 @@ public class SqlUtil {
 	/**
 	 * 视频图片
 	 */
-	public static final String VIDEO_IMAGES = "Images";
-	/**
-	 * 视频缩略图
-	 */
-	public static final String VIDEO_IMAGETHUMB = "ImagesThumb";
+	public static final String VIDEO_IMAGES = "ImagesUrl";
 	/**
 	 * 视频资源路径
 	 */
@@ -562,7 +558,7 @@ public class SqlUtil {
 	/**
 	 * 视频点击量
 	 */
-	public static final String VIDEO_HITCOUNT = "HitCount";
+	public static final String VIDEO_HITCOUNT = "PlayCount";
 	/**
 	 * 视频插入时间
 	 */

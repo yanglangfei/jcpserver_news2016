@@ -54,7 +54,7 @@ public class RelateNews extends HttpServlet {
 	    news=NewServer.findLastNews(6);
 	    if(news!=null){
 	    	for(News n : news){
-	    		int from=n.getComeFrom();
+	    		int from=n.getFromId();
 	    		ResourceSources resource = ResourceFromServer.getRSources(from);
 	    	    n.setFrom(resource.getFromName());
 	    	}

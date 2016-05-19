@@ -235,7 +235,7 @@ public class NewsImp implements NewsDao {
 				String descript = res.getString(SqlUtil.NEWS_DES);
 				News n = new News(id);
 				n.setTitle(title);
-				n.setDescript(descript);
+				n.setSummary(descript);
 				n.setImageUrl(images);
 				news.add(n);
 			}
@@ -257,7 +257,7 @@ public class NewsImp implements NewsDao {
 		try {
 			while (res.next()) {
 				String title = res.getString(SqlUtil.NEWS_TITLE);
-				String descript = res.getString(SqlUtil.NEWS_DES);
+				String summary = res.getString(SqlUtil.NEWS_DES);
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				String imageUrl = res.getString(SqlUtil.NEW_IMAGE);
 				int from=res.getInt(SqlUtil.NEWS_COMEFROM);
@@ -267,9 +267,9 @@ public class NewsImp implements NewsDao {
 				n.setPager(pager);
 				n.setTotlePager(totlePager);
 				n.setTitle(title);
-				n.setDescript(descript);
+				n.setSummary(summary);
 				n.setId(id);
-				n.setComeFrom(from);
+				n.setFromId(from);
 				n.setPublishDate(insertDate);
 				n.setComments(comms);
 				n.setImageUrl(imageUrl);
@@ -307,11 +307,11 @@ public class NewsImp implements NewsDao {
 				n.setImageUrl(imageUrl);
 				n.setBodys(bodys);
 				n.setTitle(title);
-				n.setComeFrom(comeFrom);
-				n.setDescript(descript);
+				n.setFromId(comeFrom);
+				n.setSummary(descript);
 				n.setReporter(reporter);
 				n.setKeyWord(keyWord);
-				n.setBigId(classId);
+				n.setClassId(classId);
 				n.setHtmlPath(htmlPath);
 				n.setPager(pager);
 				n.setTotlePager(totlePager);
@@ -357,7 +357,7 @@ public class NewsImp implements NewsDao {
 				int from=res.getInt(SqlUtil.NEWS_COMEFROM);
 				News n = new News(id);
 				n.setTitle(title);
-				n.setComeFrom(from);
+				n.setFromId(from);
 				n.setImageUrl(image);
 				n.setPublishDate(insertDate);
 				n.setComments(comments);
@@ -369,5 +369,6 @@ public class NewsImp implements NewsDao {
 		}
 		return null;
 	}
+
 
 }

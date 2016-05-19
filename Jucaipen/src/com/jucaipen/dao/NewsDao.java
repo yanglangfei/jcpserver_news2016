@@ -28,11 +28,6 @@ public interface NewsDao {
 	 */
 	public List<News> findNewsByIndex(int isIndex, int pager);
 
-	/**
-	 * @param isImage
-	 * @return 查询图片新闻
-	 */
-	public List<News> findNewsByImage(int isImage, int pager);
 
 	/**
 	 * @param isBest
@@ -56,17 +51,6 @@ public interface NewsDao {
 	 * @return 查询分类且首页显示的新闻
 	 */
 	public List<News> findNewsIndex(int classId,int isIndex);
-	/**
-	 * @return  首页显示
-	 *        不过滤图片
-	 */
-	public List<News> findIndexShow(int classId);
-	
-	/**
-	 * @param bigId
-	 * @return   首页显示     ---带有图片
-	 */
-	public List<News> findIndexShowIsImage(int classId);
 	/**
 	 * @param id
 	 * @return   通过指定新闻id 获取相关新闻

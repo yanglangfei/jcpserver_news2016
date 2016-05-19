@@ -67,9 +67,9 @@ public class HotNews extends HttpServlet {
 
 	private void initAllData(int page) {
 		// 获取全部今日热点信息
-		news=NewServer.queryNewsById(6, 7, page);
+		news=NewServer.findNewsByClassId(1, page);
 		for(News n :news){
-			int from=n.getComeFrom();
+			int from=n.getFromId();
 			ResourceSources resource=ResourceFromServer.getRSources(from);
 			n.setFrom(resource.getFromName());
 		}
@@ -77,9 +77,9 @@ public class HotNews extends HttpServlet {
 	}
 	private void initIndexData() {
 		// 获取首页今日热点信息
-		news=NewServer.findIndexNewsById(6, 7, 3);
+		news=NewServer.findLastNews(3);
 		for(News n : news){
-			int from=n.getComeFrom();
+			int from=n.getFromId();
 			ResourceSources resource = ResourceFromServer.getRSources(from);
 			n.setFrom(resource.getFromName());
 		}

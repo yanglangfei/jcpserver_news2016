@@ -14,7 +14,7 @@ public class Advertive {
 	/**
 	 * À˘ Ùª√µ∆id
 	 */
-	private int pId;
+	private int typeId;
 	/**
 	 *  ±ÍÃ‚
 	 */
@@ -31,11 +31,10 @@ public class Advertive {
 	 * ≈≈–Ú
 	 */
 	private int sortId;
-	
-	public Advertive(int id, int pId, String title, String linkUrl,
+	public Advertive(int id, int typeId, String title, String linkUrl,
 			String imageUrl, int sortId) {
 		this.id = id;
-		this.pId = pId;
+		this.typeId = typeId;
 		this.title = title;
 		this.linkUrl = linkUrl;
 		this.imageUrl = imageUrl;
@@ -47,11 +46,11 @@ public class Advertive {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getpId() {
-		return pId;
+	public int getTypeId() {
+		return typeId;
 	}
-	public void setpId(int pId) {
-		this.pId = pId;
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
 	}
 	public String getTitle() {
 		return title;
@@ -77,6 +76,8 @@ public class Advertive {
 	public void setSortId(int sortId) {
 		this.sortId = sortId;
 	}
+	
+	
 	
 
 }

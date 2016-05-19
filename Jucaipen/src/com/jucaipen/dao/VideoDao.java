@@ -52,17 +52,6 @@ public interface VideoDao {
 	 */
 	public List<Video> findVideoByIsTopId(int isTop,int classId);
 	/**
-	 * @param isPublic
-	 * @return   查询是否是公开课
-	 */
-	public List<Video> findVideoByIsPublic(int isPublic);
-	/**
-	 * @param isPublic
-	 * @param classId
-	 * @return   查询分类下的公开视频
-	 */
-	public List<Video> findVideoByIsPublicId(int isPublic ,int classId);
-	/**
 	 * @param isMySite
 	 * @return  查询是否是本站视频
 	 */

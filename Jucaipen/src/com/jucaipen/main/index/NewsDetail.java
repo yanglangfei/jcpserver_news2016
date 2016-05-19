@@ -54,7 +54,7 @@ public class NewsDetail extends HttpServlet {
 		//初始化新闻详细信息
 		news = NewServer.findNewsById(id);
 		if(news!=null){
-			int fromId=news.getComeFrom();
+			int fromId=news.getFromId();
 			ResourceSources source = ResourceFromServer.getRSources(fromId);
 			if(source!=null){
 				news.setFrom(source.getFromName());
