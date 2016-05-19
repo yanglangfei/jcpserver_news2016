@@ -3,13 +3,13 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author Administrator
+ * @author Administrator   --------------数据已更新
  * 
  *     订单信息
  *
  */
 @SuppressWarnings("serial")
-public class PayOrder implements Serializable{
+public class Order implements Serializable{
 	/**
 	 * 当前页数
 	 */
@@ -71,7 +71,7 @@ public class PayOrder implements Serializable{
 	 */
 	private String insertDate;
 	/**
-	 * 1：支付宝；2：微信支付；3：易宝支付
+	 * 1：支付宝；2：微信支付；3：易宝支付；4：余额支付
 	 */
 	private int payModel;
 	/**
@@ -94,7 +94,7 @@ public class PayOrder implements Serializable{
 	 * 产品状态（1：正常；4：删除）
 	 */
 	private int isDelete;
-	public PayOrder() {
+	public Order() {
 		super();
 	}
 	public int getId() {

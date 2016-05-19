@@ -7,8 +7,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jucaipen.dao.PayOrderDao;
-import com.jucaipen.model.PayOrder;
+import com.jucaipen.dao.OrderDao;
+import com.jucaipen.model.Order;
 import com.jucaipen.utils.JdbcUtil;
 
 /**
@@ -19,8 +19,8 @@ import com.jucaipen.utils.JdbcUtil;
  *         "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM JCP_Product"
  *         + " ) A " + "WHERE RowNumber > " + 15 * (pager - 1)
  */
-public class PayOrderImp implements PayOrderDao {
-	private List<PayOrder> payOrders = new ArrayList<PayOrder>();
+public class OrderImp implements OrderDao {
+	private List<Order> payOrders = new ArrayList<Order>();
 	private Connection dbConn;
 	private Statement sta;
 	private ResultSet res;
@@ -34,7 +34,7 @@ public class PayOrderImp implements PayOrderDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from Pay_order "
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_Order "
 							+ condition);
 			res.next();
 			int totlePager = res.getInt("totlePager");
@@ -45,7 +45,7 @@ public class PayOrderImp implements PayOrderDao {
 		return 0;
 	}
 
-	public List<PayOrder> findAllPayOrderList(int page) {
+	public List<Order> findAllPayOrderList(int page) {
 		// 获取全部的订单信息
 		int totlePage = findTotlePager("");
 		try {
@@ -53,7 +53,7 @@ public class PayOrderImp implements PayOrderDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM Pay_order"
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCP_Order"
 							+ " ) A " + "WHERE RowNumber > " + 15 * (page - 1));
 			payOrders = getPayOrder(res, page, totlePage);
 			return payOrders;
@@ -62,7 +62,7 @@ public class PayOrderImp implements PayOrderDao {
 		return null;
 	}
 
-	public List<PayOrder> findPayOrderByUid(int uId, int page) {
+	public List<Order> findPayOrderByUid(int uId, int page) {
 		// 根据用户ID获取订单信息
 		int totlePage = findTotlePager("WHERE UserId=" + uId);
 		try {
@@ -70,7 +70,7 @@ public class PayOrderImp implements PayOrderDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM Pay_order WHERE UserId="
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCP_Order WHERE UserId="
 							+ uId + " ) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			payOrders = getPayOrder(res, page, totlePage);
@@ -80,7 +80,7 @@ public class PayOrderImp implements PayOrderDao {
 		return null;
 	}
 
-	public List<PayOrder> findPayOrderByPayState(int payState, int page) {
+	public List<Order> findPayOrderByPayState(int payState, int page) {
 		// 根据支付状态获取订单信息
 		int totlePage = findTotlePager("WHERE PayType=" + payState);
 		try {
@@ -88,7 +88,7 @@ public class PayOrderImp implements PayOrderDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM Pay_order WHERE PayType="
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCP_Order WHERE PayType="
 							+ payState + " ) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			payOrders = getPayOrder(res, page, totlePage);
@@ -98,7 +98,7 @@ public class PayOrderImp implements PayOrderDao {
 		return null;
 	}
 
-	public List<PayOrder> findPayOrderByOrderState(int orderState, int page) {
+	public List<Order> findPayOrderByOrderState(int orderState, int page) {
 		// 根据订单状态获取订单信息
 		int totlePage = findTotlePager("WHERE OrderType=" + orderState);
 		try {
@@ -106,7 +106,7 @@ public class PayOrderImp implements PayOrderDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM Pay_order WHERE OrderType="
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCP_Order WHERE OrderType="
 							+ orderState + " ) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			payOrders = getPayOrder(res, page, totlePage);
@@ -116,7 +116,7 @@ public class PayOrderImp implements PayOrderDao {
 		return null;
 	}
 
-	public List<PayOrder> findPayOrderByTeacherId(int teacherId, int page) {
+	public List<Order> findPayOrderByTeacherId(int teacherId, int page) {
 		// 根据讲师ID获取订单信息
 		int totlePage = findTotlePager("WHERE FromTearchId=" + teacherId);
 		try {
@@ -124,7 +124,7 @@ public class PayOrderImp implements PayOrderDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM Pay_order WHERE FromTearchId="
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCP_Order WHERE FromTearchId="
 							+ teacherId + " ) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			payOrders = getPayOrder(res, page, totlePage);
@@ -134,7 +134,7 @@ public class PayOrderImp implements PayOrderDao {
 		return null;
 	}
 
-	public List<PayOrder> findPayOrderByProductState(int productState, int page) {
+	public List<Order> findPayOrderByProductState(int productState, int page) {
 		// 根据商品信息获取订单信息
 		int totlePage = findTotlePager("WHERE IsDelete=" + productState);
 		try {
@@ -142,7 +142,7 @@ public class PayOrderImp implements PayOrderDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM Pay_order WHERE IsDelete="
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCP_Order WHERE IsDelete="
 							+ productState + " ) A " + "WHERE RowNumber > "
 							+ 15 * (page - 1));
 			payOrders = getPayOrder(res, page, totlePage);
@@ -152,13 +152,13 @@ public class PayOrderImp implements PayOrderDao {
 		return null;
 	}
 
-	public List<PayOrder> findLastPayOrder(int lastCount) {
+	public List<Order> findLastPayOrder(int lastCount) {
 		// 获取最近的几条订单
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT TOP " + lastCount
-					+ " * FROM Pay_order ORDER BY InsertDate DESC");
+					+ " * FROM JCP_Order ORDER BY InsertDate DESC");
 			payOrders = getPayOrder(res, 1, 1);
 			return payOrders;
 		} catch (Exception e) {
@@ -166,13 +166,13 @@ public class PayOrderImp implements PayOrderDao {
 		return null;
 	}
 
-	public PayOrder findPayOrderById(int id) {
+	public Order findPayOrderById(int id) {
 		// 根据ID获取订单信息
-		PayOrder order = null;
+		Order order = null;
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT  * FROM Pay_order WHERE Id=" + id);
+			res = sta.executeQuery("SELECT  * FROM JCP_Order WHERE Id=" + id);
 			payOrders = getPayOrder(res, 1, 1);
 			if (payOrders.size() > 0) {
 				order = payOrders.get(0);
@@ -188,7 +188,7 @@ public class PayOrderImp implements PayOrderDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("UPDATE Pay_order SET PayType="
+			isSuccess = sta.executeUpdate("UPDATE JCP_Order SET PayType="
 					+ payType + ",PayDate='" + payDate + "' WHERE OrderCode='"
 					+ orderCode + "'");
 			return isSuccess;
@@ -197,13 +197,13 @@ public class PayOrderImp implements PayOrderDao {
 		return -1;
 	}
 
-	public int addPayOrder(PayOrder payOrder) {
+	public int addPayOrder(Order payOrder) {
 		// 添加订单信息
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta
-					.executeUpdate("INSERT INTO Pay_order "
+					.executeUpdate("INSERT INTO JCP_Order "
 							+ "(UserId,Title,OrderCode,AllMoney,PayMoney,InsertDate,PayModel,"
 							+ "PayType,FromTearchId,IsDelete) VALUES ("
 							+ payOrder.getUserId()+",'"+payOrder.getTitle()+"','"+payOrder.getOrderCode()
@@ -216,7 +216,7 @@ public class PayOrderImp implements PayOrderDao {
 		return -1;
 	}
 
-	public List<PayOrder> getPayOrder(ResultSet result, int page, int totlePage) {
+	public List<Order> getPayOrder(ResultSet result, int page, int totlePage) {
 		payOrders.clear();
 		try {
 			while (result.next()) {
@@ -239,7 +239,7 @@ public class PayOrderImp implements PayOrderDao {
 				int orderState = result.getInt("OrderType");
 				int fromTeacherId = result.getInt("FromTearchId");
 				int productState = result.getInt("IsDelete");
-				PayOrder payOrder = new PayOrder();
+				Order payOrder = new Order();
 				payOrder.setId(id);
 				payOrder.setUserId(userId);
 				payOrder.setTrueName(trueName);

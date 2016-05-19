@@ -7,8 +7,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jucaipen.dao.PayProductDao;
-import com.jucaipen.model.PayProduct;
+import com.jucaipen.dao.OrderDetailDao;
+import com.jucaipen.model.OrderDetail;
 import com.jucaipen.utils.JdbcUtil;
 
 /**
@@ -22,8 +22,8 @@ import com.jucaipen.utils.JdbcUtil;
  * 
  *         订单详细信息
  */
-public class PayProductImp implements PayProductDao {
-	private List<PayProduct> payProducts = new ArrayList<PayProduct>();
+public class OrderDetailImp implements OrderDetailDao {
+	private List<OrderDetail> payProducts = new ArrayList<OrderDetail>();
 	private Connection dbConn;
 	private Statement sta;
 	private ResultSet res;
@@ -37,7 +37,7 @@ public class PayProductImp implements PayProductDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from Pay_Order_Item "
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_Order_Detail "
 							+ condition);
 			res.next();
 			int totlePager = res.getInt("totlePager");
@@ -48,7 +48,7 @@ public class PayProductImp implements PayProductDao {
 		return 0;
 	}
 
-	public List<PayProduct> findAllPayProductList(int page) {
+	public List<OrderDetail> findAllPayProductList(int page) {
 		// 获取全部订单详细信息
 		int totlePage = findTotlePager("");
 		try {
@@ -56,7 +56,7 @@ public class PayProductImp implements PayProductDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM Pay_Order_Item"
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM JCP_Order_Detail"
 							+ " ) A " + "WHERE RowNumber > " + 15 * (page - 1));
 			payProducts = getPayProducts(res, page, totlePage);
 			return payProducts;
@@ -66,7 +66,7 @@ public class PayProductImp implements PayProductDao {
 		return null;
 	}
 
-	public List<PayProduct> findPayProductByUid(int uId, int page) {
+	public List<OrderDetail> findPayProductByUid(int uId, int page) {
 		// 根据用户ID获取订单详细信息
 		int totlePage = findTotlePager("WHERE UserId=" + uId);
 		try {
@@ -74,7 +74,7 @@ public class PayProductImp implements PayProductDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM Pay_Order_Item WHERE UserId="
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM JCP_Order_Detail WHERE UserId="
 							+ uId + " ) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			payProducts = getPayProducts(res, page, totlePage);
@@ -84,16 +84,16 @@ public class PayProductImp implements PayProductDao {
 		return null;
 	}
 
-	public List<PayProduct> findPayProductByProductId(int productId, int page) {
+	public List<OrderDetail> findPayProductByProductId(int fk_OrderId, int page) {
 		// 根据商品信息获取订单信息
-		int totlePage = findTotlePager("WHERE FK_ProductId=" + productId);
+		int totlePage = findTotlePager("WHERE FK_OrderId=" + fk_OrderId);
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM Pay_Order_Item WHERE FK_ProductId="
-							+ productId + " ) A " + "WHERE RowNumber > " + 15
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM JCP_Order_Detail WHERE FK_OrderId="
+							+ fk_OrderId + " ) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			payProducts = getPayProducts(res, page, totlePage);
 			return payProducts;
@@ -102,13 +102,13 @@ public class PayProductImp implements PayProductDao {
 		return null;
 	}
 
-	public PayProduct findPayProductByOrderId(String orderId) {
+	public OrderDetail findPayProductByOrderId(String orderId) {
 		// 根据订单ID获取订单详细信息
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM Pay_Order_Item WHERE OrderCode='"
+					.executeQuery("SELECT * FROM JCP_Order_Detail WHERE OrderCode='"
 							+ orderId + "'");
 			payProducts = getPayProducts(res, 1, 1);
 			if (payProducts.size() > 0) {
@@ -119,7 +119,7 @@ public class PayProductImp implements PayProductDao {
 		return null;
 	}
 
-	public List<PayProduct> findPayProductByIsDeleted(int isDeleted, int page) {
+	public List<OrderDetail> findPayProductByIsDeleted(int isDeleted, int page) {
 		// 根据商品状态获取订单详细信息
 		int totlePage = findTotlePager("WHERE IsDelete=" + isDeleted);
 		try {
@@ -127,7 +127,7 @@ public class PayProductImp implements PayProductDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM Pay_Order_Item WHERE IsDelete="
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM JCP_Order_Detail WHERE IsDelete="
 							+ isDeleted + " ) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			payProducts = getPayProducts(res, page, totlePage);
@@ -137,7 +137,7 @@ public class PayProductImp implements PayProductDao {
 		return null;
 	}
 
-	public List<PayProduct> findPayProductByProductType(int productType,
+	public List<OrderDetail> findPayProductByProductType(int productType,
 			int page) {
 		// 根据商品类型获取订单详细信息
 		int totlePage = findTotlePager("WHERE ProductType=" + productType);
@@ -146,7 +146,7 @@ public class PayProductImp implements PayProductDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM Pay_Order_Item WHERE ProductType="
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM JCP_Order_Detail WHERE ProductType="
 							+ productType + " ) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			return getPayProducts(res, page, totlePage);
@@ -155,12 +155,12 @@ public class PayProductImp implements PayProductDao {
 		return null;
 	}
 
-	public PayProduct findPayProductById(int id) {
+	public OrderDetail findPayProductById(int id) {
 		// 根据ID获取订单详细信息
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM Pay_Order_Item WHERE ID="
+			res = sta.executeQuery("SELECT * FROM JCP_Order_Detail WHERE Id="
 					+ id);
 			payProducts = getPayProducts(res, 1, 1);
 			if (payProducts.size() > 0) {
@@ -171,31 +171,31 @@ public class PayProductImp implements PayProductDao {
 		return null;
 	}
 
-	public List<PayProduct> findLastPayProduct(int lastCount) {
+	public List<OrderDetail> findLastPayProduct(int lastCount) {
 		// 获取最近几条订单详细信息
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT TOP " + lastCount
-					+ " * FROM Pay_Order_Item ORDER BY ID");
+					+ " * FROM JCP_Order_Detail ORDER BY Id");
 			return getPayProducts(res, 1, 1);
 		} catch (Exception e) {
 		}
 		return null;
 	}
 
-	public int addPayProductInfo(PayProduct payProduct) {
+	public int addPayProductInfo(OrderDetail payProduct) {
 		// 添加订单详细信息
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta
-					.executeUpdate("INSERT INTO Pay_Order_Item"
-							+ "(OrderCode,FK_ProductId,Price,NowPrice,BuyCount,AllMoney,ProductTitle,"
+					.executeUpdate("INSERT INTO JCP_Order_Detail"
+							+ "(OrderCode,FK_OrderId,Price,NowPrice,BuyCount,AllMoney,ProductTitle,"
 							+ "XuYueYear,XuYueMonth,XuYueDay,IsDelete,ProductType,UserId) VALUES ('"
 							+ payProduct.getOrderId()
 							+ "',"
-							+ payProduct.getProductId()
+							+ payProduct.getFk_OrderId()
 							+ ",'"
 							+ payProduct.getPrice()
 							+ "','"
@@ -222,14 +222,14 @@ public class PayProductImp implements PayProductDao {
 		return -1;
 	}
 
-	public List<PayProduct> getPayProducts(ResultSet result, int page,
+	public List<OrderDetail> getPayProducts(ResultSet result, int page,
 			int totlePage) {
 		payProducts.clear();
 		try {
 			while (result.next()) {
 				int id = result.getInt("ID");
 				String orderCode = result.getString("OrderCode");
-				int productId = result.getInt("FK_ProductId");
+				int fk_OrderId = result.getInt("FK_OrderId");
 				String price = result.getString("Price");
 				String nowPrice = result.getString("NowPrice");
 				int buyCount = result.getInt("BuyCount");
@@ -241,12 +241,12 @@ public class PayProductImp implements PayProductDao {
 				int isDelete = result.getInt("IsDelete");
 				int productType = result.getInt("ProductType");
 				int userId = result.getInt("UserId");
-				PayProduct payProduct = new PayProduct();
+				OrderDetail payProduct = new OrderDetail();
 				payProduct.setId(id);
 				payProduct.setPage(page);
 				payProduct.setTotlePage(totlePage);
 				payProduct.setOrderId(orderCode);
-				payProduct.setProductId(productId);
+				payProduct.setFk_OrderId(fk_OrderId);
 				payProduct.setPrice(price);
 				payProduct.setNowPrice(nowPrice);
 				payProduct.setBuyCount(buyCount);

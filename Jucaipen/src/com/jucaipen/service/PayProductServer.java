@@ -2,17 +2,17 @@ package com.jucaipen.service;
 
 import java.util.List;
 
-import com.jucaipen.dao.PayProductDao;
-import com.jucaipen.daoimp.PayProductImp;
-import com.jucaipen.model.PayProduct;
+import com.jucaipen.dao.OrderDetailDao;
+import com.jucaipen.daoimp.OrderDetailImp;
+import com.jucaipen.model.OrderDetail;
 
 public class PayProductServer {
 
 	/**
 	 * @return 获取全部订单信息
 	 */
-	public static List<PayProduct> findAllPayProductList(int page) {
-		PayProductDao dao = new PayProductImp();
+	public static List<OrderDetail> findAllPayProductList(int page) {
+		OrderDetailDao dao = new OrderDetailImp();
 		return dao.findAllPayProductList(page);
 	}
 
@@ -20,8 +20,8 @@ public class PayProductServer {
 	 * @param uId
 	 * @return 根据用户ID获取订单详细信息
 	 */
-	public static List<PayProduct> findPayProductByUid(int uId, int page) {
-		PayProductDao dao = new PayProductImp();
+	public static List<OrderDetail> findPayProductByUid(int uId, int page) {
+		OrderDetailDao dao = new OrderDetailImp();
 		return dao.findPayProductByUid(uId, page);
 	}
 
@@ -29,8 +29,8 @@ public class PayProductServer {
 	 * @param productId
 	 * @return 根据商品ID获取订单详细信息
 	 */
-	public static List<PayProduct> findPayProductByProductId(int productId, int page) {
-		PayProductDao dao = new PayProductImp();
+	public static List<OrderDetail> findPayProductByProductId(int productId, int page) {
+		OrderDetailDao dao = new OrderDetailImp();
 		return dao.findPayProductByProductId(productId, page);
 	}
 
@@ -38,8 +38,8 @@ public class PayProductServer {
 	 * @param orderId
 	 * @return 根据订单ID获取订单详细信息
 	 */
-	public static PayProduct findPayProductByOrderId(String orderId) {
-		PayProductDao dao = new PayProductImp();
+	public static OrderDetail findPayProductByOrderId(String orderId) {
+		OrderDetailDao dao = new OrderDetailImp();
 		return dao.findPayProductByOrderId(orderId);
 	}
 
@@ -47,8 +47,8 @@ public class PayProductServer {
 	 * @param isDeleted
 	 * @return 根据状态获取订单详细信息
 	 */
-	public static List<PayProduct> findPayProductByIsDeleted(int isDeleted, int page) {
-		PayProductDao dao = new PayProductImp();
+	public static List<OrderDetail> findPayProductByIsDeleted(int isDeleted, int page) {
+		OrderDetailDao dao = new OrderDetailImp();
 		return dao.findPayProductByIsDeleted(isDeleted, page);
 	}
 
@@ -56,9 +56,9 @@ public class PayProductServer {
 	 * @param productType
 	 * @return 根据商品类型获取订单详细信息
 	 */
-	public static List<PayProduct> findPayProductByProductType(int productType,
+	public static List<OrderDetail> findPayProductByProductType(int productType,
 			int page) {
-		PayProductDao dao = new PayProductImp();
+		OrderDetailDao dao = new OrderDetailImp();
 		return dao.findPayProductByProductType(productType, page);
 	}
 
@@ -66,8 +66,8 @@ public class PayProductServer {
 	 * @param id
 	 * @return 根据ID获取订单详细信息
 	 */
-	public static PayProduct findPayProductById(int id) {
-		PayProductDao dao = new PayProductImp();
+	public static OrderDetail findPayProductById(int id) {
+		OrderDetailDao dao = new OrderDetailImp();
 		return dao.findPayProductById(id);
 	}
 
@@ -75,8 +75,8 @@ public class PayProductServer {
 	 * @param lastCount
 	 * @return 获取最近几条订单详细信息
 	 */
-	public static List<PayProduct> findLastPayProduct(int lastCount) {
-		PayProductDao dao = new PayProductImp();
+	public static List<OrderDetail> findLastPayProduct(int lastCount) {
+		OrderDetailDao dao = new OrderDetailImp();
 		return dao.findLastPayProduct(lastCount);
 	}
 	
@@ -84,8 +84,8 @@ public class PayProductServer {
 	 * @param lastCount
 	 * @return 添加订单详细信息
 	 */
-	public static int addPayProductInfo(PayProduct payProduct) {
-		PayProductDao dao = new PayProductImp();
+	public static int addPayProductInfo(OrderDetail payProduct) {
+		OrderDetailDao dao = new OrderDetailImp();
 		return dao.addPayProductInfo(payProduct);
 	}
 	

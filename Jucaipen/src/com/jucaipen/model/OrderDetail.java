@@ -9,7 +9,7 @@ import java.io.Serializable;
  *
  */
 @SuppressWarnings("serial")
-public class PayProduct implements Serializable{
+public class OrderDetail implements Serializable{
 	/**
 	 * 当前页数
 	 */
@@ -27,9 +27,9 @@ public class PayProduct implements Serializable{
 	 */
 	private String orderId;
 	/**
-	 *   商品ID 
+	 *   关联订单ID 
 	 */
-	private int productId;
+	private int fk_OrderId;
 	/**
 	 * 原价
 	 */
@@ -74,7 +74,7 @@ public class PayProduct implements Serializable{
 	 * 产品状态（1：正常；4：删除）
 	 */
 	private int isDelete;
-	public PayProduct() {
+	public OrderDetail() {
 		super();
 	}
 	public int getId() {
@@ -89,11 +89,12 @@ public class PayProduct implements Serializable{
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
-	public int getProductId() {
-		return productId;
+
+	public int getFk_OrderId() {
+		return fk_OrderId;
 	}
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public void setFk_OrderId(int fk_OrderId) {
+		this.fk_OrderId = fk_OrderId;
 	}
 	public String getPrice() {
 		return price;
