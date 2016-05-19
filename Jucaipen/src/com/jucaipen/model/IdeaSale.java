@@ -3,13 +3,13 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author Administrator
+ * @author Administrator     ------------数据已更新
  *
- *    直播销售状况
+ *    观点销售信息
  *
  */
 @SuppressWarnings("serial")
-public class TxtLiveSale implements Serializable{
+public class IdeaSale implements Serializable{
 	private int id;
 	/**
 	 *   购买用户id 
@@ -26,19 +26,19 @@ public class TxtLiveSale implements Serializable{
 	/**
 	 *   直播id
 	 */
-	private int liveId;
+	private int logId;
 	/**
 	 *    订单生成时间
 	 */
 	private String insertDate;
-	public TxtLiveSale(int id, int userId, int teacherId, String orderCode,
-			int liveId, String insertDate) {
+	public IdeaSale(int id, int userId, int teacherId, String orderCode,
+			int logId, String insertDate) {
 		super();
 		this.id = id;
 		this.userId = userId;
 		this.teacherId = teacherId;
 		this.orderCode = orderCode;
-		this.liveId = liveId;
+		this.logId = logId;
 		this.insertDate = insertDate;
 	}
 	public int getId() {
@@ -65,11 +65,11 @@ public class TxtLiveSale implements Serializable{
 	public void setOrderCode(String orderCode) {
 		this.orderCode = orderCode;
 	}
-	public int getLiveId() {
-		return liveId;
+	public int getLogId() {
+		return logId;
 	}
-	public void setLiveId(int liveId) {
-		this.liveId = liveId;
+	public void setLiveId(int logId) {
+		this.logId = logId;
 	}
 	public String getInsertDate() {
 		return insertDate;

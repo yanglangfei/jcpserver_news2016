@@ -7,27 +7,27 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jucaipen.dao.NewsFavoritesDao;
-import com.jucaipen.model.NewsFavorites;
+import com.jucaipen.dao.FavoritesDao;
+import com.jucaipen.model.Favorites;
 import com.jucaipen.utils.JdbcUtil;
 import com.jucaipen.utils.SqlUtil;
 
-public class NewsFavoritesImp implements NewsFavoritesDao {
+public class FavoritesImp implements FavoritesDao {
 	private Connection dbConn;
 	private ResultSet res;
 	private Statement sta;
-	private List<NewsFavorites> newsFavorites;
+	private List<Favorites> favorites;
 	private int isSuccess;
 
 	/**
-	 * @return 查询收藏新闻总页数
+	 * @return 查询收藏总页数
 	 */
 	public int findTotlePager(String condition) {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCPNews_Favorites "
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_Favorites "
 							+ condition);
 			res.next();
 			int totlePager = res.getInt("totlePager");
@@ -40,16 +40,16 @@ public class NewsFavoritesImp implements NewsFavoritesDao {
 	}
 
 	/*
-	 * 收藏新闻资讯信息
+	 * 收藏信息
 	 */
-	public int insertNewsFavorites(int uId, NewsFavorites newsFavorites) {
+	public int insertFavorites(int uId, Favorites newsFavorites) {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("insert into JCPNews_Favorites ("
-					+ SqlUtil.NEWSCOMM_UID + "," + SqlUtil.NEWSFAVORITES_NID
+			isSuccess = sta.executeUpdate("insert into JCP_Favorites ("
+					+ SqlUtil.NEWSCOMM_UID + "," + SqlUtil.FAVORITES_NID
 					+ "," + SqlUtil.NEWS_INSERT + ") values("
-					+ newsFavorites.getuId() + "," + newsFavorites.getnId()
+					+ newsFavorites.getuId() + "," + newsFavorites.getFk_Id()
 					+ ",'" + newsFavorites.getDate() + "')");
 			return isSuccess;
 		} catch (SQLException e) {
@@ -59,15 +59,15 @@ public class NewsFavoritesImp implements NewsFavoritesDao {
 	}
 
 	/*
-	 * 取消收藏新闻资讯信息
+	 * 取消收藏信息
 	 */
-	public int cancelNewsFavorites(int uId, int nId) {
+	public int cancelFavorites(int uId, int nId) {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta
-					.executeUpdate("delete from JCPNews_Favorites where UserId="
-							+ uId + " and NewsId=" + nId);
+					.executeUpdate("delete from JCP_Favorites where FK_UserId="
+							+ uId + " and FK_Id=" + nId);
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -79,17 +79,17 @@ public class NewsFavoritesImp implements NewsFavoritesDao {
 	 * 
 	 * 查询新闻是否收藏
 	 */
-	public NewsFavorites findNewsFavouritesByUidAndNid(int uId, int nId) {
-		NewsFavorites newsFavorites = null;
+	public Favorites findFavouritesByUidAndNid(int uId, int nId) {
+		Favorites newsFavorites = null;
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select Id from JCPNews_Favorites where UserId="
-							+ uId + " and NewsId=" + nId);
+					.executeQuery("select Id from JCP_Favorites where FK_UserId="
+							+ uId + " and FK_Id=" + nId);
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
-				newsFavorites = new NewsFavorites();
+				newsFavorites = new Favorites();
 				newsFavorites.setId(id);
 			}
 			return newsFavorites;
@@ -102,18 +102,18 @@ public class NewsFavoritesImp implements NewsFavoritesDao {
 	/*
 	 * 查询该用户收藏的所有新闻资讯信息
 	 */
-	public List<NewsFavorites> findNewsFavorites(int uId, int pager) {
-		int totlePager = findTotlePager("Where UserId=" + uId);
+	public List<Favorites> findFavorites(int uId, int pager) {
+		int totlePager = findTotlePager("Where FK_UserId=" + uId);
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC,InsertDate DESC) AS RowNumber,* FROM JCPNews_Favorites"
-							+ " where UserId=" + uId + ") A "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC,InsertDate DESC) AS RowNumber,* FROM JCP_Favorites"
+							+ " where FK_UserId=" + uId + ") A "
 							+ "WHERE RowNumber > " + 15 * (pager - 1));
-			newsFavorites = getNewsFavorites(res, pager, totlePager);
-			return newsFavorites;
+			favorites = getFavorites(res, pager, totlePager);
+			return favorites;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -124,30 +124,30 @@ public class NewsFavoritesImp implements NewsFavoritesDao {
 	 * @param result
 	 * @return 获取收藏的新闻信息
 	 */
-	public List<NewsFavorites> getNewsFavorites(ResultSet result, int pager,
+	public List<Favorites> getFavorites(ResultSet result, int pager,
 			int totlePager) {
-		newsFavorites = new ArrayList<NewsFavorites>();
+		favorites = new ArrayList<Favorites>();
 		try {
 			while (result.next()) {
-				int id = result.getInt(SqlUtil.EQUITY_ID);
-				int uId = result.getInt(SqlUtil.EQUITYFAVORITES_UID);
-				int nId = result.getInt(SqlUtil.NEWSFAVORITES_NID);
+				int id = result.getInt(SqlUtil.NEWS_ID);
+				int uId = result.getInt(SqlUtil.NEWSCOMM_UID);
+				int nId = result.getInt(SqlUtil.FAVORITES_NID);
 				String insertDate = result
 						.getString(SqlUtil.EQUITYFAVORITES_DATE);
-				NewsFavorites nf = new NewsFavorites();
+				Favorites nf = new Favorites();
 				nf.setTotlePager(totlePager);
 				nf.setPager(pager);
 				nf.setId(id);
 				nf.setuId(uId);
-				nf.setnId(nId);
+				nf.setFk_Id(nId);
 				nf.setDate(insertDate);
-				newsFavorites.add(nf);
+				favorites.add(nf);
 			}
-			return newsFavorites;
+			return favorites;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return newsFavorites;
+		return favorites;
 
 	}
 

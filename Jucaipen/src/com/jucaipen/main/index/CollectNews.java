@@ -9,8 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.jucaipen.model.NewsFavorites;
-import com.jucaipen.service.NewsFavoritesSer;
+import com.jucaipen.model.Favorites;
+import com.jucaipen.service.FavoritesSer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -25,8 +25,8 @@ import com.jucaipen.utils.StringUtil;
  */
 @SuppressWarnings("serial")
 public class CollectNews extends HttpServlet {
-	private NewsFavorites newsFavorites;
-	private NewsFavorites nf;
+	private Favorites newsFavorites;
+	private Favorites nf;
 	private String result;
 	private int isSuccess;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -117,22 +117,22 @@ public class CollectNews extends HttpServlet {
 
 	private void cancellNewsCollect(int uId, int nId) {
 		// 取消新闻收藏
-		isSuccess = NewsFavoritesSer.cancelNews(uId, nId);
+		isSuccess = FavoritesSer.cancelNews(uId, nId);
 	}
 
-	private NewsFavorites newsIsCollect(int uId, int nId) {
+	private Favorites newsIsCollect(int uId, int nId) {
 		// 判断新闻是否收藏
-		return NewsFavoritesSer.findNewsIsCollect(uId, nId);
+		return FavoritesSer.findNewsIsCollect(uId, nId);
 
 	}
 
 	private void insertNewsCollect(int uId, int nId) {
 		// 新闻收藏
-		newsFavorites = new NewsFavorites();
-		newsFavorites.setnId(nId);
+		newsFavorites = new Favorites();
+		newsFavorites.setFk_Id(nId);
 		newsFavorites.setuId(uId);
 		newsFavorites.setDate(sdf.format(new Date()));
-		isSuccess = NewsFavoritesSer.insertNews(uId, newsFavorites);
+		isSuccess = FavoritesSer.insertNews(uId, newsFavorites);
 
 	}
 

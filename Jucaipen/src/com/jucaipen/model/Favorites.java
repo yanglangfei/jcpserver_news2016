@@ -3,13 +3,13 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author ylf
+ * @author ylf          -------------数据已更新
  * 
- *   收藏新闻
+ *   收藏 视频  /知识
  *
  */
 @SuppressWarnings("serial")
-public class NewsFavorites implements Serializable {
+public class Favorites implements Serializable {
 	/**
 	 *  新闻收藏当前页
 	 */
@@ -27,15 +27,29 @@ public class NewsFavorites implements Serializable {
 	 */
 	private int uId;
 	/**
-	 * 新闻id
+	 * 视频或知识id
 	 */
-	private int nId;
+	private int fk_Id;
+	
 	/**
 	 * 收藏时间
 	 */
 	private String date;
-	
-	public NewsFavorites() {
+	/**
+	 * 1为收藏视频 2为收藏知识
+	 */
+	private int type;
+	public int getPager() {
+		return pager;
+	}
+	public void setPager(int pager) {
+		this.pager = pager;
+	}
+	public int getTotlePager() {
+		return totlePager;
+	}
+	public void setTotlePager(int totlePager) {
+		this.totlePager = totlePager;
 	}
 	public int getId() {
 		return id;
@@ -49,11 +63,11 @@ public class NewsFavorites implements Serializable {
 	public void setuId(int uId) {
 		this.uId = uId;
 	}
-	public int getnId() {
-		return nId;
+	public int getFk_Id() {
+		return fk_Id;
 	}
-	public void setnId(int nId) {
-		this.nId = nId;
+	public void setFk_Id(int fk_Id) {
+		this.fk_Id = fk_Id;
 	}
 	public String getDate() {
 		return date;
@@ -61,19 +75,12 @@ public class NewsFavorites implements Serializable {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public int getPager() {
-		return pager;
+	public int getType() {
+		return type;
 	}
-	public void setPager(int pager) {
-		this.pager = pager;
-	}
-	public int getTotlePager() {
-		return totlePager;
-	}
-	public void setTotlePager(int totlePager) {
-		this.totlePager = totlePager;
+	public void setType(int type) {
+		this.type = type;
 	}
 	
 	
-
 }

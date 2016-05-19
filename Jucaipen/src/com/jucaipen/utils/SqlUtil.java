@@ -268,13 +268,13 @@ public class SqlUtil {
 	 */
 	public static final String EQUITYORDER_ORDERTYPE="yuyuetype";
 	/**
-	 * 收藏新闻id
+	 * 收藏知识/视频id
 	 */
-	public static final String NEWSFAVORITES_NID = "NewsId";
+	public static final String FAVORITES_NID = "FK_Id";
 	/**
 	 * 添加评论的用户
 	 */
-	public static final String NEWSCOMM_UID="UserId";
+	public static final String NEWSCOMM_UID="FK_UserId";
 	/**
 	 * 分类id
 	 */
