@@ -216,44 +216,4 @@ public class UserServer {
 		return dao.querryOtherAccount(id);
 	}
 
-	/**
-	 * @param isLive
-	 * @param uId
-	 * @return 修改用户是否在直播间
-	 */
-	public static int updateUserIsLiveRoom(int isLive, int uId) {
-		UserDao dao = new UserImp();
-		return dao.updateUserIsOnRoom(isLive, uId);
-	}
-
-	/**
-	 * @param uId
-	 * @return 查询用户登录token
-	 */
-	public static String findUserTokenById(int uId) {
-		UserDao dao = new UserImp();
-		return dao.querryUserIsLogin(uId);
-	}
-
-	/**
-	 * @param uId
-	 * @param token
-	 * @return 更新用户token信息
-	 */
-	public static int updateLoginToken(int uId, String token) {
-		UserDao dao = new UserImp();
-		return dao.updateUserLoginToken(uId, token);
-	}
-	
-	
-	/**
-	 * @param roomId
-	 * @param page
-	 * @return   获取当前直播间用户信息
-	 */
-	public static List<User> findOnLiveRoomUser(int roomId, int page) {
-		UserDao dao = new UserImp();
-		return dao.findOnLiveUserByIsLive(roomId, page);
-	}
-
 }

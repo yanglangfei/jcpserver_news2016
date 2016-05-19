@@ -3,7 +3,7 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author Administrator
+ * @author Administrator              --------------------数据已更新     5.18
  *
  *  提问
  */
@@ -69,48 +69,22 @@ public class Ask implements Serializable{
 	 *  支付聚财币
 	 */
 	private int jucaiBills;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public Ask() {
-	}
-	
-	
+	/**
+	 *  提问来源 （1、PC端，2、手机APP，3、手机网站）
+	 */
+	private int askFrom;
 	public int getPage() {
 		return page;
 	}
-
-
 	public void setPage(int page) {
 		this.page = page;
 	}
-
-
 	public int getTotlePage() {
 		return totlePage;
 	}
-
-
 	public void setTotlePage(int totlePage) {
 		this.totlePage = totlePage;
 	}
-
-
-	public int getAskState() {
-		return askState;
-	}
-
-	public void setAskState(int askState) {
-		this.askState = askState;
-	}
-
 	public int getId() {
 		return id;
 	}
@@ -135,17 +109,17 @@ public class Ask implements Serializable{
 	public void setAskBody(String askBody) {
 		this.askBody = askBody;
 	}
-	public int getClassId() {
-		return classId;
-	}
-	public void setClassId(int classId) {
-		this.classId = classId;
-	}
 	public String getAskDate() {
 		return askDate;
 	}
 	public void setAskDate(String askDate) {
 		this.askDate = askDate;
+	}
+	public int getAskState() {
+		return askState;
+	}
+	public void setAskState(int askState) {
+		this.askState = askState;
 	}
 	public int getHits() {
 		return hits;
@@ -159,11 +133,11 @@ public class Ask implements Serializable{
 	public void setIsReply(int isReply) {
 		this.isReply = isReply;
 	}
-	public String getIp() {
-		return ip;
+	public int getClassId() {
+		return classId;
 	}
-	public void setIp(String ip) {
-		this.ip = ip;
+	public void setClassId(int classId) {
+		this.classId = classId;
 	}
 	public int getTeacherId() {
 		return teacherId;
@@ -171,9 +145,29 @@ public class Ask implements Serializable{
 	public void setTeacherId(int teacherId) {
 		this.teacherId = teacherId;
 	}
-	
-	
-	
-	
+	public String getIp() {
+		return ip;
+	}
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+	public int getIsPay() {
+		return isPay;
+	}
+	public void setIsPay(int isPay) {
+		this.isPay = isPay;
+	}
+	public int getJucaiBills() {
+		return jucaiBills;
+	}
+	public void setJucaiBills(int jucaiBills) {
+		this.jucaiBills = jucaiBills;
+	}
+	public int getAskFrom() {
+		return askFrom;
+	}
+	public void setAskFrom(int askFrom) {
+		this.askFrom = askFrom;
+	}
 
 }

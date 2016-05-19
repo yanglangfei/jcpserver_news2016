@@ -92,10 +92,9 @@ public class UserInfo extends HttpServlet {
 			user.setBirthday(birth);
 		    age=TimeUtils.getAge(birth);
 		}
-		user.setAge(age);
-		int provinceId=user.getLocalProvince();
-		int cityId=user.getLocalCity();
-		int areaId=user.getLocalArea();
+		int provinceId=user.getProvinceId();
+		int cityId=user.getCityId();
+		int areaId=user.getAreaId();
 		if(provinceId!=0){
 			//获取所在省份信息
 			initProvinceInfo(provinceId);

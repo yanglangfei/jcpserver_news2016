@@ -53,7 +53,6 @@ public class OtherAccountLogin extends HttpServlet {
 					result = JsonUtil.getLoginResult(user);
 					uuid = UUID.randomUUID().toString();
 					uId = user.getId();
-					upDateLoginState(user.getId(), uuid);
 					handleLoginResult(1, user);
 				} else {
 					// 未绑定的第三方登录
@@ -75,7 +74,7 @@ public class OtherAccountLogin extends HttpServlet {
 		LoginLog log = new LoginLog();
 		log.setLoginDate(sdf.format(new Date()));
 		log.setUserId(uId);
-		log.setUserName(user.getUserName());
+		log.setUserName(user.getTrueName());
 		log.setPassword(user.getPassword());
 		log.setRemark("登录成功");
 		log.setLoginIp(clientAddress);
@@ -83,10 +82,6 @@ public class OtherAccountLogin extends HttpServlet {
 
 	}
 
-	private void upDateLoginState(int id, String uuid) {
-		 UserServer.updateLoginToken(uId, uuid);
-
-	}
 
 	private void loginUser(int type, String accountId) {
 		// 利用第三方账号登录程序

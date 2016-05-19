@@ -11,7 +11,6 @@ import com.jucaipen.dao.UserDao;
 import com.jucaipen.model.User;
 import com.jucaipen.utils.JdbcUtil;
 import com.jucaipen.utils.SqlUtil;
-
 /**
  * @author ylf
  * 
@@ -44,52 +43,26 @@ public class UserImp implements UserDao {
 		return 0;
 	}
 	
-	
-	
-	/*
-	 * 
-	 *   获取直播间在线用户列表
-	 */
-	public List<User> findOnLiveUserByIsLive(int roomId,int page) {
-		int totlePage = findTotlePager("WHERE IsLiveRoom="+roomId);
-		System.out.println("SELECT TOP 15 UserName FROM "
-							+ "(SELECT ROW_NUMBER() OVER (WHERE IsLiveRoom="+roomId+" ORDER BY id ) AS RowNumber,* FROM JCP_User"
-							+ ") A " + "WHERE RowNumber > " + 15 * (page - 1));
-		try {
-			dbConn = JdbcUtil.connSqlServer();
-			sta = dbConn.createStatement();
-			res = sta
-					.executeQuery("SELECT TOP 15 UserName FROM "
-							+ "(SELECT ROW_NUMBER() OVER (WHERE IsLiveRoom="+roomId+" ORDER BY id ) AS RowNumber,* FROM JCP_User"
-							+ ") A " + "WHERE RowNumber > " + 15 * (page - 1));
-			users = getUser(res, page, totlePage);
-			return users;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 
 	/*
 	 * 用户注册
 	 */
 	public int reginUser(User user) {
-		try {
+	/*	try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta.executeUpdate("insert into " + SqlUtil.USER_TABLE
 					+ "(" + SqlUtil.USER_NAME + "," + SqlUtil.USER_MOBILE + ","
 					+ SqlUtil.USER_PASSWORD + "," + SqlUtil.USER_REGFROM + ","
 					+ SqlUtil.USER_REGINDATE + "," + SqlUtil.USER_REGINIP
-					+ ") values('" + user.getUserName() + "','"
+					+ ") values("
 					+ user.getMobileNum() + "','" + user.getPassword() + "',"
 					+ 5 + ",'" + user.getRegDate() + "','" + user.getRegIp()
 					+ "')");
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		}*/
 		return 0;
 	}
 
@@ -122,7 +95,7 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select RegFrom,ISNULL(UserName,'') UserName,ISNULL(NickName,'') NickName,ISNULL(Sex,'') Sex,ISNULL(MobileNum,'') MobileNum,LocaProvince,LocaCity,LocaEare,ISNULL(Email,'') Email,ISNULL(Bodys,'') Bodys,ISNULL(Birthday,'') Birthday,ISNULL(FaceImage,'') FaceImage from JCP_User where Id="
+					.executeQuery("select RegFrom,ISNULL(TrueName,'') TrueName,ISNULL(NickName,'') NickName,ISNULL(Sex,'') Sex,ISNULL(MobileNum,'') MobileNum,ProvinceID,CiytID,AreaID,ISNULL(Email,'') Email,ISNULL(UserInformation,'') UserInformation,ISNULL(Birthday,'') Birthday,ISNULL(UserFace,'') UserFace from JCP_User where Id="
 							+ id);
 			while (res.next()) {
 				String nickName = res.getString(SqlUtil.USER_NICKNAME);
@@ -136,20 +109,18 @@ public class UserImp implements UserDao {
 				String birthday = res.getString(SqlUtil.USER_BIRTH);
 				String logo = res.getString(SqlUtil.USRE_FACEIMAGE);
 				int RegFrom = res.getInt(SqlUtil.USER_REGFROM);
-				String userName=res.getString(SqlUtil.USER_NAME);
 				u = new User();
 				u.setNickName(nickName);
 				u.setSex(sex);
-				u.setUserName(userName);
-				u.setLocalProvince(localProvince);
 				u.setMobileNum(telPhone);
 				u.setBirthday(birthday);
-				u.setLocalCity(localCity);
-				u.setLocalArea(localArea);
+				u.setProvinceId(localProvince);
+				u.setCityId(localCity);
+				u.setAreaId(localArea);
 				u.setDescript(desc);
 				u.setEmail(email);
 				u.setFaceImage(logo);
-				u.setRegFrom(RegFrom);
+				u.setReginFrom(RegFrom);
 				return u;
 			}
 		} catch (SQLException e) {
@@ -166,10 +137,10 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT FaceImage FROM JCP_User WHERE Id="
+			res = sta.executeQuery("SELECT UserFace FROM JCP_User WHERE Id="
 					+ id);
 			while (res.next()) {
-				String face = res.getString("FaceImage");
+				String face = res.getString("UserFace");
 				return face;
 			}
 		} catch (SQLException e) {
@@ -178,43 +149,6 @@ public class UserImp implements UserDao {
 		return null;
 	}
 
-	/*
-	 * 
-	 * 获取用户登录token （验证用户身份）
-	 */
-	public String querryUserIsLogin(int uId) {
-		try {
-			dbConn = JdbcUtil.connSqlServer();
-			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT LoginToken FROM JCP_User WHERE Id="
-					+ uId);
-			while (res.next()) {
-				String token = res.getString("LoginToken");
-				return token;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	/*
-	 * 
-	 * 更新用户token信息
-	 */
-	public int updateUserLoginToken(int uId, String token) {
-		try {
-			dbConn = JdbcUtil.connSqlServer();
-			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("UPDATE JCP_User SET LoginToken='"
-					+ token + "'" + "WHERE Id=" + uId);
-			return isSuccess;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
-	
 	//根据用户ID修改用户手机号
 	public int updatePhoneById(int id, String tel) {
 		try {
@@ -251,7 +185,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("UPDATE JCP_User SET FaceImage='"
+			isSuccess = sta.executeUpdate("UPDATE JCP_User SET UserFace='"
 					+ logoPath + "' WHERE Id=" + id);
 			return isSuccess;
 		} catch (SQLException e) {
@@ -291,16 +225,16 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select ISNULL (UserName,'') UserName,ISNULL (NickName,'') NickName,ISNULL (FaceImage,'') FaceImage from JCP_User where Id="
+					.executeQuery("select ISNULL (TrueName,'') TrueName,ISNULL (NickName,'') NickName,ISNULL (UserFace,'') UserFace from JCP_User where Id="
 							+ id);
 			while (res.next()) {
 				String NickName = res.getString(SqlUtil.USER_NICKNAME);
-				String userName = res.getString(SqlUtil.USER_NAME);
+				String trueName = res.getString(SqlUtil.USER_TRUENAME);
 				String faceImage = res.getString(SqlUtil.USRE_FACEIMAGE);
 				u = new User();
 				u.setId(id);
 				u.setFaceImage(faceImage);
-				u.setUserName(userName);
+				u.setTrueName(trueName);
 				u.setNickName(NickName);
 				return u;
 			}
@@ -343,11 +277,11 @@ public class UserImp implements UserDao {
 			isSuccess = sta.executeUpdate("update JCP_User set NickName='"
 					+ user.getNickName() + "',MobileNum='"
 					+ user.getMobileNum() + "',Sex='" + user.getSex()
-					+ "',Bodys='" + user.getDescript() + "',Email='"
+					+ "',UserInformation='" + user.getDescript() + "',Email='"
 					+ user.getEmail() + "',Birthday='" + user.getBirthday()
-					+ "',LocaProvince=" + user.getLocalProvince()
-					+ ",LocaCity=" + user.getLocalCity() + ",LocaEare="
-					+ user.getLocalArea() + " WHERE Id=" + id);
+					+ "',ProvinceID=" + user.getProvinceId()
+					+ ",CiytID=" + user.getCityId() + ",AreaID="
+					+ user.getAreaId() + " WHERE Id=" + id);
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -356,32 +290,15 @@ public class UserImp implements UserDao {
 	}
 
 	/*
-	 * 
-	 * 更新用户是否在直播间 （1 是 0 否）
+	 * 根据Email查询用户信息
 	 */
-	public int updateUserIsOnRoom(int isLiveRoom, int uId) {
-		try {
-			dbConn = JdbcUtil.connSqlServer();
-			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("UPDATE JCP_User SET IsLiveRoom="
-					+ isLiveRoom + " WHERE Id=" + uId);
-			return isSuccess;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return 0;
-	}
-
-	/*
-	 * 根据账号查询用户信息
-	 */
-	public User findUserByAccount(String userName) {
+	public User findUserByAccount(String email) {
 		User u = null;
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCP_User where UserName='"
-					+ userName + "'");
+			res = sta.executeQuery("select * from JCP_User where Email='"
+					+ email + "'");
 			users = getUser(res, -1, -1);
 			if (users != null && users.size() > 0) {
 				u = users.get(0);
@@ -557,15 +474,15 @@ public class UserImp implements UserDao {
 	}
 
 	/*
-	 * 根据手机号和用户名查询用户信息 ----登录
+	 * 根据手机号和Email查询用户信息 ----登录
 	 */
-	public User findUserByOther(String userName) {
+	public User findUserByOther(String account) {
 		User u = null;
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("select * from JCP_User where MobileNum='"
-					+ userName + "' or  UserName= '" + userName + "'");
+					+ account + "' or  Email= '" + account + "'");
 			users = getUser(res, -1, -1);
 			if (users != null && users.size() > 0) {
 				u = users.get(0);
@@ -587,22 +504,18 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT UserName,IsRoomManager,BuyProductId,ServerId,RegDate,ChatType FROM JCP_User WHERE Id="
+					.executeQuery("SELECT TrueName,IsRoomAdmin,IsSysAdmin,RegisterDate FROM JCP_User WHERE Id="
 							+ id);
 			while (res.next()) {
-				String userName=res.getString(1);
+				String trueName=res.getString(1);
 				int isRoom=res.getInt(2);
-				int productId=res.getInt(3);
-				int serverId=res.getInt(4);
-				String reginDate=res.getString(5);
-				int userType=res.getInt(6);
+				int isSys=res.getInt(3);
+				String reginDate=res.getString(4);
 				user=new User();
-				user.setUserType(userType);
-				user.setUserName(userName);
+				user.setTrueName(trueName);
 				user.setRegDate(reginDate);
-				user.setBuyProductId(productId);
-				user.setIsRoomManager(isRoom);
-				user.setServerId(serverId);
+				user.setIsRoomAdmin(isRoom);
+				user.setIsSysAdmin(isSys);
 				user.setId(id);
 				return user;
 			}
@@ -620,7 +533,6 @@ public class UserImp implements UserDao {
 		try {
 			while (res.next()) {
 				String password = res.getString(SqlUtil.USER_PASSWORD);
-				String UserName = res.getString(SqlUtil.USER_NAME);
 				String birthday = res.getString(SqlUtil.USER_BIRTH);
 				int userId = res.getInt(SqlUtil.NEWS_ID);
 				String sex = res.getString(SqlUtil.USER_SEX);
@@ -633,21 +545,17 @@ public class UserImp implements UserDao {
 				int localProvince = res.getInt(SqlUtil.USER_LOCALPROVINCE);
 				int localCity = res.getInt(SqlUtil.USER_LOCALCITY);
 				int localArea = res.getInt(SqlUtil.USER_LOCALAREA);
-				int homeProvince = res.getInt(SqlUtil.USER_HOMEPROVINCE);
-				int homeCity = res.getInt(SqlUtil.USER_HOMECITY);
-				int homeArea = res.getInt(SqlUtil.USER_HOMEAREA);
 				String RegDate = res.getString(SqlUtil.USER_REGINDATE);
-				int ServerId = res.getInt("ServerId");
-				int IsRoomManager = res.getInt("IsRoomManager");
-				int BuyProductId = res.getInt("BuyProductId");
+				int issysAdmin = res.getInt("IsSysAdmin");
+				int isRoomAdmin = res.getInt("IsRoomAdmin");
+				int allIntegral = res.getInt("AllIntegral");
 				User user = new User();
 				user.setId(userId);
-				user.setIsRoomManager(IsRoomManager);
-				user.setBuyProductId(BuyProductId);
-				user.setServerId(ServerId);
+				user.setIsRoomAdmin(isRoomAdmin);
+				user.setAllIntegral(allIntegral);
+				user.setIsSysAdmin(issysAdmin);
 				user.setRegDate(RegDate);
 				user.setPassword(password);
-				user.setUserName(UserName);
 				user.setBirthday(birthday);
 				user.setSex(sex);
 				user.setTrueName(trueName);
@@ -656,12 +564,9 @@ public class UserImp implements UserDao {
 				user.setFaceImage(faceImage);
 				user.setEmail(email);
 				user.setDescript(descript);
-				user.setLocalProvince(localProvince);
-				user.setLocalCity(localCity);
-				user.setLocalArea(localArea);
-				user.setHomeProvince(homeProvince);
-				user.setHomeCity(homeCity);
-				user.setHomeArea(homeArea);
+				user.setProvinceId(localProvince);
+				user.setCityId(localCity);
+				user.setAreaId(localArea);
 				user.setTotlePage(totlePage);
 				user.setPage(page);
 				users.add(user);

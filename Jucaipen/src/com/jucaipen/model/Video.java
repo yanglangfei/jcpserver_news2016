@@ -3,9 +3,9 @@ package com.jucaipen.model;
 import java.io.Serializable;
 import java.util.Date;
 /**
- * @author ylf
+ * @author ylf           ---------数据已更新    5.18
  * 
- *   学堂视频
+ *   视频
  *
  */
 @SuppressWarnings("serial")

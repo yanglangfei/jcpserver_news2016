@@ -12,11 +12,6 @@ import com.jucaipen.model.User;
 public interface UserDao {
 	
 	/**
-	 * @param isLive
-	 * @return    获取直播间在线
-	 */
-	public  List<User> findOnLiveUserByIsLive(int isLive,int page);
-	/**
 	 * @param id
 	 * @return  通过id修改手机号和真实姓名
 	 */
@@ -70,10 +65,10 @@ public interface UserDao {
 	public int updateUserLogoById(int id ,String logoPath);
 
 	/**
-	 * @param account
+	 * @param email
 	 * @return 查询该账号用户信息
 	 */
-	public User findUserByAccount(String userName);
+	public User findUserByAccount(String email);
 
 	/**
 	 * @param telPhone
@@ -101,11 +96,10 @@ public interface UserDao {
 	public User findUserBySinaId(String sinaId);
 
 	/**
-	 * @param userName
-	 * @param telPhone
-	 * @return 根据手机号或用户名查询用户
+	 * account
+	 * @return 根据手机号或Email查询用户
 	 */
-	public User findUserByOther(String userName);
+	public User findUserByOther(String account);
 
 	/**
 	 * @param id
@@ -142,26 +136,6 @@ public interface UserDao {
 	 * @return   根据用户id 查询第三方账号
 	 */
 	public User querryOtherAccount(int id);
-	
-	/**
-	 * @param isLiveRoom
-	 * @return   更新用户是否在直播间
-	 */
-	public int updateUserIsOnRoom(int isLiveRoom,int uId);
-	
-	
-	/**
-	 * @param uId
-	 * @return  获取用户登录token
-	 */
-	public String querryUserIsLogin(int uId);
-	
-	/**
-	 * @param uId
-	 * @param token
-	 * @return  更新用户token信息
-	 */
-	public int updateUserLoginToken(int uId,String token);
 	
 	
 	/**

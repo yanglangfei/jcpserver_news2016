@@ -2,7 +2,7 @@ package com.jucaipen.model;
 
 import java.io.Serializable;
 /**
- * @author ylf
+ * @author ylf          ---------------数据已更新    5.18
  * 
  *         新闻类
  * 

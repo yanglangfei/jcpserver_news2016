@@ -83,7 +83,7 @@ public class Question extends HttpServlet {
 			User user=UserServer.findUserNikNameById(userId);
 			if(user==null){
 				user=new User();
-				user.setUserName("");
+				user.setTrueName("");
 				user.setFaceImage("");
 			}
 			users.add(user);
@@ -100,7 +100,7 @@ public class Question extends HttpServlet {
 			User user=UserServer.findUserNikNameById(userId);
 			if(user==null){
 				user=new User();
-				user.setUserName("");
+				user.setTrueName("");
 				user.setFaceImage("");
 			}
 			users.add(user);

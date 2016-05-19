@@ -4,7 +4,7 @@ package com.jucaipen.model;
  * @author Administrator
  *
  *
- *   广告bean
+ *   广告bean           ----数据已更新   5.18
  */
 public class Advertive {
 	/**

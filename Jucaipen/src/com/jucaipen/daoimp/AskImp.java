@@ -26,7 +26,7 @@ public class AskImp implements AskDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCPTearch_Ask "
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_Ask "
 							+ condition);
 			res.next();
 			int totlePager = res.getInt("totlePager");
@@ -46,7 +46,7 @@ public class AskImp implements AskDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY AskDate desc) AS RowNumber,* FROM JCPTearch_Ask) A "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY AskDate desc) AS RowNumber,* FROM JCP_Ask) A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
 			asks = getAsk(res,page,totlePage);
 			return asks;
@@ -62,7 +62,7 @@ public class AskImp implements AskDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT TOP " + count
-					+ " * FROM JCPTearch_Ask ORDER BY AskDate DESC");
+					+ " * FROM JCP_Ask ORDER BY AskDate DESC");
 			asks = getAsk(res,0,0);
 			return asks;
 		} catch (SQLException e) {
@@ -77,7 +77,7 @@ public class AskImp implements AskDao {
 		try {
 			dbConn=JdbcUtil.connSqlServer();
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT COUNT (*) FROM JCPTearch_Ask WHERE UserId="+uId);
+			res=sta.executeQuery("SELECT COUNT (*) FROM JCP_Ask WHERE FK_UserId="+uId);
 			while (res.next()) {
 				int askNum=res.getInt(1);
 				return askNum;
@@ -94,7 +94,7 @@ public class AskImp implements AskDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCPTearch_Ask WHERE UserId="
+			res = sta.executeQuery("SELECT * FROM JCP_Ask WHERE FK_UserId="
 					+ userId + " ORDER BY AskDate DESC");
 			asks = getAsk(res,0,0);
 			return asks;
@@ -106,14 +106,14 @@ public class AskImp implements AskDao {
 
 	public List<Ask> findAskByTeacherId(int teacherId,int page) {
 		// 根据讲师id获取提问信息
-		int totlePage=findTotlePage("WHERE TearcherId="+teacherId);
+		int totlePage=findTotlePage("WHERE FK_TearchId="+teacherId);
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY AskDate desc) AS RowNumber,* FROM JCPTearch_Ask" +
-							" WHERE TearcherId="+teacherId+") A "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY AskDate desc) AS RowNumber,* FROM JCP_Ask" +
+							" WHERE FK_TearchId="+teacherId+") A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
 			asks = getAsk(res,page,totlePage);
 			return asks;
@@ -128,7 +128,7 @@ public class AskImp implements AskDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCPTearch_Ask WHERE ClassId="
+			res = sta.executeQuery("SELECT * FROM JCP_Ask WHERE FK_ClassId="
 					+ classId + " ORDER BY AskDate DESC");
 			asks = getAsk(res,0,0);
 			return asks;
@@ -138,14 +138,14 @@ public class AskImp implements AskDao {
 		return null;
 	}
 
-	public List<Ask> findAskByAskState(int state) {
-		// 根据提问状态获取提问信息
+	public List<Ask> findAskByAskState(int isPay) {
+		// 根据提问是否收费获取提问信息
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_Ask WHERE AskState="
-							+ state + " ORDER BY AskDate DESC");
+					.executeQuery("SELECT * FROM JCP_Ask WHERE IsPay="
+							+ isPay + " ORDER BY AskDate DESC");
 			asks = getAsk(res,0,0);
 			return asks;
 		} catch (SQLException e) {
@@ -159,7 +159,7 @@ public class AskImp implements AskDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCPTearch_Ask WHERE IsReply="
+			res = sta.executeQuery("SELECT * FROM JCP_Ask WHERE IsReply="
 					+ isReply + " ORDER BY AskDate DESC");
 			asks = getAsk(res,0,0);
 			return asks;
@@ -174,7 +174,7 @@ public class AskImp implements AskDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCPTearch_Ask WHERE Id=" + id
+			res = sta.executeQuery("SELECT * FROM JCP_Ask WHERE Id=" + id
 					+ " ORDER BY AskDate DESC");
 			asks = getAsk(res,0,0);
 			if (asks.size() > 0) {
@@ -192,8 +192,8 @@ public class AskImp implements AskDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta
-					.executeUpdate("INSERT INTO JCPTearch_Ask"
-							+ "(UserId,ParentId,AskBodys,ClassId,AskDate,AskState,Hits,IsReply,IP,TearcherId) "
+					.executeUpdate("INSERT INTO JCP_Ask"
+							+ "(FK_UserId,ParentId,AskBodys,FK_ClassId,AskDate,IsPay,Hits,IsReply,IP,FK_TearchId) "
 							+ "VALUES(" + ask.getUserId() + ","
 							+ ask.getParentId() + ",'" + ask.getAskBody()
 							+ "'," + ask.getClassId() + ",'" + ask.getAskDate()
@@ -212,16 +212,16 @@ public class AskImp implements AskDao {
 		try {
 			while (result.next()) {
 				int id = result.getInt("Id");
-				int userId = result.getInt("UserId");
+				int userId = result.getInt("FK_UserId");
 				int parentId = result.getInt("ParentId");
 				String bodys = result.getString("AskBodys");
-				int classId = result.getInt("ClassId");
+				int classId = result.getInt("FK_ClassId");
 				String askDate = result.getString("AskDate");
-				int askState = result.getInt("AskState");
+				int askState = result.getInt("IsPay");
 				int hits = result.getInt("Hits");
 				int isReply = result.getInt("IsReply");
 				String ip = result.getString("IP");
-				int teacherId = result.getInt("TearcherId");
+				int teacherId = result.getInt("FK_TearchId");
 				Ask ask = new Ask();
 				ask.setTotlePage(totlePage);
 				ask.setPage(page);

@@ -123,10 +123,6 @@ public class SqlUtil {
 	 */
 	public static final String USER_PASSWORD = "PassWord";
 	/**
-	 * 用户名
-	 */
-	public static final String USER_NAME = "UserName";
-	/**
 	 * 用户出生日期
 	 */
 	public static final String USER_BIRTH = "Birthday";
@@ -149,7 +145,7 @@ public class SqlUtil {
 	/**
 	 * 用户头像
 	 */
-	public static final String USRE_FACEIMAGE = "FaceImage";
+	public static final String USRE_FACEIMAGE = "UserFace";
 	/**
 	 * 用户Email
 	 */
@@ -157,31 +153,19 @@ public class SqlUtil {
 	/**
 	 * 用户简介
 	 */
-	public static final String USER_BODYS = "Bodys";
+	public static final String USER_BODYS = "UserInformation";
 	/**
 	 * 用户所在省份
 	 */
-	public static final String USER_LOCALPROVINCE = "LocaProvince";
+	public static final String USER_LOCALPROVINCE = "ProvinceID";
 	/**
 	 * 用户所在城市
 	 */
-	public static final String USER_LOCALCITY = "LocaCity";
+	public static final String USER_LOCALCITY = "CiytID";
 	/**
 	 * 用户所在区
 	 */
-	public static final String USER_LOCALAREA = "LocaEare";
-	/**
-	 * 用户故乡省份
-	 */
-	public static final String USER_HOMEPROVINCE = "HomeProvince";
-	/**
-	 * 用户故乡城市
-	 */
-	public static final String USER_HOMECITY = "HomeCity";
-	/**
-	 * 用户故乡区
-	 */
-	public static final String USER_HOMEAREA = "HomeEare";
+	public static final String USER_LOCALAREA = "AreaID";
 	/**
 	 * 用户注册ip
 	 */
