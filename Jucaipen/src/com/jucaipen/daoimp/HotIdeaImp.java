@@ -15,7 +15,7 @@ import com.jucaipen.utils.JdbcUtil;
  * @author Administrator
  * 
  * 
- *         日志，热门观点 -----------------------JCPTearch_LiveLog ---按点击量排列
+ *         日志，热门观点 -----------------------JCP_Tearch_Log ---按点击量排列
  */
 public class HotIdeaImp implements HotIdeaDao {
 	private List<HotIdea> ideas = new ArrayList<HotIdea>();
@@ -32,7 +32,7 @@ public class HotIdeaImp implements HotIdeaDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCPTearch_LiveLog "
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_Tearch_Log "
 							+ condition);
 			res.next();
 			int totlePager = res.getInt("totlePager");
@@ -49,7 +49,7 @@ public class HotIdeaImp implements HotIdeaDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("UPDATE JCPTearch_LiveLog SET Hits="
+			isSuccess = sta.executeUpdate("UPDATE JCP_Tearch_Log SET Hits="
 					+ hits + " WHERE Id=" + ideaId);
 			return isSuccess;
 		} catch (Exception e) {
@@ -63,7 +63,7 @@ public class HotIdeaImp implements HotIdeaDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta
-					.executeUpdate("UPDATE JCPTearch_LiveLog SET Commens="
+					.executeUpdate("UPDATE JCP_Tearch_Log SET CommCount="
 							+ commCount + " WHERE Id=" + ideaId);
 			return isSuccess;
 		} catch (Exception e) {
@@ -76,7 +76,7 @@ public class HotIdeaImp implements HotIdeaDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("UPDATE JCPTearch_LiveLog SET Goods="
+			isSuccess = sta.executeUpdate("UPDATE JCP_Tearch_Log SET Goods="
 					+ googs + " WHERE Id=" + ideaId);
 			return isSuccess;
 		} catch (Exception e) {
@@ -91,11 +91,11 @@ public class HotIdeaImp implements HotIdeaDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT Goods,Commens,Hits FROM JCPTearch_LiveLog WHERE Id="
+					.executeQuery("SELECT Goods,CommCount,Hits FROM JCP_Tearch_Log WHERE Id="
 							+ id);
 			while (res.next()) {
 				int goods = res.getInt("Goods");
-				int comms = res.getInt("Commens");
+				int comms = res.getInt("CommCount");
 				int hits = res.getInt("Hits");
 				idea = new HotIdea();
 				idea.setId(id);
@@ -116,8 +116,8 @@ public class HotIdeaImp implements HotIdeaDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 15 Id,InsertDate,Title,Bodys,Hits,TearchId,Goods FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCPTearch_LiveLog) A "
+					.executeQuery("SELECT TOP 15 Id,InsertDate,Title,Bodys,Hits,FK_TearchId,Goods FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Tearch_Log) A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
 				int id = res.getInt(1);
@@ -154,12 +154,12 @@ public class HotIdeaImp implements HotIdeaDao {
 			res = sta
 					.executeQuery("SELECT TOP "
 							+ count
-							+ " Id,ISNULL (Title,'') Title,ISNULL (Bodys,'') Bodys,ISNULL (LogImg,'') LogImg FROM JCPTearch_LiveLog  WHERE LEN(LogImg)>0 ORDER BY InsertDate DESC");
+							+ " Id,ISNULL (Title,'') Title,ISNULL (Bodys,'') Bodys,ISNULL (ImagesUrl,'') ImagesUrl FROM JCP_Tearch_Log  WHERE LEN(LogImg)>0 ORDER BY InsertDate DESC");
 			while (res.next()) {
 				int id = res.getInt("Id");
 				String title = res.getString("Title");
 				String bodys = res.getString("Bodys");
-				String logImage = res.getString("LogImg");
+				String logImage = res.getString("ImagesUrl");
 				HotIdea idea = new HotIdea();
 				idea.setId(id);
 				idea.setLogImage(logImage);
@@ -176,13 +176,13 @@ public class HotIdeaImp implements HotIdeaDao {
 
 	public List<HotIdea> findIdeaByTeacherId(int teacherId, int page) {
 		try {
-			int totlePage = findTotlePage("WHERE TearchId=" + teacherId);
+			int totlePage = findTotlePage("WHERE FK_TearchId=" + teacherId);
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCPTearch_LiveLog"
-							+ " WHERE TearchId=" + teacherId + " )A "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Tearch_Log"
+							+ " WHERE FK_TearchId=" + teacherId + " )A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
 			ideas = getHotIdea(res, page, totlePage);
 			return ideas;
@@ -198,7 +198,7 @@ public class HotIdeaImp implements HotIdeaDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT Title,Bodys,InsertDate,Goods,TearchId FROM JCPTearch_LiveLog WHERE Id="
+					.executeQuery("SELECT Title,Bodys,InsertDate,Goods,FK_TearchId FROM JCP_Tearch_Log WHERE Id="
 							+ id + " ORDER BY InsertDate DESC");
 			while (res.next()) {
 				String title = res.getString(1);
@@ -231,12 +231,11 @@ public class HotIdeaImp implements HotIdeaDao {
 				String bodys = result.getString("Bodys");
 				int goods = result.getInt("Goods");
 				int hits = result.getInt("Hits");
-				int comms = result.getInt("Commens");
-				int classId = result.getInt("ClassId");
-				String keyWord = result.getString("KeyWord");
+				int comms = result.getInt("CommCount");
+				int classId = result.getInt("FK_ClassId");
 				String insertDate = result.getString("InsertDate");
-				int teacherId = result.getInt("TearchId");
-				String logImage = result.getString("LogImg");
+				int teacherId = result.getInt("FK_TearchId");
+				String logImage = result.getString("ImagesUrl");
 				HotIdea idea = new HotIdea();
 				idea.setPage(page);
 				idea.setTotlePgae(totlePage);
@@ -247,7 +246,6 @@ public class HotIdeaImp implements HotIdeaDao {
 				idea.setHits(hits);
 				idea.setCommens(comms);
 				idea.setClassId(classId);
-				idea.setKeyWord(keyWord);
 				idea.setInsertDate(insertDate);
 				idea.setTeacherId(teacherId);
 				idea.setLogImage(logImage);

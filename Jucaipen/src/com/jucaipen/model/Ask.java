@@ -25,19 +25,22 @@ public class Ask implements Serializable{
 	 * 提问用户id
 	 */
 	private int userId;
+	/**
+	 *  追提问id 追问有效
+	 */
 	private int parentId;
 	/**
 	 * 提问内容
 	 */
 	private String askBody;
 	/**
-	 * 分类id
-	 */
-	private int classId;
-	/**
 	 * 提问时间
 	 */
 	private String askDate;
+	/**
+	 * 提问状态
+	 */
+	private int askState;
 	/**
 	 * 点击数
 	 */
@@ -47,17 +50,35 @@ public class Ask implements Serializable{
 	 */
 	private int isReply;
 	/**
-	 *  提问者ip
+	 * 关联新闻id
 	 */
-	private String ip;
+	private int classId;
 	/**
 	 * 被提问老师id
 	 */
 	private int teacherId;
 	/**
-	 * 提问状态
+	 *  提问者ip
 	 */
-	private int askState;
+	private String ip;
+	/**
+	 *   0 免费   1  收费
+	 */
+	private int isPay;
+	/**
+	 *  支付聚财币
+	 */
+	private int jucaiBills;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public Ask() {
 	}
 	

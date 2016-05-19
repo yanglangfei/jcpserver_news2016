@@ -43,17 +43,17 @@ public class HotIdea implements Serializable{
 	 */
 	private int commens;
 	/**
+	 * 发表观点时间
+	 */
+	private String insertDate;
+	/**
 	 * 分类id
 	 */
 	private int classId;
 	/**
-	 * 关键字
+	 *   获得打赏金额
 	 */
-	private String keyWord;
-	/**
-	 * 发表观点时间
-	 */
-	private String insertDate;
+	private double rewardMoney;
 	/**
 	 * 发表观点教师id
 	 */
@@ -62,25 +62,46 @@ public class HotIdea implements Serializable{
 	 * 相关图片
 	 */
 	private String logImage;
-	public HotIdea() {
-	}
-	
+	/**
+	 *  是否推荐   0   否   1  是
+	 */
+	private int isTuijian;
+	/**
+	 *  是否置顶    0  否    1是
+	 */
+	private int top;
+	/**
+	 *  是否精选   0否    1是
+	 */
+	private int isBest;
+	/**
+	 * 
+	 */
+	private int isIndex;
+	/**
+	 *  是否免费
+	 */
+	private int isFree;
+	/**
+	 *   需要支付聚财币
+	 */
+	private int jucaiBills; 
+	/**
+	 * 
+	 */
+	private String freeBody;
 	public int getPage() {
 		return page;
 	}
-
 	public void setPage(int page) {
 		this.page = page;
 	}
-
 	public int getTotlePgae() {
 		return totlePgae;
 	}
-
 	public void setTotlePgae(int totlePgae) {
 		this.totlePgae = totlePgae;
 	}
-
 	public int getId() {
 		return id;
 	}
@@ -117,23 +138,23 @@ public class HotIdea implements Serializable{
 	public void setCommens(int commens) {
 		this.commens = commens;
 	}
+	public String getInsertDate() {
+		return insertDate;
+	}
+	public void setInsertDate(String insertDate) {
+		this.insertDate = insertDate;
+	}
 	public int getClassId() {
 		return classId;
 	}
 	public void setClassId(int classId) {
 		this.classId = classId;
 	}
-	public String getKeyWord() {
-		return keyWord;
+	public double getRewardMoney() {
+		return rewardMoney;
 	}
-	public void setKeyWord(String keyWord) {
-		this.keyWord = keyWord;
-	}
-	public String getInsertDate() {
-		return insertDate;
-	}
-	public void setInsertDate(String insertDate) {
-		this.insertDate = insertDate;
+	public void setRewardMoney(double rewardMoney) {
+		this.rewardMoney = rewardMoney;
 	}
 	public int getTeacherId() {
 		return teacherId;
@@ -147,16 +168,47 @@ public class HotIdea implements Serializable{
 	public void setLogImage(String logImage) {
 		this.logImage = logImage;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public int getIsTuijian() {
+		return isTuijian;
+	}
+	public void setIsTuijian(int isTuijian) {
+		this.isTuijian = isTuijian;
+	}
+	public int getTop() {
+		return top;
+	}
+	public void setTop(int top) {
+		this.top = top;
+	}
+	public int getIsBest() {
+		return isBest;
+	}
+	public void setIsBest(int isBest) {
+		this.isBest = isBest;
+	}
+	public int getIsIndex() {
+		return isIndex;
+	}
+	public void setIsIndex(int isIndex) {
+		this.isIndex = isIndex;
+	}
+	public int getIsFree() {
+		return isFree;
+	}
+	public void setIsFree(int isFree) {
+		this.isFree = isFree;
+	}
+	public int getJucaiBills() {
+		return jucaiBills;
+	}
+	public void setJucaiBills(int jucaiBills) {
+		this.jucaiBills = jucaiBills;
+	}
+	public String getFreeBody() {
+		return freeBody;
+	}
+	public void setFreeBody(String freeBody) {
+		this.freeBody = freeBody;
+	}
 
 }

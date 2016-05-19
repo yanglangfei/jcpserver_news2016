@@ -47,8 +47,10 @@ public class TeacherIdea extends HttpServlet {
 				if (StringUtil.isNotNull(page) && StringUtil.isInteger(page)) {
 					int p = Integer.parseInt(page);
 					if (index == 0) {
+						//首页信息
 						initIndexIdea();
 					} else if (index == 1) {
+						//全部信息
 						initAllIdea(p);
 						result = JsonUtil.getAllHotIdeaList(hotIdeas, teachers);
 					} else if (index == 2) {
@@ -85,6 +87,9 @@ public class TeacherIdea extends HttpServlet {
 			int teacherId=idea.getTeacherId();
 			FamousTeacher teacher = FamousTeacherSer
 					.findFamousTeacherById(teacherId);
+			if(teacher==null){
+				teacher=new FamousTeacher();
+			}
 			teachers.add(teacher);
 		}
 	}
@@ -102,6 +107,9 @@ public class TeacherIdea extends HttpServlet {
 			int teacherId = idea.getTeacherId();
 			FamousTeacher teacher = FamousTeacherSer
 					.findFamousTeacherById(teacherId);
+			if(teacher==null){
+				teacher=new FamousTeacher();
+			}
 			teachers.add(teacher);
 		}
 	}

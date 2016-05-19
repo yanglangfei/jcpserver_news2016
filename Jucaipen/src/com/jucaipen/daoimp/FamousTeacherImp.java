@@ -32,7 +32,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCPTearch "
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_Tearcher "
 							+ condition);
 			res.next();
 			int totlePager = res.getInt("totlePager");
@@ -50,17 +50,15 @@ public class FamousTeacherImp implements FamousTeacherDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  Fans,LiveRenQi,HuiDaCount,ArticleCount from JCPTearch");
+					.executeQuery("SELECT  Fans,HuiDaCount,ArticleCount from JCP_Tearcher");
 			while (res.next()) {
 				int fans=res.getInt(1);
-				int renQi=res.getInt(2);
-				int answerCount=res.getInt(3);
-				int articleCount=res.getInt(4);
+				int answerCount=res.getInt(2);
+				int articleCount=res.getInt(3);
 				FamousTeacher teacher=new FamousTeacher();
 				teacher.setFans(fans);
 				teacher.setAnswerCount(answerCount);
 				teacher.setArticleCount(articleCount);
-				teacher.setLiveFans(renQi);
 				teachers.add(teacher);
 			}
 			return teachers;
@@ -78,7 +76,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 			dbConn=JdbcUtil.connSqlServer();
 			sta=dbConn.createStatement();
 			res=sta.executeQuery("SELECT TOP 15 * FROM "
-					+ "(SELECT ROW_NUMBER() OVER (ORDER BY LiveRenQi DESC) AS RowNumber,* FROM JCPTearch) A "
+					+ "(SELECT ROW_NUMBER() OVER (ORDER BY Fans DESC) AS RowNumber,* FROM JCP_Tearcher) A "
 					+ "WHERE RowNumber > " + 15 * (page - 1));
 			teachers=getTeacher(res,page,totlePage);
 			return teachers;
@@ -100,7 +98,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		try {
 			dbConn=JdbcUtil.connSqlServer();
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT TOP "+count+" * FROM JCPTearch ORDER BY LiveRenQi DESC");
+			res=sta.executeQuery("SELECT TOP "+count+" * FROM JCP_Tearcher ORDER BY Fans DESC");
 			while (res.next()) {
 				int id=res.getInt("Id");
 				int isV=res.getInt("IsV");
@@ -134,7 +132,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		try {
 			dbConn=JdbcUtil.connSqlServer();
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCPTearch WHERE Id="+id);
+			res=sta.executeQuery("SELECT * FROM JCP_Tearcher WHERE Id="+id);
 			teachers=getTeacher(res,0,0);
 			if(teachers.size()>0){
 				return teachers.get(0);
@@ -152,15 +150,14 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		try {
 			while (result.next()) {
 				int id=result.getInt("Id");
-				String account=result.getString("Account");
-				String loginPwd=result.getString("LoginPass");
 				String trueName=result.getString("TrueName");
 				String nickName=result.getString("NickName");
 				String headFace=result.getString("HeadFace");
 				String touxian=result.getString("TouXian");
 				int isV=result.getInt("IsV");
 				int fans=result.getInt("Fans");
-				int liveRenQi=result.getInt("LiveRenQi");
+				int weekRenQi=result.getInt("WeekRenQi");
+				int mothRenQi=result.getInt("MonthRenQi");
 				int answerCount=result.getInt("HuiDaCount");
 				int articleCount=result.getInt("ArticleCount");
 				int articleReadCount=result.getInt("ArticleReadCount");
@@ -170,24 +167,18 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				String hoby=result.getString("ShanChang");
 				String telPhone=result.getString("MobileNum");
 				int serviceNum=result.getInt("QianYueCount");
-				//int state=result.getInt("State");
 				String joinDate=result.getString("JoinDate");
-				//String lastLoginDate=result.getString("LastLoginDate");
-				//String lastLoginIp=result.getString("LastLoginIp");
 				int liveGbookIsPass=result.getInt("LiveGbookIsPass");
 				float  yearPrice=result.getFloat("YearPrice");
 				float motnPrice=result.getFloat("MonthPrice");
 				float quarterPrice=result.getFloat("QuarterPrice");
 				float dayPrice=result.getFloat("DayPrice");
-				//int userId=result.getInt("UserId");
 				int askNum=result.getInt("AskNum");
 				FamousTeacher teacher=new FamousTeacher();
 				teacher.setPage(page);
 				teacher.setTotlePage(totlePage);
 				teacher.setId(id);
-				teacher.setAccount(account);
 				teacher.setAnswerCount(answerCount);
-				teacher.setLoginPwd(loginPwd);
 				teacher.setArticleCount(articleCount);
 				teacher.setTrueName(trueName);
 				teacher.setTelPhone(telPhone);
@@ -201,12 +192,13 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				teacher.setQulaterPrice(quarterPrice);
 				teacher.setDayPrice(dayPrice);
 				teacher.setFans(fans);
-				teacher.setLiveFans(liveRenQi);
+				teacher.setWeekRenQi(weekRenQi);
+				teacher.setMothRenQi(mothRenQi);
 				teacher.setHoby(hoby);
 				teacher.setArticleReadCount(articleReadCount);
 				teacher.setArticleGood(articleGood);
 				teacher.setNotice(notice);
-				teacher.setServerCount(serviceNum);
+				teacher.setSignCount(serviceNum);
 				teacher.setJoinDate(joinDate);
 				teacher.setLiveGbookIsPass(liveGbookIsPass);
 				teacher.setAskNum(askNum);
