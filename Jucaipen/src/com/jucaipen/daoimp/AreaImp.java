@@ -26,7 +26,7 @@ public class AreaImp implements AreaDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCPEare "
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_Eare "
 							+ condition);
 			res.next();
 			int totlePager = res.getInt("totlePager");
@@ -45,7 +45,7 @@ public class AreaImp implements AreaDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPEare WHERE CityId="+cId);
+					.executeQuery("SELECT * FROM JCP_Eare WHERE FK_CityId="+cId);
 			areas = getAreas(res, -1, -1);
 			return areas;
 		} catch (SQLException e) {
@@ -62,7 +62,7 @@ public class AreaImp implements AreaDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPEare where Id=" + id);
+			res = sta.executeQuery("select * from JCP_Eare where EareId=" + id);
 			areas = getAreas(res, -1, -1);
 			if (areas != null && areas.size() > 0) {
 				a = areas.get(0);
@@ -82,12 +82,11 @@ public class AreaImp implements AreaDao {
 		areas = new ArrayList<Area>();
 		try {
 			while (result.next()) {
-				int id = result.getInt(SqlUtil.PROVINCE_ID);
+				int id = result.getInt(SqlUtil.EARE_ID);
 				int cityId = result.getInt(SqlUtil.AREA_CID);
-				int provinceId = result.getInt(SqlUtil.AREA_PID);
 				String name = result.getString(SqlUtil.AREA_NAME);
 				int sortId = result.getInt(SqlUtil.AREA_SORT);
-				Area area = new Area(id, provinceId, cityId, name, sortId);
+				Area area = new Area(id, cityId, name, sortId);
 				area.setTotlePager(totlePager);
 				area.setPager(pager);
 				areas.add(area);

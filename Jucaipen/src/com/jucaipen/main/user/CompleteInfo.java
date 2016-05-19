@@ -26,7 +26,7 @@ public class CompleteInfo extends HttpServlet {
 		String userId=request.getParameter("userId");
 		if(StringUtil.isNotNull(userId)){
 			if(StringUtil.isInteger(userId)){
-				int uId=Integer.parseInt(userId);
+				int uId=Integer.parseInt(userId);    
 				if(uId>0){
 					initUserInfo(uId,request);
 				}else{

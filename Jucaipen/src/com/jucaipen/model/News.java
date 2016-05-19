@@ -51,10 +51,6 @@ public class News implements Serializable {
 	 */
 	private String ImageUrl;
 	/**
-	 *   新闻图标缩略图
-	 */
-	private String ImagesThumb;
-	/**
 	 * 摘要
 	 */
 	private String summary;
@@ -132,14 +128,6 @@ public class News implements Serializable {
 
 	public void setHtmlPath(String htmlPath) {
 		this.htmlPath = htmlPath;
-	}
-
-	public String getImagesThumb() {
-		return ImagesThumb;
-	}
-
-	public void setImagesThumb(String imagesThumb) {
-		ImagesThumb = imagesThumb;
 	}
 
 	public News(int id) {

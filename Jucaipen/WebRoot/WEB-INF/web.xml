@@ -127,6 +127,66 @@
     <servlet-name>OtherAccountList</servlet-name>
     <servlet-class>com.jucaipen.main.user.OtherAccountList</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>CollectNews</servlet-name>
+    <servlet-class>com.jucaipen.main.index.CollectNews</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryAttention</servlet-name>
+    <servlet-class>com.jucaipen.main.index.QuerryAttention</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>TeacherAttention</servlet-name>
+    <servlet-class>com.jucaipen.main.index.Attention</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryGuest</servlet-name>
+    <servlet-class>com.jucaipen.main.live.QuerryGuest</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PlayComment</servlet-name>
+    <servlet-class>com.jucaipen.main.live.PlayComment</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryRewarder</servlet-name>
+    <servlet-class>com.jucaipen.main.index.QuerryRewarder</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AddReward</servlet-name>
+    <servlet-class>com.jucaipen.main.index.AddReward</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>LatestList</servlet-name>
+    <servlet-class>com.jucaipen.main.index.LatestList</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AskQuestion</servlet-name>
+    <servlet-class>com.jucaipen.main.index.AskQuestion</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AddRemark</servlet-name>
+    <servlet-class>com.jucaipen.main.index.AddRemark</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ChangePassword</servlet-name>
+    <servlet-class>com.jucaipen.main.user.ChangePassword</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SendEmail</servlet-name>
+    <servlet-class>com.jucaipen.base.SendEmail</servlet-class>
+  </servlet>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -268,7 +328,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>UpdatePhone</servlet-name>
-    <url-pattern>/jucaipen/updatephone</url-pattern>
+    <url-pattern>/jucaipen/changephone</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Regin</servlet-name>
@@ -281,6 +341,54 @@
   <servlet-mapping>
     <servlet-name>OtherAccountList</servlet-name>
     <url-pattern>/jucaipen/getthirdlist</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CollectNews</servlet-name>
+    <url-pattern>/jucaipen/star</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryAttention</servlet-name>
+    <url-pattern>/jucaipen/getattention</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TeacherAttention</servlet-name>
+    <url-pattern>/jucaipen/attention</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryGuest</servlet-name>
+    <url-pattern>/jucaipen/getguest</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PlayComment</servlet-name>
+    <url-pattern>/jucaipen/getplaycomments</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryRewarder</servlet-name>
+    <url-pattern>/jucaipen/getrewarder</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddReward</servlet-name>
+    <url-pattern>/jucaipen/addreward</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LatestList</servlet-name>
+    <url-pattern>/jucaipen/latestlist</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AskQuestion</servlet-name>
+    <url-pattern>/jucaipen/askquestion</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddRemark</servlet-name>
+    <url-pattern>/jucaipen/addremark</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ChangePassword</servlet-name>
+    <url-pattern>/jucaipen/changepassword</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SendEmail</servlet-name>
+    <url-pattern>/jucaipen/getemail</url-pattern>
   </servlet-mapping>
 
 </web-app>

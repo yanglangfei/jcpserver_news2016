@@ -29,6 +29,7 @@ import com.jucaipen.utils.StringUtil;
 
 /**
  * @author Administrator
+ *         发送手机验证码
  * 
  *         msgId 1 其他短信验证 3 修改密码 验证手机号
  */

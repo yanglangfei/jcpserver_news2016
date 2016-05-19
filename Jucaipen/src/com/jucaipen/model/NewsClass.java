@@ -4,22 +4,20 @@ import java.io.Serializable;
 
 /**
  * @author YLF
- *  新闻二级分类
+ * 
+ *   新闻总分类
+ *
  */
 @SuppressWarnings("serial")
-public class NewsSmallClass implements Serializable{
+public class NewsClass implements Serializable{
 	/**
-	 * 二级分类id
+	 * 总分类id
 	 */
 	private int id;
 	/**
-	 * 二级分类所属的一级分类id
+	 * 总分类名称
 	 */
-	private int BigId;
-	/**
-	 * 二级分类名称
-	 */
-	private String samllName;
+	private String bigName;
 	/**
 	 * 关键字
 	 */
@@ -28,6 +26,10 @@ public class NewsSmallClass implements Serializable{
 	 * 描述
 	 */
 	private String descript;
+	/**
+	 *   连接地址
+	 */
+	private String linkUrl;
 	/**
 	 * 模版路径
 	 */
@@ -40,21 +42,16 @@ public class NewsSmallClass implements Serializable{
 	 * 排序id
 	 */
 	private int pxId;
-	/**
-	 *  连接地址
-	 */
-	private String linkUrl;
 	
-	
-	public String getLinkUrl() {
-		return linkUrl;
-	}
-	public void setLinkUrl(String linkUrl) {
-		this.linkUrl = linkUrl;
-	}
-	public NewsSmallClass(int id,String samllName) {
+	public NewsClass(int id, String bigName, String keyWord,
+			String descript, String templeteName, String filePath, int pxId) {
 		this.id = id;
-		this.samllName = samllName;
+		this.bigName = bigName;
+		this.keyWord = keyWord;
+		this.descript = descript;
+		this.templeteName = templeteName;
+		this.filePath = filePath;
+		this.pxId = pxId;
 	}
 	public int getId() {
 		return id;
@@ -62,17 +59,11 @@ public class NewsSmallClass implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getBigId() {
-		return BigId;
+	public String getBigName() {
+		return bigName;
 	}
-	public void setBigId(int bigId) {
-		BigId = bigId;
-	}
-	public String getSamllName() {
-		return samllName;
-	}
-	public void setSamllName(String samllName) {
-		this.samllName = samllName;
+	public void setBigName(String bigName) {
+		this.bigName = bigName;
 	}
 	public String getKeyWord() {
 		return keyWord;
@@ -104,6 +95,13 @@ public class NewsSmallClass implements Serializable{
 	public void setPxId(int pxId) {
 		this.pxId = pxId;
 	}
+	public String getLinkUrl() {
+		return linkUrl;
+	}
+	public void setLinkUrl(String linkUrl) {
+		this.linkUrl = linkUrl;
+	}
+	
 	
 	
 

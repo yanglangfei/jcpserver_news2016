@@ -36,15 +36,15 @@ public class AdverticeImp implements AdverticeDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPAd_Slide_Item where Pid="
+			res = sta.executeQuery("select * from JCP_Slide where FK_ClassId="
 					+ pId);
 			while (res.next()) {
 				int id = res.getInt("Id");
-				int pageId = res.getInt("pId");
+				int pageId = res.getInt("FK_ClassId");
 				String title = res.getString("Title");
 				String LinkUrl = res.getString("LinkUrl");
 				String ImageUrl = res.getString("ImageUrl");
-				int PxId = res.getInt("PxId");
+				int PxId = res.getInt("SortId");
 				Advertive advertive = new Advertive(id, pageId, title, LinkUrl,
 						ImageUrl, PxId);
 				advertives.add(advertive);

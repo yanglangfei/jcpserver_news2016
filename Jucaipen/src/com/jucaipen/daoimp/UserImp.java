@@ -33,7 +33,7 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCPUser "
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_User "
 							+ condition);
 			res.next();
 			int totlePager = res.getInt("totlePager");
@@ -53,14 +53,14 @@ public class UserImp implements UserDao {
 	public List<User> findOnLiveUserByIsLive(int roomId,int page) {
 		int totlePage = findTotlePager("WHERE IsLiveRoom="+roomId);
 		System.out.println("SELECT TOP 15 UserName FROM "
-							+ "(SELECT ROW_NUMBER() OVER (WHERE IsLiveRoom="+roomId+" ORDER BY id ) AS RowNumber,* FROM JCPUser"
+							+ "(SELECT ROW_NUMBER() OVER (WHERE IsLiveRoom="+roomId+" ORDER BY id ) AS RowNumber,* FROM JCP_User"
 							+ ") A " + "WHERE RowNumber > " + 15 * (page - 1));
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 UserName FROM "
-							+ "(SELECT ROW_NUMBER() OVER (WHERE IsLiveRoom="+roomId+" ORDER BY id ) AS RowNumber,* FROM JCPUser"
+							+ "(SELECT ROW_NUMBER() OVER (WHERE IsLiveRoom="+roomId+" ORDER BY id ) AS RowNumber,* FROM JCP_User"
 							+ ") A " + "WHERE RowNumber > " + 15 * (page - 1));
 			users = getUser(res, page, totlePage);
 			return users;
@@ -103,7 +103,7 @@ public class UserImp implements UserDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id) AS RowNumber,* FROM JCPUser"
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id) AS RowNumber,* FROM JCP_User"
 							+ ") A " + "WHERE RowNumber > " + 15 * (page - 1));
 			users = getUser(res, page, totlePage);
 			return users;
@@ -122,7 +122,7 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select RegFrom,ISNULL(UserName,'') UserName,ISNULL(NickName,'') NickName,ISNULL(Sex,'') Sex,ISNULL(MobileNum,'') MobileNum,LocaProvince,LocaCity,LocaEare,ISNULL(Email,'') Email,ISNULL(Bodys,'') Bodys,ISNULL(Birthday,'') Birthday,ISNULL(FaceImage,'') FaceImage from JCPUser where Id="
+					.executeQuery("select RegFrom,ISNULL(UserName,'') UserName,ISNULL(NickName,'') NickName,ISNULL(Sex,'') Sex,ISNULL(MobileNum,'') MobileNum,LocaProvince,LocaCity,LocaEare,ISNULL(Email,'') Email,ISNULL(Bodys,'') Bodys,ISNULL(Birthday,'') Birthday,ISNULL(FaceImage,'') FaceImage from JCP_User where Id="
 							+ id);
 			while (res.next()) {
 				String nickName = res.getString(SqlUtil.USER_NICKNAME);
@@ -166,7 +166,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT FaceImage FROM JCPUser WHERE Id="
+			res = sta.executeQuery("SELECT FaceImage FROM JCP_User WHERE Id="
 					+ id);
 			while (res.next()) {
 				String face = res.getString("FaceImage");
@@ -186,7 +186,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT LoginToken FROM JCPUser WHERE Id="
+			res = sta.executeQuery("SELECT LoginToken FROM JCP_User WHERE Id="
 					+ uId);
 			while (res.next()) {
 				String token = res.getString("LoginToken");
@@ -206,7 +206,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("UPDATE JCPUser SET LoginToken='"
+			isSuccess = sta.executeUpdate("UPDATE JCP_User SET LoginToken='"
 					+ token + "'" + "WHERE Id=" + uId);
 			return isSuccess;
 		} catch (SQLException e) {
@@ -220,7 +220,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("UPDATE JCPUser SET MobileNum='"
+			isSuccess = sta.executeUpdate("UPDATE JCP_User SET MobileNum='"
 					+ tel + "'" + "WHERE Id=" + id);
 			return isSuccess;
 		} catch (SQLException e) {
@@ -233,7 +233,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("UPDATE JCPUser SET TrueName='"
+			isSuccess = sta.executeUpdate("UPDATE JCP_User SET TrueName='"
 					+ user.getTrueName() + "' WHERE MobileNum='" + telPhone
 					+ "'");
 			return isSuccess;
@@ -251,7 +251,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("UPDATE JCPUser SET FaceImage='"
+			isSuccess = sta.executeUpdate("UPDATE JCP_User SET FaceImage='"
 					+ logoPath + "' WHERE Id=" + id);
 			return isSuccess;
 		} catch (SQLException e) {
@@ -268,7 +268,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select PassWord from JCPUser where Id="
+			res = sta.executeQuery("select PassWord from JCP_User where Id="
 					+ id);
 			res.next();
 			String password = res.getString(SqlUtil.USER_PASSWORD);
@@ -291,7 +291,7 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select ISNULL (UserName,'') UserName,ISNULL (NickName,'') NickName,ISNULL (FaceImage,'') FaceImage from JCPUser where Id="
+					.executeQuery("select ISNULL (UserName,'') UserName,ISNULL (NickName,'') NickName,ISNULL (FaceImage,'') FaceImage from JCP_User where Id="
 							+ id);
 			while (res.next()) {
 				String NickName = res.getString(SqlUtil.USER_NICKNAME);
@@ -324,7 +324,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("update JCPUser set PassWord='"
+			isSuccess = sta.executeUpdate("update JCP_User set PassWord='"
 					+ md5Pwd + "' where Id=" + id);
 			return isSuccess;
 		} catch (SQLException e) {
@@ -340,7 +340,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("update JCPUser set NickName='"
+			isSuccess = sta.executeUpdate("update JCP_User set NickName='"
 					+ user.getNickName() + "',MobileNum='"
 					+ user.getMobileNum() + "',Sex='" + user.getSex()
 					+ "',Bodys='" + user.getDescript() + "',Email='"
@@ -363,7 +363,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("UPDATE JCPUser SET IsLiveRoom="
+			isSuccess = sta.executeUpdate("UPDATE JCP_User SET IsLiveRoom="
 					+ isLiveRoom + " WHERE Id=" + uId);
 			return isSuccess;
 		} catch (SQLException e) {
@@ -380,7 +380,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPUser where UserName='"
+			res = sta.executeQuery("select * from JCP_User where UserName='"
 					+ userName + "'");
 			users = getUser(res, -1, -1);
 			if (users != null && users.size() > 0) {
@@ -399,13 +399,13 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			if (accountType == 0) {
-				isSuccess = sta.executeUpdate("UPDATE JCPUser SET QQOpenId='"
+				isSuccess = sta.executeUpdate("UPDATE JCP_User SET QQOpenId='"
 						+ accountId + "' WHERE Id=" + id);
 			} else if (accountType == 1) {
-				isSuccess = sta.executeUpdate("UPDATE JCPUser SET WeiXinId='"
+				isSuccess = sta.executeUpdate("UPDATE JCP_User SET WeiXinId='"
 						+ accountId + "' WHERE Id=" + id);
 			} else if (accountType == 2) {
-				isSuccess = sta.executeUpdate("UPDATE JCPUser SET WeiboId='"
+				isSuccess = sta.executeUpdate("UPDATE JCP_User SET WeiboId='"
 						+ accountId + "' WHERE Id=" + id);
 			}
 			return isSuccess;
@@ -422,13 +422,13 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			if (accountType == 0) {
-				res = sta.executeQuery("SELECT * FROM JCPUser WHERE QQOpenId='"
+				res = sta.executeQuery("SELECT * FROM JCP_User WHERE QQOpenId='"
 						+ accountId + "'");
 			} else if (accountType == 1) {
-				res = sta.executeQuery("SELECT * FROM JCPUser WHERE WeiXinId='"
+				res = sta.executeQuery("SELECT * FROM JCP_User WHERE WeiXinId='"
 						+ accountId + "'");
 			} else if (accountType == 2) {
-				res = sta.executeQuery("SELECT * FROM JCPUser WHERE WeiboId='"
+				res = sta.executeQuery("SELECT * FROM JCP_User WHERE WeiboId='"
 						+ accountId + "'");
 			}
 			users = getUser(res, -1, -1);
@@ -448,7 +448,7 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT ISNULL(QQOpenId,'') QQOpenId,ISNULL(WeiXinId,'') WeiXinId,ISNULL(WeiboId,'') WeiboId FROM JCPUser WHERE Id="
+					.executeQuery("SELECT ISNULL(QQOpenId,'') QQOpenId,ISNULL(WeiXinId,'') WeiXinId,ISNULL(WeiboId,'') WeiboId FROM JCP_User WHERE Id="
 							+ id);
 			while (res.next()) {
 				String QQOpenId = res.getString(SqlUtil.USER_QQID);
@@ -474,7 +474,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPUser where MobileNum='"
+			res = sta.executeQuery("select * from JCP_User where MobileNum='"
 					+ telPhone + "'");
 			users = getUser(res, -1, -1);
 			if (users != null && users.size() > 0) {
@@ -495,7 +495,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select Id from JCPUser where QQOpenId='"
+			res = sta.executeQuery("select Id from JCP_User where QQOpenId='"
 					+ qqId + "'");
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
@@ -518,7 +518,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPUser where WeiXinId='"
+			res = sta.executeQuery("select * from JCP_User where WeiXinId='"
 					+ wenxinId + "'");
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
@@ -541,7 +541,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPUser where WeiboId='"
+			res = sta.executeQuery("select * from JCP_User where WeiboId='"
 					+ sinaId + "'");
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
@@ -564,7 +564,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPUser where MobileNum='"
+			res = sta.executeQuery("select * from JCP_User where MobileNum='"
 					+ userName + "' or  UserName= '" + userName + "'");
 			users = getUser(res, -1, -1);
 			if (users != null && users.size() > 0) {
@@ -587,7 +587,7 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT UserName,IsRoomManager,BuyProductId,ServerId,RegDate,ChatType FROM JCPUser WHERE Id="
+					.executeQuery("SELECT UserName,IsRoomManager,BuyProductId,ServerId,RegDate,ChatType FROM JCP_User WHERE Id="
 							+ id);
 			while (res.next()) {
 				String userName=res.getString(1);

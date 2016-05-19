@@ -28,7 +28,7 @@ public class SqlUtil {
 	/**
 	 * 新闻描述
 	 */
-	public static final String NEWS_DES = "Description";
+	public static final String NEWS_DES = "ZhaiYao";
 	/**
 	 * 新闻id
 	 */
@@ -36,11 +36,11 @@ public class SqlUtil {
 	/**
 	 * 新闻关键字
 	 */
-	public static final String NEWS_KEYWORD = "keyWord";
+	public static final String NEWS_KEYWORD = "KeyWord";
 	/**
 	 * 新闻发布者
 	 */
-	public static final String NEWS_REPOTER = "Reporter";
+	public static final String NEWS_REPOTER = "FaBuRen";
 	/**
 	 * 新闻主体
 	 */
@@ -60,16 +60,16 @@ public class SqlUtil {
 	/**
 	 *  新闻评论数
 	 */
-	public static final String NEWS_COMMS = "Commens";
+	public static final String NEWS_COMMS = "CommonCount";
 
 	/**
 	 * 新闻详细网址
 	 */
-	public static final String NEWS_HTMLPATH="HtmlPath";
+	public static final String NEWS_HTMLPATH="PageUrl";
 	/**
 	 *  新闻来源
 	 */
-	public static final String NEWS_COMEFROM="ComeFrom";
+	public static final String NEWS_COMEFROM="FK_FromId";
 	/**
 	 * 股权id
 	 */
@@ -322,23 +322,35 @@ public class SqlUtil {
 	/**
 	 * 省份表
 	 */
-	public static final String PROVINCE_TABLE = "JCPProvince";
+	public static final String PROVINCE_TABLE = "JCP_Province";
 	/**
 	 * 省份id
 	 */
-	public static final String PROVINCE_ID = "Id";
+	public static final String PROVINCE_ID = "ProvinceId";
+	
+	/**
+	 *  区id
+	 */
+	public static final String EARE_ID = "EareId";
+
+	
+	
+	/**
+	 *    城市id
+	 */
+	public static final String CITY_ID="CityId";
 	/**
 	 * 省份名称
 	 */
-	public static final String PROVINCE_Name = "ProName";
+	public static final String PROVINCE_Name = "ProvinceName";
 	/**
 	 * 排序
 	 */
-	public static final String PROVINCE_SORT = "ProSort";
+	public static final String PROVINCE_SORT = "SortId";
 	/**
 	 * 省份备注
 	 */
-	public static final String PROVINCE_REMARK="ProRemark";
+	public static final String PROVINCE_REMARK="PRemark";
 	/**
 	 * 城市表
 	 */
@@ -346,7 +358,7 @@ public class SqlUtil {
 	/**
 	 * 城市所属省份id
 	 */
-	public static final String CITY_PID = "ProID";
+	public static final String CITY_PID = "FK_ProId";
 	/**
 	 * 城市名称
 	 */
@@ -354,7 +366,7 @@ public class SqlUtil {
 	/**
 	 * 城市排序
 	 */
-	public static final String CITY_SORT="CitySort";
+	public static final String CITY_SORT="SortId";
 	/**
 	 * 区表
 	 */
@@ -362,7 +374,7 @@ public class SqlUtil {
 	/**
 	 * 区所属城市id
 	 */
-	public static final String AREA_CID = "CityId";
+	public static final String AREA_CID = "FK_CityId";
 	/**
 	 *   区域所属省id
 	 */
@@ -370,11 +382,11 @@ public class SqlUtil {
 	/**
 	 * 区名称
 	 */
-	public static final String AREA_NAME = "AreaName";
+	public static final String AREA_NAME = "EareName";
 	/**
 	 * 区域排序
 	 */
-	public static final String AREA_SORT="PxId";
+	public static final String AREA_SORT="SortId";
 	/**
 	 * 机构表
 	 */

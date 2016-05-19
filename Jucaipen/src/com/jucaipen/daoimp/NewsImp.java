@@ -34,7 +34,7 @@ public class NewsImp implements NewsDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCPNews "
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_News "
 							+ condition);
 			res.next();
 			int totlePager = res.getInt("totlePager");
@@ -57,7 +57,7 @@ public class NewsImp implements NewsDao {
 				sta = dbConn.createStatement();
 				res = sta
 						.executeQuery("SELECT TOP 15 * FROM "
-								+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc,id desc) AS RowNumber,* FROM JCPNews) A "
+								+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc,Id desc) AS RowNumber,* FROM JCP_News) A "
 								+ "WHERE RowNumber > " + 15 * (pager - 1));
 				news = getNews(res, pager, totlePager);
 				return news;
@@ -69,18 +69,18 @@ public class NewsImp implements NewsDao {
 	}
 
 	/*
-	 * 通过一级分类查询新闻
+	 * 通过分类查询新闻
 	 */
-	public List<News> findNewsBybigId(int bigId, int pager) {
-		int totlePager = findTotlePager("Where BigId=" + bigId);
+	public List<News> findNewsBybigId(int classId, int pager) {
+		int totlePager = findTotlePager("Where FK_ClassId=" + classId);
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 15 Id,Title,ImageUrl,Description,ImagesThumb FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc ,id desc) AS RowNumber,* FROM JCPNews"
-							+ " WHERE BigId="
-							+ bigId
+					.executeQuery("SELECT TOP 15 Id,Title,ImageUrl,ZhaiYao,PageUrl FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc ,id desc) AS RowNumber,* FROM JCP_News"
+							+ " WHERE FK_ClassId="
+							+ classId
 							+ ") A "
 							+ "WHERE RowNumber > " + 15 * (pager - 1));
 			news = getNewsList(res, pager, totlePager);
@@ -91,59 +91,6 @@ public class NewsImp implements NewsDao {
 		return null;
 	}
 
-	/*
-	 * 根据一二级分类查询新闻
-	 */
-	public List<News> findNewsById(int bigId, int smallId, int pager) {
-		int totlePager = findTotlePager("where BigId=" + bigId
-				+ " and SmallId=" + smallId);
-		try {
-			dbConn = JdbcUtil.connSqlServer();
-			sta = dbConn.createStatement();
-			res = sta
-					.executeQuery("SELECT TOP 15 Id,Title,ImageUrl,Description,ImagesThumb,ComeFrom,InsertDate,Commens FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc,id desc) AS RowNumber,* FROM JCPNews"
-							+ " where BigId="
-							+ bigId
-							+ " and SmallId="
-							+ smallId
-							+ ") A "
-							+ "WHERE RowNumber > "
-							+ 15
-							* (pager - 1));
-			news = getNewsList(res, pager, totlePager);
-			return news;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	/*
-	 * 查询首页股权要闻信息
-	 * 
-	 *    新版      数据       Title,Id,Description,ImageUrl,ImagesThumb   添加  Commens InsertDate ComeFrom
-	 */
-	public List<News> findNewsByIndexId(int bigId, int smallId,int top) {
-		news = new ArrayList<News>();
-		try {
-			dbConn = JdbcUtil.connSqlServer();
-			sta = dbConn.createStatement();
-			res = sta
-					.executeQuery("select top "+top+" Title,Id,ImageUrl,ImagesThumb,Description,ComeFrom,InsertDate,Commens"
-							+ " from JCPNews "
-							+ "where BigId="
-							+ bigId
-							+ " and SmallId="
-							+ smallId
-							+ " order by InsertDate desc,Id desc");
-			news = getNewsList(res, -1, -1);
-			return news;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 
 	/*
 	 * 查询首页显示新闻
@@ -152,7 +99,7 @@ public class NewsImp implements NewsDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select  * from JCPNews where IsIndex="
+			res = sta.executeQuery("select  * from JCP_News where IsIndex="
 					+ isIndex + " order by InsertDate desc");
 			news = getNews(res, pager, -1);
 			return news;
@@ -162,39 +109,19 @@ public class NewsImp implements NewsDao {
 		return null;
 	}
 
-	/*
-	 * 查询是否有图片的新闻
-	 */
-	public List<News> findNewsByImage(int isImage, int pager) {
-		int totlePager = findTotlePager("where IsImage=" + isImage);
-		try {
-			dbConn = JdbcUtil.connSqlServer();
-			sta = dbConn.createStatement();
-			res = sta
-					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc,id desc) AS RowNumber,* FROM JCPNews"
-							+ " where IsImage=" + isImage + ") A "
-							+ "WHERE RowNumber > " + 15 * (pager - 1));
-			news = getNews(res, pager, totlePager);
-			return news;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 
 	/*
 	 * 查询精选的新闻
 	 */
 	public List<News> findNewsByBest(int isBest, int pager) {
-		int totlePager = findTotlePager("where IsBest=" + isBest);
+		int totlePager = findTotlePager("where IsJingXuan=" + isBest);
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc,id desc) AS RowNumber,* FROM JCPNews"
-							+ " where IsBest=" + isBest + ") A "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc,id desc) AS RowNumber,* FROM JCP_News"
+							+ " where IsJingXuan=" + isBest + ") A "
 							+ "WHERE RowNumber > " + 15 * (pager - 1));
 			news = getNews(res, pager, totlePager);
 			return news;
@@ -211,7 +138,7 @@ public class NewsImp implements NewsDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select  * from JCPNews where IsTop="
+			res = sta.executeQuery("select  * from JCP_News where IsTop="
 					+ isTop + " order by InsertDate desc");
 			news = getNews(res, pager, -1);
 			return news;
@@ -228,7 +155,7 @@ public class NewsImp implements NewsDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPNews where Id=" + id);
+			res = sta.executeQuery("select * from JCP_News where Id=" + id);
 			news = getNews(res, -1, -1);
 			if(news!=null&&news.size()>0){
 				return news.get(0);
@@ -242,33 +169,15 @@ public class NewsImp implements NewsDao {
 		return null;
 	}
 
+
 	/*
-	 * 首页新闻---一二级分类
+	 * 首页新闻---分类
 	 */
-	public List<News> findIndexNews(int bigId, int smallId, int isIndex) {
+	public List<News> findNewsIndex(int classId, int isIndex) {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPNews where BigId=" + bigId
-					+ " and SmallId=" + smallId + " and IsIndex=" + isIndex
-					+ " order by InsertDate desc");
-			news = getNews(res, -1, -1);
-			return news;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return null;
-	}
-
-	/*
-	 * 首页新闻---一级分类
-	 */
-	public List<News> findNewsIndex(int bigId, int isIndex) {
-		try {
-			dbConn = JdbcUtil.connSqlServer();
-			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPNews where BigId=" + bigId
+			res = sta.executeQuery("select * from JCP_News where FK_ClassId=" + classId
 					+ " and IsIndex=" + isIndex + " order by InsertDate desc");
 			news = getNews(res, -1, -1);
 			return news;
@@ -284,7 +193,7 @@ public class NewsImp implements NewsDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("UPDATE JCPNews SET Hits=" + hits
+			isSuccess = sta.executeUpdate("UPDATE JCP_News SET HitCount=" + hits
 					+ " WHERE Id=" + id);
 			return isSuccess;
 		} catch (SQLException e) {
@@ -298,7 +207,7 @@ public class NewsImp implements NewsDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("UPDATE JCPNews SET Commens=" + Commens
+			isSuccess = sta.executeUpdate("UPDATE JCP_News SET CommonCount=" + Commens
 					+ " WHERE Id=" + id);
 			return isSuccess;
 		} catch (SQLException e) {
@@ -311,24 +220,22 @@ public class NewsImp implements NewsDao {
 	 * 首页显示新闻
 	 *    全部（不过滤图片）
 	 */
-	public List<News> findIndexShow(int bigId) {
+	public List<News> findIndexShow(int classId,int top) {
 		news.clear();
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select top 4 Id,Title,ImagesThumb,ImageUrl,Description from JCPNews where  BigId="
-							+ bigId + "  order by InsertDate desc,Id desc");
+					.executeQuery("select top "+top+" Id,Title,ImageUrl,ZhaiYao from JCP_News where  FK_ClassId="
+							+ classId + "  order by InsertDate desc,Id desc");
 			while (res.next()) {
 				String title = res.getString(SqlUtil.NEWS_TITLE);
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				String images = res.getString(SqlUtil.NEW_IMAGE);
-				String imageThumb = res.getString(SqlUtil.NEWS_IMAGETHUMB);
 				String descript = res.getString(SqlUtil.NEWS_DES);
 				News n = new News(id);
 				n.setTitle(title);
 				n.setDescript(descript);
-				n.setImagesThumb(imageThumb);
 				n.setImageUrl(images);
 				news.add(n);
 			}
@@ -339,38 +246,6 @@ public class NewsImp implements NewsDao {
 		return null;
 	}
 
-	
-	/*
-	 * 首页显示新闻
-	 *     ---带有图片（过滤图片）
-	 */
-	public List<News> findIndexShowIsImage(int bigId) {
-		news.clear();
-		try {
-			dbConn = JdbcUtil.connSqlServer();
-			sta = dbConn.createStatement();
-			res = sta
-					.executeQuery("select top 3 Id,Title,ImagesThumb,ImageUrl,Description from JCPNews where LEN(ImagesThumb)>0 AND BigId="
-							+ bigId + "  order by InsertDate desc,Id desc");
-			while (res.next()) {
-				String title = res.getString(SqlUtil.NEWS_TITLE);
-				int id = res.getInt(SqlUtil.NEWS_ID);
-				String images = res.getString(SqlUtil.NEW_IMAGE);
-				String imageThumb = res.getString(SqlUtil.NEWS_IMAGETHUMB);
-				String descript = res.getString(SqlUtil.NEWS_DES);
-				News n = new News(id);
-				n.setTitle(title);
-				n.setDescript(descript);
-				n.setImagesThumb(imageThumb);
-				n.setImageUrl(images);
-				news.add(n);
-			}
-			return news;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
 	/**
 	 * @param res
@@ -385,7 +260,6 @@ public class NewsImp implements NewsDao {
 				String descript = res.getString(SqlUtil.NEWS_DES);
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				String imageUrl = res.getString(SqlUtil.NEW_IMAGE);
-				String imageThumb = res.getString(SqlUtil.NEWS_IMAGETHUMB);
 				int from=res.getInt(SqlUtil.NEWS_COMEFROM);
 				String insertDate=res.getString(SqlUtil.NEWS_INSERT);
 				int comms=res.getInt(SqlUtil.NEWS_COMMS);
@@ -393,7 +267,6 @@ public class NewsImp implements NewsDao {
 				n.setPager(pager);
 				n.setTotlePager(totlePager);
 				n.setTitle(title);
-				n.setImagesThumb(imageThumb);
 				n.setDescript(descript);
 				n.setId(id);
 				n.setComeFrom(from);
@@ -419,8 +292,7 @@ public class NewsImp implements NewsDao {
 		news.clear();
 		try {
 			while (res.next()) {
-				int bigId = res.getInt("BigId");
-				int smallId = res.getInt("SmallId");
+				int classId = res.getInt("FK_ClassId");
 				String title = res.getString(SqlUtil.NEWS_TITLE);
 				String descript = res.getString(SqlUtil.NEWS_DES);
 				int id = res.getInt(SqlUtil.NEWS_ID);
@@ -429,7 +301,6 @@ public class NewsImp implements NewsDao {
 				String reporter = res.getString(SqlUtil.NEWS_REPOTER);
 				String bodys = res.getString(SqlUtil.NEWS_BODYS);
 				String imageUrl = res.getString(SqlUtil.NEW_IMAGE);
-				String imageThumb = res.getString(SqlUtil.NEWS_IMAGETHUMB);
 				String date = res.getString(SqlUtil.NEWS_INSERT);
 				String htmlPath = res.getString(SqlUtil.NEWS_HTMLPATH);
 				News n = new News(id);
@@ -440,11 +311,9 @@ public class NewsImp implements NewsDao {
 				n.setDescript(descript);
 				n.setReporter(reporter);
 				n.setKeyWord(keyWord);
-				n.setBigId(bigId);
+				n.setBigId(classId);
 				n.setHtmlPath(htmlPath);
-				n.setSmallId(smallId);
 				n.setPager(pager);
-				n.setImagesThumb(imageThumb);
 				n.setTotlePager(totlePager);
 				n.setPublishDate(date);
 				news.add(n);
@@ -462,7 +331,7 @@ public class NewsImp implements NewsDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT Title FROM JCPNews WHERE Id=" + id);
+			res = sta.executeQuery("SELECT Title FROM JCP_News WHERE Id=" + id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -478,7 +347,7 @@ public class NewsImp implements NewsDao {
 			res = sta
 					.executeQuery("SELECT TOP "
 							+ count
-							+ " Id,Title,ImageUrl,InsertDate,Commens,ComeFrom FROM JCPNews ORDER BY InsertDate DESC,Id DESC");
+							+ " Id,Title,ImageUrl,InsertDate,CommonCount,FK_FromId FROM JCP_News ORDER BY InsertDate DESC,Id DESC");
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				String title = res.getString(SqlUtil.NEWS_TITLE);

@@ -7,18 +7,18 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jucaipen.dao.NewsBigDao;
-import com.jucaipen.model.NewsBigClass;
+import com.jucaipen.dao.NewsClassDao;
+import com.jucaipen.model.NewsClass;
 import com.jucaipen.utils.JdbcUtil;
 import com.jucaipen.utils.SqlUtil;
 
-public class NewsBigClassImp implements NewsBigDao {
+public class NewsClassImp implements NewsClassDao {
 	private Connection dbConn;
 	private Statement sta;
 	private ResultSet res;
-	private List<NewsBigClass> nList = new ArrayList<NewsBigClass>();
+	private List<NewsClass> nList = new ArrayList<NewsClass>();
 
-	public List<NewsBigClass> findAllBigClass() {
+	public List<NewsClass> findAllBigClass() {
 		// 获取一级分类所有信息
 		nList.clear();
 		try {
@@ -35,7 +35,7 @@ public class NewsBigClassImp implements NewsBigDao {
 				String FilePath = res.getString(SqlUtil.NEWONECLASS_FILEPATH);
 				String LinkUrl = res.getString(SqlUtil.NEWONECLASS_LINKURL);
 				int sortId = res.getInt(SqlUtil.NEWONECLASS_SORTID);
-				NewsBigClass nBigClass = new NewsBigClass(id, BigName, KeyWord,
+				NewsClass nBigClass = new NewsClass(id, BigName, KeyWord,
 						Description, TempleteName, FilePath, sortId);
 				nBigClass.setLinkUrl(LinkUrl);
 				nList.add(nBigClass);
@@ -48,7 +48,7 @@ public class NewsBigClassImp implements NewsBigDao {
 		return null;
 	}
 
-	public List<NewsBigClass> findBigClassById(int id) {
+	public List<NewsClass> findBigClassById(int id) {
 		// 根据id 获取分类信息
 		nList.clear();
 		try {
@@ -65,7 +65,7 @@ public class NewsBigClassImp implements NewsBigDao {
 				String FilePath = res.getString(SqlUtil.NEWONECLASS_FILEPATH);
 				String LinkUrl = res.getString(SqlUtil.NEWONECLASS_LINKURL);
 				int sortId = res.getInt(SqlUtil.NEWONECLASS_SORTID);
-				NewsBigClass nBigClass = new NewsBigClass(id, BigName, KeyWord,
+				NewsClass nBigClass = new NewsClass(id, BigName, KeyWord,
 						Description, TempleteName, FilePath, sortId);
 				nBigClass.setLinkUrl(LinkUrl);
 				nList.add(nBigClass);

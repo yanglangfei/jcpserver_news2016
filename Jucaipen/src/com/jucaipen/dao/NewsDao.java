@@ -17,16 +17,10 @@ public interface NewsDao {
 
 	/**
 	 * @param bigId
-	 * @return 根据一级分类查询新闻
+	 * @return 根据分类查询新闻
 	 */
-	public List<News> findNewsBybigId(int bigId, int pager);
+	public List<News> findNewsBybigId(int classId, int pager);
 
-	/**
-	 * @param bigId
-	 * @param smallId
-	 * @return 根据一二级分类查询新闻
-	 */
-	public List<News> findNewsById(int bigId, int smallId, int pager);
 
 	/**
 	 * @param isIndex
@@ -57,35 +51,22 @@ public interface NewsDao {
 	 */
 	public News findNews(int id);
 	/**
-	 * @param bigId
-	 * @param smallId
+	 * @param classId
 	 * @param isIndex
-	 * @return   查询二级分类且首页显示的新闻
+	 * @return 查询分类且首页显示的新闻
 	 */
-	public List<News> findIndexNews(int bigId,int smallId,int isIndex);
-	/**
-	 * @param bigId
-	 * @param isIndex
-	 * @return 查询一级分类且首页显示的新闻
-	 */
-	public List<News> findNewsIndex(int bigId,int isIndex);
+	public List<News> findNewsIndex(int classId,int isIndex);
 	/**
 	 * @return  首页显示
 	 *        不过滤图片
 	 */
-	public List<News> findIndexShow(int bigId);
+	public List<News> findIndexShow(int classId);
 	
 	/**
 	 * @param bigId
 	 * @return   首页显示     ---带有图片
 	 */
-	public List<News> findIndexShowIsImage(int bigId);
-	/**
-	 * @param bigId
-	 * @param smallId
-	 * @return   查询首页股权要闻信息
-	 */
-	public List<News> findNewsByIndexId(int bigId, int smallId,int top);
+	public List<News> findIndexShowIsImage(int classId);
 	/**
 	 * @param id
 	 * @return   通过指定新闻id 获取相关新闻

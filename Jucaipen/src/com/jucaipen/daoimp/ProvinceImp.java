@@ -26,7 +26,7 @@ public class ProvinceImp implements ProvinceDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCPProvince "
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_Province "
 							+ condition);
 			res.next();
 			int totlePager = res.getInt("totlePager");
@@ -44,7 +44,7 @@ public class ProvinceImp implements ProvinceDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCPProvince");
+			res = sta.executeQuery("SELECT * FROM JCP_Province");
 			provinces = getPriovinces(res,-1,-1);
 			return provinces;
 		} catch (SQLException e) {
@@ -62,7 +62,7 @@ public class ProvinceImp implements ProvinceDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPProvince where Id=" + id);
+			res = sta.executeQuery("select * from JCP_Province where Id=" + id);
 			provinces = getPriovinces(res,-1,-1);
 			if (provinces != null && provinces.size() > 0) {
 				p = provinces.get(0);

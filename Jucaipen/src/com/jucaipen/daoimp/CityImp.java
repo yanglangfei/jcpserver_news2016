@@ -26,7 +26,7 @@ public class CityImp implements CityDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCPCity "
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_City "
 							+ condition);
 			res.next();
 			int totlePager = res.getInt("totlePager");
@@ -45,7 +45,7 @@ public class CityImp implements CityDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPCity WHERE ProID="+pId);
+					.executeQuery("SELECT * FROM JCP_City WHERE FK_ProId="+pId);
 			cities = getCitys(res, -1, -1);
 			return cities;
 		} catch (SQLException e) {
@@ -62,7 +62,7 @@ public class CityImp implements CityDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id) AS RowNumber,* FROM JCPCity"
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY CityId) AS RowNumber,* FROM JCP_City"
 							+ " ) A "
 							+ "WHERE RowNumber > " + 15 * (pager - 1));
 			cities = getCitys(res, pager, totlePager);
@@ -82,7 +82,7 @@ public class CityImp implements CityDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPCity where Id=" + id);
+			res = sta.executeQuery("select * from JCP_City where CityId=" + id);
 			cities = getCitys(res, -1, 1);
 			if (cities != null && cities.size() > 0) {
 				c = cities.get(0);
@@ -103,7 +103,7 @@ public class CityImp implements CityDao {
 		cities = new ArrayList<City>();
 		try {
 			while (result.next()) {
-				int id = result.getInt(SqlUtil.PROVINCE_ID);
+				int id = result.getInt(SqlUtil.CITY_ID);
 				int provinceId = result.getInt(SqlUtil.CITY_PID);
 				String name = result.getString(SqlUtil.CITY_NAME);
 				int sortId = result.getInt(SqlUtil.CITY_SORT);

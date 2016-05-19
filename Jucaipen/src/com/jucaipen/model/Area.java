@@ -23,10 +23,6 @@ public class Area implements Serializable {
 	 */
 	private int id;
 	/**
-	 * 区所属省份id
-	 */
-	private int provinceId;
-	/**
 	 * 区所属城市id
 	 */
 	private int cityId;
@@ -39,9 +35,8 @@ public class Area implements Serializable {
 	 */
 	private int sortId;
 	
-	public Area(int id, int provinceId, int cityId, String name, int sortId) {
+	public Area(int id ,int cityId, String name, int sortId) {
 		this.id = id;
-		this.provinceId = provinceId;
 		this.cityId = cityId;
 		this.name = name;
 		this.sortId = sortId;
@@ -51,12 +46,6 @@ public class Area implements Serializable {
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public int getProvinceId() {
-		return provinceId;
-	}
-	public void setProvinceId(int provinceId) {
-		this.provinceId = provinceId;
 	}
 	public int getCityId() {
 		return cityId;

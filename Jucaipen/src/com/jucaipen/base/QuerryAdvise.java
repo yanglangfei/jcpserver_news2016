@@ -15,11 +15,10 @@ import com.jucaipen.utils.StringUtil;
 /**
  * 获取广告页面
  * 
- * type ---1 首页广告 ----3 股票频道首页 --- 5新三板幻灯片
+ * type ---1  首页     2  阅观点   7  视频   8  学院    9学院详情
  */
 @SuppressWarnings("serial")
 public class QuerryAdvise extends HttpServlet {
-
 	private Object advertives;
 	private String result;
 
@@ -33,17 +32,8 @@ public class QuerryAdvise extends HttpServlet {
 		if (StringUtil.isNotNull(typeId)) {
 			if (StringUtil.isInteger(typeId)) {
 				int type = Integer.parseInt(typeId);
-				if (type == 1) {
-					// 首页广告幻灯片
-					initIndexPageData();
-					result = JsonUtil.getObject(advertives);
-				} else if (type == 3) {
-					// 股票频道首页幻灯片
-					result = JsonUtil.getRetMsg(2, "广告类型参数数字格式化异常");
-				} else if (type == 5) {
-					// 新三股幻灯片
-					result = JsonUtil.getRetMsg(3, "广告类型参数数字格式化异常");
-				}
+				initIndexPageData(type);
+				result = JsonUtil.getObject(advertives);
 			} else {
 				result = JsonUtil.getRetMsg(1, "广告类型参数数字格式化异常");
 			}
@@ -55,9 +45,9 @@ public class QuerryAdvise extends HttpServlet {
 		out.close();
 	}
 
-	private void initIndexPageData() {
+	private void initIndexPageData(int type) {
 		// 加载首页广告
-		advertives = AdverSer.findAdverByPid(6);
+		advertives = AdverSer.findAdverByPid(type);
 	}
 
 }
