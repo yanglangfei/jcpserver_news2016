@@ -175,6 +175,16 @@
     <servlet-name>SendEmail</servlet-name>
     <servlet-class>com.jucaipen.base.SendEmail</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>GiftShop</servlet-name>
+    <servlet-class>com.jucaipen.base.GiftShop</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryGiftType</servlet-name>
+    <servlet-class>com.jucaipen.base.QuerryGiftType</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -389,6 +399,14 @@
   <servlet-mapping>
     <servlet-name>SendEmail</servlet-name>
     <url-pattern>/jucaipen/getemail</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GiftShop</servlet-name>
+    <url-pattern>/jucaipen/getgifts</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryGiftType</servlet-name>
+    <url-pattern>/jucaipen/getgifttype</url-pattern>
   </servlet-mapping>
 
 </web-app>
