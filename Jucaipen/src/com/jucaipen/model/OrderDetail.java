@@ -3,7 +3,7 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author Administrator
+ * @author Administrator     ------------------数据已更新
  * 
  *   商品订单详细信息
  *

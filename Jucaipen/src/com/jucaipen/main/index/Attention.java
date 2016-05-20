@@ -7,9 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.jucaipen.model.TeacherAttention;
-import com.jucaipen.service.TeacherAttentionSer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -23,8 +20,6 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class Attention extends HttpServlet {
 	private String result;
-	private int isSuccess;      
-	private TeacherAttention attention;
 
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -46,28 +41,8 @@ public class Attention extends HttpServlet {
 					if(type==0){
 						//添加关注
 						checkIsAttention(uId,tId);
-						if(attention==null){
-							insertAttention(uId, tId);
-							if (isSuccess == 1) {
-								result = JsonUtil.getRetMsg(0, "关注讲师成功");
-							} else {
-								result = JsonUtil.getRetMsg(3, "关注讲师失败");
-							}
-						}else {
-							result=JsonUtil.getRetMsg(6,"已经关注该讲师");
-						}
 					}else if(type==1){
 						checkIsAttention(uId,tId);
-						if(attention!=null){
-						   cancelAttention(uId, tId);
-						   if (isSuccess == 1) {
-								result = JsonUtil.getRetMsg(0, "取消关注讲师成功");
-							} else {
-								result = JsonUtil.getRetMsg(3, "取消关注讲师失败");
-							}
-						}else {
-							result=JsonUtil.getRetMsg(6,"还没关注该讲师");
-						}
 						
 					}else {
 						result=JsonUtil.getRetMsg(5, "操作id不符合要求");
@@ -90,20 +65,15 @@ public class Attention extends HttpServlet {
 
 	private void    cancelAttention(int uId, int tId) {
 		// 取消关注
-		isSuccess=TeacherAttentionSer.cancleAttention(tId, uId);
 		
 	}
 
 	private void checkIsAttention(int uId, int tId) {
 		//检查之前是否关注过
-		attention = TeacherAttentionSer.findAttentionByUidAndTid(uId, tId);
 		
 	}
 
 	private void insertAttention(int uId, int tId) {
-		TeacherAttention attention = new TeacherAttention(
-				0, uId, tId);
-		isSuccess = TeacherAttentionSer.insertAttention(attention);
 
 	}
 

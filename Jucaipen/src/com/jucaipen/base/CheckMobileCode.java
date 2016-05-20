@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.model.MobileMessage;
-import com.jucaipen.model.Signing;
 import com.jucaipen.service.MobileMessageSer;
-import com.jucaipen.service.SigingSer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -63,7 +61,6 @@ public class CheckMobileCode extends HttpServlet {
 					//手机号符合要求
 					checkMobileCode(mobileNum,actionCode);
 					if(isPassed){
-						insertSignInfo(uId,trueName,mobileNum,checkDate,qsName,uId);
 						if(isSuccess==1){
 							result=JsonUtil.getRetMsg(0, "验证码信息正确");
 						}else {
@@ -87,12 +84,6 @@ public class CheckMobileCode extends HttpServlet {
 		out.print(result);
 		out.flush();
 		out.close();
-	}
-	private void insertSignInfo(int uId, String trueName, String mobileNum,String checkDate,String qsName,int userId) {
-		//添加签约信息
-		Signing signing=new Signing(0, userId, tId, trueName, mobileNum, checkDate, qsName, 0, ip, 3);
-		isSuccess=SigingSer.insertSigin(signing);
-		
 	}
 	private void insertCheckInfo(String mobileNum, String checkDate,String qsName) {
 		//修改短信激活状态

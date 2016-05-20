@@ -7,8 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.jucaipen.model.TeacherAttention;
-import com.jucaipen.service.TeacherAttentionSer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 /**
@@ -19,7 +17,6 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class QuerryAttention extends HttpServlet {
 	private String result;
-	private TeacherAttention attention;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -34,11 +31,6 @@ public class QuerryAttention extends HttpServlet {
 				if(StringUtil.isInteger(teacherId)){
 					int tId=Integer.parseInt(teacherId);
 					querryIsAttention(uId,tId);
-					if(attention==null){
-						result=JsonUtil.getRetMsg(3,"您还没关注");
-					}else {
-						result=JsonUtil.getRetMsg(0, "已经关注");
-					}
 				}else {
 					result=JsonUtil.getRetMsg(1, "讲师id数字格式化异常");
 				}
@@ -55,7 +47,6 @@ public class QuerryAttention extends HttpServlet {
 	}
 
 	public void querryIsAttention(int uId, int tId) {
-		attention = TeacherAttentionSer.findAttentionByUidAndTid(uId, tId);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

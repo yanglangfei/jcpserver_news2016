@@ -3,7 +3,9 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author Administrator
+ * @author Administrator          --------------数据已更新
+ *   
+ *   文字直播详情
  *
  */
 
@@ -16,11 +18,11 @@ public class TxtLiveDetails implements Serializable{
 	/**
 	 * 相关直播id
 	 */
-	private int relate_liveId;
+	private int fk_liveId;
 	/**
-	 * 相关标题
+	 * 相关评论
 	 */
-	private int relate_titleId;
+	private int fk_commId;
 	/**
 	 * 内容
 	 */
@@ -30,7 +32,7 @@ public class TxtLiveDetails implements Serializable{
 	 */
 	private String image;
 	/**
-	 * 直播类型
+	 * 直播类型（0观点，1回复网友互动）
 	 */
 	private int liveType;
 	/**
@@ -38,45 +40,35 @@ public class TxtLiveDetails implements Serializable{
 	 */
 	private String insertDate;
 	/**
-	 * 是否支付
+	 * 是否收费     1   否     2  是
 	 */
-	private int isPay;
-	public TxtLiveDetails(int id, int relate_liveId, int relate_titleId,
-			String bodys, String image, int liveType, String insertDate) {
-		this.id = id;
-		this.relate_liveId = relate_liveId;
-		this.relate_titleId = relate_titleId;
-		this.bodys = bodys;
-		this.image = image;
-		this.liveType = liveType;
-		this.insertDate = insertDate;
-	}
+	private int isFree;
+	/**
+	 * 收费价格
+	 */
+	private double livePrice;
+	/**
+	 *  内容分类id
+	 */
+	private int fk_contentId;
 	
-	public int getIsPay() {
-		return isPay;
-	}
-
-	public void setIsPay(int isPay) {
-		this.isPay = isPay;
-	}
-
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getRelate_liveId() {
-		return relate_liveId;
+	public int getFk_liveId() {
+		return fk_liveId;
 	}
-	public void setRelate_liveId(int relate_liveId) {
-		this.relate_liveId = relate_liveId;
+	public void setFk_liveId(int fk_liveId) {
+		this.fk_liveId = fk_liveId;
 	}
-	public int getRelate_titleId() {
-		return relate_titleId;
+	public int getFk_commId() {
+		return fk_commId;
 	}
-	public void setRelate_titleId(int relate_titleId) {
-		this.relate_titleId = relate_titleId;
+	public void setFk_commId(int fk_commId) {
+		this.fk_commId = fk_commId;
 	}
 	public String getBodys() {
 		return bodys;
@@ -102,8 +94,23 @@ public class TxtLiveDetails implements Serializable{
 	public void setInsertDate(String insertDate) {
 		this.insertDate = insertDate;
 	}
-	
-	
-	
+	public int getIsFree() {
+		return isFree;
+	}
+	public void setIsFree(int isFree) {
+		this.isFree = isFree;
+	}
+	public double getLivePrice() {
+		return livePrice;
+	}
+	public void setLivePrice(double livePrice) {
+		this.livePrice = livePrice;
+	}
+	public int getFk_contentId() {
+		return fk_contentId;
+	}
+	public void setFk_contentId(int fk_contentId) {
+		this.fk_contentId = fk_contentId;
+	}
 
 }

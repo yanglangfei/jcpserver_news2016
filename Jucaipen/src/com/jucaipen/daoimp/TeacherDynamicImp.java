@@ -28,12 +28,12 @@ public class TeacherDynamicImp implements TeacherDynamicDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta
-					.executeUpdate("INSERT INTO JCPTearch_Dynamic (DynamicFk_Id,DynamicType,InsertDate) VALUES ("
+					.executeUpdate("INSERT INTO JCP_TxtLive_Dynamic (FK_Id,DynamicType,InsertDate,FK_TearchId) VALUES ("
 							+ dynamic.getRelateId()
 							+ ","
-							+ dynamic.getRelateType()
+							+ dynamic.getType()
 							+ ",'"
-							+ dynamic.getInsertDate() + "')");
+							+ dynamic.getInsertDate() + "',"+dynamic.getTeacherId()+")");
 			return isSuccess;
 		} catch (Exception e) {
 		}
@@ -45,7 +45,7 @@ public class TeacherDynamicImp implements TeacherDynamicDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_Dynamic ORDER BY InsertDate DESC");
+					.executeQuery("SELECT * FROM JCP_TxtLive_Dynamic ORDER BY InsertDate DESC");
 			dynamics = getDynamic(res);
 			return dynamics;
 		} catch (Exception e) {
@@ -58,7 +58,7 @@ public class TeacherDynamicImp implements TeacherDynamicDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_Dynamic WHERE DynamicType="
+					.executeQuery("SELECT * FROM JCP_TxtLive_Dynamic WHERE DynamicType="
 							+ type + " ORDER BY InsertDate DESC");
 			dynamics = getDynamic(res);
 			return dynamics;
@@ -71,7 +71,7 @@ public class TeacherDynamicImp implements TeacherDynamicDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCPTearch_Dynamic WHERE Id="
+			res = sta.executeQuery("SELECT * FROM JCP_TxtLive_Dynamic WHERE Id="
 					+ id);
 			dynamics = getDynamic(res);
 			if (dynamics.size() > 0) {
@@ -87,11 +87,12 @@ public class TeacherDynamicImp implements TeacherDynamicDao {
 		try {
 			while (result.next()) {
 				int id = result.getInt("Id");
-				int relateId = result.getInt("DynamicFk_Id");
+				int relateId = result.getInt("FK_Id");
 				int relateType = result.getInt("DynamicType");
 				String insertDate = result.getString("InsertDate");
+				int teacherId=result.getInt("FK_TearchId");
 				TeacherDynamic dynamic = new TeacherDynamic(id, relateId,
-						relateType, insertDate);
+						relateType, insertDate,teacherId);
 				dynamics.add(dynamic);
 			}
 			return dynamics;

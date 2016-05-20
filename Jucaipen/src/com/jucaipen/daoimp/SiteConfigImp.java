@@ -20,13 +20,11 @@ public class SiteConfigImp implements SiteConfigDao {
 		try {
 			dbConn=JdbcUtil.connSqlServer();
 			state=dbConn.createStatement();
-			res=state.executeQuery("SELECT * FROM JCPSiteConfig");
+			res=state.executeQuery("SELECT * FROM JCP_Config");
 			while (res.next()) {
-				String siteName=res.getString("SiteTitle");
-				int askNum=res.getInt("JCPAskNum");
+				int askNum=res.getInt("AskNum");
 				config=new SiteConfig();
 				config.setAskNum(askNum);
-				config.setSiteName(siteName);
 			}
 			return config;
 		} catch (Exception e) {

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author ylf
  * 
- *   信息来源
+ *   信息来源      ---------------数据已更新
  *
  */
 @SuppressWarnings("serial")
@@ -29,16 +29,16 @@ public class ResourceSources implements Serializable {
 	/**
 	 * 信息来源网页
 	 */
-	private String fromHtml;
+	private String fromUrl;
 	/**
 	 * 排序
 	 */
 	private int sortId;
 	
-	public ResourceSources(int id, String fromName, String fromHtml, int sortId) {
+	public ResourceSources(int id, String fromName, String fromUrl, int sortId) {
 		this.id = id;
 		this.fromName = fromName;
-		this.fromHtml = fromHtml;
+		this.fromUrl = fromUrl;
 		this.sortId = sortId;
 	}
 	public int getId() {
@@ -53,11 +53,12 @@ public class ResourceSources implements Serializable {
 	public void setFromName(String fromName) {
 		this.fromName = fromName;
 	}
-	public String getFromHtml() {
-		return fromHtml;
+	
+	public String getFromUrl() {
+		return fromUrl;
 	}
-	public void setFromHtml(String fromHtml) {
-		this.fromHtml = fromHtml;
+	public void setFromUrl(String fromUrl) {
+		this.fromUrl = fromUrl;
 	}
 	public int getSortId() {
 		return sortId;

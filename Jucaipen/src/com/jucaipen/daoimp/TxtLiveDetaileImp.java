@@ -23,10 +23,10 @@ public class TxtLiveDetaileImp implements TxtLiveDetailsDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta
-					.executeUpdate("INSERT INTO JCPTearch_TxtLiveDetails(FK_LiveId,FK_InterId,Bodys,Images,LiveType,InsertDate) VALUES("
-							+ details.getRelate_liveId()
+					.executeUpdate("INSERT INTO JCP_TxtLive_Detail(FK_LiveId,FK_CommId,Bodys,Images,LiveType,InsertDate) VALUES("
+							+ details.getFk_liveId()
 							+ ","
-							+ details.getRelate_titleId()
+							+ details.getFk_commId()
 							+ ",'"
 							+ details.getBodys()
 							+ "','"
@@ -47,14 +47,18 @@ public class TxtLiveDetaileImp implements TxtLiveDetailsDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT Id,FK_LiveId,Bodys,InsertDate FROM JCPTearch_TxtLiveDetails WHERE FK_LiveId="
+					.executeQuery("SELECT Id,FK_LiveId,Bodys,InsertDate FROM JCP_TxtLive_Detail WHERE FK_LiveId="
 							+ liveId+" ORDER BY InsertDate DESC");
 			while (res.next()) {
 				int id=res.getInt(1);
 				int relate_LiveId=res.getInt(2);
 				String bodys=res.getString(3);
 				String insertDate=res.getString(4);
-				TxtLiveDetails diDetails=new TxtLiveDetails(id, relate_LiveId, -1, bodys, null, -1, insertDate);
+				TxtLiveDetails diDetails=new TxtLiveDetails();
+				diDetails.setId(id);
+				diDetails.setFk_liveId(relate_LiveId);
+				diDetails.setBodys(bodys);
+				diDetails.setInsertDate(insertDate);
 				txtLiveDetails.add(diDetails);
 			}
 			return txtLiveDetails;
@@ -70,14 +74,18 @@ public class TxtLiveDetaileImp implements TxtLiveDetailsDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT Id,FK_LiveId,Bodys,InsertDate FROM JCPTearch_TxtLiveDetails WHERE FK_LiveId="
+					.executeQuery("SELECT Id,FK_LiveId,Bodys,InsertDate FROM JCP_TxtLive_Detail WHERE FK_LiveId="
 							+ liveId+"AND Id>"+maxId+" ORDER BY InsertDate DESC");
 			while (res.next()) {
 				int id=res.getInt(1);
 				int relate_LiveId=res.getInt(2);
 				String bodys=res.getString(3);
 				String insertDate=res.getString(4);
-				TxtLiveDetails diDetails=new TxtLiveDetails(id, relate_LiveId, -1, bodys, null, -1, insertDate);
+				TxtLiveDetails diDetails=new TxtLiveDetails();
+				diDetails.setId(id);
+				diDetails.setFk_liveId(relate_LiveId);
+				diDetails.setBodys(bodys);
+				diDetails.setInsertDate(insertDate);
 				txtLiveDetails.add(diDetails);
 			}
 			return txtLiveDetails;
@@ -87,13 +95,13 @@ public class TxtLiveDetaileImp implements TxtLiveDetailsDao {
 		return null;
 	}
 
-	public List<TxtLiveDetails> findTextDetaileByTitleId(int titleId) {
+	public List<TxtLiveDetails> findTextDetaileByTitleId(int commId) {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_TxtLiveDetails WHERE FK_InterId="
-							+ titleId+"ORDER InsertDate DESC");
+					.executeQuery("SELECT * FROM JCP_TxtLive_Detail WHERE FK_CommId="
+							+ commId+"ORDER InsertDate DESC");
 			txtLiveDetails = getTexDetaile(res);
 			return txtLiveDetails;
 		} catch (SQLException e) {
@@ -107,7 +115,7 @@ public class TxtLiveDetaileImp implements TxtLiveDetailsDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_TxtLiveDetails WHERE Id="
+					.executeQuery("SELECT * FROM JCP_TxtLive_Detail WHERE Id="
 							+ id);
 			txtLiveDetails = getTexDetaile(res);
 			if (txtLiveDetails.size() > 0) {
@@ -124,7 +132,7 @@ public class TxtLiveDetaileImp implements TxtLiveDetailsDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_TxtLiveDetails WHERE LiveType="
+					.executeQuery("SELECT * FROM JCP_TxtLive_Detail WHERE LiveType="
 							+ type + " ORDER BY InsertDate DESC");
 			txtLiveDetails = getTexDetaile(res);
 			return txtLiveDetails;
@@ -139,7 +147,7 @@ public class TxtLiveDetaileImp implements TxtLiveDetailsDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCPTearch_TxtLiveDetails ORDER BY InsertDate DESC");
+					.executeQuery("SELECT * FROM JCP_TxtLive_Detail ORDER BY InsertDate DESC");
 			txtLiveDetails = getTexDetaile(res);
 			return txtLiveDetails;
 		} catch (SQLException e) {
@@ -154,13 +162,19 @@ public class TxtLiveDetaileImp implements TxtLiveDetailsDao {
 			while (result.next()) {
 				int id = result.getInt("Id");
 				int relateLiveId = result.getInt("FK_LiveId");
-				int relateTitelId = result.getInt("FK_InterId");
+				int commId = result.getInt("FK_CommId");
 				String bodys = result.getString("Bodys");
 				String image = result.getString("Images");
 				int liveType = result.getInt("LiveType");
 				String insertDate = result.getString("InsertDate");
-				TxtLiveDetails txDetails = new TxtLiveDetails(id, relateLiveId,
-						relateTitelId, bodys, image, liveType, insertDate);
+				TxtLiveDetails txDetails = new TxtLiveDetails();
+				txDetails.setId(id);
+				txDetails.setFk_liveId(relateLiveId);
+				txDetails.setFk_commId(commId);
+				txDetails.setBodys(bodys);
+				txDetails.setLiveType(liveType);
+				txDetails.setImage(image);
+				txDetails.setInsertDate(insertDate);
 				txtLiveDetails.add(txDetails);
 			}
 			return txtLiveDetails;
