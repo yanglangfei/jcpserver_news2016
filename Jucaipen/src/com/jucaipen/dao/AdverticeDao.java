@@ -5,6 +5,11 @@ import java.util.List;
 import com.jucaipen.model.Advertive;
 
 
+/**
+ * @author Administrator
+ *
+ *  ¹ã¸æ
+ */
 public interface AdverticeDao {
 
 	/**

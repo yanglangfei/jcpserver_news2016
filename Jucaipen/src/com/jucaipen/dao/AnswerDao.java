@@ -5,6 +5,11 @@ import java.util.List;
 import com.jucaipen.model.Answer;
 
 
+/**
+ * @author Administrator
+ *
+ * »Ø´ð
+ */
 public interface AnswerDao {
 	
 	/**
