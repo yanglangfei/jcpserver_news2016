@@ -10,6 +10,14 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class Guardian implements Serializable{
 	/**
+	 * 当前页 
+	 */
+	private int page;
+	/**
+	 *  总页数
+	 */
+	private int totlePage;
+	/**
 	 *  Id
 	 */
 	private int id;
@@ -41,6 +49,19 @@ public class Guardian implements Serializable{
 	 *  State  0正常，1停止服务，2已删除
 	 */
 	private int state;
+	
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getTotlePage() {
+		return totlePage;
+	}
+	public void setTotlePage(int totlePage) {
+		this.totlePage = totlePage;
+	}
 	public int getId() {
 		return id;
 	}

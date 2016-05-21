@@ -17,10 +17,6 @@ import com.jucaipen.utils.JdbcUtil;
  *         回答销售信息
  * 
  * 
- *         "SELECT TOP 15 * FROM " +
- *         "(SELECT ROW_NUMBER() OVER (ORDER BY AskDate desc) AS RowNumber,* FROM JCP_Ask) A "
- *         + "WHERE RowNumber > " + 15 * (page - 1)
- * 
  */
 public class AnswerSaleImp implements AnswerSaleDao {
 	private Connection dbConn;
