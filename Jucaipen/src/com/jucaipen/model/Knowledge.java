@@ -7,6 +7,14 @@ package com.jucaipen.model;
  */
 public class Knowledge {
 	/**
+	 *  当前页
+	 */
+	private int page;
+	/**
+	 *  总页数
+	 */
+	private int totlePage;
+	/**
 	 *  Id
 	 */
 	private int id;
@@ -90,6 +98,19 @@ public class Knowledge {
 	 *  排序id  SortId
 	 */
 	private int sortId;
+	
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getTotlePage() {
+		return totlePage;
+	}
+	public void setTotlePage(int totlePage) {
+		this.totlePage = totlePage;
+	}
 	public int getId() {
 		return id;
 	}

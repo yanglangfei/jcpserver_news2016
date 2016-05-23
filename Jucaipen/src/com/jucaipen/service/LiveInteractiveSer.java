@@ -2,9 +2,9 @@ package com.jucaipen.service;
 
 import java.util.List;
 
-import com.jucaipen.dao.LiveInteractiveDao;
-import com.jucaipen.daoimp.LiveInteractiveImp;
-import com.jucaipen.model.LiveInteractive;
+import com.jucaipen.dao.TxtMsgDao;
+import com.jucaipen.daoimp.LiveMsgImp;
+import com.jucaipen.model.LiveMsg;
 
 public class LiveInteractiveSer{
 
@@ -12,16 +12,16 @@ public class LiveInteractiveSer{
 	 * @param interactive
 	 * @return  添加直播互动
 	 */
-	public static int insertLiveInteractive(LiveInteractive interactive) {
-		LiveInteractiveDao dao=new LiveInteractiveImp();
+	public static int insertLiveInteractive(LiveMsg interactive) {
+		TxtMsgDao dao=new LiveMsgImp();
 		return dao.insertLiveInteractive(interactive);
 	}
 
 	/**
 	 * @return  获取所有直播互动
 	 */
-	public static List<LiveInteractive> findAll() {
-		LiveInteractiveDao dao=new LiveInteractiveImp();
+	public static List<LiveMsg> findAll() {
+		TxtMsgDao dao=new LiveMsgImp();
 		return dao.findAll();
 	}
 
@@ -29,8 +29,8 @@ public class LiveInteractiveSer{
 	 * @param userId
 	 * @return  根据用户id获取直播互动
 	 */
-	public static List<LiveInteractive> findByUserId(int userId) {
-		LiveInteractiveDao dao=new LiveInteractiveImp();
+	public static List<LiveMsg> findByUserId(int userId) {
+		TxtMsgDao dao=new LiveMsgImp();
 		return dao.findByUserId(userId);
 	}
 
@@ -38,13 +38,13 @@ public class LiveInteractiveSer{
 	 * @param liveId
 	 * @return  根据直播id获取直播互动
 	 */
-	public static List<LiveInteractive> findByLiveId(int liveId,int page) {
-		LiveInteractiveDao dao=new LiveInteractiveImp();
+	public static List<LiveMsg> findByLiveId(int liveId,int page) {
+		TxtMsgDao dao=new LiveMsgImp();
 		return dao.findByLiveId(liveId,page);
 	}
 
-	public List<LiveInteractive> findByUidAndLiveId(int uId, int liveId) {
-		LiveInteractiveDao dao=new LiveInteractiveImp();
+	public List<LiveMsg> findByUidAndLiveId(int uId, int liveId) {
+		TxtMsgDao dao=new LiveMsgImp();
 		return dao.findByUidAndLiveId(uId, liveId);
 	}
 
@@ -52,8 +52,8 @@ public class LiveInteractiveSer{
 	 * @param id
 	 * @return  根据id获取直播互动详细信息
 	 */
-	public LiveInteractive findById(int id) {
-		LiveInteractiveDao dao=new LiveInteractiveImp();
+	public LiveMsg findById(int id) {
+		TxtMsgDao dao=new LiveMsgImp();
 		return dao.findById(id);
 	}
 

@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class MyGifts implements Serializable{
+	private int page;
+	private int totlePage;
 	/**
 	 *  Id
 	 */
@@ -41,6 +43,19 @@ public class MyGifts implements Serializable{
 	 *  √Ë ˆ   ReMark
 	 */
 	private String remark;
+	
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getTotlePage() {
+		return totlePage;
+	}
+	public void setTotlePage(int totlePage) {
+		this.totlePage = totlePage;
+	}
 	public int getId() {
 		return id;
 	}

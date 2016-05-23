@@ -9,7 +9,7 @@ import java.io.Serializable;
  *
  */
 @SuppressWarnings("serial")
-public class LiveInteractive implements Serializable {
+public class LiveMsg implements Serializable {
 	/**
 	 *  µ±Ç°Ò³Êý 
 	 */
@@ -59,7 +59,7 @@ public class LiveInteractive implements Serializable {
 	 */
 	private String ip;
 	
-	public LiveInteractive( int id, int userId,
+	public LiveMsg( int id, int userId,
 			String msgBodys, int check, int liveId, String insertDate,
 			int receiverId, int isSysAdmin, int isRoomAdmin, String ip) {
 		this.id = id;

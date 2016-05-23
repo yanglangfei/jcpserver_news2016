@@ -12,7 +12,7 @@ public class TxtLiveType implements Serializable{
 	/**
 	 *  Id
 	 */
-	private int type;
+	private int id;
 	/**
 	 *  TypeName  
 	 */
@@ -25,11 +25,12 @@ public class TxtLiveType implements Serializable{
 	 *  SortId
 	 */
 	private int sortId;
-	public int getType() {
-		return type;
+
+	public int getId() {
+		return id;
 	}
-	public void setType(int type) {
-		this.type = type;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getName() {
 		return name;

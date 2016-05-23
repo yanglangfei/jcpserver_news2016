@@ -7,12 +7,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jucaipen.dao.LiveInteractiveDao;
-import com.jucaipen.model.LiveInteractive;
+import com.jucaipen.dao.TxtMsgDao;
+import com.jucaipen.model.LiveMsg;
 import com.jucaipen.utils.JdbcUtil;
 
-public class LiveInteractiveImp implements LiveInteractiveDao {
-	private List<LiveInteractive> lInteractives = new ArrayList<LiveInteractive>();
+public class LiveMsgImp implements TxtMsgDao {
+	private List<LiveMsg> lInteractives = new ArrayList<LiveMsg>();
 	private Connection dbConn;
 	private Statement sta;
 	private ResultSet res;
@@ -38,7 +38,7 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 
 	}
 
-	public int insertLiveInteractive(LiveInteractive interactive) {
+	public int insertLiveInteractive(LiveMsg interactive) {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
@@ -58,7 +58,7 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 		return -1;
 	}
 
-	public List<LiveInteractive> findAll() {
+	public List<LiveMsg> findAll() {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
@@ -71,7 +71,7 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 		return null;
 	}
 
-	public List<LiveInteractive> findByUserId(int userId) {
+	public List<LiveMsg> findByUserId(int userId) {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
@@ -85,7 +85,7 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 		return null;
 	}
 
-	public List<LiveInteractive> findByLiveId(int liveId, int page) {
+	public List<LiveMsg> findByLiveId(int liveId, int page) {
 		int totlePage = findTotlePager(" WHERE Fk_TxtLiveId=" + liveId);
 		try {
 			dbConn = JdbcUtil.connSqlServer();
@@ -100,7 +100,7 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 		return null;
 	}
 
-	public List<LiveInteractive> findByUidAndLiveId(int uId, int liveId) {
+	public List<LiveMsg> findByUidAndLiveId(int uId, int liveId) {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
@@ -115,7 +115,7 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 		return null;
 	}
 
-	public LiveInteractive findById(int id) {
+	public LiveMsg findById(int id) {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
@@ -129,7 +129,7 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 		return null;
 	}
 
-	public List<LiveInteractive> getLiveInteractive(ResultSet result, int page,
+	public List<LiveMsg> getLiveInteractive(ResultSet result, int page,
 			int totlePage) {
 		lInteractives.clear();
 		try {
@@ -144,7 +144,7 @@ public class LiveInteractiveImp implements LiveInteractiveDao {
 				int receiverId = result.getInt("ReceiverId");
 				int isSysAdmin = result.getInt("");
 				int isRoomAdmin = result.getInt("");
-				LiveInteractive liInteractive = new LiveInteractive(id, userId,
+				LiveMsg liInteractive = new LiveMsg(id, userId,
 						bodys, check, liveId, insertDate, receiverId,
 						isSysAdmin, isRoomAdmin, ip);
 				liInteractive.setTotlePage(totlePage);

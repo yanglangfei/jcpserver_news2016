@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class Special implements Serializable {
+	private int page;
+	private int totlePage;
 	/**
 	 * Id
 	 */
@@ -46,6 +48,19 @@ public class Special implements Serializable {
 	 *  ShiFuMoney   实际支付金额
 	 */
 	private double payMoney;
+	
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getTotlePage() {
+		return totlePage;
+	}
+	public void setTotlePage(int totlePage) {
+		this.totlePage = totlePage;
+	}
 	public int getId() {
 		return id;
 	}

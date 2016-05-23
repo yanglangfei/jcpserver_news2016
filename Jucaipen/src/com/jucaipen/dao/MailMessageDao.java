@@ -6,7 +6,7 @@ import com.jucaipen.model.MailMessage;
 
 /**
  * @author YLF
- * eMAU
+ * EMAU
  *    ÓÊ¼şÏûÏ¢
  *
  */

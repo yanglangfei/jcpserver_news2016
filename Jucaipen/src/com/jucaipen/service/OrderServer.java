@@ -6,7 +6,7 @@ import com.jucaipen.dao.OrderDao;
 import com.jucaipen.daoimp.OrderImp;
 import com.jucaipen.model.Order;
 
-public class PayOrderServer {
+public class OrderServer {
 
 	/**
 	 * @return 获取全部的订单信息

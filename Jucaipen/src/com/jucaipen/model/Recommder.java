@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class Recommder implements Serializable{
+	private int page;
+	private int totlePage;
 	/**
 	 *  Id
 	 */
@@ -37,6 +39,19 @@ public class Recommder implements Serializable{
 	 *  Integral  所获积分奖励
 	 */
 	private int Integral;
+	
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getTotlePage() {
+		return totlePage;
+	}
+	public void setTotlePage(int totlePage) {
+		this.totlePage = totlePage;
+	}
 	public int getId() {
 		return id;
 	}
