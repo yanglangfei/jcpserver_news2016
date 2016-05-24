@@ -44,5 +44,16 @@ public class FavoritesSer {
 		FavoritesDao dao=new FavoritesImp();
 		return dao.findFavouritesByUidAndNid(uId, nId);
 	}
+	
+	/**
+	 * @param uId
+	 * @param type
+	 * @param page
+	 * @return 获取用户下收藏的分类信息
+	 */
+	public static List<Favorites> findFavourateByUidAndType(int uId,int type,int page){
+		FavoritesDao dao=new FavoritesImp();
+		return dao.findFavourateByUidAndType(uId, type, page);
+	}
 
 }

@@ -47,8 +47,8 @@ public class FavoritesImp implements FavoritesDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta.executeUpdate("insert into JCP_Favorites ("
-					+ SqlUtil.NEWSCOMM_UID + "," + SqlUtil.FAVORITES_NID
-					+ "," + SqlUtil.NEWS_INSERT + ") values("
+					+ SqlUtil.NEWSCOMM_UID + "," + SqlUtil.FAVORITES_NID + ","
+					+ SqlUtil.NEWS_INSERT + ") values("
 					+ newsFavorites.getuId() + "," + newsFavorites.getFk_Id()
 					+ ",'" + newsFavorites.getDate() + "')");
 			return isSuccess;
@@ -77,7 +77,7 @@ public class FavoritesImp implements FavoritesDao {
 
 	/*
 	 * 
-	 * 查询新闻是否收藏
+	 * 查询是否收藏
 	 */
 	public Favorites findFavouritesByUidAndNid(int uId, int nId) {
 		Favorites newsFavorites = null;
@@ -93,6 +93,25 @@ public class FavoritesImp implements FavoritesDao {
 				newsFavorites.setId(id);
 			}
 			return newsFavorites;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	@Override
+	public List<Favorites> findFavourateByUidAndType(int uId, int type, int page) {
+		int totlePager = findTotlePager("Where FK_UserId=" + uId + " AND Type="
+				+ type);
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP 15 * FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC,InsertDate DESC) AS RowNumber,* FROM JCP_Favorites"
+							+ " where FK_UserId=" + uId + " AND Type=" + type
+							+ ") A " + "WHERE RowNumber > " + 15 * (page - 1));
+			favorites = getFavorites(res, page, totlePager);
+			return favorites;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

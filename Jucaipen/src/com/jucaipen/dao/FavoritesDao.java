@@ -33,5 +33,13 @@ public interface FavoritesDao {
 	 * @return  根据用户id、知识/视频id查询收藏信息
 	 */
 	public Favorites findFavouritesByUidAndNid(int uId,int nId);
+	
+	/**
+	 * @param uId
+	 * @param type
+	 * @param page
+	 * @return  根据用户id查询分类下的收藏
+	 */
+	public List<Favorites> findFavourateByUidAndType(int uId,int type ,int page);
 
 }

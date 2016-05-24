@@ -183,6 +183,36 @@
     <servlet-name>QuerryGiftType</servlet-name>
     <servlet-class>com.jucaipen.base.QuerryGiftType</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>MyInvite</servlet-name>
+    <servlet-class>com.jucaipen.main.my.MyInvite</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryMyGift</servlet-name>
+    <servlet-class>com.jucaipen.main.my.QuerryMyGift</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>MyGiftRecoder</servlet-name>
+    <servlet-class>com.jucaipen.main.my.MyGiftRecoder</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryPosition</servlet-name>
+    <servlet-class>com.jucaipen.base.QuerryPosition</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryInvestType</servlet-name>
+    <servlet-class>com.jucaipen.base.QuerryInvestType</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryMyCollect</servlet-name>
+    <servlet-class>com.jucaipen.main.my.QuerryMyCollect</servlet-class>
+  </servlet>
+
+
+
+
+
+
 
 
 
@@ -407,6 +437,30 @@
   <servlet-mapping>
     <servlet-name>QuerryGiftType</servlet-name>
     <url-pattern>/jucaipen/getgifttype</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MyInvite</servlet-name>
+    <url-pattern>/jucaipen/getinvite</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryMyGift</servlet-name>
+    <url-pattern>/jucaipen/getmygift</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MyGiftRecoder</servlet-name>
+    <url-pattern>/jucaipen/getgiftrecoder</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryPosition</servlet-name>
+    <url-pattern>/jucaipen/getposition</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryInvestType</servlet-name>
+    <url-pattern>/jucaipen/getinvesttype</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryMyCollect</servlet-name>
+    <url-pattern>/jucaipen/getcollect</url-pattern>
   </servlet-mapping>
 
 </web-app>

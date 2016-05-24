@@ -52,7 +52,7 @@ public class MyPresentImp implements MyPresentDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_MyPresent WHERE FK_UserId="
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY Id desc) AS RowNumber,* FROM JCP_MyPresent WHERE FK_UserId="
 							+ uId + ") A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
