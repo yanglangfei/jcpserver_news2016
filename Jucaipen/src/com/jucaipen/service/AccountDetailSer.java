@@ -11,9 +11,9 @@ public class AccountDetailSer{
 	 * @param uId
 	 * @return  根据用户id获取账号详细信息
 	 */
-	public static List<AccountDetail> findAccountDetailByuId(int uId) {
+	public static List<AccountDetail> findAccountDetailByuId(int uId,int page) {
 		AccountDetailDao  dao=new AccountDetailImp();
-		return dao.findAccountDetailByuId(uId);
+		return dao.findAccountDetailByuId(uId,page);
 	}
 
 	/**
@@ -21,9 +21,9 @@ public class AccountDetailSer{
 	 * @param state
 	 * @return  根据用户id和状态获取
 	 */
-	public static List<AccountDetail> findAccountDetailByUIdAndState(int uId, int state) {
+	public static List<AccountDetail> findAccountDetailByUIdAndState(int uId, int state,int page) {
 		AccountDetailDao dao=new AccountDetailImp(); 
-		return dao.findAccountDetailByUIdAndState(uId, state);
+		return dao.findAccountDetailByUIdAndState(uId, state,page);
 	}
 
 	/**
@@ -31,9 +31,21 @@ public class AccountDetailSer{
 	 * @param type
 	 * @return  根据用户id和分类获取
 	 */
-	public static List<AccountDetail> findAccountDetailByUidAndType(int uId, int type) {
+	public static List<AccountDetail> findAccountDetailByUidAndType(int uId, int type,int page) {
 		AccountDetailDao dao=new AccountDetailImp();
-		return dao.findAccountDetailByUidAndType(uId, type);
+		return dao.findAccountDetailByUidAndType(uId, type,page);
+	}
+	
+	/**
+	 * @param state
+	 * @param type
+	 * @param userId
+	 * @param page
+	 * @return  获取用户分类下的不同状态账户信息
+	 */
+	public static List<AccountDetail> findDetailByUserIdAndStateAndType(int state,int type,int userId,int page){
+		AccountDetailDao dao=new AccountDetailImp();
+		return dao.findDetailByUidAndTypeAndState(userId, state, type, page);
 	}
 
 }

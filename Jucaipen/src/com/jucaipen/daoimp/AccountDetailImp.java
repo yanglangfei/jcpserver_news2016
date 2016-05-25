@@ -16,15 +16,44 @@ public class AccountDetailImp implements AccountDetailDao{
 	private Statement sta;
 	private ResultSet res;
 	private List<AccountDetail> accountDetails=new ArrayList<AccountDetail>();
+	/**
+	 * @return 查询账户信息总页数
+	 */
+	public int getTotlePage(String condition) {
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_Account_Detail "
+							+ condition);
+			res.next();
+			int totlePager = res.getInt("totlePager");
+			return totlePager;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
+
+	}
 
 	@Override
-	public List<AccountDetail> findAccountDetailByuId(int uId) {
+	public List<AccountDetail> findAccountDetailByuId(int userId,int page) {
 		//根据用户id获取账户详细信息
 		accountDetails.clear();
+		int totlePage=getTotlePage("WHERE UserId="+userId);
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_Account_Detail WHERE UserId="+uId);
+			res=sta.executeQuery("SELECT TOP 15 * FROM "
+					+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Account_Detail WHERE UserId="
+					+ userId + ") A " + "WHERE RowNumber > " + 15
+					* (page - 1));
 			while (res.next()) {
 				int id=res.getInt("Id");
 				String orderCode=res.getString("OrderCode");
@@ -34,24 +63,36 @@ public class AccountDetailImp implements AccountDetailDao{
 				String remark=res.getString("Remark");
 				String insertDate=res.getString("InsertDate");
 				int isDel=res.getInt("IsDel");
-				AccountDetail detail=new AccountDetail(id, orderCode, detailMoney, detailType, state, remark, insertDate, isDel, uId);
+				AccountDetail detail=new AccountDetail(id, orderCode, detailMoney, detailType, state, remark, insertDate, isDel, userId);
+				detail.setPage(page);
+				detail.setTotlePage(totlePage);
 				accountDetails.add(detail);
 			}
 			return accountDetails;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
 
 	@Override
-	public List<AccountDetail> findAccountDetailByUIdAndState(int uId, int state) {
+	public List<AccountDetail> findAccountDetailByUIdAndState(int uId, int state,int page) {
 		// 根据用户id和状态
 		accountDetails.clear();
+		int totlePage=getTotlePage("WHERE UserId="+uId+" AND State="+state);
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_Account_Detail WHERE UserId="+uId+" AND State="+state);
+			res=sta.executeQuery("SELECT TOP 15 * FROM "
+					+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Account_Detail WHERE UserId="
+					+ uId + " AND State="+state+") A " + "WHERE RowNumber > " + 15
+					* (page - 1));
 			while (res.next()) {
 				int id=res.getInt("Id");
 				String orderCode=res.getString("OrderCode");
@@ -61,23 +102,35 @@ public class AccountDetailImp implements AccountDetailDao{
 				String insertDate=res.getString("InsertDate");
 				int isDel=res.getInt("IsDel");
 				AccountDetail detail=new AccountDetail(id, orderCode, detailMoney, detailType, state, remark, insertDate, isDel, uId);
+				detail.setTotlePage(totlePage);
+				detail.setPage(page);
 				accountDetails.add(detail);
 			}
 			return accountDetails;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
 
 	@Override
-	public List<AccountDetail> findAccountDetailByUidAndType(int uId, int type) {
+	public List<AccountDetail> findAccountDetailByUidAndType(int uId, int type,int page) {
 		//根据用户id和分类获取
 		accountDetails.clear();
+		int totlePage=getTotlePage("WHERE DetailType="+type+" AND UserId="+uId);
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_Account_Detail WHERE UserId="+uId+" AND DetailType="+type);
+			res=sta.executeQuery("SELECT TOP 15 * FROM "
+					+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Account_Detail WHERE UserId="
+					+ uId + " AND DetailType="+type+") A " + "WHERE RowNumber > " + 15
+					* (page - 1));
 			while (res.next()) {
 				int id=res.getInt("Id");
 				String orderCode=res.getString("OrderCode");
@@ -88,11 +141,58 @@ public class AccountDetailImp implements AccountDetailDao{
 				int isDel=res.getInt("IsDel");
 				int state=res.getInt("State");
 				AccountDetail detail=new AccountDetail(id, orderCode, detailMoney, detailType, state, remark, insertDate, isDel, uId);
+				detail.setTotlePage(totlePage);
+				detail.setPage(page);
 				accountDetails.add(detail);
 			}
 			return accountDetails;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<AccountDetail> findDetailByUidAndTypeAndState(int uId,
+			int state, int type, int page) {
+		//根据用户id获取分类下的相应状态账单信息
+		accountDetails.clear();
+		int totlePage=getTotlePage("WHERE DetailType="+type+" AND  UserId="+uId+" AND State="+state);
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT TOP 15 * FROM "
+					+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Account_Detail WHERE UserId="
+					+ uId + " AND DetailType="+type+" AND State="+state+") A " + "WHERE RowNumber > " + 15
+					* (page - 1));
+			while (res.next()) {
+				int id=res.getInt("Id");
+				String orderCode=res.getString("OrderCode");
+				double detailMoney=res.getDouble("DetailMoney");
+				int detailType=res.getInt("DetailType");
+				String remark=res.getString("Remark");
+				String insertDate=res.getString("InsertDate");
+				int isDel=res.getInt("IsDel");
+				AccountDetail detail=new AccountDetail(id, orderCode, detailMoney, detailType, state, remark, insertDate, isDel, uId);
+				detail.setTotlePage(totlePage);
+				detail.setPage(page);
+				accountDetails.add(detail);
+			}
+			return accountDetails;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}

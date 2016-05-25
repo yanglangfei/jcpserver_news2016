@@ -28,8 +28,8 @@ public class CheckMobileCode extends HttpServlet {
 	private SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private String checkDate;
 	private String msgId;
-	private String ip;
-	private int tId;
+//	private String ip;
+	//private int tId;
 	private int isSuccess;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -40,7 +40,7 @@ public class CheckMobileCode extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		checkDate = sdf.format(new Date());
 		//用户真实姓名
-		String trueName=request.getParameter("trueName");
+		//String trueName=request.getParameter("trueName");
 		//用户id  
 		String userId=request.getParameter("userId");
 		//用户手机号
@@ -50,12 +50,12 @@ public class CheckMobileCode extends HttpServlet {
 		//券商名称
 		String qsName=request.getParameter("qsName");
 		String teacherId=request.getParameter("teacherId");
-		ip=request.getRemoteAddr();
+	//	ip=request.getRemoteAddr();
 		if(StringUtil.isInteger(userId)){
 			//用户id数字格式化正常
-			int uId=Integer.parseInt(userId);
+		//	int uId=Integer.parseInt(userId);
 			if(StringUtil.isInteger(teacherId)){                
-				tId = Integer.parseInt(teacherId);
+				//tId = Integer.parseInt(teacherId);
 				if(StringUtil.isMobileNumber(mobileNum)){   
 					if(StringUtil.isNotNull(qsName)){
 					//手机号符合要求

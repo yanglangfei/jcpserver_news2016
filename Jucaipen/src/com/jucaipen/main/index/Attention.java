@@ -63,7 +63,7 @@ public class Attention extends HttpServlet {
 		out.close();
 	}
 
-	private void    cancelAttention(int uId, int tId) {
+	private void  cancelAttention(int uId, int tId) {
 		// È¡Ïû¹Ø×¢
 		
 	}

@@ -32,6 +32,12 @@ public class WithdrawImp implements WithdrawDao {
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return 0;
 
@@ -43,21 +49,21 @@ public class WithdrawImp implements WithdrawDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_TiXian WHERE Id="+id);
+			res = sta.executeQuery("SELECT * FROM JCP_TiXian WHERE Id=" + id);
 			while (res.next()) {
-				String orderCode=res.getString(2);  //OrderCode
-				int userId=res.getInt(3);  //UserId
-				String bankCode=res.getString(4);  //BankCode
-				int bankType=res.getInt(5);  //BankType
-				String trueName=res.getString(6);  //BankUserTrueName
-				String bankName=res.getString(7);  //BankName
-				double outMoney=res.getDouble(8);  //OutMoney
-				String insertDate=res.getString(9);  //InsertDate
-				int type=res.getInt(10);  //Type
-				String shenheDate=res.getString(11);  //ShenHeDate
-				int isPay=res.getInt(12);  //IsPay
-				String remark=res.getString(14);  //Remark
-				Withdraw withdraw=new Withdraw();
+				String orderCode = res.getString(2); // OrderCode
+				int userId = res.getInt(3); // UserId
+				String bankCode = res.getString(4); // BankCode
+				int bankType = res.getInt(5); // BankType
+				String trueName = res.getString(6); // BankUserTrueName
+				String bankName = res.getString(7); // BankName
+				double outMoney = res.getDouble(8); // OutMoney
+				String insertDate = res.getString(9); // InsertDate
+				int type = res.getInt(10); // Type
+				String shenheDate = res.getString(11); // ShenHeDate
+				int isPay = res.getInt(12); // IsPay
+				String remark = res.getString(14); // Remark
+				Withdraw withdraw = new Withdraw();
 				withdraw.setOrderCode(orderCode);
 				withdraw.setUserId(userId);
 				withdraw.setBankCode(bankCode);
@@ -74,14 +80,20 @@ public class WithdrawImp implements WithdrawDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		
+
 		return null;
 	}
 
 	@Override
 	public List<Withdraw> findWithDrawByUserId(int userId, int page) {
-		//根据用户id获取所有的提现信息
+		// 根据用户id获取所有的提现信息
 		withdraws.clear();
 		int totlePage = getTotlePage(" WHERE UserId=" + userId);
 		dbConn = JdbcUtil.connSqlServer();
@@ -93,19 +105,19 @@ public class WithdrawImp implements WithdrawDao {
 							+ userId + ") A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
-				int id=res.getInt("Id");
-				String orderCode=res.getString("OrderCode");  //OrderCode
-				String bankCode=res.getString("BankCode");  //BankCode
-				int bankType=res.getInt("BankType");  //BankType
-				String trueName=res.getString("BankUserTrueName");  //BankUserTrueName
-				String bankName=res.getString("BankName");  //BankName
-				double outMoney=res.getDouble("OutMoney");  //OutMoney
-				String insertDate=res.getString("InsertDate");  //InsertDate
-				int type=res.getInt("Type");  //Type
-				String shenheDate=res.getString("ShenHeDate");  //ShenHeDate
-				int isPay=res.getInt("IsPay");  //IsPay
-				String remark=res.getString("Remark");  //Remark
-				Withdraw withdraw=new Withdraw();
+				int id = res.getInt("Id");
+				String orderCode = res.getString("OrderCode"); // OrderCode
+				String bankCode = res.getString("BankCode"); // BankCode
+				int bankType = res.getInt("BankType"); // BankType
+				String trueName = res.getString("BankUserTrueName"); // BankUserTrueName
+				String bankName = res.getString("BankName"); // BankName
+				double outMoney = res.getDouble("OutMoney"); // OutMoney
+				String insertDate = res.getString("InsertDate"); // InsertDate
+				int type = res.getInt("Type"); // Type
+				String shenheDate = res.getString("ShenHeDate"); // ShenHeDate
+				int isPay = res.getInt("IsPay"); // IsPay
+				String remark = res.getString("Remark"); // Remark
+				Withdraw withdraw = new Withdraw();
 				withdraw.setOrderCode(orderCode);
 				withdraw.setUserId(userId);
 				withdraw.setBankCode(bankCode);
@@ -126,14 +138,59 @@ public class WithdrawImp implements WithdrawDao {
 			return withdraws;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
 
 	@Override
 	public int addWithDraw(Withdraw withdraw) {
-		//添加提现记录
-		
+		// 添加提现记录
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta
+					.executeUpdate("INSERT INTO JCP_TiXian (OrderCode,UserId,"
+							+ "BankCode,BankType,BankUserTrueName,BankName,OutMoney,"
+							+ "InsertDate,Type,ShenHeDate,IsPay,IsDel,Remark) VALUES ('"
+							+ withdraw.getOrderCode()
+							+ "',"
+							+ withdraw.getUserId()
+							+ ",'"
+							+ withdraw.getBankCode()
+							+ "',"
+							+ withdraw.getBankType()
+							+ ",'"
+							+ withdraw.getBankUserTrueName()
+							+ "','"
+							+ withdraw.getBankName()
+							+ "','"
+							+ withdraw.getOutMoney()
+							+ "','"
+							+ withdraw.getInsertDate()
+							+ "',"
+							+ withdraw.getType()
+							+ ",'"
+							+ withdraw.getCheckDate()
+							+ "',"
+							+ withdraw.getIsPay()
+							+ ","
+							+ withdraw.getIsDel()
+							+ ",'" + withdraw.getRemark() + "')");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		return 0;
 	}
 

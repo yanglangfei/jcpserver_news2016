@@ -4,9 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.jucaipen.dao.SignDao;
 import com.jucaipen.model.Sign;
 import com.jucaipen.utils.JdbcUtil;
@@ -20,11 +17,11 @@ public class SignImp implements SignDao {
 	private Connection dbConn;
 	private Statement sta;
 	private ResultSet res;
-	private List<Sign> signs = new ArrayList<Sign>();
+	//private List<Sign> signs = new ArrayList<Sign>();
 
 	@Override
 	public Sign findSignByUid(int userId) {
-		// 根据用户id获取敲到信息
+		// 根据用户id获取签到信息
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
@@ -42,6 +39,12 @@ public class SignImp implements SignDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -64,6 +67,12 @@ public class SignImp implements SignDao {
 							+ ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return 0;

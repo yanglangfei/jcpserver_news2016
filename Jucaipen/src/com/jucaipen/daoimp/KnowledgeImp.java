@@ -10,7 +10,6 @@ import java.util.List;
 import com.jucaipen.dao.KnowledgeDao;
 import com.jucaipen.model.Knowledge;
 import com.jucaipen.utils.JdbcUtil;
-
 /**
  * @author Administrator
  *
@@ -37,6 +36,12 @@ public class KnowledgeImp implements KnowledgeDao {
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return 0;
 
@@ -59,15 +64,15 @@ public class KnowledgeImp implements KnowledgeDao {
 				int xnHits=res.getInt(7); //HitXNCount
 				String insertDate=res.getString(8); //InsertDate
 				int fromId=res.getInt(9); //FK_FromId
-				String publisher=res.getString(10); //FaBuRen
+				//String publisher=res.getString(10); //FaBuRen
 				String imageUrl=res.getString(11);  //ImageUrl
-				String writer=res.getString(12); //ZuoZhe
+				//String writer=res.getString(12); //ZuoZhe
 				int goods=res.getInt(14); //Zan
 				int comms=res.getInt(15); //CommonCount
-				int isTop=res.getInt(16);  //IsTop
-				int isBest=res.getInt(17); //IsJingXuan
+			//	int isTop=res.getInt(16);  //IsTop
+				//int isBest=res.getInt(17); //IsJingXuan
 				String desc=res.getString(18); //ZhaiYao
-				int isIndex=res.getInt(19); //IsIndex
+			//	int isIndex=res.getInt(19); //IsIndex
 				//IsTuiJian     SortId
 				Knowledge knowledge=new Knowledge();
 				knowledge.setKeyWord(keyWord);
@@ -86,6 +91,12 @@ public class KnowledgeImp implements KnowledgeDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -137,6 +148,12 @@ public class KnowledgeImp implements KnowledgeDao {
 			return knowledges;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -190,6 +207,12 @@ public class KnowledgeImp implements KnowledgeDao {
 			return knowledges;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}

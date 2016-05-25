@@ -83,10 +83,10 @@ public class SendMobileCode extends HttpServlet {
 									+ URLEncoder.encode(newMsg, "UTF-8")
 									+ "&needstatus=true";
 							String res = HttpUtils.sendHttpGet(path);
-							String resptime = res.split(",")[0];
+						//	String resptime = res.split(",")[0];
 							String tempStr = res.split(",")[1];
 							String ret_code = tempStr.substring(0, 1);
-							String mId = tempStr.substring(1, tempStr.length());
+							//String mId = tempStr.substring(1, tempStr.length());
 							if(Integer.parseInt(ret_code)==0){
 								result = JsonUtil.getRetMsg(0, "短信发送成功");
 								insertMobileMessage(mobileNum, code, res);

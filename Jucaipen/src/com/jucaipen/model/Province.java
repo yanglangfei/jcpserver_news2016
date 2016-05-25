@@ -66,7 +66,7 @@ public class Province implements Serializable {
 		return sortId;
 	}
 	public void setProSort(int sortId) {
-		sortId = sortId;
+		this.sortId = sortId;
 	}
 	public String getProRemark() {
 		return proRemark;

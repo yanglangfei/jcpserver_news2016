@@ -2,15 +2,10 @@ package com.jucaipen.main.index;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.jucaipen.model.Comment;
-import com.jucaipen.service.CommSer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -25,8 +20,8 @@ import com.jucaipen.utils.StringUtil;
  */ 
 @SuppressWarnings("serial")
 public class AddRemark extends HttpServlet {
-	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	private Comment newsComment;
+	//private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//	private Comment newsComment;
 	private int isSuccess;
 	private String result;
 

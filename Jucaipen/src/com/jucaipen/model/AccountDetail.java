@@ -6,6 +6,8 @@ package com.jucaipen.model;
  *   ’ÀªßœÍœ∏–≈œ¢
  */
 public class AccountDetail {
+	private int page;
+	private int totlePage;
 	/**
 	 *  id
 	 */
@@ -43,6 +45,18 @@ public class AccountDetail {
 	 */
 	private int userId;
 	
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getTotlePage() {
+		return totlePage;
+	}
+	public void setTotlePage(int totlePage) {
+		this.totlePage = totlePage;
+	}
 	public AccountDetail(int id, String orderCode, double detailMoney,
 			int detailType, int state, String remark, String insertDate,
 			int isDel, int userId) {

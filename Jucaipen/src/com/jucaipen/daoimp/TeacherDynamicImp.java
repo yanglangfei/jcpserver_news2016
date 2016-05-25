@@ -2,6 +2,7 @@ package com.jucaipen.daoimp;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,12 @@ public class TeacherDynamicImp implements TeacherDynamicDao {
 							+ dynamic.getInsertDate() + "',"+dynamic.getTeacherId()+")");
 			return isSuccess;
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return 0;
 	}
@@ -49,6 +56,12 @@ public class TeacherDynamicImp implements TeacherDynamicDao {
 			dynamics = getDynamic(res);
 			return dynamics;
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -63,6 +76,12 @@ public class TeacherDynamicImp implements TeacherDynamicDao {
 			dynamics = getDynamic(res);
 			return dynamics;
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -78,6 +97,12 @@ public class TeacherDynamicImp implements TeacherDynamicDao {
 				return dynamics.get(0);
 			}
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -97,6 +122,12 @@ public class TeacherDynamicImp implements TeacherDynamicDao {
 			}
 			return dynamics;
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}

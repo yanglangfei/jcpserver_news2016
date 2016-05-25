@@ -33,6 +33,12 @@ public class LiveMsgImp implements TxtMsgDao {
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return 0;
 
@@ -54,6 +60,12 @@ public class LiveMsgImp implements TxtMsgDao {
 							+ interactive.getReceiverId() + ")");
 			return isSuccess;
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return -1;
 	}
@@ -67,6 +79,12 @@ public class LiveMsgImp implements TxtMsgDao {
 			lInteractives = getLiveInteractive(res, 1, 1);
 			return lInteractives;
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -81,6 +99,12 @@ public class LiveMsgImp implements TxtMsgDao {
 			lInteractives = getLiveInteractive(res, 1, 1);
 			return lInteractives;
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -96,6 +120,12 @@ public class LiveMsgImp implements TxtMsgDao {
 			lInteractives = getLiveInteractive(res, page, totlePage);
 			return lInteractives;
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -111,6 +141,12 @@ public class LiveMsgImp implements TxtMsgDao {
 			lInteractives = getLiveInteractive(res, 1, 1);
 			return lInteractives;
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -125,6 +161,12 @@ public class LiveMsgImp implements TxtMsgDao {
 				return lInteractives.get(0);
 			}
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -154,6 +196,12 @@ public class LiveMsgImp implements TxtMsgDao {
 			return lInteractives;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}

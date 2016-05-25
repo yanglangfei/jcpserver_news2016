@@ -44,6 +44,12 @@ public class OrderDetailImp implements OrderDetailDao {
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return 0;
 	}
@@ -62,6 +68,12 @@ public class OrderDetailImp implements OrderDetailDao {
 			return payProducts;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -80,6 +92,12 @@ public class OrderDetailImp implements OrderDetailDao {
 			payProducts = getPayProducts(res, page, totlePage);
 			return payProducts;
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -98,6 +116,12 @@ public class OrderDetailImp implements OrderDetailDao {
 			payProducts = getPayProducts(res, page, totlePage);
 			return payProducts;
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -115,6 +139,12 @@ public class OrderDetailImp implements OrderDetailDao {
 				return payProducts.get(0);
 			}
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -133,6 +163,12 @@ public class OrderDetailImp implements OrderDetailDao {
 			payProducts = getPayProducts(res, page, totlePage);
 			return payProducts;
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -151,6 +187,12 @@ public class OrderDetailImp implements OrderDetailDao {
 							* (page - 1));
 			return getPayProducts(res, page, totlePage);
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -167,6 +209,12 @@ public class OrderDetailImp implements OrderDetailDao {
 				return payProducts.get(0);
 			}
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -180,6 +228,12 @@ public class OrderDetailImp implements OrderDetailDao {
 					+ " * FROM JCP_Order_Detail ORDER BY Id");
 			return getPayProducts(res, 1, 1);
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -218,6 +272,12 @@ public class OrderDetailImp implements OrderDetailDao {
 							+ payProduct.getUserId() + ")");
 			return isSuccess;
 		} catch (Exception e) {
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return -1;
 	}
@@ -265,6 +325,12 @@ public class OrderDetailImp implements OrderDetailDao {
 			return payProducts;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 

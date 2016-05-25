@@ -207,6 +207,21 @@
     <servlet-name>QuerryMyCollect</servlet-name>
     <servlet-class>com.jucaipen.main.my.QuerryMyCollect</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>MyAttention</servlet-name>
+    <servlet-class>com.jucaipen.main.my.MyAttention</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>MyGuardian</servlet-name>
+    <servlet-class>com.jucaipen.main.my.MyGuardian</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryAccountDetail</servlet-name>
+    <servlet-class>com.jucaipen.main.user.QuerryAccountDetail</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -388,7 +403,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>QuerryAttention</servlet-name>
-    <url-pattern>/jucaipen/getattention</url-pattern>
+    <url-pattern>/jucaipen/getisattention</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>TeacherAttention</servlet-name>
@@ -461,6 +476,18 @@
   <servlet-mapping>
     <servlet-name>QuerryMyCollect</servlet-name>
     <url-pattern>/jucaipen/getcollect</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MyAttention</servlet-name>
+    <url-pattern>/jucaipen/getattention</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MyGuardian</servlet-name>
+    <url-pattern>/jucaipen/getmyguardian</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryAccountDetail</servlet-name>
+    <url-pattern>/jucaipen/getaccountdetail</url-pattern>
   </servlet-mapping>
 
 </web-app>
