@@ -219,6 +219,11 @@
     <servlet-name>QuerryAccountDetail</servlet-name>
     <servlet-class>com.jucaipen.main.user.QuerryAccountDetail</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ChangePhone</servlet-name>
+    <servlet-class>com.jucaipen.main.user.ChangePhone</servlet-class>
+  </servlet>
+
 
 
 
@@ -488,6 +493,10 @@
   <servlet-mapping>
     <servlet-name>QuerryAccountDetail</servlet-name>
     <url-pattern>/jucaipen/getaccountdetail</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ChangePhone</servlet-name>
+    <url-pattern>/jucaipen/changephone</url-pattern>
   </servlet-mapping>
 
 </web-app>
