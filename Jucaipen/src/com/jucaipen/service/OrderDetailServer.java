@@ -89,5 +89,26 @@ public class OrderDetailServer {
 		return dao.addPayProductInfo(payProduct);
 	}
 	
+	/**
+	 * @param id
+	 * @return É¾³ý¶©µ¥ÏêÏ¸ÐÅÏ¢
+	 */
+	public static int deleteDetail(int id){
+		OrderDetailDao dao=new OrderDetailImp();
+		return dao.deleteDetail(id);
+	}
+	
+	/**
+	 * @param userId
+	 * @param type
+	 * @param page
+	 * @return  
+	 */
+	public static List<OrderDetail> findDetailByUIdAndType(int userId, int type,
+			int page){
+		OrderDetailDao dao=new OrderDetailImp();
+		return dao.findDetailByUIdAndType(userId, type, page);
+	}
+	
 
 }
