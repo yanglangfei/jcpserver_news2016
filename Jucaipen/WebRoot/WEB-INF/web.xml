@@ -223,6 +223,11 @@
     <servlet-name>ChangePhone</servlet-name>
     <servlet-class>com.jucaipen.main.user.ChangePhone</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>QuerryMyOrder</servlet-name>
+    <servlet-class>com.jucaipen.main.my.QuerryMyOrder</servlet-class>
+  </servlet>
+
 
 
 
@@ -497,6 +502,10 @@
   <servlet-mapping>
     <servlet-name>ChangePhone</servlet-name>
     <url-pattern>/jucaipen/changephone</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryMyOrder</servlet-name>
+    <url-pattern>/jucaipen/getmyorder</url-pattern>
   </servlet-mapping>
 
 </web-app>

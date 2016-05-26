@@ -72,9 +72,8 @@ public class NewsClassImp implements NewsClassDao {
 				nBigClass.setLinkUrl(LinkUrl);
 				nBigClass.setParentId(parentId);
 				nList.add(nBigClass);
-				
 			}
-			return nList;
+			return nList;    
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{
@@ -89,7 +88,27 @@ public class NewsClassImp implements NewsClassDao {
 
 	@Override
 	public NewsClass findClassById(int id) {
-		// TODO Auto-generated method stub
+		// 根据id获取新闻分类信息
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM JCP_NewsClass WHERE Id="+id);
+			while (res.next()) {
+				String BigName = res.getString(SqlUtil.NEWONECLASS_BIGNAME);
+				String KeyWord = res.getString(SqlUtil.NEWONECLASS_KEYWORD);
+				String Description = res.getString(SqlUtil.NEWONECLASS_DESC);
+				String LinkUrl = res.getString(SqlUtil.NEWONECLASS_LINKURL);
+				int sortId = res.getInt(SqlUtil.NEWONECLASS_SORTID);
+				int parentId=res.getInt("ParentId");
+				NewsClass nBigClass = new NewsClass(id, BigName, KeyWord,
+						Description,LinkUrl, sortId);
+				nBigClass.setLinkUrl(LinkUrl);
+				nBigClass.setParentId(parentId);
+				return nBigClass;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

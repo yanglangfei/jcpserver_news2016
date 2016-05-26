@@ -43,7 +43,6 @@ public class Attention extends HttpServlet {
 						checkIsAttention(uId,tId);
 					}else if(type==1){
 						checkIsAttention(uId,tId);
-						
 					}else {
 						result=JsonUtil.getRetMsg(5, "操作id不符合要求");
 					}

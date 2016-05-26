@@ -5,11 +5,13 @@ import java.io.Serializable;
 /**
  * @author Administrator     ------------数据已更新
  *
- *    观点销售信息
+ *    购买观点信息
  *
  */
 @SuppressWarnings("serial")
 public class IdeaSale implements Serializable{
+	private int page;
+	private int totlePage;
 	private int id;
 	/**
 	 *   购买用户id 
@@ -41,6 +43,27 @@ public class IdeaSale implements Serializable{
 		this.logId = logId;
 		this.insertDate = insertDate;
 	}
+	
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public int getTotlePage() {
+		return totlePage;
+	}
+
+	public void setTotlePage(int totlePage) {
+		this.totlePage = totlePage;
+	}
+
+	public void setLogId(int logId) {
+		this.logId = logId;
+	}
+
 	public int getId() {
 		return id;
 	}

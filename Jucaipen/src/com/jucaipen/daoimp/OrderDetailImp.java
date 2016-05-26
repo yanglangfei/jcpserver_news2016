@@ -37,14 +37,14 @@ public class OrderDetailImp implements OrderDetailDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_Order_Detail "
+					.executeQuery("SELECT  CEILING(COUNT(*)/15.0) as totlePager from JCP_Order_Detail"
 							+ condition);
 			res.next();
 			int totlePager = res.getInt("totlePager");
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -63,12 +63,13 @@ public class OrderDetailImp implements OrderDetailDao {
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM JCP_Order_Detail"
-							+ " ) A " + "WHERE RowNumber > " + 15 * (page - 1));
-			payProducts = getPayProducts(res, page, totlePage);
+							+ " WHERE IsDelete=0 ) A " + "WHERE RowNumber > "
+							+ 15 * (page - 1));
+			payProducts = getOrderDetails(res, page, totlePage);
 			return payProducts;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -87,12 +88,12 @@ public class OrderDetailImp implements OrderDetailDao {
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM JCP_Order_Detail WHERE UserId="
-							+ uId + " ) A " + "WHERE RowNumber > " + 15
-							* (page - 1));
-			payProducts = getPayProducts(res, page, totlePage);
+							+ uId + " AND IsDelete=0 ) A "
+							+ "WHERE RowNumber > " + 15 * (page - 1));
+			payProducts = getOrderDetails(res, page, totlePage);
 			return payProducts;
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -111,12 +112,12 @@ public class OrderDetailImp implements OrderDetailDao {
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM JCP_Order_Detail WHERE FK_OrderId="
-							+ fk_OrderId + " ) A " + "WHERE RowNumber > " + 15
-							* (page - 1));
-			payProducts = getPayProducts(res, page, totlePage);
+							+ fk_OrderId + " AND IsDelete=0 ) A "
+							+ "WHERE RowNumber > " + 15 * (page - 1));
+			payProducts = getOrderDetails(res, page, totlePage);
 			return payProducts;
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -134,12 +135,12 @@ public class OrderDetailImp implements OrderDetailDao {
 			res = sta
 					.executeQuery("SELECT * FROM JCP_Order_Detail WHERE OrderCode='"
 							+ orderId + "'");
-			payProducts = getPayProducts(res, 1, 1);
+			payProducts = getOrderDetails(res, 1, 1);
 			if (payProducts.size() > 0) {
 				return payProducts.get(0);
 			}
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -160,10 +161,10 @@ public class OrderDetailImp implements OrderDetailDao {
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM JCP_Order_Detail WHERE IsDelete="
 							+ isDeleted + " ) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
-			payProducts = getPayProducts(res, page, totlePage);
+			payProducts = getOrderDetails(res, page, totlePage);
 			return payProducts;
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -183,11 +184,11 @@ public class OrderDetailImp implements OrderDetailDao {
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM JCP_Order_Detail WHERE ProductType="
-							+ productType + " ) A " + "WHERE RowNumber > " + 15
-							* (page - 1));
-			return getPayProducts(res, page, totlePage);
+							+ productType + " AND IsDelete=0) A "
+							+ "WHERE RowNumber > " + 15 * (page - 1));
+			return getOrderDetails(res, page, totlePage);
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -204,12 +205,12 @@ public class OrderDetailImp implements OrderDetailDao {
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT * FROM JCP_Order_Detail WHERE Id="
 					+ id);
-			payProducts = getPayProducts(res, 1, 1);
+			payProducts = getOrderDetails(res, 1, 1);
 			if (payProducts.size() > 0) {
 				return payProducts.get(0);
 			}
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -225,10 +226,10 @@ public class OrderDetailImp implements OrderDetailDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT TOP " + lastCount
-					+ " * FROM JCP_Order_Detail ORDER BY Id");
-			return getPayProducts(res, 1, 1);
+					+ " * FROM JCP_Order_Detail WHERE IsDelete=0 ORDER BY Id");
+			return getOrderDetails(res, 1, 1);
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -272,7 +273,7 @@ public class OrderDetailImp implements OrderDetailDao {
 							+ payProduct.getUserId() + ")");
 			return isSuccess;
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -282,7 +283,7 @@ public class OrderDetailImp implements OrderDetailDao {
 		return -1;
 	}
 
-	public List<OrderDetail> getPayProducts(ResultSet result, int page,
+	public List<OrderDetail> getOrderDetails(ResultSet result, int page,
 			int totlePage) {
 		payProducts.clear();
 		try {
@@ -325,7 +326,7 @@ public class OrderDetailImp implements OrderDetailDao {
 			return payProducts;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -334,6 +335,42 @@ public class OrderDetailImp implements OrderDetailDao {
 		}
 		return null;
 
+	}
+
+	@Override
+	public List<OrderDetail> findDetailByUIdAndType(int userId, int type,
+			int page) {
+		// 获取用户对应下分类的订单信息
+		dbConn = JdbcUtil.connSqlServer();
+		int totlePage = findTotlePager("WHERE UserId=" + userId
+				+ " AND ProductType=" + type + " AND IsDelete=" + 0);
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP 15 * FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY id DESC) AS RowNumber,* FROM JCP_Order_Detail WHERE ProductType="
+							+ type + " AND UserId=" + userId + " AND IsDelete="
+							+ 0 + " ) A " + "WHERE RowNumber > " + 15
+							* (page - 1));
+			getOrderDetails(res, page, totlePage);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public int deleteDetail(int id) {
+		// 删除订单
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_Order_Detail SET IsDelete="
+					+ 1 + " WHERE Id=" + id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }

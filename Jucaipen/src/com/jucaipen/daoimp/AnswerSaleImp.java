@@ -164,13 +164,13 @@ public class AnswerSaleImp implements AnswerSaleDao {
 
 	@Override
 	public List<AnswerSale> findSaleByTeacherAndUid(int teacherId, int userId) {
-		// TODO Auto-generated method stub
+		//获取用户购买讲师回复的信息
 		return null;
 	}
 
 	@Override
 	public List<AnswerSale> findSaleByUserIdAndAskId(int uId, int askId) {
-		// TODO Auto-generated method stub
+		// 获取用户购买回复信息
 		return null;
 	}
 

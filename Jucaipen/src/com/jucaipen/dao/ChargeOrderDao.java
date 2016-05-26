@@ -29,4 +29,10 @@ public interface ChargeOrderDao {
 	 */
 	public int addOrder(ChargeOrder order);
 	
+	/**
+	 * @param id
+	 * @return  删除充值订单信息
+	 */
+	public int deleteOrder(int id);
+	
 }

@@ -8,17 +8,17 @@ public interface IdeaSaleDao {
 	/**
 	 * @return  获取全部的销售信息
 	 */
-	public List<IdeaSale> findAllTxtLiveSale();
+	public List<IdeaSale> findAllTxtLiveSale(int page);
 	/**
 	 * @param userId
 	 * @return    获取用户购买的信息
 	 */
-	public List<IdeaSale> findTxtLiveSaleByUid(int userId);
+	public List<IdeaSale> findTxtLiveSaleByUid(int userId,int page);
 	/**
 	 * @param teacherId
 	 * @return   根据讲师获取销售信息
 	 */
-	public List<IdeaSale> findTxtLiveSaleByTeacherId(int teacherId);
+	public List<IdeaSale> findTxtLiveSaleByTeacherId(int teacherId,int page);
 	/**
 	 * @param liveId
 	 * @return   根据直播id获取销售信息

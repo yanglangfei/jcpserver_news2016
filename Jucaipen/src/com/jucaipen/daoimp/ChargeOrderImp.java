@@ -53,7 +53,7 @@ public class ChargeOrderImp implements ChargeOrderDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCP_AddOrder WHERE Id=" + id);
+			res = sta.executeQuery("SELECT * FROM JCP_AddOrder WHERE Id=" + id+" AND IsDel="+0);
 			while (res.next()) {
 				int userId = res.getInt(2); // UserId
 				String orderCode = res.getString(3); // OrderCode
@@ -90,15 +90,16 @@ public class ChargeOrderImp implements ChargeOrderDao {
 	public List<ChargeOrder> findOrderByUid(int userId, int page) {
 		// 根据用户id获取订单信息
 		orders.clear();
-		int totlePage = getTotlePage(" WHERE UserId=" + userId);
+		int totlePage = getTotlePage(" WHERE UserId=" + userId + " AND IsDel="
+				+ 0);
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_AddOrder WHERE UserId="
-							+ userId + ") A " + "WHERE RowNumber > " + 15
-							* (page - 1));
+							+ userId + " AND IsDel=" + 0 + ") A "
+							+ "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
 				String orderCode = res.getString("OrderCode");
 				double payMoney = res.getDouble("Pay_money");
@@ -150,12 +151,26 @@ public class ChargeOrderImp implements ChargeOrderDao {
 					+ order.getOrderState() + ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}
+		return 0;
+	}
+
+	@Override
+	public int deleteOrder(int id) {
+		// 删除充值订单信息
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_AddOrder SET IsDel=" + 1
+					+ " WHERE Id=" + id);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return 0;
 	}

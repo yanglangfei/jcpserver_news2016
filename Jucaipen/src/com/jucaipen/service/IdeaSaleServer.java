@@ -15,27 +15,27 @@ public class IdeaSaleServer{
 	/**
 	 * @return   获取所有的观点购买信息
 	 */
-	public static List<IdeaSale> findAllTxtLiveSale() {
+	public static List<IdeaSale> findAllTxtLiveSale(int page) {
 		IdeaSaleDao dao=new IdeaSaleImp();
-		return dao.findAllTxtLiveSale();
+		return dao.findAllTxtLiveSale(page);
 	}
 
 	/**
 	 * @param userId
 	 * @return   根据用户id获取观点购买信息
 	 */
-	public static List<IdeaSale> findTxtLiveSaleByUid(int userId) {
+	public static List<IdeaSale> findTxtLiveSaleByUid(int userId,int page) {
 		IdeaSaleDao dao=new IdeaSaleImp();
-		return dao.findTxtLiveSaleByUid(userId);
+		return dao.findTxtLiveSaleByUid(userId,page);
 	}
 
 	/**
 	 * @param teacherId
 	 * @return   根据讲师id获取观点购买信息
 	 */
-	public static List<IdeaSale> findTxtLiveSaleByTeacherId(int teacherId) {
+	public static List<IdeaSale> findTxtLiveSaleByTeacherId(int teacherId,int page) {
 		IdeaSaleDao dao=new IdeaSaleImp();
-		return dao.findTxtLiveSaleByTeacherId(teacherId);
+		return dao.findTxtLiveSaleByTeacherId(teacherId,page);
 	}
 
 	/**

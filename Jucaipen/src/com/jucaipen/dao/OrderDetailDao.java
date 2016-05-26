@@ -22,6 +22,20 @@ public interface OrderDetailDao {
 	 * @return 根据用户ID，获取订单详细信息
 	 */
 	public List<OrderDetail> findPayProductByUid(int uId,int page);
+	
+	/**
+	 * @param userId
+	 * @param type
+	 * @param page
+	 * @return 获取用户下相对应的订单信息
+	 */
+	public List<OrderDetail> findDetailByUIdAndType(int userId,int type,int page);
+	
+	/**
+	 * @param id
+	 * @return 删除订单信息
+	 */
+	public int deleteDetail(int id);
 
 	/**
 	 * @param productId
