@@ -8,18 +8,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.News;
 import com.jucaipen.model.ResourceSources;
 import com.jucaipen.service.NewServer;
 import com.jucaipen.service.ResourceFromServer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
 /**
  * @author Administrator
- *
- *   获取相关新闻       返回参数: id  title  from remarks insertDate image
- *                      
+ * 
+ *         获取相关新闻 返回参数: id title from remarks insertDate image
+ * 
  */
 @SuppressWarnings("serial")
 public class RelateNews extends HttpServlet {
@@ -32,17 +35,24 @@ public class RelateNews extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String newsId = request.getParameter("id");
-		if (StringUtil.isInteger(newsId)) {
-			int id = Integer.parseInt(newsId);
-			initReleData(id);
-			if(news!=null){
-				result=JsonUtil.getIndxKnownList(news);
-			}else {
-				result=JsonUtil.getRetMsg(0, "数据异常");
+		String userAgent = request.getParameter("User-Agent");
+		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
+		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
+		if (isDevice == HeaderUtil.PHONE_APP) {
+			String newsId = request.getParameter("id");
+			if (StringUtil.isInteger(newsId)) {
+				int id = Integer.parseInt(newsId);
+				initReleData(id);
+				if (news != null) {
+					result = JsonUtil.getIndxKnownList(news);
+				} else {
+					result = JsonUtil.getRetMsg(0, "数据异常");
+				}
+			} else {
+				result = JsonUtil.getRetMsg(1, "新闻id参数数字格式化异常");
 			}
 		} else {
-			result = JsonUtil.getRetMsg(1, "新闻id参数数字格式化异常");
+			result = StringUtil.isVaild;
 		}
 		out.print(result);
 		out.flush();
@@ -51,15 +61,15 @@ public class RelateNews extends HttpServlet {
 
 	private void initReleData(int id) {
 		// 初始化数据
-	    news=NewServer.findLastNews(6);
-	    if(news!=null){
-	    	for(News n : news){
-	    		int from=n.getFromId();
-	    		ResourceSources resource = ResourceFromServer.getRSources(from);
-	    	    n.setFrom(resource.getFromName());
-	    	}
-	    }
-		
+		news = NewServer.findLastNews(6);
+		if (news != null) {
+			for (News n : news) {
+				int from = n.getFromId();
+				ResourceSources resource = ResourceFromServer.getRSources(from);
+				n.setFrom(resource.getFromName());
+			}
+		}
+
 	}
 
 }

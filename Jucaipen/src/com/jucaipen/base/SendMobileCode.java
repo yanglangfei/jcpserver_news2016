@@ -13,7 +13,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.json.JSONObject;
+
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.MessageModel;
 import com.jucaipen.model.MobileMessage;
 import com.jucaipen.model.User;
@@ -21,6 +24,7 @@ import com.jucaipen.service.MessageModelSer;
 import com.jucaipen.service.MobileMessageSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.timetask.MobileState;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.HttpUtils;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
@@ -55,56 +59,63 @@ public class SendMobileCode extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		ip = request.getRemoteAddr();
-		String mobileNum = request.getParameter("telPhone");
-		String msgId = request.getParameter("msgId");
-		if (msgId != null && StringUtil.isInteger(msgId)) {
-			int id = Integer.parseInt(msgId);
-			if (StringUtil.isMobileNumber(mobileNum)) {
-				param.put("mobilenum", mobileNum);
-				String telStr=LoginUtil.sendHttpPost(encrypePath, param);
-				JSONObject obg=new JSONObject(telStr);
-				boolean rest=obg.getBoolean("Result");
-				if(rest){
-					String tel=obg.getString("MobileNum");
-					boolean isExist=checkIsExist(tel);
-					if(isExist){
-						result=JsonUtil.getRetMsg(4, "手机号已经注册");
-					}else{
-						initMessage(id);
-						if (msg != null) {
-							String code = RandomUtils.getRandomData(4);
-							if (id == 3) {
-								msg = StringUtil.replaceStr(msg);
-								newMsg = msg.replace("{actioncode}", code);
+		String userAgent=request.getParameter("User-Agent");
+		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
+		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
+		if(isDevice==HeaderUtil.PHONE_APP){
+			String mobileNum = request.getParameter("telPhone");
+			String msgId = request.getParameter("msgId");
+			if (msgId != null && StringUtil.isInteger(msgId)) {
+				int id = Integer.parseInt(msgId);
+				if (StringUtil.isMobileNumber(mobileNum)) {
+					param.put("mobilenum", mobileNum);
+					String telStr=LoginUtil.sendHttpPost(encrypePath, param);
+					JSONObject obg=new JSONObject(telStr);
+					boolean rest=obg.getBoolean("Result");
+					if(rest){
+						String tel=obg.getString("MobileNum");
+						boolean isExist=checkIsExist(tel);
+						if(isExist){
+							result=JsonUtil.getRetMsg(4, "手机号已经注册");
+						}else{
+							initMessage(id);
+							if (msg != null) {
+								String code = RandomUtils.getRandomData(4);
+								if (id == 3) {
+									msg = StringUtil.replaceStr(msg);
+									newMsg = msg.replace("{actioncode}", code);
+								} else {
+									newMsg = msg.replace("{mobile_code}", code);
+								}
+								String path = check_url + mobileNum + "&msg="
+										+ URLEncoder.encode(newMsg, "UTF-8")
+										+ "&needstatus=true";
+								String res = HttpUtils.sendHttpGet(path);
+							//	String resptime = res.split(",")[0];
+								String tempStr = res.split(",")[1];
+								String ret_code = tempStr.substring(0, 1);
+								//String mId = tempStr.substring(1, tempStr.length());
+								if(Integer.parseInt(ret_code)==0){
+									result = JsonUtil.getRetMsg(0, "短信发送成功");
+									insertMobileMessage(mobileNum, code, res);
+								}else{
+									result=JsonUtil.getRetMsg(7, "短信发送异常");
+								}
 							} else {
-								newMsg = msg.replace("{mobile_code}", code);
+								result = JsonUtil.getRetMsg(2, "短信发送失败");
 							}
-							String path = check_url + mobileNum + "&msg="
-									+ URLEncoder.encode(newMsg, "UTF-8")
-									+ "&needstatus=true";
-							String res = HttpUtils.sendHttpGet(path);
-						//	String resptime = res.split(",")[0];
-							String tempStr = res.split(",")[1];
-							String ret_code = tempStr.substring(0, 1);
-							//String mId = tempStr.substring(1, tempStr.length());
-							if(Integer.parseInt(ret_code)==0){
-								result = JsonUtil.getRetMsg(0, "短信发送成功");
-								insertMobileMessage(mobileNum, code, res);
-							}else{
-								result=JsonUtil.getRetMsg(7, "短信发送异常");
-							}
-						} else {
-							result = JsonUtil.getRetMsg(2, "短信发送失败");
 						}
+					}else{
+						result=JsonUtil.getRetMsg(6,"手机号出现异常");
 					}
-				}else{
-					result=JsonUtil.getRetMsg(6,"手机号出现异常");
+				} else {
+					result = JsonUtil.getRetMsg(1, "手机号格式错误");
 				}
 			} else {
-				result = JsonUtil.getRetMsg(1, "手机号格式错误");
+				result = JsonUtil.getRetMsg(3, "短信ID状态异常");
 			}
-		} else {
-			result = JsonUtil.getRetMsg(3, "短信ID状态异常");
+		}else{
+			result=StringUtil.isVaild;
 		}
 		out.print(result);
 		out.flush();

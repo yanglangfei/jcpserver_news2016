@@ -9,14 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.NewsClass;
 import com.jucaipen.service.NewsClassSer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.StringUtil;
 
 /**
  * @author Administrator
- *
- *   获取分类列表
+ * 
+ *         获取分类列表
  */
 @SuppressWarnings("serial")
 public class QuerryAskType extends HttpServlet {
@@ -30,18 +33,25 @@ public class QuerryAskType extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-	    initAskClass();
-		result=JsonUtil.getAskClassList(askTypes);
+		String userAgent = request.getParameter("User-Agent");
+		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
+		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
+		if (isDevice == HeaderUtil.PHONE_APP) {
+			initAskClass();
+			result = JsonUtil.getAskClassList(askTypes);
+		} else {
+			result = StringUtil.isVaild;
+		}
 		out.println(result);
 		out.flush();
 		out.close();
 	}
 
 	/**
-	 *   初始化提问分类列表
+	 * 初始化提问分类列表
 	 */
 	private void initAskClass() {
-		askTypes=NewsClassSer.getClassByPId(0);
+		askTypes = NewsClassSer.getClassByPId(0);
 	}
 
 }

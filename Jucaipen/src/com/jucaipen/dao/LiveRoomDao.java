@@ -30,6 +30,6 @@ public interface LiveRoomDao {
 	/**
 	 * @return   获取所有房间信息
 	 */
-	public List<VideoLive> getAllRoom();
+	public List<VideoLive> getAllRoom(int page);
 
 }

@@ -21,11 +21,19 @@ public class LiveRoomServer {
 
 	/**
 	 * @param id
-	 * @return   根据id 获取直播间视频信息
+	 * @return 根据id 获取直播间视频信息
 	 */
 	public static VideoLive getRoomLiveUrl(int id) {
 		LiveRoomDao dao = new LiveRoomImp();
 		return dao.getLiveUrl(id);
 	}
 
+	/**
+	 * @param page
+	 * @return 获取所有的直播信息
+	 */
+	public static List<VideoLive> findAll(int page) {
+		LiveRoomDao dao = new LiveRoomImp();
+		return dao.getAllRoom(page);
+	}
 }

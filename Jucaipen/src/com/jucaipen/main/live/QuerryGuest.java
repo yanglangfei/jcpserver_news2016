@@ -8,13 +8,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.utils.HeaderUtil;
+import com.jucaipen.utils.StringUtil;
+
 /**
  * @author Administrator
- *
- *    获取嘉宾
+ * 
+ *         获取嘉宾
  */
 @SuppressWarnings("serial")
 public class QuerryGuest extends HttpServlet {
+	private String result;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -22,9 +27,15 @@ public class QuerryGuest extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-	    
-		
-		out.println("</HTML>");
+		String userAgent = request.getParameter("User-Agent");
+		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
+		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
+		if (isDevice == HeaderUtil.PHONE_APP) {
+
+		} else {
+			result = StringUtil.isVaild;
+		}
+		out.println(result);
 		out.flush();
 		out.close();
 	}

@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.GiftClass;
 import com.jucaipen.service.GiftClassSer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -30,21 +32,28 @@ public class QuerryGiftType extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String userId=request.getParameter("userId");
-		if(StringUtil.isNotNull(userId)){
-			if(StringUtil.isInteger(userId)){
-				int uId=Integer.parseInt(userId);
-				if(uId>0){
-					result=initClassData();
+		String userAgent=request.getParameter("User-Agent");
+		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
+		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
+		if(isDevice==HeaderUtil.PHONE_APP){
+			String userId=request.getParameter("userId");
+			if(StringUtil.isNotNull(userId)){
+				if(StringUtil.isInteger(userId)){
+					int uId=Integer.parseInt(userId);
+					if(uId>0){
+						result=initClassData();
+					}else{
+						result=JsonUtil.getRetMsg(3,"该用户还没登录");
+					}
 				}else{
-					result=JsonUtil.getRetMsg(3,"该用户还没登录");
+					result=JsonUtil.getRetMsg(2, "userId 参数数字格式化异常");
 				}
+				
 			}else{
-				result=JsonUtil.getRetMsg(2, "userId 参数数字格式化异常");
+				result=JsonUtil.getRetMsg(1, "userId 参数不能为空");
 			}
-			
 		}else{
-			result=JsonUtil.getRetMsg(1, "userId 参数不能为空");
+			result=StringUtil.isVaild;
 		}
 		
 		out.println(result);

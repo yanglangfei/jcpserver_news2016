@@ -1,16 +1,21 @@
 package com.jucaipen.main.user;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.LoginLog;
 import com.jucaipen.model.User;
 import com.jucaipen.service.LogServer;
 import com.jucaipen.service.UserServer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -39,26 +44,33 @@ public class OtherAccountLogin extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String accountType = request.getParameter("accountType");
-		String accountId = request.getParameter("accountId");
-		clientAddress = request.getRemoteAddr();
-		if (StringUtil.isInteger(accountType)) {
-			int type = Integer.parseInt(accountType);
-			if (StringUtil.isNotNull(accountId)) {
-				loginUser(type, accountId);
-				if (user != null) {  
-					result = JsonUtil.getLoginResult(user);
-					uId = user.getId();
-					handleLoginResult(1, user);
+		String userAgent = request.getParameter("User-Agent");
+		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
+		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
+		if (isDevice == HeaderUtil.PHONE_APP) {
+			String accountType = request.getParameter("accountType");
+			String accountId = request.getParameter("accountId");
+			clientAddress = request.getRemoteAddr();
+			if (StringUtil.isInteger(accountType)) {
+				int type = Integer.parseInt(accountType);
+				if (StringUtil.isNotNull(accountId)) {
+					loginUser(type, accountId);
+					if (user != null) {
+						result = JsonUtil.getLoginResult(user);
+						uId = user.getId();
+						handleLoginResult(1, user);
+					} else {
+						// 未绑定的第三方登录
+						result = JsonUtil.getRetMsg(3, "该账户未绑定");
+					}
 				} else {
-					// 未绑定的第三方登录
-					result = JsonUtil.getRetMsg(3, "该账户未绑定");
+					result = JsonUtil.getRetMsg(1, "账号id不能为空");
 				}
 			} else {
-				result = JsonUtil.getRetMsg(1, "账号id不能为空");
+				result = JsonUtil.getRetMsg(2, "账号类型参数数字格式化异常");
 			}
 		} else {
-			result = JsonUtil.getRetMsg(2, "账号类型参数数字格式化异常");
+			result = StringUtil.isVaild;
 		}
 		out.print(result);
 		out.flush();
@@ -74,10 +86,9 @@ public class OtherAccountLogin extends HttpServlet {
 		log.setPassword(user.getPassword());
 		log.setRemark("登录成功");
 		log.setLoginIp(clientAddress);
-		 LogServer.insertLog(log);
+		LogServer.insertLog(log);
 
 	}
-
 
 	private void loginUser(int type, String accountId) {
 		// 利用第三方账号登录程序

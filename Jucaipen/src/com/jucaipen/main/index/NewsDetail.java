@@ -8,17 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.News;
 import com.jucaipen.model.ResourceSources;
 import com.jucaipen.service.NewServer;
 import com.jucaipen.service.ResourceFromServer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
 /**
  * @author Administrator
- *
- *   获取新闻详细信息
+ * 
+ *         获取新闻详细信息
  */
 @SuppressWarnings("serial")
 public class NewsDetail extends HttpServlet {
@@ -32,36 +34,41 @@ public class NewsDetail extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-	    String newsId=request.getParameter("newsId");
-	    if(StringUtil.isNotNull(newsId)){
-	    	if(StringUtil.isInteger(newsId)){
-	    		int id=Integer.parseInt(newsId);
-	    		initNewsDetail(id);
-	    		result=JsonUtil.getObject(news);
-	    	}else{
-	    		result=JsonUtil.getRetMsg(1, "newsId 参数数字格式化异常");
-	    	}
-	    }else{
-	    	result=JsonUtil.getRetMsg(2,"newsId 参数不能为空");
-	    }
-		
+		String userAgent = request.getParameter("User-Agent");
+		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
+		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
+		if (isDevice == HeaderUtil.PHONE_APP) {
+			String newsId = request.getParameter("newsId");
+			if (StringUtil.isNotNull(newsId)) {
+				if (StringUtil.isInteger(newsId)) {
+					int id = Integer.parseInt(newsId);
+					initNewsDetail(id);
+					result = JsonUtil.getObject(news);
+				} else {
+					result = JsonUtil.getRetMsg(1, "newsId 参数数字格式化异常");
+				}
+			} else {
+				result = JsonUtil.getRetMsg(2, "newsId 参数不能为空");
+			}
+		} else {
+			result = StringUtil.isVaild;
+		}
 		out.println(result);
 		out.flush();
 		out.close();
 	}
 
 	private void initNewsDetail(int id) {
-		//初始化新闻详细信息
+		// 初始化新闻详细信息
 		news = NewServer.findNewsById(id);
-		if(news!=null){
-			int fromId=news.getFromId();
+		if (news != null) {
+			int fromId = news.getFromId();
 			ResourceSources source = ResourceFromServer.getRSources(fromId);
-			if(source!=null){
+			if (source != null) {
 				news.setFrom(source.getFromName());
 			}
 		}
-		
-		
+
 	}
 
 }

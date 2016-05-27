@@ -2,10 +2,14 @@ package com.jucaipen.main.index;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -31,48 +35,55 @@ public class AddRemark extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");     
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String typeId = request.getParameter("typeId");
-		String userId = request.getParameter("userId");
-		String classId = request.getParameter("classId"); 
-		String newsId = request.getParameter("newsId");
-		String bodys = request.getParameter("bodys");
-		if (StringUtil.isInteger(userId)) {
-			int uId = Integer.parseInt(userId);
-			if(uId>0){
-				if (StringUtil.isInteger(classId)) {
-					int cId = Integer.parseInt(classId);
-					if (StringUtil.isInteger(newsId)) {
-						int nId = Integer.parseInt(newsId);
-						if (StringUtil.isNotNull(bodys)) {
-							if (StringUtil.isInteger(typeId)) {
-								int type = Integer.parseInt(typeId);
-								if (type == 0 || type == 1||type==2) {
-									insertRemark(uId, cId, nId, bodys,type);
-									if (isSuccess == 1) {
-										result = JsonUtil.getRetMsg(0, "评论发表成功");
+		String userAgent=request.getParameter("User-Agent");
+		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
+		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
+		if(isDevice==HeaderUtil.PHONE_APP){
+			String typeId = request.getParameter("typeId");
+			String userId = request.getParameter("userId");
+			String classId = request.getParameter("classId"); 
+			String newsId = request.getParameter("newsId");
+			String bodys = request.getParameter("bodys");
+			if (StringUtil.isInteger(userId)) {
+				int uId = Integer.parseInt(userId);
+				if(uId>0){
+					if (StringUtil.isInteger(classId)) {
+						int cId = Integer.parseInt(classId);
+						if (StringUtil.isInteger(newsId)) {
+							int nId = Integer.parseInt(newsId);
+							if (StringUtil.isNotNull(bodys)) {
+								if (StringUtil.isInteger(typeId)) {
+									int type = Integer.parseInt(typeId);
+									if (type == 0 || type == 1||type==2) {
+										insertRemark(uId, cId, nId, bodys,type);
+										if (isSuccess == 1) {
+											result = JsonUtil.getRetMsg(0, "评论发表成功");
+										} else {
+											result = JsonUtil.getRetMsg(1, "评论发表失败");
+										}
 									} else {
-										result = JsonUtil.getRetMsg(1, "评论发表失败");
+										result = JsonUtil.getRetMsg(4,
+												"参数typeId必须为0或者1");
 									}
 								} else {
-									result = JsonUtil.getRetMsg(4,
-											"参数typeId必须为0或者1");
+									result = JsonUtil.getRetMsg(5, "typeId参数数字格式化异常");
 								}
-							} else {
-								result = JsonUtil.getRetMsg(5, "typeId参数数字格式化异常");
 							}
+						} else {
+							result = JsonUtil.getRetMsg(3, "新闻id参数数字格式化异常");
 						}
 					} else {
-						result = JsonUtil.getRetMsg(3, "新闻id参数数字格式化异常");
+						result = JsonUtil.getRetMsg(2, "新闻分类id参数数字格式化异常");
 					}
-				} else {
-					result = JsonUtil.getRetMsg(2, "新闻分类id参数数字格式化异常");
+					
+				}else {
+					result=JsonUtil.getRetMsg(7,"当前用户还没登录");
 				}
-				
-			}else {
-				result=JsonUtil.getRetMsg(7,"当前用户还没登录");
+			} else {
+				result = JsonUtil.getRetMsg(6, "用户id参数数字格式化异常");
 			}
-		} else {
-			result = JsonUtil.getRetMsg(6, "用户id参数数字格式化异常");
+		}else{
+			result=StringUtil.isVaild;
 		}
 		out.print(result);
 		out.flush();

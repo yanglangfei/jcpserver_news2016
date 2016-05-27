@@ -10,9 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.Province;
 import com.jucaipen.service.ProvinceServer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.StringUtil;
 
 /**
  * @author Administrator
@@ -31,8 +34,15 @@ public class QuerryProvince extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		initProvinceInfo();
-		result = JsonUtil.getObject(provinces);
+		String userAgent=request.getParameter("User-Agent");
+		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
+		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
+		if(isDevice==HeaderUtil.PHONE_APP){
+			initProvinceInfo();
+			result = JsonUtil.getObject(provinces);
+		}else{
+			result=StringUtil.isVaild;
+		}
 		out.print(result);
 		out.flush();
 		out.close();

@@ -10,6 +10,8 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class VideoLive implements Serializable{
+	private int page;
+	private int totlePage;
 	/**
 	 *  直播id
 	 */
@@ -58,6 +60,19 @@ public class VideoLive implements Serializable{
 	 *  直播人气
 	 */
 	private int renQi;
+	
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getTotlePage() {
+		return totlePage;
+	}
+	public void setTotlePage(int totlePage) {
+		this.totlePage = totlePage;
+	}
 	public int getId() {
 		return id;
 	}

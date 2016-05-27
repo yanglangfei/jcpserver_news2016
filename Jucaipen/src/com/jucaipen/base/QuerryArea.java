@@ -9,8 +9,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.model.Area;
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.service.AreaServer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -31,13 +34,20 @@ public class QuerryArea extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String cityId = request.getParameter("cityId");
-		if (StringUtil.isInteger(cityId)) {
-			int cId = Integer.parseInt(cityId);
-			initAreaData(cId);
-			result = JsonUtil.getObject(areas);
-		} else {
-			result = JsonUtil.getRetMsg(1, "城市id参数数字格式化异常");
+		String userAgent=request.getParameter("User-Agent");
+		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
+		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
+		if(isDevice==HeaderUtil.PHONE_APP){
+			String cityId = request.getParameter("cityId");
+			if (StringUtil.isInteger(cityId)) {
+				int cId = Integer.parseInt(cityId);
+				initAreaData(cId);
+				result = JsonUtil.getObject(areas);
+			} else {
+				result = JsonUtil.getRetMsg(1, "城市id参数数字格式化异常");
+			}
+		}else{
+			result=StringUtil.isVaild;
 		}
 		out.print(result);
 		out.flush();

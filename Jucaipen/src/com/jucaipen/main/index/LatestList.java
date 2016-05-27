@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -18,8 +20,6 @@ import com.jucaipen.utils.StringUtil;
  */
 @SuppressWarnings("serial")
 public class LatestList extends HttpServlet {
-
-	
 	private String result;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -28,17 +28,24 @@ public class LatestList extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-	    String type=request.getParameter("type");
-	    if(StringUtil.isInteger(type)){
-	    	result=JsonUtil.getRetMsg(1, "type 参数不能为空");
-	    }else{
-	    	if(StringUtil.isInteger(type)){
-	    		int t=Integer.parseInt(type);
-	    		result=initlist(t);
-	    	}else{
-	    		result=JsonUtil.getRetMsg(2,"type 参数数字格式化异常");
-	    	}
-	    }
+		String userAgent=request.getParameter("User-Agent");
+		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
+		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
+		if(isDevice==HeaderUtil.PHONE_APP){
+			String type=request.getParameter("type");
+		    if(StringUtil.isInteger(type)){
+		    	result=JsonUtil.getRetMsg(1, "type 参数不能为空");
+		    }else{
+		    	if(StringUtil.isInteger(type)){
+		    		int t=Integer.parseInt(type);
+		    		result=initlist(t);
+		    	}else{
+		    		result=JsonUtil.getRetMsg(2,"type 参数数字格式化异常");
+		    	}
+		    }
+		}else{
+			result=StringUtil.isVaild;
+		}
 		out.println(result);
 		out.flush();
 		out.close();

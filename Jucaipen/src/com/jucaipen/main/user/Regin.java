@@ -8,13 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
 /**
  * @author Administrator
- *
- *    注册
+ * 
+ *         注册
  */
 @SuppressWarnings("serial")
 public class Regin extends HttpServlet {
@@ -26,25 +28,30 @@ public class Regin extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String userName=request.getParameter("userName");
-		String password=request.getParameter("password");
-		if(userName.isEmpty()){
-			result=JsonUtil.getRetMsg(1,"用户名不能为空");
-		}else if(!StringUtil.isUserName(userName)){
-			result=JsonUtil.getRetMsg(2,"用户名必须为1-9位");
-		}else if(password.isEmpty()){
-			result=JsonUtil.getRetMsg(3,"密码不能为空");
+		String userAgent = request.getParameter("User-Agent");
+		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
+		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
+		if (isDevice == HeaderUtil.PHONE_APP) {
+			String userName = request.getParameter("userName");
+			String password = request.getParameter("password");
+			if (userName.isEmpty()) {
+				result = JsonUtil.getRetMsg(1, "用户名不能为空");
+			} else if (!StringUtil.isUserName(userName)) {
+				result = JsonUtil.getRetMsg(2, "用户名必须为1-9位");
+			} else if (password.isEmpty()) {
+				result = JsonUtil.getRetMsg(3, "密码不能为空");
+			}
+			regin(userName, password);
+		} else {
+			result = StringUtil.isVaild;
 		}
-		regin(userName,password);
 		out.println(result);
 		out.flush();
 		out.close();
 	}
 
-	
 	private void regin(String userName, String password) {
-		
-		
+
 	}
 
 }

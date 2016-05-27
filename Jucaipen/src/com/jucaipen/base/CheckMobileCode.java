@@ -10,8 +10,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.MobileMessage;
 import com.jucaipen.service.MobileMessageSer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -38,48 +41,55 @@ public class CheckMobileCode extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		checkDate = sdf.format(new Date());
-		//用户真实姓名
-		//String trueName=request.getParameter("trueName");
-		//用户id  
-		String userId=request.getParameter("userId");
-		//用户手机号
-		String mobileNum=request.getParameter("telPhone");
-		//验证码
-		String actionCode=request.getParameter("actionCode");
-		//券商名称
-		String qsName=request.getParameter("qsName");
-		String teacherId=request.getParameter("teacherId");
-	//	ip=request.getRemoteAddr();
-		if(StringUtil.isInteger(userId)){
-			//用户id数字格式化正常
-		//	int uId=Integer.parseInt(userId);
-			if(StringUtil.isInteger(teacherId)){                
-				//tId = Integer.parseInt(teacherId);
-				if(StringUtil.isMobileNumber(mobileNum)){   
-					if(StringUtil.isNotNull(qsName)){
-					//手机号符合要求
-					checkMobileCode(mobileNum,actionCode);
-					if(isPassed){
-						if(isSuccess==1){
-							result=JsonUtil.getRetMsg(0, "验证码信息正确");
+		String userAgent=request.getParameter("User-Agent");
+		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
+		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
+		if(isDevice==HeaderUtil.PHONE_APP){
+			checkDate = sdf.format(new Date());
+			//用户真实姓名
+			//String trueName=request.getParameter("trueName");
+			//用户id  
+			String userId=request.getParameter("userId");
+			//用户手机号
+			String mobileNum=request.getParameter("telPhone");
+			//验证码
+			String actionCode=request.getParameter("actionCode");
+			//券商名称
+			String qsName=request.getParameter("qsName");
+			String teacherId=request.getParameter("teacherId");
+		//	ip=request.getRemoteAddr();
+			if(StringUtil.isInteger(userId)){
+				//用户id数字格式化正常
+			//	int uId=Integer.parseInt(userId);
+				if(StringUtil.isInteger(teacherId)){                
+					//tId = Integer.parseInt(teacherId);
+					if(StringUtil.isMobileNumber(mobileNum)){   
+						if(StringUtil.isNotNull(qsName)){
+						//手机号符合要求
+						checkMobileCode(mobileNum,actionCode);
+						if(isPassed){
+							if(isSuccess==1){
+								result=JsonUtil.getRetMsg(0, "验证码信息正确");
+							}else {
+								result=JsonUtil.getRetMsg(5,"验证失败");
+							}
 						}else {
-							result=JsonUtil.getRetMsg(5,"验证失败");
+							result=JsonUtil.getRetMsg(3,"无效的验证码");
+						}
+						insertCheckInfo(mobileNum,checkDate,qsName);
+						}else {
+							result=JsonUtil.getRetMsg(4, "请选择券商");
 						}
 					}else {
-						result=JsonUtil.getRetMsg(3,"无效的验证码");
+						result=JsonUtil.getRetMsg(2,"手机号不符合要求");
 					}
-					insertCheckInfo(mobileNum,checkDate,qsName);
-					}else {
-						result=JsonUtil.getRetMsg(4, "请选择券商");
-					}
-				}else {
-					result=JsonUtil.getRetMsg(2,"手机号不符合要求");
+					
 				}
-				
+			}else {
+				result=JsonUtil.getRetMsg(1,"参数用户id数字格式化异常");
 			}
-		}else {
-			result=JsonUtil.getRetMsg(1,"参数用户id数字格式化异常");
+		}else{
+			result=StringUtil.isVaild;
 		}
 		out.print(result);
 		out.flush();

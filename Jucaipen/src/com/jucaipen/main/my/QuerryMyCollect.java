@@ -10,12 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.Favorites;
 import com.jucaipen.model.Knowledge;
 import com.jucaipen.model.Video;
 import com.jucaipen.service.FavoritesSer;
 import com.jucaipen.service.KnowledgetSer;
 import com.jucaipen.service.VideoServer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -36,40 +38,46 @@ public class QuerryMyCollect extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String userId = request.getParameter("userId");
-		String page = request.getParameter("page");
-		String type = request.getParameter("type");
-		if (StringUtil.isNotNull(userId)) {
-			if (StringUtil.isInteger(userId)) {
-				int uId = Integer.parseInt(userId);
-				if (uId > 0) {
-					if (StringUtil.isNotNull(page)
-							&& StringUtil.isInteger(page)) {
-						int p = Integer.parseInt(page);
-						if (StringUtil.isNotNull(type)
-								&& StringUtil.isInteger(type)) {
-							int t = Integer.parseInt(type);
-							result = initMyCollect(t, p, uId);
+		String userAgent = request.getParameter("User-Agent");
+		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
+		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
+		if (isDevice == HeaderUtil.PHONE_APP) {
+			String userId = request.getParameter("userId");
+			String page = request.getParameter("page");
+			String type = request.getParameter("type");
+			if (StringUtil.isNotNull(userId)) {
+				if (StringUtil.isInteger(userId)) {
+					int uId = Integer.parseInt(userId);
+					if (uId > 0) {
+						if (StringUtil.isNotNull(page)
+								&& StringUtil.isInteger(page)) {
+							int p = Integer.parseInt(page);
+							if (StringUtil.isNotNull(type)
+									&& StringUtil.isInteger(type)) {
+								int t = Integer.parseInt(type);
+								result = initMyCollect(t, p, uId);
+							} else {
+								result = JsonUtil.getRetMsg(1, "type 参数异常");
+							}
+
 						} else {
-							result = JsonUtil.getRetMsg(1, "type 参数异常");
+							result = JsonUtil.getRetMsg(1, "page 参数异常");
 						}
 
 					} else {
-						result = JsonUtil.getRetMsg(1, "page 参数异常");
+						result = JsonUtil.getRetMsg(1, "该用户还没登录");
 					}
 
 				} else {
-					result = JsonUtil.getRetMsg(1, "该用户还没登录");
+					result = JsonUtil.getRetMsg(1, "userId 数字格式化异常");
 				}
 
 			} else {
-				result = JsonUtil.getRetMsg(1, "userId 数字格式化异常");
+				result = JsonUtil.getRetMsg(1, "userId 参数不能为空");
 			}
-
 		} else {
-			result = JsonUtil.getRetMsg(1, "userId 参数不能为空");
+			result = StringUtil.isVaild;
 		}
-
 		out.println(result);
 		out.flush();
 		out.close();

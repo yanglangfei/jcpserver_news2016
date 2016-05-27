@@ -9,12 +9,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.model.Ask;
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.SiteConfig;
 import com.jucaipen.service.AskSer;
 import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.SiteConfigSer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -39,61 +42,68 @@ public class AskQuestion extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String askType = request.getParameter("questionType");
-		String userId = request.getParameter("userId");
-		String askBodys = request.getParameter("askBodys");
-		String teacherId = request.getParameter("teacherId");
-		ip = request.getRemoteAddr();
-		if (StringUtil.isInteger(userId)) {
-			// 用户id格式正确
-			int uId = Integer.parseInt(userId);
+		String userAgent=request.getParameter("User-Agent");
+		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
+		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
+		if(isDevice==HeaderUtil.PHONE_APP){
+			String askType = request.getParameter("questionType");
+			String userId = request.getParameter("userId");
+			String askBodys = request.getParameter("askBodys");
+			String teacherId = request.getParameter("teacherId");
+			ip = request.getRemoteAddr();
+			if (StringUtil.isInteger(userId)) {
+				// 用户id格式正确
+				int uId = Integer.parseInt(userId);
 
-			if (StringUtil.isInteger(teacherId)) {
-				// 讲师id数字格式化正确
-				int tId = Integer.parseInt(teacherId);
-				initMaxAskNum(uId, tId);
-				// 判断提问数量是否超出限制的提问数
-				if (currentAskNum < totleAskNum) {
-					if (tId > 0) {
-						if (StringUtil.isInteger(askType)) {
-							// 提问类型数字格式化正确
-							if (StringUtil.isNotNull(askBodys)) {
-								int type = Integer.parseInt(askType);
-								if (type > 0) {
-									createAskModel(uId, tId, type, askBodys);
-									if (isSuccess == 1) {
-										result = JsonUtil.getRetMsg(0,
-												"咨询信息提交成功");
+				if (StringUtil.isInteger(teacherId)) {
+					// 讲师id数字格式化正确
+					int tId = Integer.parseInt(teacherId);
+					initMaxAskNum(uId, tId);
+					// 判断提问数量是否超出限制的提问数
+					if (currentAskNum < totleAskNum) {
+						if (tId > 0) {
+							if (StringUtil.isInteger(askType)) {
+								// 提问类型数字格式化正确
+								if (StringUtil.isNotNull(askBodys)) {
+									int type = Integer.parseInt(askType);
+									if (type > 0) {
+										createAskModel(uId, tId, type, askBodys);
+										if (isSuccess == 1) {
+											result = JsonUtil.getRetMsg(0,
+													"咨询信息提交成功");
+										} else {
+											result = JsonUtil.getRetMsg(1,
+													"咨询信息提交失败");
+										}
 									} else {
-										result = JsonUtil.getRetMsg(1,
-												"咨询信息提交失败");
+										result = JsonUtil.getRetMsg(6, "分类id找不到");
 									}
 								} else {
-									result = JsonUtil.getRetMsg(6, "分类id找不到");
+									result = JsonUtil.getRetMsg(5, "咨询内容不能为空");
 								}
+
 							} else {
-								result = JsonUtil.getRetMsg(5, "咨询内容不能为空");
+								// 提问类型数字格式化异常
+								result = JsonUtil.getRetMsg(2, "咨询分类参数数字格式化异常");
 							}
 
 						} else {
-							// 提问类型数字格式化异常
-							result = JsonUtil.getRetMsg(2, "咨询分类参数数字格式化异常");
+							result = JsonUtil.getRetMsg(7, "讲师id异常");
 						}
 
 					} else {
-						result = JsonUtil.getRetMsg(7, "讲师id异常");
+						result = JsonUtil.getRetMsg(8, "您的提问数已经超出限制");
 					}
-
 				} else {
-					result = JsonUtil.getRetMsg(8, "您的提问数已经超出限制");
+					// 讲师id数字格式化异常
+					result = JsonUtil.getRetMsg(3, "讲师id数字格式化异常");
 				}
 			} else {
-				// 讲师id数字格式化异常
-				result = JsonUtil.getRetMsg(3, "讲师id数字格式化异常");
+				// 用户id数字格式化异常
+				result = JsonUtil.getRetMsg(4, "用户id数字格式化异常");
 			}
-		} else {
-			// 用户id数字格式化异常
-			result = JsonUtil.getRetMsg(4, "用户id数字格式化异常");
+		}else{
+			result=StringUtil.isVaild;
 		}
 		out.print(result);
 		out.flush();

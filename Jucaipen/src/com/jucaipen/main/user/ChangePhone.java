@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.utils.HeaderUtil;
+import com.jucaipen.utils.StringUtil;
+
 /**
  * @author Administrator
  *
@@ -23,9 +27,14 @@ public class ChangePhone extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String userId=request.getParameter("userId");
-		
-		
+		String userAgent=request.getParameter("User-Agent");
+		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
+		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
+		if(isDevice==HeaderUtil.PHONE_APP){
+			String userId=request.getParameter("userId");
+		}else{
+			result=StringUtil.isVaild;
+		}
 		out.println(result);
 		out.flush();
 		out.close();

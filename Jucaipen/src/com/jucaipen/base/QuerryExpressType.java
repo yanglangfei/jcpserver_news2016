@@ -8,9 +8,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.ExpressionType;
 import com.jucaipen.service.FaceTypeServer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.StringUtil;
 
 /**
  * @author YLF
@@ -29,8 +33,15 @@ public class QuerryExpressType extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		initFaceType();
-		result=JsonUtil.getExpressionType(types);
+		String userAgent=request.getParameter("User-Agent");
+		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
+		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
+		if(isDevice==HeaderUtil.PHONE_APP){
+			initFaceType();
+			result=JsonUtil.getExpressionType(types);
+		}else{
+			result=StringUtil.isVaild;
+		}
 		out.print(result);
 		out.flush();
 		out.close();

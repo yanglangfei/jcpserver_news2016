@@ -14,6 +14,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -41,22 +44,35 @@ public class DownFile extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		fileName = request.getParameter("fileName");
-		if (StringUtil.isNotNull(fileName)) {
-			loadPath = rootPath + fileName;
-			File apkFile = new File(loadPath);
-			if (apkFile.exists()) {
-				downLoadApk(response);
-			} else {
+		String userAgent=request.getParameter("User-Agent");
+		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
+		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
+		if(isDevice==HeaderUtil.PHONE_APP){
+			fileName = request.getParameter("fileName");
+			if (StringUtil.isNotNull(fileName)) {
+				loadPath = rootPath + fileName;
+				File apkFile = new File(loadPath);
+				if (apkFile.exists()) {
+					downLoadApk(response);
+				} else {
 
+				}
+			} else {
+				PrintWriter out = response.getWriter();
+				result = JsonUtil.getRetMsg(1, "下载文件名不能为空");
+				out.write(result);
+				out.flush();
+				out.close();
 			}
-		} else {
+			
+		}else{
 			PrintWriter out = response.getWriter();
-			result = JsonUtil.getRetMsg(1, "下载文件名不能为空");
+			result = StringUtil.isVaild;
 			out.write(result);
 			out.flush();
 			out.close();
 		}
+		
 	}
 
 	private void downLoadApk(HttpServletResponse response) {

@@ -7,9 +7,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.model.ApkInfo;
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.service.ApkInfoServer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.StringUtil;
 /**
  * @author YLF
  * 
@@ -30,8 +34,15 @@ public class UpdateVersion extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		initServerVersion();
-		result = JsonUtil.getApkInfo(info);
+		String userAgent=request.getParameter("User-Agent");
+        ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);	
+        int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
+		if(isDevice==HeaderUtil.PHONE_APP){
+			initServerVersion();
+			result = JsonUtil.getApkInfo(info);
+		}else{
+			result=StringUtil.isVaild;
+		}
 		out.print(result);
 		out.flush();
 		out.close();
