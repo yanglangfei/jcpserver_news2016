@@ -2,6 +2,7 @@ package com.jucaipen.main.live;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,7 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.model.StudioGuest;
+import com.jucaipen.service.StudioGuestSer;
 import com.jucaipen.utils.HeaderUtil;
+import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
 /**
@@ -31,13 +35,30 @@ public class QuerryGuest extends HttpServlet {
 		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
-
+			String studioId=request.getParameter("studioId");
+			if(StringUtil.isNotNull(studioId)){
+				if(StringUtil.isInteger(studioId)){
+					int sId=Integer.parseInt(studioId);
+					result=initStudioGuest(sId);
+				}else{
+					result=JsonUtil.getRetMsg(2,"studioId 参数数字格式化异常");
+				}
+			}else{
+				result=JsonUtil.getRetMsg(1,"studioId 参数不能为空");
+			}
+			
 		} else {
 			result = StringUtil.isVaild;
 		}
 		out.println(result);
 		out.flush();
 		out.close();
+	}
+
+	private String initStudioGuest(int sId) {
+		//初始化演播室嘉宾信息
+		List<StudioGuest> guests = StudioGuestSer.findTopGuest(6, sId);
+		return JsonUtil.getGuests(guests);
 	}
 
 }

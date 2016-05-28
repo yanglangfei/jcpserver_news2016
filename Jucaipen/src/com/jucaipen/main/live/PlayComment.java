@@ -20,7 +20,6 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class PlayComment extends HttpServlet {
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
