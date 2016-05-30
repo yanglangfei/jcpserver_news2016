@@ -14,11 +14,11 @@ import java.sql.Statement;
  */
 public class JdbcUtil {
 	/*
-	 * SqlServer 测试数据库 new 192.168.1.127 old 192.168.1.233 JcpStudyPlatformData
+	 * SqlServer 测试数据库 new 192.168.1.127 old 192.168.1.233 JcpStudyPlatformData     132
 	 * JCPData
 	 */
 	private static final String SQLSERVER_DRIVER_TEST = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	private static final String SQLSERVER_URL_TEST = "jdbc:sqlserver://192.168.1.127; DatabaseName=JcpStudyPlatformData";
+	private static final String SQLSERVER_URL_TEST = "jdbc:sqlserver://192.168.1.198; DatabaseName=JcpStudyPlatformData";
 	// private static final String SQLSERVER_URL_TEST =
 	// "jdbc:sqlserver://192.168.1.233; DatabaseName=JCPData";
 	private static final String SQLSERVER_UNAME_TEST = "sa";

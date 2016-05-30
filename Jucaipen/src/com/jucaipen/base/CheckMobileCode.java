@@ -21,7 +21,6 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  *
- *
  *  验证手机激活码
  */
 @SuppressWarnings("serial")

@@ -228,6 +228,11 @@
     <servlet-name>QuerryMyOrder</servlet-name>
     <servlet-class>com.jucaipen.main.my.QuerryMyOrder</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>BaseKnowType</servlet-name>
+    <servlet-class>com.jucaipen.main.index.BaseKnowType</servlet-class>
+  </servlet>
+
   <servlet-mapping>
     <servlet-name>QuerryAdvise</servlet-name>
     <url-pattern>/jucaipen/getadvise</url-pattern>
@@ -282,7 +287,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>QuerryComments</servlet-name>
-    <url-pattern>/jucaipen/getcomments</url-pattern>
+    <url-pattern>/jucaipen/getlogcomments</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>UserInfo</servlet-name>
@@ -451,5 +456,9 @@
   <servlet-mapping>
     <servlet-name>QuerryMyOrder</servlet-name>
     <url-pattern>/jucaipen/getmyorder</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BaseKnowType</servlet-name>
+    <url-pattern>/jucaipen/getbasetype</url-pattern>
   </servlet-mapping>
 </web-app>

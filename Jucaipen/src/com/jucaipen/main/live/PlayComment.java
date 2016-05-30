@@ -15,7 +15,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取演播评论列表
+ *         获取演播评论列表  getcomms
  */
 @SuppressWarnings("serial")
 public class PlayComment extends HttpServlet {

@@ -3,7 +3,7 @@ package com.jucaipen.model;
 import java.io.Serializable;
 
 /**
- * @author ylf      -------------数据已更新
+ * @author ylf      -------------数据已更新   JCP_LogOrLive_Comm
  * 
  *   观点、文字直播 评论      
  */

@@ -5,11 +5,13 @@ import java.io.Serializable;
 /**
  * @author YLF            --------------数据已更新
  * 
- *    评论bean  0证券知识，1为视频
+ *    评论bean  0证券知识，1为视频   JCP_User_Comm
  *
  */
 @SuppressWarnings("serial")
 public class UserComm implements Serializable {
+	private int page;
+	private int totlePage;
     /**
      *  评论id
      */
@@ -51,18 +53,18 @@ public class UserComm implements Serializable {
      */
     private int isShow;
     
-	public UserComm(int id, int userId, String bodys, int parentId, int type,
-			int novId, int goods, String insertDate, int replyCount, int isShow) {
-		this.id = id;
-		this.userId = userId;
-		this.bodys = bodys;
-		this.parentId = parentId;
-		this.type = type;
-		this.novId = novId;
-		this.goods = goods;
-		this.insertDate = insertDate;
-		this.replyCount = replyCount;
-		this.isShow = isShow;
+    
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getTotlePage() {
+		return totlePage;
+	}
+	public void setTotlePage(int totlePage) {
+		this.totlePage = totlePage;
 	}
 	public int getId() {
 		return id;

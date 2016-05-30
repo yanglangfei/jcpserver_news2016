@@ -22,5 +22,11 @@ public interface KnowledgeClassDao {
 	 */
 	public List<KnowledgeClass> findAllKnowledgeClass();
 	
+	/**
+	 * @param pId
+	 * @return  根据父级id获取分类信息
+	 */
+	public List<KnowledgeClass> findKnowClassByPid(int pId);
+	
 
 }

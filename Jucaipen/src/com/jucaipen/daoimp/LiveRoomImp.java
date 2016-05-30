@@ -109,7 +109,7 @@ public class LiveRoomImp implements LiveRoomDao {
 		try {
 			sta=dbConn.createStatement();
 			res=sta.executeQuery("SELECT TOP 15 * FROM "
-					+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_VideoLive"
+					+ "(SELECT ROW_NUMBER() OVER (ORDER BY StratDate desc) AS RowNumber,* FROM JCP_VideoLive"
 					+ ") A " + "WHERE RowNumber > " + 15
 					* (page - 1));
 			while (res.next()) {

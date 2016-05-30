@@ -91,4 +91,40 @@ public class KnowledgeClassImp implements KnowledgeClassDao {
 		return null;
 	}
 
+	@Override
+	public List<KnowledgeClass> findKnowClassByPid(int pId) {
+		// 根据父级id获取分类信息
+		classes.clear();
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT * FROM JCP_BasicKnowledgeClass WHERE ParentId="+pId);
+            while (res.next()) {
+            	int id=res.getInt(1);
+				String name=res.getString(2);  //ClassName
+				String keyWord=res.getString(3); //KeyWord
+				String desc=res.getString(4); //Description
+				String linkUrl=res.getString(7); //LinkUrl
+				KnowledgeClass knClass=new KnowledgeClass();
+				knClass.setId(id);
+				knClass.setKeyWord(keyWord);
+				knClass.setClassName(name);
+				knClass.setDesc(desc);
+				knClass.setLinkUrl(linkUrl);
+				classes.add(knClass);
+			}
+            return classes;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
 }

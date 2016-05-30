@@ -24,5 +24,15 @@ public class KnowledgeClassSer  {
 		KnowledgeClassDao dao=new KnowledgeClassImp();
 		return dao.findAllKnowledgeClass();
 	}
+	
+	/**
+	 * @param pId
+	 * @return  根据父级id获取分类信息
+	 */
+	public static List<KnowledgeClass> findKnowClassByPid(int pId){
+		KnowledgeClassDao dao=new KnowledgeClassImp();
+		return dao.findKnowClassByPid(pId);
+		
+	}
 
 }
