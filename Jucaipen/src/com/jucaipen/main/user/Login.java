@@ -37,7 +37,7 @@ public class Login extends HttpServlet {
 			if (StringUtil.isNotNull(userId)) {
 				if (StringUtil.isInteger(userId)) {
 					int id = Integer.parseInt(userId);
-					if (id > 0) {
+					if (id <= 0) {
 						result = userLogin(request);
 					} else {
 						result = JsonUtil.getRetMsg(3, "当前用户已经登录");
@@ -72,6 +72,9 @@ public class Login extends HttpServlet {
 		if (!StringUtil.isPassword(password)) {
 			return JsonUtil.getRetMsg(7, "密码必须为6-23位");
 		}
+		
+		
+		
 
 		return null;
 	}

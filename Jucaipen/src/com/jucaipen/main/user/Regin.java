@@ -32,16 +32,43 @@ public class Regin extends HttpServlet {
 		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
+			String telPhone = request.getParameter("telPhone");
+			String checkCode = request.getParameter("checkCode");
 			String userName = request.getParameter("userName");
 			String password = request.getParameter("password");
-			if (userName.isEmpty()) {
-				result = JsonUtil.getRetMsg(1, "用户名不能为空");
-			} else if (!StringUtil.isUserName(userName)) {
-				result = JsonUtil.getRetMsg(2, "用户名必须为1-9位");
-			} else if (password.isEmpty()) {
-				result = JsonUtil.getRetMsg(3, "密码不能为空");
+			String reptPwd = request.getParameter("reptPwd");
+			if (StringUtil.isMobileNumber(telPhone)) {
+				if (StringUtil.isNotNull(checkCode) && checkCode.length() >= 4) {
+					if (StringUtil.isNotNull(userName)) {
+						if (StringUtil.isUserName(userName)) {
+							if (StringUtil.isPassword(password)
+									&& StringUtil.isPassword(reptPwd)) {
+								if (password.equals(reptPwd)) {
+									result = regin(userName, password,
+											telPhone, checkCode);
+								} else {
+									result = JsonUtil.getRetMsg(6, "两次密码不一致");
+								}
+							} else {
+								result = JsonUtil.getRetMsg(5, "密码长度在6-23位");
+							}
+
+						} else {
+							result = JsonUtil.getRetMsg(4, "用户名长度为2-9位");
+						}
+
+					} else {
+						result = JsonUtil.getRetMsg(3, "用户名不能为空");
+					}
+
+				} else {
+					result = JsonUtil.getRetMsg(2, "验证码长度不足");
+				}
+
+			} else {
+				result = JsonUtil.getRetMsg(1, "手机号不符合要求");
 			}
-			regin(userName, password);
+
 		} else {
 			result = StringUtil.isVaild;
 		}
@@ -50,7 +77,9 @@ public class Regin extends HttpServlet {
 		out.close();
 	}
 
-	private void regin(String userName, String password) {
+	private String regin(String userName, String password, String telPhone,
+			String checkCode) {
+		return null;
 
 	}
 

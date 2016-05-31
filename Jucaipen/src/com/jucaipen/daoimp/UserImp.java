@@ -11,6 +11,7 @@ import com.jucaipen.dao.UserDao;
 import com.jucaipen.model.User;
 import com.jucaipen.utils.JdbcUtil;
 import com.jucaipen.utils.SqlUtil;
+
 /**
  * @author ylf
  * 
@@ -39,7 +40,7 @@ public class UserImp implements UserDao {
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -48,27 +49,22 @@ public class UserImp implements UserDao {
 		}
 		return 0;
 	}
-	
 
 	/*
 	 * 用户注册
 	 */
 	public int reginUser(User user) {
-	/*	try {
-			dbConn = JdbcUtil.connSqlServer();
-			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("insert into " + SqlUtil.USER_TABLE
-					+ "(" + SqlUtil.USER_NAME + "," + SqlUtil.USER_MOBILE + ","
-					+ SqlUtil.USER_PASSWORD + "," + SqlUtil.USER_REGFROM + ","
-					+ SqlUtil.USER_REGINDATE + "," + SqlUtil.USER_REGINIP
-					+ ") values("
-					+ user.getMobileNum() + "','" + user.getPassword() + "',"
-					+ 5 + ",'" + user.getRegDate() + "','" + user.getRegIp()
-					+ "')");
-			return isSuccess;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}*/
+		/*
+		 * try { dbConn = JdbcUtil.connSqlServer(); sta =
+		 * dbConn.createStatement(); isSuccess =
+		 * sta.executeUpdate("insert into " + SqlUtil.USER_TABLE + "(" +
+		 * SqlUtil.USER_NAME + "," + SqlUtil.USER_MOBILE + "," +
+		 * SqlUtil.USER_PASSWORD + "," + SqlUtil.USER_REGFROM + "," +
+		 * SqlUtil.USER_REGINDATE + "," + SqlUtil.USER_REGINIP + ") values(" +
+		 * user.getMobileNum() + "','" + user.getPassword() + "'," + 5 + ",'" +
+		 * user.getRegDate() + "','" + user.getRegIp() + "')"); return
+		 * isSuccess; } catch (SQLException e) { e.printStackTrace(); }
+		 */
 		return 0;
 	}
 
@@ -88,7 +84,7 @@ public class UserImp implements UserDao {
 			return users;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -137,7 +133,7 @@ public class UserImp implements UserDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -163,7 +159,7 @@ public class UserImp implements UserDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -173,7 +169,7 @@ public class UserImp implements UserDao {
 		return null;
 	}
 
-	//根据用户ID修改用户手机号
+	// 根据用户ID修改用户手机号
 	public int updatePhoneById(int id, String tel) {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
@@ -183,7 +179,7 @@ public class UserImp implements UserDao {
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -203,7 +199,7 @@ public class UserImp implements UserDao {
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -226,7 +222,7 @@ public class UserImp implements UserDao {
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -253,7 +249,7 @@ public class UserImp implements UserDao {
 			return u;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -288,7 +284,7 @@ public class UserImp implements UserDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -317,7 +313,7 @@ public class UserImp implements UserDao {
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -339,13 +335,13 @@ public class UserImp implements UserDao {
 					+ user.getMobileNum() + "',Sex='" + user.getSex()
 					+ "',UserInformation='" + user.getDescript() + "',Email='"
 					+ user.getEmail() + "',Birthday='" + user.getBirthday()
-					+ "',ProvinceID=" + user.getProvinceId()
-					+ ",CiytID=" + user.getCityId() + ",AreaID="
-					+ user.getAreaId() + " WHERE Id=" + id);
+					+ "',ProvinceID=" + user.getProvinceId() + ",CiytID="
+					+ user.getCityId() + ",AreaID=" + user.getAreaId()
+					+ " WHERE Id=" + id);
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -372,7 +368,7 @@ public class UserImp implements UserDao {
 			return u;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -400,7 +396,7 @@ public class UserImp implements UserDao {
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -417,11 +413,13 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			if (accountType == 0) {
-				res = sta.executeQuery("SELECT * FROM JCP_User WHERE QQOpenId='"
-						+ accountId + "'");
+				res = sta
+						.executeQuery("SELECT * FROM JCP_User WHERE QQOpenId='"
+								+ accountId + "'");
 			} else if (accountType == 1) {
-				res = sta.executeQuery("SELECT * FROM JCP_User WHERE WeiXinId='"
-						+ accountId + "'");
+				res = sta
+						.executeQuery("SELECT * FROM JCP_User WHERE WeiXinId='"
+								+ accountId + "'");
 			} else if (accountType == 2) {
 				res = sta.executeQuery("SELECT * FROM JCP_User WHERE WeiboId='"
 						+ accountId + "'");
@@ -433,7 +431,7 @@ public class UserImp implements UserDao {
 			return u;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -463,7 +461,7 @@ public class UserImp implements UserDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -490,7 +488,7 @@ public class UserImp implements UserDao {
 			return u;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -519,7 +517,7 @@ public class UserImp implements UserDao {
 			return u;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -548,7 +546,7 @@ public class UserImp implements UserDao {
 			return u;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -577,7 +575,7 @@ public class UserImp implements UserDao {
 			return u;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -604,7 +602,7 @@ public class UserImp implements UserDao {
 			return u;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -616,7 +614,6 @@ public class UserImp implements UserDao {
 
 	/*
 	 * 获取登录成功后的信息
-	 * 
 	 */
 	public User findLoginInfoById(int id) {
 		User user = null;
@@ -627,11 +624,11 @@ public class UserImp implements UserDao {
 					.executeQuery("SELECT TrueName,IsRoomAdmin,IsSysAdmin,RegisterDate FROM JCP_User WHERE Id="
 							+ id);
 			while (res.next()) {
-				String trueName=res.getString(1);
-				int isRoom=res.getInt(2);
-				int isSys=res.getInt(3);
-				String reginDate=res.getString(4);
-				user=new User();
+				String trueName = res.getString(1);
+				int isRoom = res.getInt(2);
+				int isSys = res.getInt(3);
+				String reginDate = res.getString(4);
+				user = new User();
 				user.setTrueName(trueName);
 				user.setRegDate(reginDate);
 				user.setIsRoomAdmin(isRoom);
@@ -640,7 +637,7 @@ public class UserImp implements UserDao {
 				return user;
 			}
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -700,7 +697,7 @@ public class UserImp implements UserDao {
 			return users;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -710,5 +707,52 @@ public class UserImp implements UserDao {
 		return null;
 	}
 
+	@Override
+	public int updateIntegeral(int integeral, int uId) {
+		// 修改用户积分信息
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_User SET AllIntegral="
+					+ integeral + " WHERE Id=" + uId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public int updateUserLeavel(int uId, int leavel) {
+		//修改用户等级信息
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_User SET UserLevel="+leavel);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public User querryIntegeralByUid(int uId) {
+		//获取积分 等级信息
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT UserLevel,AllIntegral FROM JCP_User WHERE Id="+uId);
+			while (res.next()) {
+				int leavel=res.getInt(1);
+				int integeral=res.getInt(2);
+				User user=new User();
+				user.setAllIntegral(integeral);
+				user.setUserLeval(leavel);
+				return user;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

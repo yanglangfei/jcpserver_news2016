@@ -156,6 +156,17 @@ public class User implements Serializable {
 	 *  总积分
 	 */
 	private int allIntegral;
+	/**
+	 *  用户名
+	 */
+	private String userName;
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	public int getPage() {
 		return page;
 	}

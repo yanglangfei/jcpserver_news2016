@@ -80,6 +80,10 @@ public class Studio {
 	 *  排序id
 	 */
 	private int sortId;
+	/**
+	 *  开播时间 （周一到周末分别对应（1~7））
+	 */
+	private String beginShowDate;
 	
 	public int getPage() {
 		return page;

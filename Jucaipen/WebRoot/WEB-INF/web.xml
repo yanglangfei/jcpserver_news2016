@@ -232,6 +232,11 @@
     <servlet-name>BaseKnowType</servlet-name>
     <servlet-class>com.jucaipen.main.index.BaseKnowType</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>FamousDetailInfo</servlet-name>
+    <servlet-class>com.jucaipen.main.index.famous.FamousDetailInfo</servlet-class>
+  </servlet>
+
 
   <servlet-mapping>
     <servlet-name>QuerryAdvise</servlet-name>
@@ -375,11 +380,11 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>PlayComment</servlet-name>
-    <url-pattern>/jucaipen/getplaycomments</url-pattern>
+    <url-pattern>/jucaipen/getvideocomms</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>QuerryRewarder</servlet-name>
-    <url-pattern>/jucaipen/getrewarder</url-pattern>
+    <url-pattern>/jucaipen/getmarker</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AddReward</servlet-name>
@@ -460,5 +465,9 @@
   <servlet-mapping>
     <servlet-name>BaseKnowType</servlet-name>
     <url-pattern>/jucaipen/getbasetype</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FamousDetailInfo</servlet-name>
+    <url-pattern>/jucaipen/getfamousdetail</url-pattern>
   </servlet-mapping>
 </web-app>
