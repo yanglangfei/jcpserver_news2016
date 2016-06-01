@@ -41,5 +41,33 @@ public class FansSer {
 		FansDao dao=new FansImp();
 		return dao.findFansById(id);
 	}
+	
+	/**
+	 * @param uId
+	 * @param tId
+	 * @return  判断用户是否关注该讲师
+	 */
+	public static Fans findIsFans(int uId,int tId){
+		FansDao dao=new FansImp();
+		return dao.findIsFans(uId, tId);
+	}
+	
+	/**
+	 * @param fans
+	 * @return  添加关注
+	 */
+	public static int addFans(Fans fans){
+		FansDao dao=new FansImp();
+		return dao.addFans(fans);
+	}
+	
+	/**
+	 * @param id
+	 * @return  取消关注
+	 */
+	public static int cancelFans(int tId,int uId){
+		FansDao dao=new FansImp();
+		return dao.cancelFans(tId,uId);
+	}
 
 }

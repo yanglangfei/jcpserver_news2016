@@ -43,7 +43,7 @@ public class FansImp implements FansDao {
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -82,7 +82,7 @@ public class FansImp implements FansDao {
 			return fans;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -121,7 +121,7 @@ public class FansImp implements FansDao {
 			return fans;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -151,7 +151,7 @@ public class FansImp implements FansDao {
 				return fan;
 			}
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -159,6 +159,61 @@ public class FansImp implements FansDao {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Fans findIsFans(int uId, int tId) {
+		// 查询用户是否关注该讲师
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta.executeQuery("SELECT Id FROM JCP_Fans WHERE FK_UserId="
+					+ uId + " AND FK_TearchId=" + tId);
+			while (res.next()) {
+				int id = res.getInt(1);
+				Fans fans = new Fans();
+				fans.setId(id);
+				return fans;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public int addFans(Fans fans) {
+		// 添加关注
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta
+					.executeUpdate("INSERT INTO JCP_Fans(FK_UserId,FK_TearchId,InsertDate,Ip) VALUES ("
+							+ fans.getUserId()
+							+ ","
+							+ fans.getTeacherId()
+							+ ",'"
+							+ fans.getInsertDate()
+							+ "','"
+							+ fans.getIp() + "')");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public int cancelFans(int tId,int uId) {
+		// 取消关注
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("DELETE JCP_Fans WHERE FK_UserId=" + uId+" AND FK_TearchId="+tId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return 0;
 	}
 
 }

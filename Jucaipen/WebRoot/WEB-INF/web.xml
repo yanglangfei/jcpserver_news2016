@@ -372,7 +372,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>TeacherAttention</servlet-name>
-    <url-pattern>/jucaipen/attention</url-pattern>
+    <url-pattern>/jucaipen/addattention</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>QuerryGuest</servlet-name>

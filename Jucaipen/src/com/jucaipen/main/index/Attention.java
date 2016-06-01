@@ -2,16 +2,18 @@ package com.jucaipen.main.index;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.model.Fans;
+import com.jucaipen.service.FansSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
+import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator
@@ -22,6 +24,7 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class Attention extends HttpServlet {
 	private String result;
+	private String ip;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -35,23 +38,26 @@ public class Attention extends HttpServlet {
 			String opType = request.getParameter("opType");
 			String userId = request.getParameter("userId");
 			String teacherId = request.getParameter("teacherId");
+			ip=request.getRemoteAddr();
 			if (StringUtil.isInteger(opType)) {
 				int type = Integer.parseInt(opType);
 				if (StringUtil.isInteger(userId)) {
 					// 用户id数字格式化正常
 					int uId = Integer.parseInt(userId);
-					if (StringUtil.isInteger(teacherId)) {
-						int tId = Integer.parseInt(teacherId);
-						if (type == 0) {
-							// 添加关注
-							checkIsAttention(uId, tId);
-						} else if (type == 1) {
-							checkIsAttention(uId, tId);
+					if(uId>0){
+						if (StringUtil.isInteger(teacherId)) {
+							int tId = Integer.parseInt(teacherId);
+							if (type == 0||type==1) {
+								boolean isFans=checkIsAttention(uId, tId);
+								result=initData(isFans,type,uId,tId);
+							} else {
+								result = JsonUtil.getRetMsg(5, "操作id不符合要求");
+							}
 						} else {
-							result = JsonUtil.getRetMsg(5, "操作id不符合要求");
+							result = JsonUtil.getRetMsg(1, "讲师id数字格式化异常");
 						}
-					} else {
-						result = JsonUtil.getRetMsg(1, "讲师id数字格式化异常");
+					}else{
+						result=JsonUtil.getRetMsg(7,"用户还没登录");
 					}
 				} else {
 					result = JsonUtil.getRetMsg(2, "用户id数字格式化异常");
@@ -67,17 +73,39 @@ public class Attention extends HttpServlet {
 		out.close();
 	}
 
-	private void cancelAttention(int uId, int tId) {
-		// 取消关注
-
+	private String initData(boolean isFans, int type, int uId, int tId) {
+		if(type==0){
+			//添加关注
+			if(isFans){
+				return JsonUtil.getRetMsg(1,"该讲师已经关注了");
+			}
+			Fans fan=new Fans();
+			fan.setUserId(uId);
+			fan.setTeacherId(tId);
+			fan.setIp(ip);
+			fan.setInsertDate(TimeUtils.format(new Date()));;
+			int isSuccess=FansSer.addFans(fan);
+			return isSuccess==1?JsonUtil.getRetMsg(0, "关注成功"):JsonUtil.getRetMsg(2,"关注失败");
+		}else if(type==1){
+			//取消关注
+			if(!isFans){
+				return JsonUtil.getRetMsg(1,"该讲师还没关注");
+			}
+			int isSuccess=FansSer.cancelFans(tId,uId);
+			return isSuccess==1?JsonUtil.getRetMsg(0, "取消关注成功") :JsonUtil.getRetMsg(2,"取消关注失败");
+		}
+		return null;
 	}
 
-	private void checkIsAttention(int uId, int tId) {
+
+	private boolean checkIsAttention(int uId, int tId) {
 		// 检查之前是否关注过
-
-	}
-
-	private void insertAttention(int uId, int tId) {
+		Fans f=FansSer.findIsFans(uId, tId);
+		if(f!=null){
+			return true;
+		}else{
+			return false;
+		}
 
 	}
 
