@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.News;
-import com.jucaipen.model.ResourceSources;
 import com.jucaipen.service.NewServer;
 import com.jucaipen.service.ResourceFromServer;
 import com.jucaipen.utils.HeaderUtil;
@@ -79,9 +78,9 @@ public class HotNews extends HttpServlet {
 		// 获取全部今日热点信息
 		news = NewServer.findNewsByClassId(1, page);
 		for (News n : news) {
-			int from = n.getFromId();
-			ResourceSources resource = ResourceFromServer.getRSources(from);
-			n.setFrom(resource.getFromName());
+			int fromId = n.getFromId();
+			String from = ResourceFromServer.getRSources(fromId);
+			n.setFrom(from);
 		}
 
 	}
@@ -90,9 +89,9 @@ public class HotNews extends HttpServlet {
 		// 获取首页今日热点信息
 		news = NewServer.findLastNews(3);
 		for (News n : news) {
-			int from = n.getFromId();
-			ResourceSources resource = ResourceFromServer.getRSources(from);
-			n.setFrom(resource.getFromName());
+			int fromId = n.getFromId();
+			String from = ResourceFromServer.getRSources(fromId);
+			n.setFrom(from);
 		}
 
 	}

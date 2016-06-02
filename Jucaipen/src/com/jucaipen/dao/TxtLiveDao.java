@@ -36,7 +36,7 @@ public interface TxtLiveDao {
 	 * @param teacherId
 	 * @return  根据讲师id获取直播信息
 	 */
-	public List<TextLive> findTextLiveByTeacherId(int teacherId);
+	public List<TextLive> findTextLiveByTeacherId(int teacherId,int page);
 	
 	/**
 	 * @param isEnd

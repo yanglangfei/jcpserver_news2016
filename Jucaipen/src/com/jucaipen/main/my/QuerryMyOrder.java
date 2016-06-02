@@ -10,15 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.model.ClientOsInfo;
-import com.jucaipen.model.OrderDetail;
-import com.jucaipen.service.OrderDetailServer;
+import com.jucaipen.model.Order;
+import com.jucaipen.service.OrderServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  *
- * 查询我的订单
+ * 查询我的订单   type   （0 全部订单）   （1  已支付）  （2  未支付）       
  */
 @SuppressWarnings("serial")
 public class QuerryMyOrder extends HttpServlet {
@@ -66,8 +66,18 @@ public class QuerryMyOrder extends HttpServlet {
 
 	private String initMyOrder(int uId, int p, int t) {
 		//初始化订单信息
-		List<OrderDetail> details = OrderDetailServer.findDetailByUIdAndType(uId, t, p);
-		return JsonUtil.getOrderDetail(details);
+		List<Order> orders;
+		if(t==0){
+			//获取全部订单
+			orders=OrderServer.findAllPayOrderList(p);
+		}else if(t==1){
+			//已完成订单
+			orders=OrderServer.findPayOrderByPayState(2, p);
+		}else{
+			//未完成订单
+			orders=OrderServer.findPayOrderByPayState(1, p);
+		}
+		return JsonUtil.getOrderList(orders);
 	}
 
 }

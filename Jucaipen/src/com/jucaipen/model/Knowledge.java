@@ -47,9 +47,13 @@ public class Knowledge {
 	 */
 	private String insertDate;
 	/**
-	 *  所属来源 FK_FromId
+	 *  所属来源id  FK_FromId
 	 */
 	private int fromId;
+	/**
+	 *   所属来源
+	 */
+	private String from;
 	/**
 	 *  发布人 FaBuRen
 	 */
@@ -99,6 +103,13 @@ public class Knowledge {
 	 */
 	private int sortId;
 	
+	
+	public String getFrom() {
+		return from;
+	}
+	public void setFrom(String from) {
+		this.from = from;
+	}
 	public int getPage() {
 		return page;
 	}

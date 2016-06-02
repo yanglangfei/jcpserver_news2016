@@ -236,6 +236,26 @@
     <servlet-name>FamousDetailInfo</servlet-name>
     <servlet-class>com.jucaipen.main.index.famous.FamousDetailInfo</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>KnowledgeDetaile</servlet-name>
+    <servlet-class>com.jucaipen.main.index.school.KnowledgeDetaile</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryTeacherIdea</servlet-name>
+    <servlet-class>com.jucaipen.main.index.famous.QuerryTeacherIdea</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AnswerDetails</servlet-name>
+    <servlet-class>com.jucaipen.main.index.famous.AnswerDetails</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>TxtDetails</servlet-name>
+    <servlet-class>com.jucaipen.main.index.famous.TxtDetails</servlet-class>
+  </servlet>
+
+
+
+
 
 
   <servlet-mapping>
@@ -469,5 +489,21 @@
   <servlet-mapping>
     <servlet-name>FamousDetailInfo</servlet-name>
     <url-pattern>/jucaipen/getfamousdetail</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>KnowledgeDetaile</servlet-name>
+    <url-pattern>/jucaipen/getknowdetails</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryTeacherIdea</servlet-name>
+    <url-pattern>/jucaipen/getideaask</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AnswerDetails</servlet-name>
+    <url-pattern>/jucaipen/getanswerdetails</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TxtDetails</servlet-name>
+    <url-pattern>/jucaipen/gettxtdetails</url-pattern>
   </servlet-mapping>
 </web-app>

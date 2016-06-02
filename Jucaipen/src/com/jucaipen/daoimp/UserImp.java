@@ -103,32 +103,28 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select RegFrom,ISNULL(TrueName,'') TrueName,ISNULL(NickName,'') NickName,ISNULL(Sex,'') Sex,ISNULL(MobileNum,'') MobileNum,ProvinceID,CiytID,AreaID,ISNULL(Email,'') Email,ISNULL(UserInformation,'') UserInformation,ISNULL(Birthday,'') Birthday,ISNULL(UserFace,'') UserFace from JCP_User where Id="
+					.executeQuery("select FK_InvestmentTypeId,ISNULL(TrueName,'') TrueName,ISNULL(NickName,'') NickName,ISNULL(Sex,'') Sex,ISNULL(MobileNum,'') MobileNum,CiytID,ISNULL(UserInformation,'') UserInformation,ISNULL(Birthday,'') Birthday,ISNULL(UserFace,'') UserFace from JCP_User where Id="
 							+ id);
 			while (res.next()) {
 				String nickName = res.getString(SqlUtil.USER_NICKNAME);
+				String trueName=res.getString("TrueName");
 				String sex = res.getString(SqlUtil.USER_SEX);
 				String telPhone = res.getString(SqlUtil.USER_MOBILE);
-				int localProvince = res.getInt(SqlUtil.USER_LOCALPROVINCE);
 				int localCity = res.getInt(SqlUtil.USER_LOCALCITY);
-				int localArea = res.getInt(SqlUtil.USER_LOCALAREA);
-				String email = res.getString(SqlUtil.USER_EMAIL);
 				String desc = res.getString(SqlUtil.USER_BODYS);
 				String birthday = res.getString(SqlUtil.USER_BIRTH);
 				String logo = res.getString(SqlUtil.USRE_FACEIMAGE);
-				int RegFrom = res.getInt(SqlUtil.USER_REGFROM);
+				int investmentId = res.getInt("FK_InvestmentTypeId");
 				u = new User();
 				u.setNickName(nickName);
 				u.setSex(sex);
+				u.setTrueName(trueName);
 				u.setMobileNum(telPhone);
 				u.setBirthday(birthday);
-				u.setProvinceId(localProvince);
 				u.setCityId(localCity);
-				u.setAreaId(localArea);
 				u.setDescript(desc);
-				u.setEmail(email);
 				u.setFaceImage(logo);
-				u.setReginFrom(RegFrom);
+				u.setInvestId(investmentId);
 				return u;
 			}
 		} catch (SQLException e) {

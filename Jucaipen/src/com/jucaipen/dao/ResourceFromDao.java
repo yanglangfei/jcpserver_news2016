@@ -13,6 +13,6 @@ public interface ResourceFromDao {
 	 * @param id
 	 * @return  查询指定信息来源
 	 */
-	public ResourceSources findResourceSources(int id);
+	public String findResourceSources(int id);
 
 }

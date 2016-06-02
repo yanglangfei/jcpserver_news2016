@@ -9,8 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.model.FamousTeacher;
+import com.jucaipen.model.HotIdea;
 import com.jucaipen.model.News;
 import com.jucaipen.model.ResourceSources;
+import com.jucaipen.service.FamousTeacherSer;
+import com.jucaipen.service.HotIdeaServ;
 import com.jucaipen.service.NewServer;
 import com.jucaipen.service.ResourceFromServer;
 import com.jucaipen.utils.HeaderUtil;
@@ -20,7 +24,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取新闻详细信息
+ *         获取新闻详细信息       type    (0   新闻详细信息)    （1   观点详细信息）
  */
 @SuppressWarnings("serial")
 public class NewsDetail extends HttpServlet {
@@ -38,12 +42,17 @@ public class NewsDetail extends HttpServlet {
 		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
+			String typeId=request.getParameter("typeId");
 			String newsId = request.getParameter("newsId");
 			if (StringUtil.isNotNull(newsId)) {
 				if (StringUtil.isInteger(newsId)) {
 					int id = Integer.parseInt(newsId);
-					initNewsDetail(id);
-					result = JsonUtil.getObject(news);
+					if(StringUtil.isNotNull(typeId)&&StringUtil.isInteger(typeId)){
+						int type=Integer.parseInt(typeId);
+						result=initNewsDetail(id,type);
+					}else{
+						result=JsonUtil.getRetMsg(3,"typeId 参数异常");
+					}
 				} else {
 					result = JsonUtil.getRetMsg(1, "newsId 参数数字格式化异常");
 				}
@@ -58,17 +67,28 @@ public class NewsDetail extends HttpServlet {
 		out.close();
 	}
 
-	private void initNewsDetail(int id) {
+	private String initNewsDetail(int id, int type) {
 		// 初始化新闻详细信息
-		news = NewServer.findNewsById(id);
-		if (news != null) {
-			int fromId = news.getFromId();
-			ResourceSources source = ResourceFromServer.getRSources(fromId);
-			if (source != null) {
-				news.setFrom(source.getFromName());
+		News news;
+		HotIdea idea;
+		if(type==0){
+			//新闻详细信息
+			news=NewServer.findNewsById(id);
+			int fromId=news.getFromId();
+			String from=ResourceFromServer.getRSources(fromId);
+			news.setFrom(from);
+			return JsonUtil.getNewsDetails(news);
+		}else {
+			//观点详细信息
+			idea=HotIdeaServ.findIdeaById(id);
+			int tId=idea.getTeacherId();
+			FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(tId);
+			if(teacher==null){
+				teacher=new FamousTeacher();
 			}
+			return JsonUtil.getIdeaDetails(idea,teacher);
 		}
-
+		
 	}
 
 }

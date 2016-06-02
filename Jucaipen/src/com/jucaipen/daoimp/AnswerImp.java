@@ -164,13 +164,15 @@ public class AnswerImp implements AnswerDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT AnswerBody,FK_TearchId FROM JCP_Answer WHERE FK_AskId="
+					.executeQuery("SELECT AnswerBody,FK_TearchId,InsertDate FROM JCP_Answer WHERE FK_AskId="
 							+ askId + " ORDER BY InsertDate DESC");
 			while (res.next()) {
 				String answerBody=res.getString(1);
 				int teacherId=res.getInt(2);
+				String insertDate=res.getString(3);
 				Answer answer=new Answer();
 				answer.setAnswerBody(answerBody);
+				answer.setAnswerDate(insertDate);
 				answer.setTeacherId(teacherId);
 				return answer;
 			}

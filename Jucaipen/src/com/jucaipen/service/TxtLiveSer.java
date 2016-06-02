@@ -48,9 +48,9 @@ public class TxtLiveSer{
 	 * @param teacherId
 	 * @return  根据讲师获取文字直播
 	 */
-	public static List<TextLive> findTextLiveByTeacherId(int teacherId) {
+	public static List<TextLive> findTextLiveByTeacherId(int teacherId,int page) {
 		TxtLiveDao dao=new TextLiveImp();
-		return dao.findTextLiveByTeacherId(teacherId);
+		return dao.findTextLiveByTeacherId(teacherId,page);
 	}
 	
 

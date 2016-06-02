@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.model.Area;
 import com.jucaipen.model.City;
 import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.model.InvestmentType;
 import com.jucaipen.model.Province;
 import com.jucaipen.model.User;
 import com.jucaipen.service.AreaServer;
 import com.jucaipen.service.CityServer;
+import com.jucaipen.service.InvestmentTypeSer;
 import com.jucaipen.service.ProvinceServer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.HeaderUtil;
@@ -89,6 +91,12 @@ public class UserInfo extends HttpServlet {
 	private void createUser() {
 		String tel = user.getMobileNum();
 		String birth = user.getBirthday();
+		int investId=user.getInvestId();
+		InvestmentType type=InvestmentTypeSer.findTypeById(investId);
+		if(type!=null){
+			String typeName=type.getTypeName();
+			user.setInvestStr(typeName);
+		}
 		if (tel != null) {
 			// Ω‚√‹
 			param.put("mobilenum", tel);

@@ -113,6 +113,10 @@ public class User implements Serializable {
 	 */
 	private int investId;
 	/**
+	 *  投资风格
+	 */
+	private String investStr;
+	/**
 	 * 绑定微博id
 	 */
 	private String weiBoId;
@@ -161,6 +165,13 @@ public class User implements Serializable {
 	 */
 	private String userName;
 	
+	
+	public String getInvestStr() {
+		return investStr;
+	}
+	public void setInvestStr(String investStr) {
+		this.investStr = investStr;
+	}
 	public String getUserName() {
 		return userName;
 	}

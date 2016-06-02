@@ -72,17 +72,14 @@ public class ResourceFromImp implements ResourceFromDao {
 	/*
 	 * 根据id查询资讯来源信息
 	 */
-	public ResourceSources findResourceSources(int id) {
-		ResourceSources rs = null;
+	public String findResourceSources(int id) {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("select * from JCP_From where Id=" + id);
-			resourceSources = getResourceSources(res,-1,-1);
-			if (resourceSources != null && resourceSources.size() > 0) {
-				rs = resourceSources.get(0);
+			while (res.next()) {
+				return res.getString(2);
 			}
-			return rs;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{

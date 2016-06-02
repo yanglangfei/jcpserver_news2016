@@ -244,20 +244,25 @@ public class TextLiveImp implements TxtLiveDao {
 		return null;
 	}
 
-	public List<TextLive> findTextLiveByTeacherId(int teacherId) {
+	public List<TextLive> findTextLiveByTeacherId(int teacherId,int page) {
+		textLives.clear();
+		int totlePage=findTotlePage("WHERE FK_TearchId="+teacherId);
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			textLives.clear();
-			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT Id,StartDate,IsEnd FROM JCP_TxtLive WHERE FK_TearchId="
-							+ teacherId + " ORDER BY StartDate DESC");
+					.executeQuery("SELECT TOP 15 Id,Title,StartDate,Hits,FK_TearchId FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY StartDate desc) AS RowNumber,"
+							+ "* FROM JCP_TxtLive WHERE FK_TearchId="+teacherId+") A "
+							+ "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
 				int id = res.getInt(1);
 				String startDate = res.getString(2);
 				int isEnd = res.getInt(3);
 				TextLive textLive = new TextLive();
 				textLive.setId(id);
+				textLive.setPage(page);
+				textLive.setTotlePage(totlePage);
 				textLive.setIsEnd(isEnd);
 				textLive.setStartDate(startDate);
 				textLives.add(textLive);

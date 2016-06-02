@@ -19,7 +19,7 @@ public class ResourceFromServer {
 	 * @param id
 	 * @return   根据id获取资讯来源信息
 	 */
-	public static ResourceSources getRSources(int id) {
+	public static String getRSources(int id) {
 		ResourceFromDao dao = new ResourceFromImp();
 		return dao.findResourceSources(id);
 	}
