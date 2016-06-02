@@ -230,7 +230,7 @@
   </servlet>
   <servlet>
     <servlet-name>BaseKnowType</servlet-name>
-    <servlet-class>com.jucaipen.main.index.BaseKnowType</servlet-class>
+    <servlet-class>com.jucaipen.main.index.school.BaseKnowType</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>FamousDetailInfo</servlet-name>
