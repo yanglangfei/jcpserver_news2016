@@ -13,7 +13,6 @@ import com.jucaipen.service.KnowledgetSer;
 import com.jucaipen.service.ResourceFromServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  *
@@ -29,10 +28,16 @@ public class KnowledgeDetaile extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String knowId=request.getParameter("knowId");
+		String classId=request.getParameter("classId");
 		if(StringUtil.isNotNull(knowId)){
 			if(StringUtil.isInteger(knowId)){
 				int kId=Integer.parseInt(knowId);
-				result=initKnowDetails(kId);
+				if(StringUtil.isNotNull(classId)&&StringUtil.isInteger(classId)){
+					int cId=Integer.parseInt(classId);
+					result=initKnowDetails(kId,cId);
+				}else{
+					result=JsonUtil.getRetMsg(3,"classId 参数异常");
+				}
 			}else{
 				result=JsonUtil.getRetMsg(2,"knowId 参数数字格式化异常");
 			}
@@ -44,16 +49,32 @@ public class KnowledgeDetaile extends HttpServlet {
 		out.close();
 	}
 
-	private String initKnowDetails(int kId) {
+	private String initKnowDetails(int kId, int cId) {
 		//初始化知识详细信息
 		Knowledge knowledge=KnowledgetSer.findKnowledgeById(kId);
 		if(knowledge!=null){
+			//获取来源
 			int fromId=knowledge.getFromId();
 			String from = ResourceFromServer.getRSources(fromId);
 			knowledge.setFrom(from);
+			//获取上下篇
+			Knowledge lastKnow=KnowledgetSer.findTitleById(kId-1, cId);
+			Knowledge nextKnow=KnowledgetSer.findTitleById(kId+1, cId);
+			if(lastKnow==null){
+				knowledge.setLastId(-1);
+				knowledge.setLastTitle("没有上一篇");
+			}else{
+				knowledge.setLastId(kId-1);
+				knowledge.setLastTitle(lastKnow.getTitle());
+			}
+			if(nextKnow==null){
+				knowledge.setNextId(-1);
+				knowledge.setNextTitle("没有下一篇");
+			}else{
+				knowledge.setNextId(kId+1);
+				knowledge.setNextTitle(nextKnow.getTitle());
+			}
 		}
 		return JsonUtil.getKnowDetails(knowledge);
-		
 	}
-
 }

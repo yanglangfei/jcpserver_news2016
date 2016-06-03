@@ -30,7 +30,6 @@ public interface AccountDetailDao {
 	 * @return   根据用户id和 分类获取详细信息
 	 */
 	public List<AccountDetail> findAccountDetailByUidAndType(int uId,int type,int page);
-	
 	/**
 	 * @param uId
 	 * @param state
@@ -39,6 +38,16 @@ public interface AccountDetailDao {
 	 * @return  获取用户分类下的不同状态账户信息
 	 */
 	public List<AccountDetail> findDetailByUidAndTypeAndState(int uId,int state,int type,int page);
+	/**
+	 * @param detail
+	 * @return  添加账户详细信息
+	 */
+	public int addAccountDetails(AccountDetail detail);
+	/**
+	 * @param id
+	 * @return  删除账户详细信息
+	 */
+	public int delAccountDetails(int id);
 	
 
 }

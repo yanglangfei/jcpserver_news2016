@@ -28,6 +28,11 @@ public interface KnowledgeDao {
 	 * @return 获取所有的知识信息
 	 */
 	public List<Knowledge> findAllKnowledge(int page);
+	/**
+	 * @param id
+	 * @return  获取上下篇信息
+	 */
+	public Knowledge findTitleById(int id,int classId);
 	
 
 }

@@ -35,5 +35,15 @@ public class KnowledgetSer {
 		KnowledgeDao dao=new KnowledgeImp();
 		return dao.findAllKnowledge(page);
 	}
+	
+	/**
+	 * @param id
+	 * @param classId
+	 * @return 获取上下篇信息
+	 */
+	public static Knowledge findTitleById(int id,int classId){
+		KnowledgeDao dao=new KnowledgeImp();
+		return dao.findTitleById(id, classId);
+	}
 
 }

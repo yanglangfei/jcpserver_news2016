@@ -102,8 +102,46 @@ public class Knowledge {
 	 *  排序id  SortId
 	 */
 	private int sortId;
-	
-	
+	/**
+	 *   下篇id
+	 */
+	private int nextId;
+	/**
+	 *  上篇id
+	 */
+	private int lastId;
+	/**
+	 *  下篇标题
+	 */
+	private String nextTitle;
+	/**
+	 *  上篇标题
+	 */
+	private String lastTitle;
+	public int getNextId() {
+		return nextId;
+	}
+	public void setNextId(int nextId) {
+		this.nextId = nextId;
+	}
+	public int getLastId() {
+		return lastId;
+	}
+	public void setLastId(int lastId) {
+		this.lastId = lastId;
+	}
+	public String getNextTitle() {
+		return nextTitle;
+	}
+	public void setNextTitle(String nextTitle) {
+		this.nextTitle = nextTitle;
+	}
+	public String getLastTitle() {
+		return lastTitle;
+	}
+	public void setLastTitle(String lastTitle) {
+		this.lastTitle = lastTitle;
+	}
 	public String getFrom() {
 		return from;
 	}

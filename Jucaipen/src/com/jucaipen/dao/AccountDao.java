@@ -27,5 +27,18 @@ public interface AccountDao {
 	 */
 	public Account findAccountByUserId(int uId);
 	
+	/**
+	 * @param uId
+	 * @return  修改账户聚财币数量
+	 */
+	public int updateBills(int uId,int newBills);
+	
+	/**
+	 * @param uId
+	 * @param integeral
+	 * @return  修改积分信息
+	 */
+	public int updateIntegeral(int uId,int integeral);
+	
 
 }

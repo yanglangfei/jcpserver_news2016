@@ -72,9 +72,6 @@ public class Login extends HttpServlet {
 		if (!StringUtil.isPassword(password)) {
 			return JsonUtil.getRetMsg(7, "ÃÜÂë±ØĞëÎª6-23Î»");
 		}
-		
-		
-		
 
 		return null;
 	}

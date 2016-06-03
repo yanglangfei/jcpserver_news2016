@@ -57,6 +57,11 @@ public class AccountDetail {
 	public void setTotlePage(int totlePage) {
 		this.totlePage = totlePage;
 	}
+	
+	
+	public AccountDetail() {
+		
+	}
 	public AccountDetail(int id, String orderCode, double detailMoney,
 			int detailType, int state, String remark, String insertDate,
 			int isDel, int userId) {

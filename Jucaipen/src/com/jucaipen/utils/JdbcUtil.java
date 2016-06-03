@@ -14,7 +14,7 @@ import java.sql.Statement;
  */
 public class JdbcUtil {
 	/*
-	 * SqlServer 测试数据库 new 192.168.1.127 old 192.168.1.233 JcpStudyPlatformData     132
+	 * SqlServer 测试数据库 new 192.168.1.127 old 192.168.1.233 JcpStudyPlatformData     198       128
 	 * JCPData
 	 */
 	private static final String SQLSERVER_DRIVER_TEST = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
@@ -51,6 +51,20 @@ public class JdbcUtil {
 	private static final String MYSQL_ENCODING = "useUnicode=true&characterEncoding=UTF8";
 	private static Connection dbConn;
 	private static boolean isNormal;
+	
+	
+	
+	/*
+	 * 本地MySql 数据库   test
+	 */
+	private static final String MYSQL_DRIVER_TEST = "com.mysql.jdbc.Driver";
+	private static final String MYSQL_URL_TEST = "jdbc:mysql://localhost:3306/test_main";
+	private static final String MYSQL_UNAME_TEST = "root";
+	private static final String MYSQL_UPWD_TEST = "111111";
+	@SuppressWarnings("unused")
+	private static final String MYSQL_ENCODING_TEST = "useUnicode=true&characterEncoding=UTF8";
+	private static Connection dbConn_test;
+	private static boolean isNormal_test;
 
 	/**
 	 * Derby 数据库配置信息
@@ -155,6 +169,30 @@ public class JdbcUtil {
 		return null;
 
 	}
+	
+	
+	
+	/**
+	 * @return 连接mySql_TEST 数据库
+	 */
+	public static Connection connMySqlTest() {
+		try {
+			try {
+				Class.forName(MYSQL_DRIVER_TEST);
+				dbConn = DriverManager.getConnection(MYSQL_URL_TEST, MYSQL_UNAME_TEST,
+						MYSQL_UPWD_TEST);
+				return dbConn;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+	
+	
 
 	public static Connection isConnectNormalSql() {
 		isNormal = true;

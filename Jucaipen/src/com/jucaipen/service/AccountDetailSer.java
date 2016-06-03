@@ -35,7 +35,6 @@ public class AccountDetailSer{
 		AccountDetailDao dao=new AccountDetailImp();
 		return dao.findAccountDetailByUidAndType(uId, type,page);
 	}
-	
 	/**
 	 * @param state
 	 * @param type
@@ -46,6 +45,23 @@ public class AccountDetailSer{
 	public static List<AccountDetail> findDetailByUserIdAndStateAndType(int state,int type,int userId,int page){
 		AccountDetailDao dao=new AccountDetailImp();
 		return dao.findDetailByUidAndTypeAndState(userId, state, type, page);
+	}
+	/**
+	 * @param id
+	 * @return  删除账户详细信息
+	 */
+	public static int delDetails(int id){
+		AccountDetailDao dao=new AccountDetailImp();
+		return dao.delAccountDetails(id);
+	}
+	
+	/**
+	 * @param detail
+	 * @return 添加账户详细信息
+	 */
+	public static int addDetails(AccountDetail detail){
+		AccountDetailDao dao=new AccountDetailImp();
+		return dao.addAccountDetails(detail);
 	}
 
 }

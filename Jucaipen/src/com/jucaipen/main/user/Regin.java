@@ -50,7 +50,7 @@ public class Regin extends HttpServlet {
 									result = JsonUtil.getRetMsg(6, "两次密码不一致");
 								}
 							} else {
-								result = JsonUtil.getRetMsg(5, "密码长度在6-23位");
+								result = JsonUtil.getRetMsg(5, "密码长度在8-23位");
 							}
 
 						} else {

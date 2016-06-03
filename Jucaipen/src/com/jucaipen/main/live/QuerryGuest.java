@@ -19,12 +19,11 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取嘉宾
+ *         获取嘉宾   typeId   (0 获取首页嘉宾)   （1 获取全部嘉宾）
  */
 @SuppressWarnings("serial")
 public class QuerryGuest extends HttpServlet {
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -35,11 +34,30 @@ public class QuerryGuest extends HttpServlet {
 		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
+			String typeId=request.getParameter("typeId");
 			String studioId=request.getParameter("studioId");
 			if(StringUtil.isNotNull(studioId)){
 				if(StringUtil.isInteger(studioId)){
 					int sId=Integer.parseInt(studioId);
-					result=initStudioGuest(sId);
+					if(StringUtil.isNotNull(typeId)&&StringUtil.isInteger(typeId)){
+						int type=Integer.parseInt(typeId);
+						if(type==0){
+							//获取首页嘉宾
+							result=initStudioGuest(sId,type,0);
+						}else{
+							//获取全部嘉宾
+							String page=request.getParameter("page");
+							if(StringUtil.isNotNull(page)&&StringUtil.isInteger(page)){
+								int p=Integer.parseInt(page);
+								result=initStudioGuest(sId,type,p);
+							}else{
+								result=JsonUtil.getRetMsg(4,"page 参数数字格式化异常");
+							}
+						}
+					}else{
+						result=JsonUtil.getRetMsg(3,"typeId 参数异常");
+					}
+					
 				}else{
 					result=JsonUtil.getRetMsg(2,"studioId 参数数字格式化异常");
 				}
@@ -55,10 +73,16 @@ public class QuerryGuest extends HttpServlet {
 		out.close();
 	}
 
-	private String initStudioGuest(int sId) {
+	private String initStudioGuest(int sId, int type,int page) {
 		//初始化演播室嘉宾信息
-		List<StudioGuest> guests = StudioGuestSer.findTopGuest(6, sId);
+		List<StudioGuest> guests;
+		if(type==0){
+			//获取首页嘉宾
+			guests = StudioGuestSer.findTopGuest(2, sId);
+		}else{
+			//获取全部嘉宾
+			guests=StudioGuestSer.findAll(page, sId);
+		}
 		return JsonUtil.getGuests(guests);
 	}
-
 }

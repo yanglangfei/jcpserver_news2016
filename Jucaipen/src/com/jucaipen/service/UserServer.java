@@ -215,5 +215,32 @@ public class UserServer {
 		UserDao dao = new UserImp();
 		return dao.querryOtherAccount(id);
 	}
-
+	
+	/**
+	 * @param uId
+	 * @return  获取用户积分 等级信息
+	 */
+	public static User querryIntegeralByUid(int uId){
+		UserDao dao=new UserImp();
+		return dao.querryIntegeralByUid(uId);
+	}
+	/**
+	 * @param uId
+	 * @param leavel
+	 * @return 修改用户等级信息
+	 */
+	public static int updateUserLeavel(int uId,int leavel){
+		UserDao dao=new UserImp();
+		return dao.updateUserLeavel(uId, leavel);
+	}
+	
+	/**
+	 * @param uId
+	 * @param integeral
+	 * @return 修改用户积分信息
+	 */
+	public static int updateIntegeral(int uId,int integeral){
+		UserDao dao=new UserImp();
+		return dao.updateIntegeral(integeral, uId);
+	}
 }

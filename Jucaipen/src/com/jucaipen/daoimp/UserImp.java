@@ -107,7 +107,7 @@ public class UserImp implements UserDao {
 							+ id);
 			while (res.next()) {
 				String nickName = res.getString(SqlUtil.USER_NICKNAME);
-				String trueName=res.getString("TrueName");
+				String trueName = res.getString("TrueName");
 				String sex = res.getString(SqlUtil.USER_SEX);
 				String telPhone = res.getString(SqlUtil.USER_MOBILE);
 				int localCity = res.getInt(SqlUtil.USER_LOCALCITY);
@@ -327,11 +327,11 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta.executeUpdate("update JCP_User set NickName='"
-					+ user.getNickName() + "',MobileNum='"
-					+ user.getMobileNum() + "',Sex='" + user.getSex()
-					+ "',UserInformation='" + user.getDescript() + "',Email='"
-					+ user.getEmail() + "',Birthday='" + user.getBirthday()
-					+ "',ProvinceID=" + user.getProvinceId() + ",CiytID="
+					+ user.getNickName() + "',TrueName='" + user.getTrueName()
+					+ "',Sex='" + user.getSex() + "',UserInformation='"
+					+ user.getDescript() + "',Birthday='" + user.getBirthday()
+					+ "',FK_InvestmentTypeId=" + user.getInvestId()
+					+ ",ProvinceID=" + user.getProvinceId() + ",CiytID="
 					+ user.getCityId() + ",AreaID=" + user.getAreaId()
 					+ " WHERE Id=" + id);
 			return isSuccess;
@@ -719,11 +719,11 @@ public class UserImp implements UserDao {
 
 	@Override
 	public int updateUserLeavel(int uId, int leavel) {
-		//修改用户等级信息
-		dbConn=JdbcUtil.connSqlServer();
+		// 修改用户等级信息
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			return sta.executeUpdate("UPDATE JCP_User SET UserLevel="+leavel);
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + leavel);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -732,15 +732,17 @@ public class UserImp implements UserDao {
 
 	@Override
 	public User querryIntegeralByUid(int uId) {
-		//获取积分 等级信息
-		dbConn=JdbcUtil.connSqlServer();
+		// 获取积分 等级信息
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT UserLevel,AllIntegral FROM JCP_User WHERE Id="+uId);
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT UserLevel,AllIntegral FROM JCP_User WHERE Id="
+							+ uId);
 			while (res.next()) {
-				int leavel=res.getInt(1);
-				int integeral=res.getInt(2);
-				User user=new User();
+				int leavel = res.getInt(1);
+				int integeral = res.getInt(2);
+				User user = new User();
 				user.setAllIntegral(integeral);
 				user.setUserLeval(leavel);
 				return user;

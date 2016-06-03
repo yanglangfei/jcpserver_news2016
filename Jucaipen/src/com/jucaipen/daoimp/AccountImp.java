@@ -111,4 +111,30 @@ public class AccountImp implements AccountDao {
 		return null;
 	}
 
+	@Override
+	public int updateBills(int uId,int newBills) {
+		//修改账户聚财币数量
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_Account SET JucaiBi="+newBills+" WHERE UserId="+uId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public int updateIntegeral(int uId, int integeral) {
+		//修改用户积分信息
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_Account SET Integral="+integeral+" WHERE UserId="+uId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

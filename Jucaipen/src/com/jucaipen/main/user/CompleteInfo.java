@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.model.User;
+import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator 修改个人资料
  */
@@ -35,7 +36,7 @@ public class CompleteInfo extends HttpServlet {
 				if (StringUtil.isInteger(userId)) {
 					int uId = Integer.parseInt(userId);
 					if (uId > 0) {
-						initUserInfo(uId, request);
+						result = initUserInfo(uId, request);
 					} else {
 						result = JsonUtil.getRetMsg(3, "用户还没登录");
 					}
@@ -54,10 +55,48 @@ public class CompleteInfo extends HttpServlet {
 		out.close();
 	}
 
-	private void initUserInfo(int uId, HttpServletRequest request) {
+	private String initUserInfo(int uId, HttpServletRequest request) {
 		// 初始化用户信息
-		String userName = request.getParameter("userName");
+		String nickName = request.getParameter("nickName");
+		String trueName = request.getParameter("trueName");
+		String sex = request.getParameter("sex");
+		String birth = request.getParameter("birth");
+		String cityId = request.getParameter("cityId");
+		String investId = request.getParameter("investId");
+		String plain = request.getParameter("plain");
+		if (!StringUtil.isNotNull(nickName)) {
+			return JsonUtil.getRetMsg(1, "昵称不能为空");
+		}
+		User user = new User();
+		user.setNickName(nickName);
+		if (StringUtil.isNotNull(trueName)) {
+			user.setTrueName(trueName);
+		}
 
+		if (StringUtil.isNotNull(sex)) {
+			user.setSex(sex);
+		}
+
+		if (StringUtil.isNotNull(birth)) {
+			user.setBirthday(birth);
+		}
+
+		if (StringUtil.isNotNull(cityId) && StringUtil.isInteger(cityId)) {
+			int cId = Integer.parseInt(cityId);
+			user.setCityId(cId);
+		}
+
+		if (StringUtil.isNotNull(investId) && StringUtil.isInteger(investId)) {
+			int inveId = Integer.parseInt(investId);
+			user.setInvestId(inveId);
+		}
+
+		if (StringUtil.isNotNull(plain)) {
+			user.setDescript(plain);
+		}
+		int isSuccess = UserServer.updateUser(uId, user);
+		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "个人资料提交成功") : JsonUtil
+				.getRetMsg(1, "个人资料提交失败");
 	}
 
 }

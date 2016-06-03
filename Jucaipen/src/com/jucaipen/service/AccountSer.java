@@ -33,5 +33,25 @@ public class AccountSer{
 		AccountDao dao=new AccountImp();
 		return dao.findAccountByUserId(uId);
 	}
+	
+	/**
+	 * @param uId
+	 * @param newBills
+	 * @return  修改聚财币数量
+	 */
+	public static int updateBills(int uId,int newBills){
+		AccountDao dao=new AccountImp();
+		return dao.updateBills(uId, newBills);
+	}
+	
+	/**
+	 * @param uId
+	 * @param integeral
+	 * @return 修改积分信息
+	 */
+	public static int updateIntegeral(int uId,int integeral){
+		AccountDao dao=new AccountImp();
+		return dao.updateIntegeral(uId, integeral);
+	}
 
 }

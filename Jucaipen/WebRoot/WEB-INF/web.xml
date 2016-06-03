@@ -130,7 +130,7 @@
   </servlet>
   <servlet>
     <servlet-name>CollectNews</servlet-name>
-    <servlet-class>com.jucaipen.main.index.CollectNews</servlet-class>
+    <servlet-class>com.jucaipen.main.user.CollectNews</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>QuerryAttention</servlet-name>
@@ -138,7 +138,7 @@
   </servlet>
   <servlet>
     <servlet-name>TeacherAttention</servlet-name>
-    <servlet-class>com.jucaipen.main.index.Attention</servlet-class>
+    <servlet-class>com.jucaipen.main.user.Attention</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>QuerryGuest</servlet-name>
@@ -154,7 +154,7 @@
   </servlet>
   <servlet>
     <servlet-name>AddReward</servlet-name>
-    <servlet-class>com.jucaipen.main.index.AddReward</servlet-class>
+    <servlet-class>com.jucaipen.main.user.AddReward</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>LatestList</servlet-name>
@@ -162,11 +162,11 @@
   </servlet>
   <servlet>
     <servlet-name>AskQuestion</servlet-name>
-    <servlet-class>com.jucaipen.main.index.AskQuestion</servlet-class>
+    <servlet-class>com.jucaipen.main.user.AskQuestion</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>AddRemark</servlet-name>
-    <servlet-class>com.jucaipen.main.index.AddRemark</servlet-class>
+    <servlet-class>com.jucaipen.main.user.AddRemark</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>ChangePassword</servlet-name>
@@ -252,6 +252,21 @@
     <servlet-name>TxtDetails</servlet-name>
     <servlet-class>com.jucaipen.main.index.famous.TxtDetails</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>QuerryKnowList</servlet-name>
+    <servlet-class>com.jucaipen.main.index.school.QuerryKnowList</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryMyBank</servlet-name>
+    <servlet-class>com.jucaipen.main.my.QuerryMyBank</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>BindBank</servlet-name>
+    <servlet-class>com.jucaipen.main.user.BindBank</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -408,7 +423,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>AddReward</servlet-name>
-    <url-pattern>/jucaipen/addreward</url-pattern>
+    <url-pattern>/jucaipen/addmarker</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>LatestList</servlet-name>
@@ -505,5 +520,17 @@
   <servlet-mapping>
     <servlet-name>TxtDetails</servlet-name>
     <url-pattern>/jucaipen/gettxtdetails</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryKnowList</servlet-name>
+    <url-pattern>/jucaipen/getknowlist</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryMyBank</servlet-name>
+    <url-pattern>/jucaipen/getmybank</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BindBank</servlet-name>
+    <url-pattern>/jucaipen/bindbank</url-pattern>
   </servlet-mapping>
 </web-app>
