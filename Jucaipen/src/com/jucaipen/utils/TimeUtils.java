@@ -17,6 +17,10 @@ public class TimeUtils {
 	private static int age;
 	
 	
+	/**
+	 * @param date
+	 * @return  判断时间是否是今日
+	 */
 	public static boolean compareDate(String date){
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		try {

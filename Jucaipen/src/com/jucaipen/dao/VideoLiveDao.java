@@ -9,7 +9,7 @@ import com.jucaipen.model.VideoLive;
  *   直播室
  *
  */
-public interface LiveRoomDao {
+public interface VideoLiveDao {
 	
 	/**
 	 * @return   获取所有房间名称
@@ -31,5 +31,11 @@ public interface LiveRoomDao {
 	 * @return   获取所有房间信息
 	 */
 	public List<VideoLive> getAllRoom(int page);
+	
+	/**
+	 * @param tId
+	 * @return  获取讲师下的视频直播
+	 */
+	public List<VideoLive>  findLiveBytId(int tId);
 
 }

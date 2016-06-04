@@ -2,19 +2,24 @@ package com.jucaipen.main.index.famous;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.model.Ask;
-import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.HotIdea;
 import com.jucaipen.model.TextLive;
+import com.jucaipen.model.User;
+import com.jucaipen.model.VideoLive;
 import com.jucaipen.service.AskSer;
-import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.HotIdeaServ;
 import com.jucaipen.service.TxtLiveSer;
+import com.jucaipen.service.UserServer;
+import com.jucaipen.service.VideoLiveServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -61,25 +66,31 @@ public class QuerryTeacherIdea extends HttpServlet {
 
 	private String initTeacherIdeaData(int tId, int type, int p) {
 		// 初始化讲师热门观点   问答   文字直播   直播信息
-		List<HotIdea> ideas;
-		List<Ask> asks;
-		List<TextLive> txts;
 		if(type==0){
 			//热门观点
-			ideas = HotIdeaServ.findIdeaByTeacherId(tId, p);
-			return null;
+			List<HotIdea> ideas = HotIdeaServ.findIdeaByTeacherId(tId, p);
+			return JsonUtil.getIdeaList(ideas);
 		}else if(type==1){
 			//问答
-			 asks = AskSer.findAskByTeacherId(tId, p);
-			 return null;
+			 List<Ask> asks = AskSer.findAskByTeacherId(tId, p);
+			 List<User> users=new ArrayList<User>();
+			 for(Ask ask : asks){
+				 int uId=ask.getUserId();
+				 User user=UserServer.findUserById(uId);
+				 if(user==null){
+					 user=new User();
+				 }
+				 users.add(user);
+			 }
+			 return JsonUtil.getAskList(asks, users);
 		}else if(type==2){
 			//文字直播
-			txts = TxtLiveSer.findTextLiveByTeacherId(tId,p);
-			FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(tId);
-			return JsonUtil.getTxtLiveByTeacherId(txts,teacher);
+			List<TextLive> txts = TxtLiveSer.findTextLiveByTeacherId(tId,p);
+			return JsonUtil.getTxtLiveByTeacherId(txts);
 		}else{
 			//直播
-			return null;
+			List<VideoLive> lives = VideoLiveServer.findLiveBytId(tId);
+			return JsonUtil.getLive(lives);
 			
 		}
 		

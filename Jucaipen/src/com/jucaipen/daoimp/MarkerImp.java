@@ -233,4 +233,47 @@ public class MarkerImp implements MarkerDao {
 		return 0;
 	}
 
+	@Override
+	public List<Marker> findMarkerByTeacherId(int tId,int type) {
+		//获取讲师打赏的信息
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT FK_UserId,MaekerCount FROM JCP_MarkerWord_Dateil WHERE FK_LogId="+tId+" AND MarkerType="+type);
+			while (res.next()) {
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Marker> findAll() {
+		//获取所有打赏信息
+		markers.clear();
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT FK_UserId,MaekerCount,FK_LogId,MarkerType FROM JCP_MarkerWord_Dateil");
+		    while (res.next()) {
+				int userId=res.getInt(1);
+				int markerCount=res.getInt(2);
+				int fkId=res.getInt(3);
+				int markType=res.getInt(4);
+				Marker marker=new Marker();
+				marker.setType(markType);
+				marker.setUserId(userId);
+				marker.setMarkerCount(markerCount);
+				marker.setIdeaId(fkId);
+				markers.add(marker);
+			}
+		    return markers;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

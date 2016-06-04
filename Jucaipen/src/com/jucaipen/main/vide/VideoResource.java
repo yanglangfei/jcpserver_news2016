@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.VideoLive;
-import com.jucaipen.service.LiveRoomServer;
+import com.jucaipen.service.VideoLiveServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
@@ -71,7 +71,7 @@ public class VideoResource extends HttpServlet {
 
 	private void initVideoResource(int id) {
 		// 获取视频资源
-		live = LiveRoomServer.getRoomLiveUrl(id);
+		live = VideoLiveServer.getRoomLiveUrl(id);
 	}
 
 }

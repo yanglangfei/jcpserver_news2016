@@ -41,5 +41,14 @@ public class FamousTeacherSer {
 		FamousTeacherDao dao = new FamousTeacherImp();
 		return dao.findFamousTeacherById(id);
 	}
+	
+	/**
+	 * @param id
+	 * @return 获取最大提问数
+	 */
+	public static int findMaxAsk(int id){
+		FamousTeacherDao dao=new FamousTeacherImp();
+		return dao.findMaxAsk(id);
+	}
 
 }

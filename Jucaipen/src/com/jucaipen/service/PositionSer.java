@@ -24,5 +24,15 @@ public class PositionSer {
 		PositionDao dao=new PositionImp();
 		return dao.findAll();
 	}
+	
+	/**
+	 * @param cId
+	 * @return 根据资格证类型获取相应的岗位
+	 */
+	public static List<Position> findPositionByCid(int cId){
+		PositionDao dao=new PositionImp();
+		return dao.findPositionByCid(cId);
+		
+	};
 
 }

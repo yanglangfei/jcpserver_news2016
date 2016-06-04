@@ -56,5 +56,23 @@ public class MarkerSer{
 		MarkerDao dao=new MarkerImp();
 		return dao.addMarker(marker);
 	}
+	
+	/**
+	 * @param tId
+	 * @param type
+	 * @return  获取讲师打赏的信息 获取观点打赏信息
+	 */
+	public static List<Marker> findMarkerByTeacherId(int tId,int type){
+		MarkerDao dao=new MarkerImp();
+		return dao.findMarkerByTeacherId(tId, type);
+	}
+	
+	/**
+	 * @return  获取所有的打赏信息
+	 */
+	public static List<Marker>  findAll(){
+		MarkerDao dao=new MarkerImp();
+		return dao.findAll();
+	}
 
 }

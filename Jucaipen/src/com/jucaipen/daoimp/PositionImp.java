@@ -84,4 +84,30 @@ public class PositionImp implements PositionDao {
 		return null;
 	}
 
+	@Override
+	public List<Position> findPositionByCid(int cId) {
+		//根据资格证书id获取相应岗位
+		positions.clear();
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM JCP_Position WHERE FK_CenId="+cId);
+			while (res.next()) {
+					int id=res.getInt(1);
+					String name=res.getString(2);  //PositionName
+					String remark=res.getString(3);  //Remark
+					Position position=new Position();
+					position.setName(name);
+					position.setId(id);
+					position.setRemark(remark);
+					position.setFk_CenId(cId);
+					positions.add(position);
+			}
+				return positions;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

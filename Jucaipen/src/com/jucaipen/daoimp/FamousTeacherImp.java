@@ -248,5 +248,21 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		
 	}
 
+	@Override
+	public int findMaxAsk(int id) {
+		// 获取讲师最大提问数
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT AskNum FROM JCP_Tearcher WHERE Id="+id);
+			while (res.next()) {
+				return res.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 
 }

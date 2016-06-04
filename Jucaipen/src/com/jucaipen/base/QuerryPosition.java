@@ -34,11 +34,17 @@ public class QuerryPosition extends HttpServlet {
 		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
 		if(isDevice==HeaderUtil.PHONE_APP){
 			String userId=request.getParameter("userId");
+			String typeId=request.getParameter("typeId");
 			if(StringUtil.isNotNull(userId)){
 				if(StringUtil.isInteger(userId)){
 					int uId=Integer.parseInt(userId);
 					if(uId>0){
-						result=initPosition();
+						if(StringUtil.isNotNull(typeId)&&StringUtil.isInteger(typeId)){
+							int type=Integer.parseInt(typeId);
+							result=initPosition(type);
+						}else{
+							result=JsonUtil.getRetMsg(4,"typeId 参数数字格式化异常");
+						}
 					}else{
 						result=JsonUtil.getRetMsg(3,"该用户还没登录");
 					}
@@ -57,9 +63,9 @@ public class QuerryPosition extends HttpServlet {
 		out.close();
 	}
 	
-	private String initPosition() {
+	private String initPosition(int type) {
 		//初始化岗位信息
-		List<Position> positions = PositionSer.findAll();
+		List<Position> positions = PositionSer.findPositionByCid(type);
 		return JsonUtil.getPositionlist(positions);
 	}
 

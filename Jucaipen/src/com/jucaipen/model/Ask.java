@@ -73,6 +73,27 @@ public class Ask implements Serializable{
 	 *  提问来源 （1、PC端，2、手机APP，3、手机网站）
 	 */
 	private int askFrom;
+	/**
+	 *  讲师逾期未回答是否已经退还聚财币（0未退还，1已退还）该字段作用于付费提问且讲师逾期未回答时
+	 */
+	private int isReturnJcb;
+	/**
+	 *   回复数
+	 */
+	private int replyCount;
+	
+	public int getIsReturnJcb() {
+		return isReturnJcb;
+	}
+	public void setIsReturnJcb(int isReturnJcb) {
+		this.isReturnJcb = isReturnJcb;
+	}
+	public int getReplyCount() {
+		return replyCount;
+	}
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
+	}
 	public int getPage() {
 		return page;
 	}

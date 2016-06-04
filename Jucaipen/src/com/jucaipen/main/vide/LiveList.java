@@ -15,7 +15,7 @@ import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.TextLive;
 import com.jucaipen.model.VideoLive;
 import com.jucaipen.service.FamousTeacherSer;
-import com.jucaipen.service.LiveRoomServer;
+import com.jucaipen.service.VideoLiveServer;
 import com.jucaipen.service.TxtLiveSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
@@ -80,7 +80,7 @@ public class LiveList extends HttpServlet {
 	private String initLive(int page) {
 		// 初始化视频直播
 		teachers.clear();
-		List<VideoLive> videos = LiveRoomServer.findAll(page);
+		List<VideoLive> videos = VideoLiveServer.findAll(page);
 		for (VideoLive live : videos) {
 			int tId = live.getTeacherId();
 			FamousTeacher teacher = FamousTeacherSer.findFamousTeacherById(tId);

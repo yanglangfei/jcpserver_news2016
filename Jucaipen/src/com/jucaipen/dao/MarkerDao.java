@@ -12,6 +12,11 @@ import com.jucaipen.model.Marker;
 public interface MarkerDao {
 	
 	/**
+	 * @return  获取所有打赏信息
+	 */
+	public List<Marker> findAll();
+	
+	/**
 	 * @param id
 	 * @return 通过id获取打赏信息
 	 */
@@ -42,5 +47,11 @@ public interface MarkerDao {
 	 * @return 添加打赏信息
 	 */
 	public int addMarker(Marker marker);
+	
+	/**
+	 * @param tId
+	 * @return  获取讲师打赏的信息    获取观点打赏信息
+	 */
+	public List<Marker> findMarkerByTeacherId(int tId,int type);
 
 }

@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jucaipen.dao.LiveRoomDao;
+import com.jucaipen.dao.VideoLiveDao;
 import com.jucaipen.model.VideoLive;
 import com.jucaipen.utils.JdbcUtil;
 import com.jucaipen.utils.SqlUtil;
@@ -17,7 +17,7 @@ import com.jucaipen.utils.SqlUtil;
  * 
  *         直播间
  */
-public class LiveRoomImp implements LiveRoomDao {
+public class VideoLiveImp implements VideoLiveDao {
 	private Connection dbConn;
 	private ResultSet res;
 	private Statement sta;
@@ -171,6 +171,48 @@ public class LiveRoomImp implements LiveRoomDao {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}
+		return null;
+	}
+
+
+	@Override
+	public List<VideoLive> findLiveBytId(int tId) {
+		// 获取讲师下的直播视频信息
+		chatRooms.clear();
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM JCP_VideoLive WHERE Fk_TeacherId="+tId);
+			while (res.next()) {
+				int id=res.getInt("Id");
+				String title=res.getString("Title");  //Title
+				String keyWord=res.getString("Keyword");  //Keyword
+				String desc=res.getString("Descirption");  //Descirption
+				int classId=res.getInt("Fk_CalssId");  //Fk_CalssId
+				String videoUrl=res.getString("Videourl");  //Videourl
+				String videoImage=res.getString("VideoImg");  //VideoImg
+				int isEnd=res.getInt("IsEnd");  //IsEnd
+				String startDate=res.getString("StratDate");  //StratDate
+				String endDate=res.getString("EndDate");  //EndDate
+				int renQi=res.getInt("RenQi");  //RenQi
+				VideoLive live=new VideoLive();
+				live.setId(id);
+				live.setTitle(title);
+				live.setKeyWord(keyWord);
+				live.setDescript(desc);
+				live.setClassId(classId);
+				live.setVideoUrl(videoUrl);
+				live.setVideoImage(videoImage);
+				live.setTeacherId(tId);
+				live.setIsEnd(isEnd);
+				live.setStartDate(startDate);
+				live.setEndDate(endDate);
+				live.setRenQi(renQi);
+				chatRooms.add(live);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

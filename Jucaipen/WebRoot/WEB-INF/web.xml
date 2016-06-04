@@ -142,11 +142,11 @@
   </servlet>
   <servlet>
     <servlet-name>QuerryGuest</servlet-name>
-    <servlet-class>com.jucaipen.main.live.QuerryGuest</servlet-class>
+    <servlet-class>com.jucaipen.main.play.QuerryGuest</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>PlayComment</servlet-name>
-    <servlet-class>com.jucaipen.main.live.PlayComment</servlet-class>
+    <servlet-class>com.jucaipen.main.play.PlayComment</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>QuerryRewarder</servlet-name>
@@ -158,7 +158,7 @@
   </servlet>
   <servlet>
     <servlet-name>LatestList</servlet-name>
-    <servlet-class>com.jucaipen.main.index.LatestList</servlet-class>
+    <servlet-class>com.jucaipen.main.live.LatestList</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>AskQuestion</servlet-name>
@@ -264,6 +264,26 @@
     <servlet-name>BindBank</servlet-name>
     <servlet-class>com.jucaipen.main.user.BindBank</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ActiveList</servlet-name>
+    <servlet-class>com.jucaipen.main.live.ActiveList</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryBankList</servlet-name>
+    <servlet-class>com.jucaipen.base.QuerryBankList</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryCertification</servlet-name>
+    <servlet-class>com.jucaipen.base.QuerryCertification</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SignIn</servlet-name>
+    <servlet-class>com.jucaipen.main.user.SignIn</servlet-class>
+  </servlet>
+
+
+
+
 
 
 
@@ -532,5 +552,21 @@
   <servlet-mapping>
     <servlet-name>BindBank</servlet-name>
     <url-pattern>/jucaipen/bindbank</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ActiveList</servlet-name>
+    <url-pattern>/jucaipen/getactivelist</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryBankList</servlet-name>
+    <url-pattern>/jucaipen/getbanklist</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryCertification</servlet-name>
+    <url-pattern>/jucaipen/getcertification</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SignIn</servlet-name>
+    <url-pattern>/jucaipen/signin</url-pattern>
   </servlet-mapping>
 </web-app>

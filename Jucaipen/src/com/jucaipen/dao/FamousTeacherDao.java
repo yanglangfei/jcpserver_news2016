@@ -34,5 +34,11 @@ public interface FamousTeacherDao {
 	 */
 	public FamousTeacher findFamousTeacherById(int id);
 	
+	/**
+	 * @param id
+	 * @return  获取最大提问数
+	 */
+	public int findMaxAsk(int id);
+	
 
 }

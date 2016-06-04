@@ -251,17 +251,21 @@ public class TextLiveImp implements TxtLiveDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 15 Id,Title,StartDate,Hits,FK_TearchId FROM "
+					.executeQuery("SELECT TOP 15 Id,Title,StartDate,Hits,FK_TearchId,IsEnd FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY StartDate desc) AS RowNumber,"
 							+ "* FROM JCP_TxtLive WHERE FK_TearchId="+teacherId+") A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
-				int id = res.getInt(1);
-				String startDate = res.getString(2);
-				int isEnd = res.getInt(3);
+				int id = res.getInt("Id");
+				String title=res.getString("Title");
+				String startDate = res.getString("StartDate");
+				int hits=res.getInt("Hits");
+				int isEnd = res.getInt("IsEnd");
 				TextLive textLive = new TextLive();
 				textLive.setId(id);
 				textLive.setPage(page);
+				textLive.setTitle(title);
+				textLive.setHits(hits);
 				textLive.setTotlePage(totlePage);
 				textLive.setIsEnd(isEnd);
 				textLive.setStartDate(startDate);

@@ -20,5 +20,17 @@ public interface SignDao {
 	 * @return 添加签到信息
 	 */
 	public int addSign(Sign sign);
+	
+	/**
+	 * @param sign
+	 * @return  更新签到总表
+	 */
+	public int updateSign(Sign sign);
+	
+	/**
+	 * @param uId
+	 * @return  获取签到次数
+	 */
+	public int findSignCount(int uId);
 
 }

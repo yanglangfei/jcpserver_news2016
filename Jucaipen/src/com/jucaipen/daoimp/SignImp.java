@@ -77,4 +77,34 @@ public class SignImp implements SignDao {
 
 		return 0;
 	}
+
+	@Override
+	public int updateSign(Sign sign) {
+		// 更新签到总表
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_QianDao SET LastDate='"+sign.getLastDate()+"',Ip='"
+					+sign.getIp()+"',QDCount="+sign.getSignNum()+" WHERE UserId="+sign.getUserId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public int findSignCount(int uId) {
+		// 获取签到次数
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT QDCount FROM JCP_QianDao WHERE UserId="+uId);
+			while (res.next()) {
+				return res.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }

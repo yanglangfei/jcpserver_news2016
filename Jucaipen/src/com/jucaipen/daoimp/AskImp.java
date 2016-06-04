@@ -17,7 +17,7 @@ public class AskImp implements AskDao {
 	private ResultSet res;
 	private int isSuccess;
 	private List<Ask> asks = new ArrayList<Ask>();
-	
+
 	/**
 	 * @return 查询提问总页数
 	 */
@@ -33,7 +33,7 @@ public class AskImp implements AskDao {
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -47,18 +47,18 @@ public class AskImp implements AskDao {
 	public List<Ask> findAllAsk(int page) {
 		// 获取搜友提问信息
 		try {
-			int totlePage=findTotlePage("");
+			int totlePage = findTotlePage("");
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY AskDate desc) AS RowNumber,* FROM JCP_Ask) A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
-			asks = getAsk(res,page,totlePage);
+			asks = getAsk(res, page, totlePage);
 			return asks;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -75,11 +75,11 @@ public class AskImp implements AskDao {
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT TOP " + count
 					+ " * FROM JCP_Ask ORDER BY AskDate DESC");
-			asks = getAsk(res,0,0);
+			asks = getAsk(res, 0, 0);
 			return asks;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -88,20 +88,21 @@ public class AskImp implements AskDao {
 		}
 		return null;
 	}
-	
-	
+
 	public int findAskNumByUId(int uId) {
-		//根据用户id获取用户的提问数
+		// 根据用户id获取用户的提问数
 		try {
-			dbConn=JdbcUtil.connSqlServer();
-			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT COUNT (*) FROM JCP_Ask WHERE FK_UserId="+uId);
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT COUNT (*) FROM JCP_Ask WHERE FK_UserId="
+							+ uId);
 			while (res.next()) {
-				int askNum=res.getInt(1);
+				int askNum = res.getInt(1);
 				return askNum;
 			}
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -110,8 +111,6 @@ public class AskImp implements AskDao {
 		}
 		return -1;
 	}
-	
-	
 
 	public List<Ask> findAskByUserId(int userId) {
 		// 根据用户id获取提问信息
@@ -120,11 +119,11 @@ public class AskImp implements AskDao {
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT * FROM JCP_Ask WHERE FK_UserId="
 					+ userId + " ORDER BY AskDate DESC");
-			asks = getAsk(res,0,0);
+			asks = getAsk(res, 0, 0);
 			return asks;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -134,22 +133,22 @@ public class AskImp implements AskDao {
 		return null;
 	}
 
-	public List<Ask> findAskByTeacherId(int teacherId,int page) {
+	public List<Ask> findAskByTeacherId(int teacherId, int page) {
 		// 根据讲师id获取提问信息
-		int totlePage=findTotlePage("WHERE FK_TearchId="+teacherId);
+		int totlePage = findTotlePage("WHERE FK_TearchId=" + teacherId);
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY AskDate desc) AS RowNumber,* FROM JCP_Ask" +
-							" WHERE FK_TearchId="+teacherId+") A "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY AskDate desc) AS RowNumber,* FROM JCP_Ask"
+							+ " WHERE FK_TearchId=" + teacherId + ") A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
-			asks = getAsk(res,page,totlePage);
+			asks = getAsk(res, page, totlePage);
 			return asks;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -166,11 +165,11 @@ public class AskImp implements AskDao {
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT * FROM JCP_Ask WHERE FK_ClassId="
 					+ classId + " ORDER BY AskDate DESC");
-			asks = getAsk(res,0,0);
+			asks = getAsk(res, 0, 0);
 			return asks;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -185,14 +184,13 @@ public class AskImp implements AskDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta
-					.executeQuery("SELECT * FROM JCP_Ask WHERE IsPay="
-							+ isPay + " ORDER BY AskDate DESC");
-			asks = getAsk(res,0,0);
+			res = sta.executeQuery("SELECT * FROM JCP_Ask WHERE IsPay=" + isPay
+					+ " ORDER BY AskDate DESC");
+			asks = getAsk(res, 0, 0);
 			return asks;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -209,11 +207,11 @@ public class AskImp implements AskDao {
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT * FROM JCP_Ask WHERE IsReply="
 					+ isReply + " ORDER BY AskDate DESC");
-			asks = getAsk(res,0,0);
+			asks = getAsk(res, 0, 0);
 			return asks;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -230,13 +228,13 @@ public class AskImp implements AskDao {
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT * FROM JCP_Ask WHERE Id=" + id
 					+ " ORDER BY AskDate DESC");
-			asks = getAsk(res,0,0);
+			asks = getAsk(res, 0, 0);
 			if (asks.size() > 0) {
 				return asks.get(0);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -253,17 +251,20 @@ public class AskImp implements AskDao {
 			sta = dbConn.createStatement();
 			isSuccess = sta
 					.executeUpdate("INSERT INTO JCP_Ask"
-							+ "(FK_UserId,ParentId,AskBodys,FK_ClassId,AskDate,IsPay,Hits,IsReply,IP,FK_TearchId) "
-							+ "VALUES(" + ask.getUserId() + ","
-							+ ask.getParentId() + ",'" + ask.getAskBody()
-							+ "'," + ask.getClassId() + ",'" + ask.getAskDate()
-							+ "'," + ask.getAskState() + "," + ask.getHits()
-							+ "," + ask.getIsReply() + ",'" + ask.getIp() + "',"
-							+ ask.getTeacherId() + ")");
+							+ "(FK_UserId,ParentId,AskBodys,AskDate,"
+							+ "AskState,Hits,IsReply,FK_TearchId,FK_ClassId,Ip,"
+							+ "IsPay,PayJucaibi,AskFrom,IsReturnJcb,ReplyCount) "
+							+ "VALUES("
+							+ask.getUserId()+","+ask.getParentId()+",'"+ask.getAskBody()
+							+"','"+ask.getAskDate()+"',"+ask.getAskState()+","+ask.getHits()
+							+","+ask.getIsReply()+","+ask.getTeacherId()+","+ask.getClassId()
+							+",'"+ask.getIp()+"',"+ask.getIsPay()+","+ask.getJucaiBills()
+							+","+ask.getAskFrom()+","+ask.getIsReturnJcb()+","+ask.getReplyCount()
+							+")");
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -273,7 +274,7 @@ public class AskImp implements AskDao {
 		return -1;
 	}
 
-	public List<Ask> getAsk(ResultSet result,int page,int totlePage) {
+	public List<Ask> getAsk(ResultSet result, int page, int totlePage) {
 		asks.clear();
 		try {
 			while (result.next()) {
@@ -307,7 +308,7 @@ public class AskImp implements AskDao {
 			return asks;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {

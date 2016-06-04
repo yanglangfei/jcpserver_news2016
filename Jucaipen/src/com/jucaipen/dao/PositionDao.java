@@ -21,5 +21,11 @@ public interface PositionDao {
 	 * @return 获取所有岗位信息
 	 */
 	public List<Position> findAll();
+	
+	/**
+	 * @param cId
+	 * @return 根据资格证类型获取相应的岗位
+	 */
+	public List<Position> findPositionByCid(int cId);
 
 }
