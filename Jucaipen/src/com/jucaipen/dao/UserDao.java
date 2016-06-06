@@ -29,6 +29,13 @@ public interface UserDao {
 	 * @return 查找所有用户
 	 */
 	public List<User> findUser(int page);
+	
+	/**
+	 * @param investCode
+	 * @return 根据邀请码获取用户信息
+	 */
+	public User findUserByInvestCode(String investCode);
+	
 	/**
 	 * @param id
 	 * @return 通过id查询用户信息

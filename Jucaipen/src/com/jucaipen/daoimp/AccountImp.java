@@ -15,22 +15,22 @@ public class AccountImp implements AccountDao {
 	private Connection dbConn;
 	private Statement sta;
 	private ResultSet res;
-	private List<Account> accounts=new ArrayList<Account>();
+	private List<Account> accounts = new ArrayList<Account>();
 
 	@Override
 	public List<Account> findAllAccount() {
-		//获取所有账户信息
+		// 获取所有账户信息
 		accounts.clear();
-		dbConn=JdbcUtil.connSqlServer();
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_Account");
+			sta = dbConn.createStatement();
+			res = sta.executeQuery("SELECT * FROM JCP_Account");
 			while (res.next()) {
-				int id=res.getInt(1);
-				int uId=res.getInt(2);
-				int integeral=res.getInt(3);
-				int jucaiBills=res.getInt(4);
-				Account account=new Account();
+				int id = res.getInt(1);
+				int uId = res.getInt(2);
+				int integeral = res.getInt(3);
+				int jucaiBills = res.getInt(4);
+				Account account = new Account();
 				account.setId(id);
 				account.setUserId(uId);
 				account.setIntegeral(integeral);
@@ -40,7 +40,7 @@ public class AccountImp implements AccountDao {
 			return accounts;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -52,16 +52,16 @@ public class AccountImp implements AccountDao {
 
 	@Override
 	public Account findAccountById(int id) {
-		//根据id获取账户信息
-		dbConn=JdbcUtil.connSqlServer();
+		// 根据id获取账户信息
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_Account WHERE Id="+id);
+			sta = dbConn.createStatement();
+			res = sta.executeQuery("SELECT * FROM JCP_Account WHERE Id=" + id);
 			while (res.next()) {
-				int uId=res.getInt(2);
-				int integeral=res.getInt(3);
-				int jucaiBills=res.getInt(4);
-				Account account=new Account();
+				int uId = res.getInt(2);
+				int integeral = res.getInt(3);
+				int jucaiBills = res.getInt(4);
+				Account account = new Account();
 				account.setId(id);
 				account.setUserId(uId);
 				account.setIntegeral(integeral);
@@ -70,7 +70,7 @@ public class AccountImp implements AccountDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -82,16 +82,17 @@ public class AccountImp implements AccountDao {
 
 	@Override
 	public Account findAccountByUserId(int uId) {
-		//根据用户id获取账户信息
-		dbConn=JdbcUtil.connSqlServer();
+		// 根据用户id获取账户信息
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_Account WHERE UserId="+uId);
+			sta = dbConn.createStatement();
+			res = sta.executeQuery("SELECT * FROM JCP_Account WHERE UserId="
+					+ uId);
 			while (res.next()) {
-				int id=res.getInt(1);
-				int integeral=res.getInt(3);
-				int jucaiBills=res.getInt(4);
-				Account account=new Account();
+				int id = res.getInt(1);
+				int integeral = res.getInt(3);
+				int jucaiBills = res.getInt(4);
+				Account account = new Account();
 				account.setId(id);
 				account.setUserId(uId);
 				account.setIntegeral(integeral);
@@ -100,24 +101,25 @@ public class AccountImp implements AccountDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return null;
 	}
 
 	@Override
-	public int updateBills(int uId,int newBills) {
-		//修改账户聚财币数量
-		dbConn=JdbcUtil.connSqlServer();
+	public int updateBills(int uId, int newBills) {
+		// 修改账户聚财币数量
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			return sta.executeUpdate("UPDATE JCP_Account SET JucaiBi="+newBills+" WHERE UserId="+uId);
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_Account SET JucaiBi="
+					+ newBills + " WHERE UserId=" + uId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -126,11 +128,31 @@ public class AccountImp implements AccountDao {
 
 	@Override
 	public int updateIntegeral(int uId, int integeral) {
-		//修改用户积分信息
-		dbConn=JdbcUtil.connSqlServer();
+		// 修改用户积分信息
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			return sta.executeUpdate("UPDATE JCP_Account SET Integral="+integeral+" WHERE UserId="+uId);
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_Account SET Integral="
+					+ integeral + " WHERE UserId=" + uId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public int addAccount(Account account) {
+		// 添加账户信息
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta
+					.executeUpdate("INSERT INTO JCP_Account(UserId,Integral,JucaiBi) VALUES("
+							+ account.getUserId()
+							+ ","
+							+ account.getIntegeral()
+							+ ","
+							+ account.getJucaiBills() + ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -104,7 +104,7 @@ public class AskQuestion extends HttpServlet {
 		List<Ask> asks=AskSer.findAskByUserId(uId);
 		for(Ask ask : asks){
 			String askDate=ask.getAskDate();
-			boolean isToday=TimeUtils.compareDate(askDate);
+			boolean isToday=TimeUtils.isToday(askDate);
 			if(isToday){
 				++askNum;
 			}

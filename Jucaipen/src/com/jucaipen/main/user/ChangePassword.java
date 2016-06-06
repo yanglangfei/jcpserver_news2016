@@ -34,13 +34,15 @@ public class ChangePassword extends HttpServlet {
 		if (isDevice == HeaderUtil.PHONE_APP) {
 			String userId = request.getParameter("userId");
 			String oldPwd = request.getParameter("oldPwd");
+			String telPhone=request.getParameter("telPhone");
+			String actionCode=request.getParameter("actionCode");
 			String newPwd = request.getParameter("newPwd");
 			String reptPwd = request.getParameter("reptPwd");
 			if (StringUtil.isNotNull(userId)) {
 				if (StringUtil.isInteger(userId)) {
 					int uId = Integer.parseInt(userId);
 					if (uId > 0) {
-
+						result=changePassword(uId,oldPwd,telPhone,actionCode,newPwd,reptPwd);
 					} else {
 						result = JsonUtil.getRetMsg(3, "当前用户还没登录");
 					}
@@ -56,6 +58,12 @@ public class ChangePassword extends HttpServlet {
 		out.println(result);
 		out.flush();
 		out.close();
+	}
+
+	private String changePassword(int uId, String oldPwd, String telPhone,
+			String actionCode, String newPwd, String reptPwd) {
+		//修改手机号
+		return null;
 	}
 
 }

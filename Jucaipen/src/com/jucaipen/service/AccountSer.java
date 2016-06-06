@@ -53,5 +53,14 @@ public class AccountSer{
 		AccountDao dao=new AccountImp();
 		return dao.updateIntegeral(uId, integeral);
 	}
+	
+	/**
+	 * @param account
+	 * @return  添加账户信息
+	 */
+	public static int addAccount(Account account){
+		AccountDao dao=new AccountImp();
+		return dao.addAccount(account);
+	}
 
 }

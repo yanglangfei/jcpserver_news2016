@@ -33,10 +33,6 @@ public class OtherAccountLogin extends HttpServlet {
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private String clientAddress;
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doPost(request, response);
-	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -82,7 +78,7 @@ public class OtherAccountLogin extends HttpServlet {
 		LoginLog log = new LoginLog();
 		log.setLoginDate(sdf.format(new Date()));
 		log.setUserId(uId);
-		log.setAccount(user.getMobileNum());
+		log.setAccount(user.getUserName());
 		log.setPassword(user.getPassword());
 		log.setRemark("µÇÂ¼³É¹¦");
 		log.setLoginIp(clientAddress);

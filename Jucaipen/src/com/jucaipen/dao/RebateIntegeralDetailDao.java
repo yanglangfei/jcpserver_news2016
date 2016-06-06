@@ -20,9 +20,15 @@ public interface RebateIntegeralDetailDao {
 	/**
 	 * @param userId
 	 * @param page
-	 * @return 通过用户id获取返利积分信息
+	 * @return 通过用户id获取返利积分信息  分页
 	 */
 	public List<RebateIntegeralDetail> findRebateIntegeralByUserId(int userId,int page);
+	
+	/**
+	 * @param userId
+	 * @return  通过用户id获取返利积分信息   无分页
+	 */
+	public List<RebateIntegeralDetail> findRebateIntegeralByUserId(int userId);
 	
 	/**
 	 * @param inDetail

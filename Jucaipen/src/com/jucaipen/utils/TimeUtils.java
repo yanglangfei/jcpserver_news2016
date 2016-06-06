@@ -21,7 +21,7 @@ public class TimeUtils {
 	 * @param date
 	 * @return  判断时间是否是今日
 	 */
-	public static boolean compareDate(String date){
+	public static boolean isToday(String date){
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			Date comDate=sdf.parse(date);
@@ -33,6 +33,30 @@ public class TimeUtils {
 			int currentMoth=currrent.getMonth();
 			int currentDay=currrent.getDate();
 			if(currentYear==comYear&&currentDay==comDay&&currentMoth==comMoth){
+				return true;
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
+	
+	/**
+	 * @param date
+	 * @return  判断是否是本月
+	 */
+	public static boolean isMoth(String date){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			Date comDate=sdf.parse(date);
+			Date currrent=new Date();
+			int comYear=comDate.getYear();
+			int comMoth=comDate.getMonth();
+			int currentYear=currrent.getYear();
+			int currentMoth=currrent.getMonth();
+			if(currentYear==comYear&&currentMoth==comMoth){
 				return true;
 			}
 		} catch (ParseException e) {

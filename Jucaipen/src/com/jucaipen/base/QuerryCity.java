@@ -55,7 +55,6 @@ public class QuerryCity extends HttpServlet {
 	private void initCityInfo(int pId) {
 		cities.clear();
 		cities = CityServer.getCitys(pId);
-
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

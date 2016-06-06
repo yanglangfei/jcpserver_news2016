@@ -46,16 +46,14 @@ public class HotNews extends HttpServlet {
 					int index = Integer.parseInt(isIndex);
 					if (index == 0) {
 						// 首页今日热点
-						initIndexData();
-						result = JsonUtil.getNewsList(news);
+						result=initIndexData();
 					} else {
 						// 获取所有今日热点
 						String page = request.getParameter("page");
 						if (StringUtil.isNotNull(page)
 								&& StringUtil.isInteger(page)) {
 							int p = Integer.parseInt(page);
-							initAllData(p);
-							result = JsonUtil.getNewsList(news);
+							result=initAllData(p);
 						} else {
 							result = JsonUtil.getRetMsg(3, "page参数有误");
 						}
@@ -74,18 +72,19 @@ public class HotNews extends HttpServlet {
 		out.close();
 	}
 
-	private void initAllData(int page) {
+	private String initAllData(int page) {
 		// 获取全部今日热点信息
-		news = NewServer.findNewsByClassId(1, page);
+		news = NewServer.queryNews(page);
 		for (News n : news) {
 			int fromId = n.getFromId();
 			String from = ResourceFromServer.getRSources(fromId);
 			n.setFrom(from);
 		}
+		return JsonUtil.getNewsList(news);
 
 	}
 
-	private void initIndexData() {
+	private String initIndexData() {
 		// 获取首页今日热点信息
 		news = NewServer.findLastNews(3);
 		for (News n : news) {
@@ -93,6 +92,7 @@ public class HotNews extends HttpServlet {
 			String from = ResourceFromServer.getRSources(fromId);
 			n.setFrom(from);
 		}
+		return JsonUtil.getNewsList(news);
 
 	}
 

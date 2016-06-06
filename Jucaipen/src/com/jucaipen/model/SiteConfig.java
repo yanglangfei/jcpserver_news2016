@@ -80,7 +80,7 @@ public class SiteConfig implements Serializable{
 	/**
 	 *  是否允许守护
 	 */
-	private int userIsShouhu;
+	private double userIsShouhu;
 	/**
 	 * 系统设置提问数量
 	 */
@@ -187,10 +187,10 @@ public class SiteConfig implements Serializable{
 	public void setUserGiveRebat(double userGiveRebat) {
 		this.userGiveRebat = userGiveRebat;
 	}
-	public int getUserIsShouhu() {
+	public double getUserIsShouhu() {
 		return userIsShouhu;
 	}
-	public void setUserIsShouhu(int userIsShouhu) {
+	public void setUserIsShouhu(double userIsShouhu) {
 		this.userIsShouhu = userIsShouhu;
 	}
 	public int getAskNum() {

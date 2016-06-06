@@ -34,6 +34,15 @@ public class UserServer {
 		UserDao dao=new UserImp();
 		return dao.findLoginInfoById(id);
 	}
+	
+	/**
+	 * @param investCode
+	 * @return  根据邀请码获取用户信息
+	 */
+	public static User findUserByInvestCode(String investCode){
+		UserDao dao=new UserImp();
+		return dao.findUserByInvestCode(investCode);
+	}
 
 	/**
 	 * @param userName

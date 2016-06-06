@@ -2,31 +2,52 @@ package com.jucaipen.main.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jucaipen.model.Account;
 import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.model.Comment;
+import com.jucaipen.model.HotIdea;
+import com.jucaipen.model.Knowledge;
+import com.jucaipen.model.RebateIntegeralDetail;
+import com.jucaipen.model.SiteConfig;
+import com.jucaipen.model.TextLive;
+import com.jucaipen.model.UserComm;
+import com.jucaipen.model.Video;
+import com.jucaipen.service.AccountSer;
+import com.jucaipen.service.CommentSer;
+import com.jucaipen.service.HotIdeaServ;
+import com.jucaipen.service.KnowledgetSer;
+import com.jucaipen.service.RebateIntegeralDetailSer;
+import com.jucaipen.service.SiteConfigSer;
+import com.jucaipen.service.TxtLiveSer;
+import com.jucaipen.service.UserCommSer;
+import com.jucaipen.service.UserServer;
+import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
+import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator
  * 
- * 
  *         添加评论----回复评论 
- *         typeId -----分类id 0 新闻评论，回复 1 视频评论，回复    2  观点评论 回复
+ *         typeId -----分类id     （0 证券评论，回复 ）
+ *                                （ 1 视频评论，回复 ）
+ *                                 （ 2  观点评论 回复）
+ *                                 （  3 文字直播）
  *         
  *         ParentId    0  评论      非0   回复
  */ 
 @SuppressWarnings("serial")
 public class AddRemark extends HttpServlet {
-	//private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//	private Comment newsComment;
-	private int isSuccess;
 	private String result;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -41,30 +62,20 @@ public class AddRemark extends HttpServlet {
 		if(isDevice==HeaderUtil.PHONE_APP){
 			String typeId = request.getParameter("typeId");
 			String userId = request.getParameter("userId");
-			String classId = request.getParameter("classId"); 
+			String parentId = request.getParameter("parentId"); 
 			String newsId = request.getParameter("newsId");
 			String bodys = request.getParameter("bodys");
 			if (StringUtil.isInteger(userId)) {
 				int uId = Integer.parseInt(userId);
 				if(uId>0){
-					if (StringUtil.isInteger(classId)) {
-						int cId = Integer.parseInt(classId);
+					if (StringUtil.isInteger(parentId)) {
+						int pId = Integer.parseInt(parentId);
 						if (StringUtil.isInteger(newsId)) {
 							int nId = Integer.parseInt(newsId);
 							if (StringUtil.isNotNull(bodys)) {
 								if (StringUtil.isInteger(typeId)) {
 									int type = Integer.parseInt(typeId);
-									if (type == 0 || type == 1||type==2) {
-										insertRemark(uId, cId, nId, bodys,type);
-										if (isSuccess == 1) {
-											result = JsonUtil.getRetMsg(0, "评论发表成功");
-										} else {
-											result = JsonUtil.getRetMsg(1, "评论发表失败");
-										}
-									} else {
-										result = JsonUtil.getRetMsg(4,
-												"参数typeId必须为0或者1");
-									}
+									result=insertRemark(uId, pId, nId, bodys,type);
 								} else {
 									result = JsonUtil.getRetMsg(5, "typeId参数数字格式化异常");
 								}
@@ -97,8 +108,166 @@ public class AddRemark extends HttpServlet {
 	 * @param bodys
 	 * 
 	 *            添加评论
+	 * @return 
 	 */
-	private void insertRemark(int uId, int cId, int nId, String bodys,int commType) {
+	private String insertRemark(int uId, int pId, int nId, String bodys,int commType) {
+		if(commType==0){
+			//证券
+			UserComm uc=new UserComm();
+			uc.setBodys(bodys);
+			uc.setType(0);
+			uc.setGoods(0);
+			uc.setInsertDate(TimeUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+			uc.setIsShow(0);
+			uc.setNovId(nId);
+			uc.setParentId(pId);
+			uc.setReplyCount(0);
+			uc.setUserId(uId);
+			int isSuccess = UserCommSer.insertComm(uc);
+			if(pId<=0&&isSuccess==1){
+				//评论三次之后不会产生积分
+				Knowledge know=KnowledgetSer.findKnowledgeById(nId);
+				List<RebateIntegeralDetail> details = RebateIntegeralDetailSer.findRebateIntegeralByUserId(uId);
+				if(details.size()<=3){
+					SiteConfig config = SiteConfigSer.findSiteConfig();
+					int commIntegeral=config.getCommIntegeral();
+					Account a=AccountSer.findAccountByUserId(uId);
+					//更新总账户积分信息
+					AccountSer.updateIntegeral(uId, commIntegeral+a.getIntegeral());
+					//更新用户积分信息
+					UserServer.updateIntegeral(uId, commIntegeral+a.getIntegeral());
+					//更新返现表
+					RebateIntegeralDetail inDetail=new RebateIntegeralDetail();
+					inDetail.setUserId(uId);
+					inDetail.setIntegralNum(commIntegeral);
+					inDetail.setInsertDate(TimeUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+					inDetail.setRemark("评论证券知识【"+know.getTitle()+"】");
+					inDetail.setType(3);
+					inDetail.setFromId(nId);
+					RebateIntegeralDetailSer.addRebateIntegeral(inDetail);
+				}
+				return JsonUtil.getRetMsg(0, "评论提交成功");
+			}else{
+				return JsonUtil.getRetMsg(1,"评论提交失败");
+			}
+		}else if(commType==1){
+			//视频
+			UserComm uc=new UserComm();
+			uc.setBodys(bodys);
+			uc.setType(1);
+			uc.setGoods(0);
+			uc.setInsertDate(TimeUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+			uc.setIsShow(0);
+			uc.setNovId(nId);
+			uc.setParentId(pId);
+			uc.setReplyCount(0);
+			uc.setUserId(uId);
+			int isSuccess = UserCommSer.insertComm(uc);
+			if(pId<=0&&isSuccess==1){
+				//评论三次之后不会产生积分
+				Video video=VideoServer.findVideoById(nId);
+				List<RebateIntegeralDetail> details = RebateIntegeralDetailSer.findRebateIntegeralByUserId(uId);
+				if(details.size()<=3){
+					SiteConfig config = SiteConfigSer.findSiteConfig();
+					int commIntegeral=config.getCommIntegeral();
+					Account a=AccountSer.findAccountByUserId(uId);
+					//更新总账户积分信息
+					AccountSer.updateIntegeral(uId, commIntegeral+a.getIntegeral());
+					//更新用户积分信息
+					UserServer.updateIntegeral(uId, commIntegeral+a.getIntegeral());
+					//更新返现表
+					RebateIntegeralDetail inDetail=new RebateIntegeralDetail();
+					inDetail.setUserId(uId);
+					inDetail.setIntegralNum(commIntegeral);
+					inDetail.setInsertDate(TimeUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+					inDetail.setRemark("评论视频【"+video.getTitle()+"】");
+					inDetail.setType(3);
+					inDetail.setFromId(nId);
+					RebateIntegeralDetailSer.addRebateIntegeral(inDetail);
+				}
+				return JsonUtil.getRetMsg(0, "评论提交成功");
+			}else{
+				return JsonUtil.getRetMsg(1,"评论提交失败");
+			}
+		}else if(commType==2){
+			//观点
+			Comment comm=new Comment();
+			comm.setUserId(uId);
+			comm.setBodys(bodys);
+			comm.setGoods(0);
+			comm.setCommType(1);
+			comm.setInsertDate(TimeUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+			comm.setIsShow(0);
+			comm.setLogOrLiveId(nId);
+			comm.setParentId(pId);
+			comm.setRepCount(2);
+			int isSuccess = CommentSer.insertComm(comm);
+			if(pId<=0&&isSuccess==1){
+				//评论三次之后不会产生积分
+				HotIdea idea=HotIdeaServ.findIdeaById(nId);
+				List<RebateIntegeralDetail> details = RebateIntegeralDetailSer.findRebateIntegeralByUserId(uId);
+				if(details.size()<=3){
+					SiteConfig config = SiteConfigSer.findSiteConfig();
+					int commIntegeral=config.getCommIntegeral();
+					Account a=AccountSer.findAccountByUserId(uId);
+					//更新总账户积分信息
+					AccountSer.updateIntegeral(uId, commIntegeral+a.getIntegeral());
+					//更新用户积分信息
+					UserServer.updateIntegeral(uId, commIntegeral+a.getIntegeral());
+					//更新返现表
+					RebateIntegeralDetail inDetail=new RebateIntegeralDetail();
+					inDetail.setUserId(uId);
+					inDetail.setIntegralNum(commIntegeral);
+					inDetail.setInsertDate(TimeUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+					inDetail.setRemark("评论观点【"+idea.getTitle()+"】");
+					inDetail.setType(3);
+					inDetail.setFromId(nId);
+					RebateIntegeralDetailSer.addRebateIntegeral(inDetail);
+				}
+				return JsonUtil.getRetMsg(0, "评论提交成功");
+			}else{
+				return JsonUtil.getRetMsg(1,"评论提交失败");
+			}
+		}else{
+			//文字直播
+			Comment comm=new Comment();
+			comm.setUserId(uId);
+			comm.setBodys(bodys);
+			comm.setGoods(0);
+			comm.setCommType(2);
+			comm.setInsertDate(TimeUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+			comm.setIsShow(0);
+			comm.setLogOrLiveId(nId);
+			comm.setParentId(pId);
+			comm.setRepCount(2);
+			int isSuccess = CommentSer.insertComm(comm);
+			if(pId<=0&&isSuccess==1){
+				//评论三次之后不会产生积分
+				TextLive txt=TxtLiveSer.findTextLiveById(nId);
+				List<RebateIntegeralDetail> details = RebateIntegeralDetailSer.findRebateIntegeralByUserId(uId);
+				if(details.size()<=3){
+					SiteConfig config = SiteConfigSer.findSiteConfig();
+					int commIntegeral=config.getCommIntegeral();
+					Account a=AccountSer.findAccountByUserId(uId);
+					//更新总账户积分信息
+					AccountSer.updateIntegeral(uId, commIntegeral+a.getIntegeral());
+					//更新用户积分信息
+					UserServer.updateIntegeral(uId, commIntegeral+a.getIntegeral());
+					//更新返现表
+					RebateIntegeralDetail inDetail=new RebateIntegeralDetail();
+					inDetail.setUserId(uId);
+					inDetail.setIntegralNum(commIntegeral);
+					inDetail.setInsertDate(TimeUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+					inDetail.setRemark("评论文字直播【"+txt.getTitle()+"】");
+					inDetail.setType(3);
+					inDetail.setFromId(nId);
+					RebateIntegeralDetailSer.addRebateIntegeral(inDetail);
+				}
+				return JsonUtil.getRetMsg(0, "评论提交成功");
+			}else{
+				return JsonUtil.getRetMsg(1,"评论提交失败");
+			}
+		}
 		
 	}
 

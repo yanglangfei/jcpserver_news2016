@@ -9,7 +9,7 @@ import java.sql.Statement;
 /**
  * @author YLF
  * 
- *         数据库工具类
+ *         数据库工具类       
  * 
  */
 public class JdbcUtil {
@@ -23,7 +23,6 @@ public class JdbcUtil {
 	// "jdbc:sqlserver://192.168.1.233; DatabaseName=JCPData";
 	private static final String SQLSERVER_UNAME_TEST = "sa";
 	private static final String SQLSERVER_UPWD_TEST = "111111";
-
 	/**
 	 * SqlServer 视频数据库
 	 */
@@ -47,7 +46,6 @@ public class JdbcUtil {
 	private static final String MYSQL_URL = "jdbc:mysql://121.40.227.121:3306/jucaipen";
 	private static final String MYSQL_UNAME = "jucaipen";
 	private static final String MYSQL_UPWD = "jucaipen168";
-	@SuppressWarnings("unused")
 	private static final String MYSQL_ENCODING = "useUnicode=true&characterEncoding=UTF8";
 	private static Connection dbConn;
 	private static boolean isNormal;

@@ -103,9 +103,10 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select FK_InvestmentTypeId,ISNULL(TrueName,'') TrueName,ISNULL(NickName,'') NickName,ISNULL(Sex,'') Sex,ISNULL(MobileNum,'') MobileNum,CiytID,ISNULL(UserInformation,'') UserInformation,ISNULL(Birthday,'') Birthday,ISNULL(UserFace,'') UserFace from JCP_User where Id="
+					.executeQuery("select UserName,FK_InvestmentTypeId,ISNULL(TrueName,'') TrueName,ISNULL(NickName,'') NickName,ISNULL(Sex,'') Sex,ISNULL(MobileNum,'') MobileNum,CiytID,ISNULL(UserInformation,'') UserInformation,ISNULL(Birthday,'') Birthday,ISNULL(UserFace,'') UserFace from JCP_User where Id="
 							+ id);
 			while (res.next()) {
+				String userName=res.getString("UserName");
 				String nickName = res.getString(SqlUtil.USER_NICKNAME);
 				String trueName = res.getString("TrueName");
 				String sex = res.getString(SqlUtil.USER_SEX);
@@ -118,6 +119,7 @@ public class UserImp implements UserDao {
 				u = new User();
 				u.setNickName(nickName);
 				u.setSex(sex);
+				u.setUserName(userName);
 				u.setTrueName(trueName);
 				u.setMobileNum(telPhone);
 				u.setBirthday(birthday);
@@ -747,6 +749,26 @@ public class UserImp implements UserDao {
 				user.setUserLeval(leavel);
 				return user;
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public User findUserByInvestCode(String investCode) {
+		// 根据邀请码获取用户信息
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT Id,AllIntegral, FROM JCP_User WHERE InvitationCode='"+investCode+"'");
+			res.next();
+			int id=res.getInt(1);
+			int integeral=res.getInt(2);
+			User user=new User();
+			user.setId(id);
+			user.setAllIntegral(integeral);
+			return user;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

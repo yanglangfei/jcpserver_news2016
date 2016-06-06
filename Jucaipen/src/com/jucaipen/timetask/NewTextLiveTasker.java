@@ -25,7 +25,7 @@ public class NewTextLiveTasker extends TimerTask {
 				String title=textLive.getTitle();
 				String startDate=textLive.getStartDate();
 				int id=textLive.getId();             
-				boolean isPush=TimeUtils.compareDate(startDate);               
+				boolean isPush=TimeUtils.isToday(startDate);               
 				if(isPush){
 					int teacherId=textLive.getTeacherId();   
 					FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(teacherId);

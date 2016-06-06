@@ -57,15 +57,14 @@ public class LogImp implements LogDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("insert into JCP_UserLoginLog("
-					+ SqlUtil.LOGINLOG_UID + "," + SqlUtil.LOGINLOG_UNAME + ","
-					+ SqlUtil.LOGINLOG_PWD + "," + SqlUtil.LOGINLOG_LOGINDATE
-					+ "," + SqlUtil.LOGINLOG_IP + ","
-					+ SqlUtil.LOGINLOG_LOGINRES + "," + SqlUtil.LOGINLOG_REMARK
-					+ ") values (" + log.getUserId() + ",'" + log.getAccount()
-					+ "','" + log.getPassword() + "','" + log.getLoginDate()
-					+ "','" + log.getLoginIp() + "'," + log.getLoginResult()
-					+ ",'" + log.getRemark() + "')");
+			isSuccess = sta.executeUpdate("insert into JCP_UserLoginLog(UserId,"
+					+ "LoginAccount,LoginPassWord,LoginDate,BrowserName,"
+					+ "OS_Name,LoginIP,Result,Remark,LoginType,LoginUrl) VALUES("
+					+log.getUserId()+",'"+log.getAccount()+"','"+log.getPassword()
+					+"','"+log.getLoginDate()+"','"+log.getBrowserName()+"','"
+					+log.getOsName()+"','"+log.getLoginIp()+"','"+log.getLoginResult()
+					+"','"+log.getRemark()+"',"+log.getLoginType()+",'"+log.getLoginUrl()
+					+"')");
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -10,6 +10,7 @@ import java.util.List;
 import com.jucaipen.dao.SignDetailDao;
 import com.jucaipen.model.SignDetail;
 import com.jucaipen.utils.JdbcUtil;
+import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator
@@ -110,6 +111,31 @@ public class SignDetailImp implements SignDetailDao {
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public List<SignDetail> findMothSignDetailByUserId(int userId) {
+		// 根据用户id获取月签到信息
+		details.clear();
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM JCP_QianDao_Detail WHERE UserId="+userId);
+			while (res.next()) {
+				String insertDate=res.getString(3);
+				if(TimeUtils.isMoth(insertDate)){
+					int id=res.getInt(1);
+					SignDetail detail=new SignDetail();
+					detail.setInsertDate(insertDate);
+					detail.setId(id);
+					details.add(detail);
+				}
+			}
+			return details;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

@@ -40,5 +40,11 @@ public interface AccountDao {
 	 */
 	public int updateIntegeral(int uId,int integeral);
 	
+	/**
+	 * @param account
+	 * @return  添加账户信息
+	 */
+	public int addAccount(Account account);
+	
 
 }

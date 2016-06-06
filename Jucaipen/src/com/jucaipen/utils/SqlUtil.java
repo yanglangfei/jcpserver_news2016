@@ -173,7 +173,7 @@ public class SqlUtil {
 	/**
 	 * 注册时间
 	 */
-	public static final String USER_REGINDATE="RegDate";
+	public static final String USER_REGINDATE="RegisterDate";
 	/**
 	 * 注册信息来源
 	 */

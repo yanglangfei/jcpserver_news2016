@@ -20,7 +20,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         收藏、取消收藏新闻 type 0 观点 1 新闻
+ *         收藏、取消收藏新闻 type 0 视频 1 知识
  * 
  *         opType ----0 收藏 -----1 取消收藏
  * 
@@ -30,7 +30,6 @@ public class CollectNews extends HttpServlet {
 	private Favorites newsFavorites;
 	private Favorites nf;
 	private String result;
-	private int isSuccess;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -57,13 +56,7 @@ public class CollectNews extends HttpServlet {
 							if (StringUtil.isNotNull(opType)
 									&& StringUtil.isInteger(opType)) {
 								int opId = Integer.parseInt(opType);
-								if (type == 0) {
-									// 观点收藏取消
-									result = initIdea(opId, uId, nId);
-								} else {
-									// 新闻收藏取消
-									result = initNews(opId, uId, nId);
-								}
+								result = initIdea(opId, uId, nId,type);
 							} else {
 								result = JsonUtil.getRetMsg(7, "opType 参数异常");
 							}
@@ -88,50 +81,55 @@ public class CollectNews extends HttpServlet {
 		out.close();
 	}
 
-	private String initNews(int opType, int uId, int nId) {
-		// 新闻收藏 取消收藏
-		if (opType == 0) {
-			// 收藏
-			nf = newsIsCollect(uId, nId);
-			if (nf != null) {
-				return JsonUtil.getRetMsg(1, "该新闻已被收藏");
-			} else {
-				insertNewsCollect(uId, nId);
-				if (isSuccess == 1) {
-					return JsonUtil.getRetMsg(0, "新闻收藏成功");
-				} else {
-					return JsonUtil.getRetMsg(2, "新闻收藏失败");
+
+	private String initIdea(int opId, int uId, int nId, int type) {
+		boolean isCollect=newsIsCollect(uId,nId);
+		if(type==0){
+			//视频
+			if(opId==0){
+				//收藏
+				if(isCollect){
+					return JsonUtil.getRetMsg(1,"视频已经收藏");
+				}else{
+					cancellNewsCollect(uId, nId);
+				}
+			}else{
+				//取消
+				if(!isCollect){
+					return JsonUtil.getRetMsg(1,"视频还没收藏");
 				}
 			}
-		} else {
-			// 取消 收藏
-			nf = newsIsCollect(uId, nId);
-			if (nf != null) {
-				cancellNewsCollect(uId, nId);
-				if (isSuccess == 1) {
-					return JsonUtil.getRetMsg(0, "新闻收藏取消成功");
-				} else {
-					return JsonUtil.getRetMsg(2, "新闻收藏取消失败");
+		}else{
+			//知识
+			if(opId==0){
+				//收藏
+				if(isCollect){
+					return JsonUtil.getRetMsg(1,"知识已经收藏");
+				}else{
+					
 				}
-			} else {
-				return JsonUtil.getRetMsg(1, "该新闻还未收藏");
+			}else{
+				//取消
+				if(!isCollect){
+					return JsonUtil.getRetMsg(1,"知识还没收藏");
+				}else{
+					
+				}
 			}
 		}
-	}
-
-	private String initIdea(int opId, int uId, int nId) {
-		// 观点收藏 取消收藏
 		return null;
 	}
 
 	private void cancellNewsCollect(int uId, int nId) {
 		// 取消新闻收藏
-		isSuccess = FavoritesSer.cancelNews(uId, nId);
+		int isSuccess = FavoritesSer.cancelNews(uId, nId);
+		
 	}
 
-	private Favorites newsIsCollect(int uId, int nId) {
+	private boolean newsIsCollect(int uId, int nId) {
 		// 判断新闻是否收藏
-		return FavoritesSer.findNewsIsCollect(uId, nId);
+		Favorites favour = FavoritesSer.findNewsIsCollect(uId, nId);
+		return favour!=null ? true : false;
 
 	}
 
@@ -141,7 +139,7 @@ public class CollectNews extends HttpServlet {
 		newsFavorites.setFk_Id(nId);
 		newsFavorites.setuId(uId);
 		newsFavorites.setDate(sdf.format(new Date()));
-		isSuccess = FavoritesSer.insertNews(uId, newsFavorites);
+		int isSuccess = FavoritesSer.insertNews(uId, newsFavorites);
 
 	}
 

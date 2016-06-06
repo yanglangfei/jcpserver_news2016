@@ -10,6 +10,7 @@ import java.util.List;
 import com.jucaipen.dao.RebateIntegeralDetailDao;
 import com.jucaipen.model.RebateIntegeralDetail;
 import com.jucaipen.utils.JdbcUtil;
+import com.jucaipen.utils.TimeUtils;
 
 public class RebateIntegeralDetailImp implements RebateIntegeralDetailDao {
 
@@ -155,6 +156,30 @@ public class RebateIntegeralDetailImp implements RebateIntegeralDetailDao {
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public List<RebateIntegeralDetail> findRebateIntegeralByUserId(int userId) {
+		// 获取用户下的返利信息
+		details.clear();
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT Id,InsertDate FROM JCP_RebateIntegral_Detail WHERE FK_UserId="+userId);
+			while (res.next()) {
+             String insertDate=res.getString(2);
+             if(TimeUtils.isToday(insertDate)){
+            	 int id=res.getInt(1);
+            	 RebateIntegeralDetail detail=new RebateIntegeralDetail();
+            	 detail.setId(id);
+            	 details.add(detail);
+             }
+			}
+			return details;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

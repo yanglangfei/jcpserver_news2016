@@ -20,12 +20,21 @@ public class RebateIntegeralDetailSer {
 	/**
 	 * @param userId
 	 * @param page
-	 * @return 根据用户id获取返利积分信息
+	 * @return 根据用户id获取返利积分信息   分页
 	 */ 
 	public static List<RebateIntegeralDetail> findRebateIntegeralByUserId(int userId,
 			int page) {
 		RebateIntegeralDetailDao dao=new RebateIntegeralDetailImp();
 		return dao.findRebateIntegeralByUserId(userId, page);
+	}
+	
+	/**
+	 * @param uId
+	 * @return 根据id获取返利信息    无分页
+	 */
+	public static List<RebateIntegeralDetail> findRebateIntegeralByUserId(int uId){
+		RebateIntegeralDetailDao dao=new RebateIntegeralDetailImp();
+		return dao.findRebateIntegeralByUserId(uId);
 	}
 
 	/**
