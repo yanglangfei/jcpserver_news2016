@@ -58,7 +58,7 @@ public class RelateNews extends HttpServlet {
 
 	private void initReleData(int id) {
 		// 初始化数据
-		news = NewServer.findLastNews(6);
+		news = NewServer.findLastNews(3);
 		if (news != null) {
 			for (News n : news) {
 				int fromId = n.getFromId();

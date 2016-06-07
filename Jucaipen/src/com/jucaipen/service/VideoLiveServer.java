@@ -43,7 +43,7 @@ public class VideoLiveServer {
 	 */
 	public static VideoLive getRoomInfo(int id){
 		VideoLiveDao dao=new VideoLiveImp();
-		return dao.getLiveUrl(id);
+		return dao.getRoomInfo(id);
 	}
 	
 	/**

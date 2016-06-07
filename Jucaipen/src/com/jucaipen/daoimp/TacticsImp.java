@@ -60,31 +60,31 @@ public class TacticsImp implements TacticsDao {
 					+ ") A " + "WHERE RowNumber > " + 15
 					* (page - 1));
 			while (res.next()) {
-				int id=res.getInt("Id");  //Id
+				int id=res.getInt("Id");
 				String title=res.getString("Title");  //Title
 				String desc=res.getString("description");  //description
 				int orderNum=res.getInt("PeoPleNum");  //PeoPleNum
 				String imageUrl=res.getString("Imagesurl");  //Imagesurl
 				int teacherId=res.getInt("TeacherId");  //TeacherId
 				String insertDate=res.getString("InsertDate");  //InsertDate
-				int isYear=res.getInt("Isyears");  //Isyears
-				int isMoth=res.getInt("IsMonth");  //IsMonth
+				double halfYearsMoney=res.getDouble("halfYearsMoney"); //halfYearsMoney
+				double threeMonthmoney=res.getDouble("threeMonthmoney");  //threeMonthmoney
 				double yearMoney=res.getDouble("YearsMoney");  //YearsMoney
 				double mothMoney=res.getDouble("MonthMoney");  //MonthMoney
 				int isDel=res.getInt("IsDel");
 				Tactics tactics=new Tactics();
 				tactics.setId(id);
-				tactics.setTotlePage(totlePage);
-				tactics.setPage(page);
 				tactics.setTitle(title);
 				tactics.setDesc(desc);
+				tactics.setPage(page);
+				tactics.setTotlePage(totlePage);
 				tactics.setOrderNum(orderNum);
 				tactics.setImageUrl(imageUrl);
 				tactics.setTeacherId(teacherId);
 				tactics.setInsertDate(insertDate);
-				tactics.setIsYear(isYear);
-				tactics.setIsMoth(isMoth);
-				tactics.setYearMoney(yearMoney);
+				tactics.setHalfYearsMoney(halfYearsMoney);
+				tactics.setThreeMonthmoney(threeMonthmoney);
+				tactics.setYearsMoney(yearMoney);
 				tactics.setMothMoney(mothMoney);
 				tactics.setIsDel(isDel);
 				tacticsArray.add(tactics);
@@ -110,8 +110,8 @@ public class TacticsImp implements TacticsDao {
 				String imageUrl=res.getString("Imagesurl");  //Imagesurl
 				int teacherId=res.getInt("TeacherId");  //TeacherId
 				String insertDate=res.getString("InsertDate");  //InsertDate
-				int isYear=res.getInt("Isyears");  //Isyears
-				int isMoth=res.getInt("IsMonth");  //IsMonth
+				double halfYearsMoney=res.getDouble("halfYearsMoney"); //halfYearsMoney
+				double threeMonthmoney=res.getDouble("threeMonthmoney");  //threeMonthmoney
 				double yearMoney=res.getDouble("YearsMoney");  //YearsMoney
 				double mothMoney=res.getDouble("MonthMoney");  //MonthMoney
 				int isDel=res.getInt("IsDel");
@@ -123,12 +123,12 @@ public class TacticsImp implements TacticsDao {
 				tactics.setImageUrl(imageUrl);
 				tactics.setTeacherId(teacherId);
 				tactics.setInsertDate(insertDate);
-				tactics.setIsYear(isYear);
-				tactics.setIsMoth(isMoth);
-				tactics.setYearMoney(yearMoney);
+				tactics.setHalfYearsMoney(halfYearsMoney);
+				tactics.setThreeMonthmoney(threeMonthmoney);
+				tactics.setYearsMoney(yearMoney);
 				tactics.setMothMoney(mothMoney);
 				tactics.setIsDel(isDel);
-				return tactics;
+				tacticsArray.add(tactics);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -156,8 +156,8 @@ public class TacticsImp implements TacticsDao {
 				String imageUrl=res.getString("Imagesurl");  //Imagesurl
 				int teacherId=res.getInt("TeacherId");  //TeacherId
 				String insertDate=res.getString("InsertDate");  //InsertDate
-				int isYear=res.getInt("Isyears");  //Isyears
-				int isMoth=res.getInt("IsMonth");  //IsMonth
+				double halfYearsMoney=res.getDouble("halfYearsMoney"); //halfYearsMoney
+				double threeMonthmoney=res.getDouble("threeMonthmoney");  //threeMonthmoney
 				double yearMoney=res.getDouble("YearsMoney");  //YearsMoney
 				double mothMoney=res.getDouble("MonthMoney");  //MonthMoney
 				int isDel=res.getInt("IsDel");
@@ -171,15 +171,58 @@ public class TacticsImp implements TacticsDao {
 				tactics.setImageUrl(imageUrl);
 				tactics.setTeacherId(teacherId);
 				tactics.setInsertDate(insertDate);
-				tactics.setIsYear(isYear);
-				tactics.setIsMoth(isMoth);
-				tactics.setYearMoney(yearMoney);
+				tactics.setHalfYearsMoney(halfYearsMoney);
+				tactics.setThreeMonthmoney(threeMonthmoney);
+				tactics.setYearsMoney(yearMoney);
 				tactics.setMothMoney(mothMoney);
 				tactics.setIsDel(isDel);
 				tacticsArray.add(tactics);
 			}
 			return tacticsArray;
 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Tactics> findTacticsByTeacherId(int tId) {
+		// 根据讲师获取战法信息
+		tacticsArray.clear();
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM JCP_Tactics WHERE TeacherId="+tId);
+			while (res.next()) {
+				int id=res.getInt("Id");
+				String title=res.getString("Title");  //Title
+				String desc=res.getString("description");  //description
+				int orderNum=res.getInt("PeoPleNum");  //PeoPleNum
+				String imageUrl=res.getString("Imagesurl");  //Imagesurl
+				int teacherId=res.getInt("TeacherId");  //TeacherId
+				String insertDate=res.getString("InsertDate");  //InsertDate
+				double halfYearsMoney=res.getDouble("halfYearsMoney"); //halfYearsMoney
+				double threeMonthmoney=res.getDouble("threeMonthmoney");  //threeMonthmoney
+				double yearMoney=res.getDouble("YearsMoney");  //YearsMoney
+				double mothMoney=res.getDouble("MonthMoney");  //MonthMoney
+				int isDel=res.getInt("IsDel");
+				Tactics tactics=new Tactics();
+				tactics.setId(id);
+				tactics.setTitle(title);
+				tactics.setDesc(desc);
+				tactics.setOrderNum(orderNum);
+				tactics.setImageUrl(imageUrl);
+				tactics.setTeacherId(teacherId);
+				tactics.setInsertDate(insertDate);
+				tactics.setHalfYearsMoney(halfYearsMoney);
+				tactics.setThreeMonthmoney(threeMonthmoney);
+				tactics.setYearsMoney(yearMoney);
+				tactics.setMothMoney(mothMoney);
+				tactics.setIsDel(isDel);
+				tacticsArray.add(tactics);
+			}
+			return tacticsArray;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

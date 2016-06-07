@@ -89,7 +89,7 @@ public class NewsImp implements NewsDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 15 Id,Title,ImageUrl,ZhaiYao,PageUrl FROM "
+					.executeQuery("SELECT TOP 15 Id,Title,ImageUrl,ZhaiYao,PageUrl,FK_FromId,HitCount,Zan FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc ,id desc) AS RowNumber,* FROM JCP_News"
 							+ " WHERE FK_ClassId="
 							+ classId
@@ -329,12 +329,16 @@ public class NewsImp implements NewsDao {
 				int from=res.getInt(SqlUtil.NEWS_COMEFROM);
 				String insertDate=res.getString(SqlUtil.NEWS_INSERT);
 				int comms=res.getInt(SqlUtil.NEWS_COMMS);
+				int goods=res.getInt("Zan");
+				int hits=res.getInt("HitCount");
 				News n = new News(id);
 				n.setPager(pager);
 				n.setTotlePager(totlePager);
 				n.setTitle(title);
 				n.setSummary(summary);
 				n.setId(id);
+				n.setHits(hits);
+				n.setGoods(goods);
 				n.setFromId(from);
 				n.setPublishDate(insertDate);
 				n.setComments(comms);
@@ -375,10 +379,14 @@ public class NewsImp implements NewsDao {
 				String imageUrl = res.getString(SqlUtil.NEW_IMAGE);
 				String date = res.getString(SqlUtil.NEWS_INSERT);
 				String htmlPath = res.getString(SqlUtil.NEWS_HTMLPATH);
+				int hits=res.getInt("HitCount");
+				int goods=res.getInt("Zan");
 				News n = new News(id);
 				n.setImageUrl(imageUrl);
 				n.setBodys(bodys);
 				n.setTitle(title);
+				n.setGoods(goods);
+				n.setHits(hits);
 				n.setFromId(comeFrom);
 				n.setSummary(descript);
 				n.setReporter(reporter);

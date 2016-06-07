@@ -164,8 +164,55 @@ public class User implements Serializable {
 	 *  用户名
 	 */
 	private String userName;
+	private int isFree;
+	/**
+	 *  直播间 服务开始时间
+	 */
+	private String serverStartDate;
+	/**
+	 *  直播间  服务结束时间
+	 */
+	private String serverEndDate;
+	/**
+	 *  直播间服务课是否停止 0否 1是
+	 */
+	private int isStop;
+	/**
+	 *  是否客服 0否 1是
+	 */
+	private int serverId;
 	
 	
+	public int getIsFree() {
+		return isFree;
+	}
+	public void setIsFree(int isFree) {
+		this.isFree = isFree;
+	}
+	public String getServerStartDate() {
+		return serverStartDate;
+	}
+	public void setServerStartDate(String serverStartDate) {
+		this.serverStartDate = serverStartDate;
+	}
+	public String getServerEndDate() {
+		return serverEndDate;
+	}
+	public void setServerEndDate(String serverEndDate) {
+		this.serverEndDate = serverEndDate;
+	}
+	public int getIsStop() {
+		return isStop;
+	}
+	public void setIsStop(int isStop) {
+		this.isStop = isStop;
+	}
+	public int getServerId() {
+		return serverId;
+	}
+	public void setServerId(int serverId) {
+		this.serverId = serverId;
+	}
 	public String getInvestStr() {
 		return investStr;
 	}

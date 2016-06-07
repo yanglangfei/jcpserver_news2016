@@ -284,6 +284,41 @@
     <servlet-name>QuerryMySignIn</servlet-name>
     <servlet-class>com.jucaipen.main.my.QuerryMySignIn</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>SendPresent</servlet-name>
+    <servlet-class>com.jucaipen.main.user.SendPresent</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Recharge</servlet-name>
+    <servlet-class>com.jucaipen.main.user.Recharge</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>OpenGurdian</servlet-name>
+    <servlet-class>com.jucaipen.main.user.OpenGurdian</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SendApply</servlet-name>
+    <servlet-class>com.jucaipen.main.user.SendApply</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Report</servlet-name>
+    <servlet-class>com.jucaipen.main.user.Report</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryTactics</servlet-name>
+    <servlet-class>com.jucaipen.main.index.famous.QuerryTactics</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>OrderTactics</servlet-name>
+    <servlet-class>com.jucaipen.main.user.OrderTactics</servlet-class>
+  </servlet>
+
+
+
+
+
+
+
 
 
 
@@ -577,5 +612,33 @@
   <servlet-mapping>
     <servlet-name>QuerryMySignIn</servlet-name>
     <url-pattern>/jucaipen/getsignin</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SendPresent</servlet-name>
+    <url-pattern>/jucaipen/givepresent</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Recharge</servlet-name>
+    <url-pattern>/jucaipen/recharge</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OpenGurdian</servlet-name>
+    <url-pattern>/jucaipen/opengurdian</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SendApply</servlet-name>
+    <url-pattern>/jucaipen/sendapply</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Report</servlet-name>
+    <url-pattern>/jucaipen/report</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryTactics</servlet-name>
+    <url-pattern>/jucaipen/gettactics</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OrderTactics</servlet-name>
+    <url-pattern>/jucaipen/ordertactics</url-pattern>
   </servlet-mapping>
 </web-app>

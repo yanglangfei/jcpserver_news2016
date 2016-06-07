@@ -28,7 +28,6 @@ import com.jucaipen.utils.StringUtil;
 public class PlayComment extends HttpServlet {
 	private String result;
 	private List<User> users = new ArrayList<User>();
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -100,5 +99,4 @@ public class PlayComment extends HttpServlet {
 		}
 		return JsonUtil.getUserComms(comms, users);
 	}
-
 }

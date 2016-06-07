@@ -12,9 +12,9 @@ public class FavoritesSer {
 	 * @param nId
 	 * @return 收藏信息
 	 */
-	public static int insertNews(int uId, Favorites newsFavorites) {
+	public static int insertNews( Favorites newsFavorites) {
 		FavoritesDao dao = new FavoritesImp();
-		return dao.insertFavorites(uId, newsFavorites);
+		return dao.insertFavorites(newsFavorites);
 	}
 
 	/**
@@ -22,9 +22,9 @@ public class FavoritesSer {
 	 * @param nId
 	 * @return 取消收藏新闻
 	 */
-	public static int cancelNews(int uId, int nId) {
+	public static int cancelNews(int uId, int nId,int type) {
 		FavoritesDao dao = new FavoritesImp();
-		return dao.cancelFavorites(uId, nId);
+		return dao.cancelFavorites(uId, nId,type);
 	}
 
 	/**
@@ -40,9 +40,9 @@ public class FavoritesSer {
 	 * @param nId
 	 * @return  查询新闻是否被收藏
 	 */
-	public static Favorites findNewsIsCollect(int uId,int nId){
+	public static Favorites findNewsIsCollect(int uId,int nId,int type){
 		FavoritesDao dao=new FavoritesImp();
-		return dao.findFavouritesByUidAndNid(uId, nId);
+		return dao.findFavouritesByUidAndNid(uId, nId,type);
 	}
 	
 	/**

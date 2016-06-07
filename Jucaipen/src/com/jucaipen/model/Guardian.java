@@ -25,6 +25,11 @@ public class Guardian implements Serializable{
 	 *  FK_UserId
 	 */
 	private int userId;
+	
+	/**
+	 *   ÿª§”√ªßÍ«≥∆
+	 */
+	private String userName;
 	/**
 	 *  FK_TearchId
 	 */
@@ -50,6 +55,12 @@ public class Guardian implements Serializable{
 	 */
 	private int state;
 	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	public int getPage() {
 		return page;
 	}

@@ -160,4 +160,67 @@ public class RebateImp implements RebateDao {
 		return 0;
 	}
 
+	@Override
+	public List<Rebate> findRebateByTid(int teacherId) {
+		// 获取讲师下的榜单信息  
+		rebates.clear();
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM JCP_Rebate WHERE FK_TearchId="+teacherId);
+			while (res.next()) {
+				int id = res.getInt("Id");
+				int type = res.getInt("RebateType"); // RebateType
+				double rebateMoney = res.getDouble("RebateMoney"); // RebateMoney
+				int fromId = res.getInt("FK_FromUserId"); // FK_FromUserId
+				String insertDate = res.getString("InsertDate"); // InsertDate
+				String remark = res.getString("Ramerk"); // Ramerk
+				Rebate rebate = new Rebate();
+				rebate.setTeacherId(teacherId);
+				rebate.setType(type);
+				rebate.setId(id);
+				rebate.setRebateMoney(rebateMoney);
+				rebate.setFromId(fromId);
+				rebate.setInsertDate(insertDate);
+				rebate.setRemark(remark);
+				rebates.add(rebate);
+			}
+			return rebates;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Rebate> findRebate(int uId, int tId) {
+		// 获取用户贡献讲师聚财币信息
+		rebates.clear();
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM JCP_Rebate WHERE FK_TearchId="+tId+" AND FK_FromUserId="+uId);
+			while (res.next()) {
+				int id = res.getInt("Id");
+				int type = res.getInt("RebateType"); // RebateType
+				double rebateMoney = res.getDouble("RebateMoney"); // RebateMoney
+				int fromId = res.getInt("FK_FromUserId"); // FK_FromUserId
+				String insertDate = res.getString("InsertDate"); // InsertDate
+				String remark = res.getString("Ramerk"); // Ramerk
+				Rebate rebate = new Rebate();
+				rebate.setType(type);
+				rebate.setId(id);
+				rebate.setRebateMoney(rebateMoney);
+				rebate.setFromId(fromId);
+				rebate.setInsertDate(insertDate);
+				rebate.setRemark(remark);
+				rebates.add(rebate);
+			}
+			return rebates;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

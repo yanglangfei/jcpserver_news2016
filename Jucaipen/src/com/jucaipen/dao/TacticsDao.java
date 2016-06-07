@@ -26,8 +26,13 @@ public interface TacticsDao {
 	/**
 	 * @param tId
 	 * @param page
-	 * @return  根据讲师id获取战法信息
+	 * @return  根据讲师id获取战法信息   分页
 	 */
 	public List<Tactics> findTacticsByTeacherId(int tId,int page);
+	/**
+	 * @param tId
+	 * @return  根据讲师id获取战法信息  无分页
+	 */
+	public List<Tactics> findTacticsByTeacherId(int tId);
 
 }

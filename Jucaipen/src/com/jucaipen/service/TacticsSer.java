@@ -34,11 +34,20 @@ public class TacticsSer{
 	/**
 	 * @param tId
 	 * @param page
-	 * @return 根据讲师id获取战法信息
+	 * @return 根据讲师id获取战法信息  分页
 	 */
 	public static List<Tactics> findTacticsByTeacherId(int tId, int page) {
 		TacticsDao dao=new TacticsImp();
 		return dao.findTacticsByTeacherId(tId, page);
+	}
+	
+	/**
+	 * @param tId
+	 * @return 根据讲师id获取战法信息  无分页
+	 */
+	public static List<Tactics> findTacticsByTeacherId(int tId) {
+		TacticsDao dao=new TacticsImp();
+		return dao.findTacticsByTeacherId(tId);
 	}
 
 }

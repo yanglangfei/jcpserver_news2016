@@ -15,13 +15,13 @@ public interface FavoritesDao {
 	 * @param nId
 	 * @return  添加收藏
 	 */
-	public int insertFavorites(int uId,Favorites newsFavorites);
+	public int insertFavorites(Favorites newsFavorites);
 	/**
 	 * @param uId
 	 * @param nId
 	 * @return 取消收藏
 	 */
-	public int cancelFavorites(int uId,int nId);
+	public int cancelFavorites(int uId,int nId,int type);
 	/**
 	 * @param uId
 	 * @return  查询当前用户下所有的收藏
@@ -32,7 +32,7 @@ public interface FavoritesDao {
 	 * @param nId
 	 * @return  根据用户id、知识/视频id查询收藏信息
 	 */
-	public Favorites findFavouritesByUidAndNid(int uId,int nId);
+	public Favorites findFavouritesByUidAndNid(int uId,int nId,int type);
 	
 	/**
 	 * @param uId

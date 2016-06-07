@@ -209,4 +209,36 @@ public class GuardianImp implements GuardianDao {
 		return 0;
 	}
 
+	@Override
+	public List<Guardian> findGuradianByTeacherId(int teacherId) {
+		// 根据讲师id获取守护信息
+		guardians.clear();
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM JCP_ShouHuZhe WHERE FK_TearchId="+teacherId);
+			while (res.next()) {
+				int id = res.getInt("Id");
+				int userId = res.getInt("FK_UserId");
+				String insertDate = res.getString("InsertDate"); // InsertDate
+				String startDate = res.getString("StartDate"); // StartDate
+				String endDate = res.getString("EndDate"); // EndDate
+				int state = res.getInt("State"); // State
+				Guardian guardian = new Guardian();
+				guardian.setId(id);
+				guardian.setUserId(userId);
+				guardian.setTeacherId(teacherId);
+				guardian.setInsertDate(insertDate);
+				guardian.setStartDate(startDate);
+				guardian.setEndDate(endDate);
+				guardian.setState(state);
+				guardians.add(guardian);
+			}
+			return guardians;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

@@ -44,13 +44,17 @@ public class Tactics implements Serializable{
 	 */
 	private int isYear;
 	/**
-	 * 是否1月付款 0是 1否
+	 * 半年价格
 	 */
-	private int isMoth;
+	private double halfYearsMoney;
 	/**
-	 *  每年费用
+	 *  三个月价格
 	 */
-	private double yearMoney;
+	private double threeMonthmoney;
+	/**
+	 *  一年价格
+	 */
+	public double YearsMoney;
 	/**
 	 *  每月费用
 	 */
@@ -60,6 +64,25 @@ public class Tactics implements Serializable{
 	 */
 	private int isDel;
 	
+	
+	public double getHalfYearsMoney() {
+		return halfYearsMoney;
+	}
+	public void setHalfYearsMoney(double halfYearsMoney) {
+		this.halfYearsMoney = halfYearsMoney;
+	}
+	public double getThreeMonthmoney() {
+		return threeMonthmoney;
+	}
+	public void setThreeMonthmoney(double threeMonthmoney) {
+		this.threeMonthmoney = threeMonthmoney;
+	}
+	public double getYearsMoney() {
+		return YearsMoney;
+	}
+	public void setYearsMoney(double yearsMoney) {
+		YearsMoney = yearsMoney;
+	}
 	public int getPage() {
 		return page;
 	}
@@ -119,18 +142,6 @@ public class Tactics implements Serializable{
 	}
 	public void setIsYear(int isYear) {
 		this.isYear = isYear;
-	}
-	public int getIsMoth() {
-		return isMoth;
-	}
-	public void setIsMoth(int isMoth) {
-		this.isMoth = isMoth;
-	}
-	public double getYearMoney() {
-		return yearMoney;
-	}
-	public void setYearMoney(double yearMoney) {
-		this.yearMoney = yearMoney;
 	}
 	public double getMothMoney() {
 		return mothMoney;

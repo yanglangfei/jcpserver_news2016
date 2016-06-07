@@ -90,6 +90,31 @@ public class VideoLiveImp implements VideoLiveDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT * FROM JCP_VideoLive WHERE Id=" + id);
+			res.next();
+			String title=res.getString(2);  //Title
+			String keyWord=res.getString(3);  //Keyword
+			String desc=res.getString(4);  //Descirption
+			int classId=res.getInt(5);  //Fk_CalssId
+			String videoUrl=res.getString(6);  //Videourl
+			String videoImage=res.getString(7);  //VideoImg
+			int teacherId=res.getInt(8);  //Fk_TeacherId
+			int isEnd=res.getInt(9);  //IsEnd
+			String startDate=res.getString(10);  //StratDate
+			String endDate=res.getString(11);  //EndDate
+			int renQi=res.getInt(12);  //RenQi
+			VideoLive live=new VideoLive();
+			live.setClassId(classId);
+			live.setDescript(desc);
+			live.setEndDate(endDate);
+			live.setIsEnd(isEnd);
+			live.setKeyWord(keyWord);
+			live.setRenQi(renQi);
+			live.setStartDate(startDate);
+			live.setTeacherId(teacherId);
+			live.setTitle(title);
+			live.setVideoImage(videoImage);
+			live.setVideoUrl(videoUrl);
+			return live;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{

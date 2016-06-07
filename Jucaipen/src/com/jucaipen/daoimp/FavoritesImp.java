@@ -34,7 +34,7 @@ public class FavoritesImp implements FavoritesDao {
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -48,19 +48,18 @@ public class FavoritesImp implements FavoritesDao {
 	/*
 	 * 收藏信息
 	 */
-	public int insertFavorites(int uId, Favorites newsFavorites) {
+	public int insertFavorites(Favorites favorites) {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("insert into JCP_Favorites ("
-					+ SqlUtil.NEWSCOMM_UID + "," + SqlUtil.FAVORITES_NID + ","
-					+ SqlUtil.NEWS_INSERT + ") values("
-					+ newsFavorites.getuId() + "," + newsFavorites.getFk_Id()
-					+ ",'" + newsFavorites.getDate() + "')");
+			isSuccess = sta.executeUpdate("INSERT INTO JCP_Favorites "
+					+ "(FK_Id,Type,InsertDate,FK_UserId) VALUES ("
+					+ favorites.getFk_Id() + "," + favorites.getType() + ",'"
+					+ favorites.getDate() + "'," + favorites.getuId() + ")");
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -73,17 +72,17 @@ public class FavoritesImp implements FavoritesDao {
 	/*
 	 * 取消收藏信息
 	 */
-	public int cancelFavorites(int uId, int nId) {
+	public int cancelFavorites(int uId, int nId, int type) {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta
 					.executeUpdate("delete from JCP_Favorites where FK_UserId="
-							+ uId + " and FK_Id=" + nId);
+							+ uId + " and FK_Id=" + nId + " AND Type=" + type);
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -97,14 +96,14 @@ public class FavoritesImp implements FavoritesDao {
 	 * 
 	 * 查询是否收藏
 	 */
-	public Favorites findFavouritesByUidAndNid(int uId, int nId) {
+	public Favorites findFavouritesByUidAndNid(int uId, int nId, int type) {
 		Favorites newsFavorites = null;
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("select Id from JCP_Favorites where FK_UserId="
-							+ uId + " and FK_Id=" + nId);
+							+ uId + " and FK_Id=" + nId + " AND Type=" + type);
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				newsFavorites = new Favorites();
@@ -113,7 +112,7 @@ public class FavoritesImp implements FavoritesDao {
 			return newsFavorites;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -122,6 +121,7 @@ public class FavoritesImp implements FavoritesDao {
 		}
 		return null;
 	}
+
 	@Override
 	public List<Favorites> findFavourateByUidAndType(int uId, int type, int page) {
 		int totlePager = findTotlePager("Where FK_UserId=" + uId + " AND Type="
@@ -138,7 +138,7 @@ public class FavoritesImp implements FavoritesDao {
 			return favorites;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -165,7 +165,7 @@ public class FavoritesImp implements FavoritesDao {
 			return favorites;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -201,7 +201,7 @@ public class FavoritesImp implements FavoritesDao {
 			return favorites;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {

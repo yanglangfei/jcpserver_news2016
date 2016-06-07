@@ -159,6 +159,18 @@ public class FamousTeacher implements Serializable{
 	 *   银行账号
 	 */
 	private String bankAccount;
+	/**
+	 *  返现率
+	 */
+	private double returnRate;
+	
+	
+	public double getReturnRate() {
+		return returnRate;
+	}
+	public void setReturnRate(double returnRate) {
+		this.returnRate = returnRate;
+	}
 	public int getPage() {
 		return page;
 	}

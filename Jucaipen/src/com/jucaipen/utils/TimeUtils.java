@@ -1,5 +1,6 @@
 package com.jucaipen.utils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -10,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 /**
  * 日期Util类
  * 
- * @author calvin
  */
 public class TimeUtils {
 	private static String defaultDatePattern = "yyyy-MM-dd ";
@@ -42,7 +42,6 @@ public class TimeUtils {
 	}
 	
 	
-	
 	/**
 	 * @param date
 	 * @return  判断是否是本月
@@ -64,6 +63,33 @@ public class TimeUtils {
 		}
 		return false;
 	}
+	
+	
+	//判断时间date1是否在时间date2之前
+	 //时间格式 2005-4-21 16:16:34
+	 public static boolean isDateBefore(String date1,String date2){
+	  try{
+	   DateFormat df = DateFormat.getDateTimeInstance();
+	   return df.parse(date1).before(df.parse(date2));
+	  }catch(ParseException e){
+	   System.out.print("[SYS] " + e.getMessage());
+	   return false;
+	  }
+	 }
+	 
+	 
+	 //判断当前时间是否在时间date2之前
+	 //时间格式 2005-4-21 16:16:34
+	 public static boolean isDateBefore(String date2){
+	  try{
+	   Date date1 = new Date();
+	   DateFormat df = DateFormat.getDateTimeInstance();
+	   return date1.before(df.parse(date2));
+	  }catch(ParseException e){
+	   return false;
+	  }
+	 }
+	
 
 	/**
 	 * @param birth

@@ -35,13 +35,24 @@ public class GuardianSer  {
 	/**
 	 * @param teacherId
 	 * @param page
-	 * @return 通过讲师id获取守护我的
+	 * @return 通过讲师id获取守护我的  分页
 	 */
 	public static List<Guardian> findGuradianByTeacherId(int teacherId, int page) {
 		GuardianDao dao=new GuardianImp();
 		return dao.findGuradianByTeacherId(teacherId, page);
 	}
 
+	
+	/**
+	 * @param teacherId
+	 * @return 通过讲师id获取守护我的   无分页
+	 */
+	public static List<Guardian> findGuradianByTeacherId(int teacherId) {
+		GuardianDao dao=new GuardianImp();
+		return dao.findGuradianByTeacherId(teacherId);
+	}
+	
+	
 	/**
 	 * @param guardian
 	 * @return 添加守护信息

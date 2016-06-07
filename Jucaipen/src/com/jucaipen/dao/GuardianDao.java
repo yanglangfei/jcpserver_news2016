@@ -25,9 +25,16 @@ public interface GuardianDao {
 	
 	/**
 	 * @param teacherId
-	 * @return 通过讲师id获取守护我的信息
+	 * @return 通过讲师id获取守护我的信息   分页
 	 */
 	public List<Guardian> findGuradianByTeacherId(int teacherId,int page);
+	
+	/**
+	 * @param teacherId
+	 * @return 通过讲师id获取守护我的信息   无分页
+	 */
+	public List<Guardian> findGuradianByTeacherId(int teacherId);
+
 	
 	/**
 	 * @param guardian

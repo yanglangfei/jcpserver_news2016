@@ -14,8 +14,8 @@ import com.jucaipen.utils.JdbcUtil;
 /**
  * @author Administrator
  * 
- * 0证券知识，1为视频 JCP_User_Comm
- *  
+ *         0证券知识，1为视频 JCP_User_Comm
+ * 
  */
 public class UserCommImp implements UserCommDao {
 	private Connection dbConn;
@@ -24,7 +24,7 @@ public class UserCommImp implements UserCommDao {
 	private List<UserComm> comments = new ArrayList<UserComm>();
 
 	/**
-	 * @return 查询证券知识   视频总页数
+	 * @return 查询证券知识 视频总页数
 	 */
 	public int getTotlePage(String condition) {
 		try {
@@ -52,14 +52,28 @@ public class UserCommImp implements UserCommDao {
 	@Override
 	public int insertComm(UserComm comment) {
 		// 添加评论信息
-		dbConn=JdbcUtil.connSqlServer();
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			return sta.executeUpdate("INSERT INTO JCP_User_Comm (UserId,Bodys,ParentId,"
-					+ "Type,NorVId,InsertDate,Goods,IsShow,RepCount) VALUES("
-					+comment.getUserId()+",'"+comment.getBodys()+"',"+comment.getParentId()
-					+","+comment.getType()+","+comment.getNovId()+",'"+comment.getInsertDate()
-					+","+comment);
+			sta = dbConn.createStatement();
+			return sta
+					.executeUpdate("INSERT INTO JCP_User_Comm (UserId,Bodys,ParentId,"
+							+ "Type,NorVId,InsertDate,Goods,IsShow,RepCount) VALUES("
+							+ comment.getUserId()
+							+ ",'"
+							+ comment.getBodys()
+							+ "',"
+							+ comment.getParentId()
+							+ ","
+							+ comment.getType()
+							+ ","
+							+ comment.getNovId()
+							+ ",'"
+							+ comment.getInsertDate()
+							+ "',"
+							+ comment.getGoods()
+							+ ","
+							+ comment.getIsShow()
+							+ "," + comment.getReplyCount() + ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -68,16 +82,16 @@ public class UserCommImp implements UserCommDao {
 
 	@Override
 	public int cancelComm(int id) {
-		//删除评论信息
+		// 删除评论信息
 		return 0;
 	}
 
 	@Override
 	public List<UserComm> findComment(int uId, int type, int page, int parentId) {
-		//根据用户id获取分类下的评论信息
+		// 根据用户id获取分类下的评论信息
 		comments.clear();
-		int totlePage = getTotlePage("WHERE UserId=" + uId
-				+ " AND Type=" + type + " AND ParentId=" + parentId);
+		int totlePage = getTotlePage("WHERE UserId=" + uId + " AND Type="
+				+ type + " AND ParentId=" + parentId);
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
@@ -88,14 +102,14 @@ public class UserCommImp implements UserCommDao {
 							+ parentId + ") A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
-				int id=res.getInt("Id");
-				String body=res.getString("Bodys");
-				int fkId=res.getInt("NorVId");
-				String insertDate=res.getString("InsertDate");
-				int goods=res.getInt("Goods");
-				int isShow=res.getInt("IsShow");
-				int replyCount=res.getInt("RepCount");
-				UserComm comm=new UserComm();
+				int id = res.getInt("Id");
+				String body = res.getString("Bodys");
+				int fkId = res.getInt("NorVId");
+				String insertDate = res.getString("InsertDate");
+				int goods = res.getInt("Goods");
+				int isShow = res.getInt("IsShow");
+				int replyCount = res.getInt("RepCount");
+				UserComm comm = new UserComm();
 				comm.setId(id);
 				comm.setBodys(body);
 				comm.setTotlePage(totlePage);
@@ -117,10 +131,10 @@ public class UserCommImp implements UserCommDao {
 	@Override
 	public List<UserComm> findCommenBykId(int fkId, int page, int parentId,
 			int type) {
-		//根据证券知识   视频 获取评论  回复信息
+		// 根据证券知识 视频 获取评论 回复信息
 		comments.clear();
-		int totlePage = getTotlePage("WHERE NorVId=" + fkId
-				+ " AND Type=" + type + " AND ParentId=" + parentId);
+		int totlePage = getTotlePage("WHERE NorVId=" + fkId + " AND Type="
+				+ type + " AND ParentId=" + parentId);
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
@@ -131,14 +145,14 @@ public class UserCommImp implements UserCommDao {
 							+ parentId + ") A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
-				int userId=res.getInt("UserId");
-				int id=res.getInt("Id");
-				String body=res.getString("Bodys");
-				String insertDate=res.getString("InsertDate");
-				int goods=res.getInt("Goods");
-				int isShow=res.getInt("IsShow");
-				int replyCount=res.getInt("RepCount");
-				UserComm comm=new UserComm();
+				int userId = res.getInt("UserId");
+				int id = res.getInt("Id");
+				String body = res.getString("Bodys");
+				String insertDate = res.getString("InsertDate");
+				int goods = res.getInt("Goods");
+				int isShow = res.getInt("IsShow");
+				int replyCount = res.getInt("RepCount");
+				UserComm comm = new UserComm();
 				comm.setId(id);
 				comm.setUserId(userId);
 				comm.setBodys(body);
@@ -160,20 +174,21 @@ public class UserCommImp implements UserCommDao {
 
 	@Override
 	public UserComm findCommentById(int id) {
-		//根据id获取评论信息
-		dbConn=JdbcUtil.connSqlServer();
+		// 根据id获取评论信息
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_User_Comm WHERE Id="+id);
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT * FROM JCP_User_Comm WHERE Id=" + id);
 			while (res.next()) {
-				int userId=res.getInt("UserId");
-				String body=res.getString("Bodys");
-				String insertDate=res.getString("InsertDate");
-				int goods=res.getInt("Goods");
-				int isShow=res.getInt("IsShow");
-				int replyCount=res.getInt("RepCount");
-				int fkId=res.getInt("NorVId");
-				UserComm comm=new UserComm();
+				int userId = res.getInt("UserId");
+				String body = res.getString("Bodys");
+				String insertDate = res.getString("InsertDate");
+				int goods = res.getInt("Goods");
+				int isShow = res.getInt("IsShow");
+				int replyCount = res.getInt("RepCount");
+				int fkId = res.getInt("NorVId");
+				UserComm comm = new UserComm();
 				comm.setId(id);
 				comm.setUserId(userId);
 				comm.setBodys(body);
@@ -192,11 +207,12 @@ public class UserCommImp implements UserCommDao {
 
 	@Override
 	public int updateCommentGoods(int id, int goodNum) {
-		//修改点赞数
-		dbConn=JdbcUtil.connSqlServer();
+		// 修改点赞数
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			return sta.executeUpdate("UPDATE JCP_User_Comm SET Goods="+goodNum+" WHERE Id="+id);
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_User_Comm SET Goods="
+					+ goodNum + " WHERE Id=" + id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -206,14 +222,15 @@ public class UserCommImp implements UserCommDao {
 	@Override
 	public int updateCommentRespCount(int id, int respCount) {
 		// 修改回复数
-		dbConn=JdbcUtil.connSqlServer();
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			return sta.executeUpdate("UPDATE JCP_User_Comm SET RepCount="+respCount+" WHERE Id="+id);
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_User_Comm SET RepCount="
+					+ respCount + " WHERE Id=" + id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
-	
+
 }

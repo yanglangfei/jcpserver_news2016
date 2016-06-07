@@ -25,11 +25,20 @@ public class RebateSer {
 	/**
 	 * @param teacherId
 	 * @param page
-	 * @return 根据讲师id获取返利信息
+	 * @return 根据讲师id获取返利信息   分页
 	 */
 	public static List<Rebate> findRebateByTid(int teacherId, int page) {
 		RebateDao dao=new RebateImp();
 		return dao.findRebateByTid(teacherId, page);
+	}
+	
+	/**
+	 * @param teacherId
+	 * @return 根据讲师id获取返利信息  无分页
+	 */
+	public static List<Rebate> findRebateByTid(int teacherId) {
+		RebateDao dao=new RebateImp();
+		return dao.findRebateByTid(teacherId);
 	}
 
 	/**
@@ -41,4 +50,14 @@ public class RebateSer {
 		return dao.addRebate(rebate);
 	}
 
+	/**
+	 * @param uId
+	 * @param tId
+	 * @return  获取用户贡献讲师聚财币信息
+	 */
+	public static List<Rebate> findRebate(int uId,int tId){
+		RebateDao dao=new RebateImp();
+		return dao.findRebate(uId, tId);
+	}
+	
 }

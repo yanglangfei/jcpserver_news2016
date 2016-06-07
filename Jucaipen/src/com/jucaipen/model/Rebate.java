@@ -31,6 +31,11 @@ public class Rebate implements Serializable{
 	 *  该返利来自于谁  FK_FromUserId
 	 */
 	private int fromId;
+	
+	/**
+	 *  来源用户昵称
+	 */
+	private String fromName;
 	/**
 	 *  InsertDate
 	 */
@@ -40,6 +45,13 @@ public class Rebate implements Serializable{
 	 */
 	private String remark;
 	
+	
+	public String getFromName() {
+		return fromName;
+	}
+	public void setFromName(String fromName) {
+		this.fromName = fromName;
+	}
 	public int getPage() {
 		return page;
 	}
