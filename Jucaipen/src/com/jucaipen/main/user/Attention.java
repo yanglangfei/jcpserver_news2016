@@ -106,7 +106,5 @@ public class Attention extends HttpServlet {
 		}else{
 			return false;
 		}
-
 	}
-
 }

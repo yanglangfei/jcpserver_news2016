@@ -284,15 +284,17 @@ public class AskImp implements AskDao {
 				String bodys = result.getString("AskBodys");
 				int classId = result.getInt("FK_ClassId");
 				String askDate = result.getString("AskDate");
-				int askState = result.getInt("IsPay");
+				int isPay = result.getInt("IsPay");
 				int hits = result.getInt("Hits");
 				int isReply = result.getInt("IsReply");
 				String ip = result.getString("IP");
+				int replyCount=result.getInt("ReplyCount");
 				int teacherId = result.getInt("FK_TearchId");
 				Ask ask = new Ask();
 				ask.setTotlePage(totlePage);
 				ask.setPage(page);
 				ask.setId(id);
+				ask.setReplyCount(replyCount);
 				ask.setUserId(userId);
 				ask.setParentId(parentId);
 				ask.setAskBody(bodys);
@@ -302,7 +304,7 @@ public class AskImp implements AskDao {
 				ask.setIp(ip);
 				ask.setIsReply(isReply);
 				ask.setHits(hits);
-				ask.setAskState(askState);
+				ask.setIsPay(isPay);
 				asks.add(ask);
 			}
 			return asks;

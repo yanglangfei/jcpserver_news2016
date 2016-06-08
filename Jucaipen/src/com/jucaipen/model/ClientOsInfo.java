@@ -15,6 +15,28 @@ public class ClientOsInfo {
 	 * 只是版本号,例如"4.1.1"
 	 */
 	private String version;
+	
+	/**
+	 *  手机基于平台
+	 */
+	private String mainSys;
+	/**
+	 *  手机型号
+	 */
+	private String phoneType;
+	
+	public String getMainSys() {
+		return mainSys;
+	}
+	public void setMainSys(String mainSys) {
+		this.mainSys = mainSys;
+	}
+	public String getPhoneType() {
+		return phoneType;
+	}
+	public void setPhoneType(String phoneType) {
+		this.phoneType = phoneType;
+	}
 	public String getOsTypeVersion() {
 		return osTypeVersion;
 	}

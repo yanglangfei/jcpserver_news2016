@@ -44,5 +44,25 @@ public class MyPresentSer {
 		MyPresentDao dao=new MyPresentImp();
 		return dao.sendPresent(present);
 	}
+	
+	
+	/**
+	 * @param present
+	 * @return 修改礼品信息
+	 */
+	public static int sendPresent(int id,int num) {
+		MyPresentDao dao=new MyPresentImp();
+		return dao.sendPresent(id, num);
+	}
+	
+	/**
+	 * @param uId
+	 * @param pId
+	 * @return 获取用户拥有的某个礼品数量
+	 */
+	public static MyPresent findParentByUid(int uId,int pId){
+		MyPresentDao dao=new MyPresentImp();
+		return dao.findParentByUid(uId, pId);
+	}
 
 }

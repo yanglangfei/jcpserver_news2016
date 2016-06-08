@@ -2,17 +2,17 @@ package com.jucaipen.service;
 
 import java.util.List;
 
-import com.jucaipen.dao.LogDao;
-import com.jucaipen.daoimp.LogImp;
+import com.jucaipen.dao.LoginLogDao;
+import com.jucaipen.daoimp.LoginLogImp;
 import com.jucaipen.model.LoginLog;
 
-public class LogServer {
+public class LoginLogServer {
 	/**
 	 * @param userId
 	 * @return 根据用户id查询登录日志
 	 */
 	public static List<LoginLog> findLogByUser(int userId, int pager) {
-		LogDao dao = new LogImp();
+		LoginLogDao dao = new LoginLogImp();
 		return dao.findLogByUser(userId, pager);
 	}
 
@@ -21,7 +21,7 @@ public class LogServer {
 	 * @return 根据日志id，查询登录日志信息
 	 */
 	public static LoginLog findLogById(int id) {
-		LogDao dao = new LogImp();
+		LoginLogDao dao = new LoginLogImp();
 		return dao.findLog(id);
 	}
 
@@ -30,7 +30,7 @@ public class LogServer {
 	 * @return  添加登录日志
 	 */
 	public static int insertLog(LoginLog log) {
-		LogDao dao = new LogImp();
+		LoginLogDao dao = new LoginLogImp();
 		return dao.insertLog(log);
 	}
 

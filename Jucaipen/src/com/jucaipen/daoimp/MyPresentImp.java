@@ -164,4 +164,37 @@ public class MyPresentImp implements MyPresentDao {
 		return 0;
 	}
 
+	@Override
+	public MyPresent findParentByUid(int uId, int pId) {
+		// 获取用户拥有某个礼品数量
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM JCP_MyPresent WHERE FK_UserId="+uId+" AND FK_LiPinId="+pId);
+			res.next();
+			int presentNum=res.getInt("PresentNum");
+			int id=res.getInt("Id");
+			MyPresent parent=new MyPresent();
+			parent.setId(id);
+			parent.setPresentNum(presentNum);
+			return parent;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public int sendPresent(int id, int num) {
+		// 修改礼品信息
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_MyPresent SET PresentNum="+num+" WHERE Id="+id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

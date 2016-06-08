@@ -3,11 +3,15 @@ package com.jucaipen.main.user;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
 
 import com.jucaipen.model.Account;
 import com.jucaipen.model.ClientOsInfo;
@@ -20,8 +24,10 @@ import com.jucaipen.service.SiteConfigSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
+
 /**
  * @author Administrator
  * 
@@ -29,8 +35,11 @@ import com.jucaipen.utils.TimeUtils;
  */
 @SuppressWarnings("serial")
 public class Regin extends HttpServlet {
+	private String reginUrl = "http://www.jcplicai.com/ashx/AndroidUser.ashx?action=reg";
 	private String result;
-	private int userId;
+	private String ip;
+	private Map<String, String> param = new HashMap<String, String>();
+
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -39,6 +48,7 @@ public class Regin extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String userAgent = request.getParameter("User-Agent");
 		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
+		ip = request.getRemoteAddr();
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
 			String telPhone = request.getParameter("telPhone");
@@ -46,7 +56,7 @@ public class Regin extends HttpServlet {
 			String userName = request.getParameter("userName");
 			String password = request.getParameter("password");
 			String reptPwd = request.getParameter("reptPwd");
-			String investCode=request.getParameter("investCode");
+			String investCode = request.getParameter("investCode");
 			if (StringUtil.isMobileNumber(telPhone)) {
 				if (StringUtil.isNotNull(checkCode) && checkCode.length() >= 4) {
 					if (StringUtil.isNotNull(userName)) {
@@ -55,7 +65,7 @@ public class Regin extends HttpServlet {
 									&& StringUtil.isPassword(reptPwd)) {
 								if (password.equals(reptPwd)) {
 									result = regin(userName, password,
-											telPhone, checkCode,investCode);
+											telPhone, checkCode, investCode);
 								} else {
 									result = JsonUtil.getRetMsg(6, "两次密码不一致");
 								}
@@ -87,35 +97,57 @@ public class Regin extends HttpServlet {
 	}
 
 	private String regin(String userName, String password, String telPhone,
-			String checkCode,String investCode) {
-		SiteConfig config = SiteConfigSer.findSiteConfig();
-		
-		if(StringUtil.isNotNull(investCode)){
-			//更新邀请人积分信息
-			int recoIntegeral=config.getRecommIntegeral();
-			User user=UserServer.findUserByInvestCode(investCode);
-			UserServer.updateIntegeral(user.getId(), user.getAllIntegral()+recoIntegeral);
+			String checkCode, String investCode) {
+		param.put("username", userName);
+		param.put("mobilenum", telPhone);
+		param.put("pwd", password);
+		param.put("pwd_sure", password);
+		param.put("actioncode", checkCode);
+		param.put("ip", ip);
+		param.put("invite", investCode);
+		String result = LoginUtil.sendHttpPost(reginUrl, param);
+		JSONObject object = new JSONObject(result);
+		boolean res = object.getBoolean("Result");
+		String msg = object.getString("Msg");
+		if (res) {
+			// 注册成功处理
+			int userId=object.getInt("ActionId");
+			handleIntegeral(investCode, userId, telPhone);
+			return JsonUtil.getRetMsg(0, msg);
+		} else {
+			// 注册失败处理
+			return JsonUtil.getRetMsg(1, msg);
 		}
-		
-		//注册成功   送积分
-		int regIntegeral=config.getRegIntegeral();
-		Account account=new Account();
+	}
+
+	public void handleIntegeral(String investCode,int userId,String telPhone) {
+		SiteConfig config = SiteConfigSer.findSiteConfig();
+		if (StringUtil.isNotNull(investCode)) {
+			// 更新邀请人积分信息
+			int recoIntegeral = config.getRecommIntegeral();
+			User user = UserServer.findUserByInvestCode(investCode);
+			UserServer.updateIntegeral(user.getId(), user.getAllIntegral()
+					+ recoIntegeral);
+		}
+
+		// 注册成功 送积分
+		int regIntegeral = config.getRegIntegeral();
+		Account account = new Account();
 		account.setUserId(userId);
 		account.setIntegeral(regIntegeral);
 		account.setJucaiBills(0);
-		//更新总账户积分信息
+		// 更新总账户积分信息
 		AccountSer.addAccount(account);
-		RebateIntegeralDetail inDetail=new RebateIntegeralDetail();
+		RebateIntegeralDetail inDetail = new RebateIntegeralDetail();
 		inDetail.setUserId(userId);
 		inDetail.setType(2);
 		inDetail.setIntegralNum(regIntegeral);
-		inDetail.setInsertDate(TimeUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
-		inDetail.setRemark("新用户注册【"+telPhone+"】");
+		inDetail.setInsertDate(TimeUtils.format(new Date(),
+				"yyyy-MM-dd HH:mm:ss"));
+		inDetail.setRemark("新用户注册【" + telPhone + "】");
 		inDetail.setFromId(userId);
-		//更新返利信息
+		// 更新返利信息
 		RebateIntegeralDetailSer.addRebateIntegeral(inDetail);
-		return null;
-
 	}
 
 }

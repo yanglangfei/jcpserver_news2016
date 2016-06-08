@@ -117,14 +117,21 @@ public class HeaderUtil {
 	 * 判断手机的操作系统 IOS/android/windows phone/BlackBerry
 	 * 
 	 * @param UA
-	 * @return
+	 * @return    Dalvik/1.6.0 (Linux; U; Android 4.4.2; PE-TL20 Build/HuaweiPE-TL20)
 	 */
 	public static ClientOsInfo getMobilOS(String UA) {
 		if (UA == null) {
 			return null;
 		}
-		UA=UA.toUpperCase();
 		ClientOsInfo osInfo=new  ClientOsInfo();
+		String[] osStr = UA.split(";");
+		if(osStr.length>0){
+			osInfo.setMainSys(osStr[0]);
+		}
+		if(osStr.length>3){
+			osInfo.setPhoneType(osStr[3]);
+		}
+		UA=UA.toUpperCase();
 		// 存放正则表达式
 		String rex = "";
 		// IOS 判断字符串

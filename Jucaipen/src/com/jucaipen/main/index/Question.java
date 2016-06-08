@@ -57,13 +57,11 @@ public class Question extends HttpServlet {
 							initAllQuestion(p);
 							result = JsonUtil.getAskList(asks, users);
 						} else {
-							String teacherId = request
-									.getParameter("teacherId");
+							String teacherId = request.getParameter("teacherId");
 							if (StringUtil.isNotNull(teacherId)
 									&& StringUtil.isInteger(teacherId)) {
 								int tId = Integer.parseInt(teacherId);
-								initQuestionByTeacherId(tId, p);
-								result = JsonUtil.getAskList(asks, users);
+								result=initQuestionByTeacherId(tId, p);
 							} else {
 								result = JsonUtil
 										.getRetMsg(4, "teacherId 参数异常");
@@ -86,7 +84,7 @@ public class Question extends HttpServlet {
 		out.close();
 	}
 
-	private void initQuestionByTeacherId(int tId, int page) {
+	private String initQuestionByTeacherId(int tId, int page) {
 		// 根据讲师id获取提问信息
 		users.clear();
 		asks = AskSer.findAskByTeacherId(tId, page);
@@ -95,11 +93,12 @@ public class Question extends HttpServlet {
 			User user = UserServer.findUserNikNameById(userId);
 			if (user == null) {
 				user = new User();
-				user.setTrueName("");
+				user.setNickName("");
 				user.setFaceImage("");
 			}
 			users.add(user);
 		}
+		return JsonUtil.getAskList(asks, users);
 
 	}
 
@@ -112,7 +111,7 @@ public class Question extends HttpServlet {
 			User user = UserServer.findUserNikNameById(userId);
 			if (user == null) {
 				user = new User();
-				user.setTrueName("");
+				user.setNickName("");
 				user.setFaceImage("");
 			}
 			users.add(user);

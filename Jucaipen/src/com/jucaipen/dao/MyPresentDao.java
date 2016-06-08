@@ -32,5 +32,20 @@ public interface MyPresentDao {
 	 * @return  赠送礼品  （修改礼品数量）
 	 */
 	public int sendPresent(MyPresent present);
+	
+	/**
+	 * @param id
+	 * @param num
+	 * @return 修改礼品信息
+	 */
+	public int sendPresent(int id,int num);
+
+	
+	/**
+	 * @param uId
+	 * @param pId
+	 * @return  获取用户某个礼品数量
+	 */
+	public MyPresent findParentByUid(int uId,int pId);
 
 }

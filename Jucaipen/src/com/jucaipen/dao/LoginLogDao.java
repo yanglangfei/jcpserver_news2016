@@ -9,7 +9,7 @@ import com.jucaipen.model.LoginLog;
  *   登录日志操作类
  *
  */
-public interface LogDao {
+public interface LoginLogDao {
 	/**
 	 * @param log
 	 * @return  添加登录日志

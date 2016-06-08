@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.LoginLog;
 import com.jucaipen.model.User;
-import com.jucaipen.service.LogServer;
+import com.jucaipen.service.LoginLogServer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
@@ -82,7 +82,7 @@ public class OtherAccountLogin extends HttpServlet {
 		log.setPassword(user.getPassword());
 		log.setRemark("µÇÂ¼³É¹¦");
 		log.setLoginIp(clientAddress);
-		LogServer.insertLog(log);
+		LoginLogServer.insertLog(log);
 
 	}
 

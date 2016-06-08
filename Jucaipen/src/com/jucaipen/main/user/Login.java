@@ -2,17 +2,26 @@ package com.jucaipen.main.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
+
 import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.model.LoginLog;
+import com.jucaipen.model.User;
+import com.jucaipen.service.LoginLogServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
-
+import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
  * 
@@ -20,8 +29,10 @@ import com.jucaipen.utils.StringUtil;
  */
 @SuppressWarnings("serial")
 public class Login extends HttpServlet {
-
+    private String loginUrl="http://www.jcplicai.com/ashx/AndroidUser.ashx?action=login";
 	private String result;
+	private String loginIp;
+	private Map<String, String> param=new HashMap<String, String>();
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -34,11 +45,12 @@ public class Login extends HttpServlet {
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
 			String userId = request.getParameter("userId");
+			loginIp=request.getRemoteAddr();
 			if (StringUtil.isNotNull(userId)) {
 				if (StringUtil.isInteger(userId)) {
 					int id = Integer.parseInt(userId);
 					if (id <= 0) {
-						result = userLogin(request);
+						result = userLogin(request,os);
 					} else {
 						result = JsonUtil.getRetMsg(3, "当前用户已经登录");
 					}
@@ -56,7 +68,7 @@ public class Login extends HttpServlet {
 		out.close();
 	}
 
-	private String userLogin(HttpServletRequest request) {
+	private String userLogin(HttpServletRequest request,ClientOsInfo os) {
 		// 处理登录
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
@@ -72,8 +84,42 @@ public class Login extends HttpServlet {
 		if (!StringUtil.isPassword(password)) {
 			return JsonUtil.getRetMsg(7, "密码必须为6-23位");
 		}
-
-		return null;
+		param.put("username", userName);
+		param.put("pwd", password);
+		String result=LoginUtil.sendHttpPost(loginUrl, param);
+		JSONObject object=new JSONObject(result);
+		boolean res=object.getBoolean("Result");
+		String msg=object.getString("Msg");
+		int userId=object.getInt("ActionId");
+		if(res){
+			//登录成功处理
+			handleLoginLog(userName, 0, userId, password, "登录成功", os);
+			User user=new User();
+			user.setId(userId);
+			return JsonUtil.getLoginResult(user);
+		}else{
+			//登录失败处理
+			handleLoginLog(userName, 1, 0, password, "登录失败:"+msg, os);
+			return JsonUtil.getRetMsg(1, msg);
+		}
+	}
+	
+	public void handleLoginLog(String userName,int logResult,int userId,String password,String remark,ClientOsInfo os){
+		LoginLog log=new LoginLog();
+		log.setAccount(userName);
+		log.setLoginDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		log.setLoginIp(loginIp);
+		log.setLoginResult(logResult);
+		log.setLoginType(3);
+		log.setPassword(password);
+		log.setUserId(userId);
+		log.setRemark(remark);
+		if(os!=null){
+			log.setBrowserName(os.getDeviceType());
+			log.setOsName(os.getPhoneType());
+		}
+		LoginLogServer.insertLog(log);
+		
 	}
 
 }

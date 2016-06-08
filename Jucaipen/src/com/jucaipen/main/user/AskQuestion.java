@@ -49,7 +49,6 @@ public class AskQuestion extends HttpServlet {
 			if (StringUtil.isInteger(userId)) {
 				// 用户id格式正确
 				int uId = Integer.parseInt(userId);
-
 				if (StringUtil.isInteger(teacherId)) {
 					// 讲师id数字格式化正确
 					int tId = Integer.parseInt(teacherId);

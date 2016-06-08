@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jucaipen.dao.LogDao;
+import com.jucaipen.dao.LoginLogDao;
 import com.jucaipen.model.LoginLog;
 import com.jucaipen.utils.JdbcUtil;
 import com.jucaipen.utils.SqlUtil;
@@ -18,7 +18,7 @@ import com.jucaipen.utils.SqlUtil;
  *         登录日志实现类
  * 
  */
-public class LogImp implements LogDao {
+public class LoginLogImp implements LoginLogDao {
 	private Connection dbConn;
 	private Statement sta;
 	private ResultSet res;

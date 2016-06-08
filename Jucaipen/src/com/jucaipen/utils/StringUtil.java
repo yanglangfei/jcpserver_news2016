@@ -87,7 +87,7 @@ public class StringUtil {
 	 * @return 密码长度是否在6-23之间
 	 */
 	public static boolean isPassword(String password) {
-		if (password.length() >= 8 && password.length() <= 23) {
+		if (password.length() >= 6 && password.length() <= 23) {
 			return true;
 		} else {
 			return false;

@@ -312,6 +312,21 @@
     <servlet-name>OrderTactics</servlet-name>
     <servlet-class>com.jucaipen.main.user.OrderTactics</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>TestOnLine</servlet-name>
+    <servlet-class>com.jucaipen.test.TestOnLine</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>FaceUpLoad</servlet-name>
+    <servlet-class>com.jucaipen.main.user.FaceUpLoad</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PurchGift</servlet-name>
+    <servlet-class>com.jucaipen.main.user.PurchGift</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -640,5 +655,17 @@
   <servlet-mapping>
     <servlet-name>OrderTactics</servlet-name>
     <url-pattern>/jucaipen/ordertactics</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TestOnLine</servlet-name>
+    <url-pattern>/jucaipen/testonline</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FaceUpLoad</servlet-name>
+    <url-pattern>/jucaipen/faceupload</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PurchGift</servlet-name>
+    <url-pattern>/jucaipen/purchgift</url-pattern>
   </servlet-mapping>
 </web-app>

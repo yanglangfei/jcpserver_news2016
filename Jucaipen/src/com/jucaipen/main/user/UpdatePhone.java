@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.MobileMessage;
+import com.jucaipen.model.User;
 import com.jucaipen.service.MobileMessageSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.HeaderUtil;
@@ -26,10 +27,9 @@ import com.jucaipen.utils.StringUtil;
 public class UpdatePhone extends HttpServlet {
 	private String result;
 	// 加密手机号 参数
-	private String encrypePath = "http://user.jucaipen.com/ashx/AndroidUser.ashx?action=GetEncryptMobileNum";
+	private String encrypePath = "http://www.jcplicai.com/ashx/AndroidUser.ashx?action=GetEncryptMobileNum";
 	private Map<String, String> param = new HashMap<String, String>();
 	private int isSuccess;
-	private boolean isPassed;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -43,17 +43,19 @@ public class UpdatePhone extends HttpServlet {
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
 			String userId = request.getParameter("userId");
-			String telPhone = request.getParameter("telPhone");
-			String actionCode = request.getParameter("actionCode");
+			String oldPhone = request.getParameter("oldPhone");
+			String actionCode1 = request.getParameter("actionCode1");
+			String newPhone=request.getParameter("newPhone");
+			String actionCode2=request.getParameter("actionCode2");
 			if (StringUtil.isInteger(userId)) {
 				int uId = Integer.parseInt(userId);
 				if (uId > 0) {
-					if (StringUtil.isNotNull(actionCode)) {
-						if (StringUtil.isNotNull(telPhone)) {
-							if (StringUtil.isMobileNumber(telPhone)) {
-								checkMobileCode(telPhone, actionCode);
+					if (StringUtil.isNotNull(oldPhone)&&StringUtil.isNotNull(newPhone)) {
+						if (StringUtil.isNotNull(actionCode1)&&StringUtil.isNotNull(actionCode2)) {
+							if (StringUtil.isMobileNumber(oldPhone)&&StringUtil.isMobileNumber(newPhone)) {
+								boolean isPassed = checkMobileCode(oldPhone, actionCode1,newPhone,actionCode2);
 								if (isPassed) {
-									result = insertPhone(telPhone, uId);
+									result = insertPhone(newPhone, uId);
 								} else {
 									result = JsonUtil.getRetMsg(7, "手机验证码错误");
 								}
@@ -62,11 +64,11 @@ public class UpdatePhone extends HttpServlet {
 							}
 
 						} else {
-							result = JsonUtil.getRetMsg(1, "手机号不能为空");
+							result = JsonUtil.getRetMsg(6, "手机验证码不能为空");
 						}
 
 					} else {
-						result = JsonUtil.getRetMsg(6, "手机验证码不能为空");
+						result = JsonUtil.getRetMsg(1, "手机号不能为空");
 					}
 
 				} else {
@@ -108,27 +110,38 @@ public class UpdatePhone extends HttpServlet {
 
 	}
 
-	private void checkMobileCode(String mobile, String actionCode) {
+	private boolean checkMobileCode(String oldPhone, String actionCode1, String newPhone, String actionCode2) {
 		try {
-			// 验证手机验证码是否正确
+			// 验证旧手机验证码是否正确
 			List<MobileMessage> mobileList = MobileMessageSer
-					.findMobileMessageByMobileNumLast(1, mobile);
-			if (mobileList.size() > 0) {
-				String checkCode = mobileList.get(0).getActionCode();
-				String sendDate = mobileList.get(0).getSendDate();
-				mobileList.get(0).getMsgid();
-				long sendTime = sdf.parse(sendDate).getTime();
+					.findMobileMessageByMobileNumLast(1, oldPhone);
+			// 验证新手机验证码是否正确
+			List<MobileMessage> messages=MobileMessageSer.findMobileMessageByMobileNumLast(1, newPhone);
+			if (mobileList.size() > 0&&messages.size()>0) {
+				String oldCode = mobileList.get(0).getActionCode();
+				String oldSendDate = mobileList.get(0).getSendDate();
+				
+				
+				String newCode=messages.get(0).getActionCode();
+				String newSendDate=messages.get(0).getSendDate();
+				
+				long oldSendTime = sdf.parse(oldSendDate).getTime();
+				long newSendTime=sdf.parse(newSendDate).getTime();
 				long currrentTime = System.currentTimeMillis();
-				if ((actionCode.equals(checkCode))
-						&& ((currrentTime - sendTime) <= (3 * 60 * 1000))) {
-					isPassed = true;
+				
+				if ((oldCode.equals(actionCode1))&&(newCode.equals(actionCode2))
+						&& ((currrentTime - newSendTime) <= (3 * 60 * 1000))&&((currrentTime - oldSendTime) <= (3 * 60 * 1000))) {
+					//验证新手机号是否已被使用
+					User user=UserServer.findUserByTelPhone(newPhone);
+					return user==null ? true : false;
 				} else {
-					isPassed = false;
+					return  false;
 				}
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		return false;
 
 	}
 
