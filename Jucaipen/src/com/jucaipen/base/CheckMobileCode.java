@@ -17,7 +17,6 @@ import com.jucaipen.service.MobileMessageSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  *
@@ -82,7 +81,6 @@ public class CheckMobileCode extends HttpServlet {
 					}else {
 						result=JsonUtil.getRetMsg(2,"手机号不符合要求");
 					}
-					
 				}
 			}else {
 				result=JsonUtil.getRetMsg(1,"参数用户id数字格式化异常");
@@ -126,7 +124,6 @@ public class CheckMobileCode extends HttpServlet {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-	   
 	}
 
 }

@@ -267,7 +267,7 @@ public class VideoImp implements VideoDao {
 			sta = dbConn.createStatement();
 			res = sta
 						.executeQuery("select Top "+top+" Id,Title,ImagesUrl,VideoUrl,Description from JCP_Video where FK_ClassId="
-								+ classId+"order by Id desc");
+								+ classId+" order by Id desc");
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				String title = res.getString(SqlUtil.VIDEO_TITLE);
@@ -327,7 +327,7 @@ public class VideoImp implements VideoDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from IsTop=" + isTop + " FK_ClassId="
+			res = sta.executeQuery("select * from JCP_Video WHERE IsTop=" + isTop + " AND  FK_ClassId="
 					+ classId);
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
@@ -358,7 +358,7 @@ public class VideoImp implements VideoDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("select * from JCP_Video where IsMySite="
-							+ isMySit + " ClassId=" + classId);
+							+ isMySit + " FK_ClassId=" + classId);
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				String title = res.getString(SqlUtil.VIDEO_TITLE);
@@ -390,19 +390,21 @@ public class VideoImp implements VideoDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select TOP "+count+" Id,Title,Description,ImagesUrl,VideoUrl from JCP_Video"
-							+" ORDER BY InsertDate DESC");
+					.executeQuery("select TOP "+count+" Id,Title,Description,ImagesUrl,PlayCount,VideoDate from JCP_Video"
+							+" WHERE FK_ClassId="+classId+" ORDER BY InsertDate DESC");
 			
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				String title = res.getString(SqlUtil.VIDEO_TITLE);
 				String descript = res.getString(SqlUtil.VIDEO_DESC);
-				String videoUrl=res.getString("VideoUrl");
 				String images=res.getString("ImagesUrl");
+				int playCount=res.getInt("PlayCount");
+				String videoDate=res.getString("VideoDate");
 				Video video = new Video(id, title);
-				video.setVideoUrl(videoUrl);
 				video.setDescript(descript);
 				video.setImages(images);
+				video.setHitCount(playCount);
+				video.setVideoDate(videoDate);
 				videos.add(video);
 			}
 			return videos;

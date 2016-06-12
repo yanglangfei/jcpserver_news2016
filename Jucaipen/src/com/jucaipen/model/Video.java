@@ -1,7 +1,6 @@
 package com.jucaipen.model;
 
 import java.io.Serializable;
-import java.util.Date;
 /**
  * @author ylf           ---------数据已更新    5.18
  * 
@@ -37,7 +36,7 @@ public class Video implements Serializable{
 	/**
 	 * 视频发布日期
 	 */
-	private Date VideoDate;
+	private String VideoDate;
 	/**
 	 * 分类id
 	 */
@@ -125,13 +124,12 @@ public class Video implements Serializable{
 		this.title = title;
 	}
 	public Video(int id, String title, String descript, int hitCount,
-			int xnHitCount, String insertDate, Date videoDate, int classId,
+			int xnHitCount, String insertDate, String videoDate, int classId,
 			int videoType, String allMoney, String payMoney, int teacherId,
 			int isTop, int isBest, int goods, String videoUrl, int commCount,
 			String keyWords, String images, int typeId, int contentId,
 			int isMySiteVideo, int pecialId, int sortId, String htmlUrl,
 			int isIndex, int isTuijian) {
-		super();
 		this.id = id;
 		this.title = title;
 		this.descript = descript;
@@ -196,10 +194,10 @@ public class Video implements Serializable{
 	public void setInsertDate(String insertDate) {
 		InsertDate = insertDate;
 	}
-	public Date getVideoDate() {
+	public String getVideoDate() {
 		return VideoDate;
 	}
-	public void setVideoDate(Date videoDate) {
+	public void setVideoDate(String videoDate) {
 		VideoDate = videoDate;
 	}
 	public int getClassId() {

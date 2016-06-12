@@ -21,20 +21,16 @@ import com.jucaipen.utils.StringUtil;
 
 /**
  * @author Administrator
- * 
  *         问答 type 0 全部 返回参数： id image userName askDate askBody isReply
- * 
  *         [{"page":1,"totlePage":6,"askId":83,
  *         "userName":"zhang","insertDate":"2016-03-04",
  *         "askBodys":"2","headFace":"","isReply":2} 1 根据讲师id获取：
  */
 @SuppressWarnings("serial")
 public class Question extends HttpServlet {
-
 	private String result;
 	private List<Ask> asks;
 	private List<User> users = new ArrayList<User>();
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -93,8 +89,6 @@ public class Question extends HttpServlet {
 			User user = UserServer.findUserNikNameById(userId);
 			if (user == null) {
 				user = new User();
-				user.setNickName("");
-				user.setFaceImage("");
 			}
 			users.add(user);
 		}
@@ -111,8 +105,6 @@ public class Question extends HttpServlet {
 			User user = UserServer.findUserNikNameById(userId);
 			if (user == null) {
 				user = new User();
-				user.setNickName("");
-				user.setFaceImage("");
 			}
 			users.add(user);
 		}

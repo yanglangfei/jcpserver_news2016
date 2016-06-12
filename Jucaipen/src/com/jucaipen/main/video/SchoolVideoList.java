@@ -1,4 +1,4 @@
-package com.jucaipen.main.vide;
+package com.jucaipen.main.video;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,7 +23,6 @@ import com.jucaipen.utils.StringUtil;
  */
 @SuppressWarnings("serial")
 public class SchoolVideoList extends HttpServlet {
-	private List<Video> videos;
 	private String result;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -36,8 +35,7 @@ public class SchoolVideoList extends HttpServlet {
 		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
-			initTeachList();
-			result = JsonUtil.getTeachVideList(videos);
+			result=initTeachList();
 		} else {
 			result = StringUtil.isVaild;
 		}
@@ -46,9 +44,10 @@ public class SchoolVideoList extends HttpServlet {
 		out.close();
 	}
 
-	private void initTeachList() {
+	private String initTeachList() {
 		// 初始化视频教程
-		videos = VideoServer.findVideoByClassIdLast(4, 6);
+		List<Video> videos = VideoServer.findVideoByClassIdLast(4, 9);
+		return JsonUtil.getTeachVideList(videos);
 	}
 
 }

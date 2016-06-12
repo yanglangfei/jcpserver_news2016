@@ -1,4 +1,4 @@
-package com.jucaipen.main.vide;
+package com.jucaipen.main.video;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,7 +33,6 @@ import com.jucaipen.utils.StringUtil;
 public class LiveList extends HttpServlet {
 	private String result;
 	private List<FamousTeacher> teachers = new ArrayList<FamousTeacher>();
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

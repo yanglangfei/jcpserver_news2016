@@ -1,4 +1,4 @@
-package com.jucaipen.main.vide;
+package com.jucaipen.main.video;
 
 import java.io.IOException;
 import java.io.PrintWriter;

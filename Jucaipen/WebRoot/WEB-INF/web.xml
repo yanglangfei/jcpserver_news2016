@@ -22,11 +22,11 @@
   </servlet>
   <servlet>
     <servlet-name>QuerryVide</servlet-name>
-    <servlet-class>com.jucaipen.main.vide.QuerryVide</servlet-class>
+    <servlet-class>com.jucaipen.main.video.QuerryVide</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>VideoResource</servlet-name>
-    <servlet-class>com.jucaipen.main.vide.VideoResource</servlet-class>
+    <servlet-class>com.jucaipen.main.video.VideoResource</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>TeacherIdea</servlet-name>
@@ -38,11 +38,11 @@
   </servlet>
   <servlet>
     <servlet-name>LiveList</servlet-name>
-    <servlet-class>com.jucaipen.main.vide.LiveList</servlet-class>
+    <servlet-class>com.jucaipen.main.video.LiveList</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>SchoolVideoList</servlet-name>
-    <servlet-class>com.jucaipen.main.vide.SchoolVideoList</servlet-class>
+    <servlet-class>com.jucaipen.main.video.SchoolVideoList</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>QuerryAskType</servlet-name>
