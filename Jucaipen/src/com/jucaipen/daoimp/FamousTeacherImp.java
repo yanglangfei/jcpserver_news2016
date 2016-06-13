@@ -264,5 +264,28 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		return 0;
 	}
 
+	@Override
+	public List<FamousTeacher> findAllTeacher() {
+		// 获取所有讲师信息   不分页
+		teachers.clear();
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT Id,NickName FROM JCP_Tearcher");
+			while (res.next()) {
+				int id=res.getInt(1);
+				String nickName=res.getString(2);
+				FamousTeacher teacher=new FamousTeacher();
+				teacher.setId(id);
+				teacher.setNickName(nickName);
+				teachers.add(teacher);
+			}
+			return teachers;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 
 }

@@ -10,19 +10,88 @@ public class VideoServer {
 	/**
 	 * @return 查询所有视频信息
 	 */
-	public static List<Video> findAll() {
+	public static List<Video> findAll(int page) {
 		VideoDao dao = new VideoImp();
-		return dao.findAll();
+		return dao.findAll(page);
 	}
 
 	/**
 	 * @param classId
 	 * @return 根据分类id 查询相应视频
 	 */
-	public static List<Video> findVideoByClassId(int classId) {
+	public static List<Video> findVideoByClassId(int classId,int page) {
 		VideoDao dao = new VideoImp();
-		return dao.findVideoByClassId(classId);
+		return dao.findVideoByClassId(classId,page);
 	}
+	
+	/**
+	 * @param teacherId
+	 * @param page
+	 * @return
+	 */
+	public static List<Video> findVideoByTeacherId(int teacherId,int page){
+		VideoDao dao=new VideoImp();
+		return dao.findVideoByTeacherId(teacherId, page);
+	}
+	
+	/**
+	 * @param typeId
+	 * @param page
+	 * @return
+	 */
+	public static List<Video> findVideoByType(int typeId, int page) {
+		VideoDao dao=new VideoImp();
+		return dao.findVideoByType(typeId, page);
+	}
+	
+	/**
+	 * @param teacherId
+	 * @param type
+	 * @param page
+	 * @return
+	 */
+	public static List<Video> findVideoByTeacherIdAndType(int teacherId, int type,
+			int page) {
+		VideoDao dao=new VideoImp();
+		return dao.findVideoByTeacherIdAndType(teacherId, type, page);
+	}
+	
+	/**
+	 * @param teacherId
+	 * @param classId
+	 * @param page
+	 * @return
+	 */
+	public static List<Video> findVideoByTeacherIdAndClassId(int teacherId,
+			int classId, int page) {
+		VideoDao dao=new VideoImp();
+		return dao.findVideoByTeacherIdAndClassId(teacherId, classId, page);
+	}
+	
+	/**
+	 * @param type
+	 * @param classId
+	 * @param page
+	 * @return
+	 */
+	public static List<Video> findVideoByTypeAndClassId(int type, int classId, int page) {
+		VideoDao dao=new VideoImp();
+		return dao.findVideoByTypeAndClassId(type, classId, page);
+	}
+	
+	/**
+	 * @param type
+	 * @param classId
+	 * @param teacherId
+	 * @param page
+	 * @return
+	 */
+	public static List<Video> findVideoByTypeAndClassIdAndTeacherId(int type,
+			int classId, int teacherId, int page) {
+		VideoDao dao=new VideoImp();
+		return dao.findVideoByTypeAndClassIdAndTeacherId(type, classId, teacherId, page);
+	}
+	
 
 	/**
 	 * @param id

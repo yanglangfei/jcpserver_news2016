@@ -9,11 +9,19 @@ import com.jucaipen.model.FamousTeacher;
 public class FamousTeacherSer {
 
 	/**
-	 * @return 获取所有讲师信息
+	 * @return 获取所有讲师信息   分页
 	 */
 	public static List<FamousTeacher> findAllFamousTeacher(int page) {
 		FamousTeacherDao dao = new FamousTeacherImp();
 		return dao.findAllFamousTeacher(page);
+	}
+	
+	/**
+	 * @return  获取所有讲师   不分页
+	 */
+	public static List<FamousTeacher> findAllTeacher(){
+		FamousTeacherDao dao=new FamousTeacherImp();
+		return dao.findAllTeacher();
 	}
 
 	/**

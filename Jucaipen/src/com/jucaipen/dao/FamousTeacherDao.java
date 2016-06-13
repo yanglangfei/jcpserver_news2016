@@ -18,9 +18,14 @@ public interface FamousTeacherDao {
 	public List<FamousTeacher> findIndexData();
 	
 	/**
-	 * @return 获取所有名师信息
+	 * @return 获取所有名师信息   分页
 	 */
 	public List<FamousTeacher> findAllFamousTeacher(int page);
+	
+	/**
+	 * @return  获取所有讲师信息    不分页
+	 */
+	public List<FamousTeacher> findAllTeacher();
 	
 	/**
 	 * @param count

@@ -26,8 +26,6 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class VideoList extends HttpServlet {
 	private String result;
-	private List<Video> videos;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -44,15 +42,14 @@ public class VideoList extends HttpServlet {
 					int index = Integer.parseInt(isIndex);
 					if (index == 0) {
 						// 首页推荐视频
-						initIndexData();
-						result = JsonUtil.getVideoList(videos);
+						result=initIndexData();
 					} else {
 						// 全部视频
 						String page = request.getParameter("page");
 						if (StringUtil.isNotNull(page)
 								&& StringUtil.isInteger(page)) {
-							initAllData();
-							result = JsonUtil.getVideoList(videos);
+							int p=Integer.parseInt(page);
+							result=initAllData(p);
 						} else {
 							result = JsonUtil.getRetMsg(2, "page参数异常");
 						}
@@ -72,14 +69,16 @@ public class VideoList extends HttpServlet {
 		out.close();
 	}
 
-	private void initAllData() {
+	private String initAllData(int p) {
 		// 初始化全部数据
-		videos = VideoServer.findVideoByClassId(1);
+		List<Video> videos = VideoServer.findVideoByClassId(1,p);
+		return JsonUtil.getVideoList(videos);
 	}
 
-	private void initIndexData() {
+	private String initIndexData() {
 		// 初始化首页数据
-		videos = VideoServer.findVideoByClassIdLast(2, 1);
+		List<Video> videos = VideoServer.findVideoByClassIdLast(2, 1);
+		return  JsonUtil.getVideoList(videos);
 	}
 
 }

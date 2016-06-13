@@ -117,8 +117,21 @@ public class Video implements Serializable{
 	 * 是否推荐　（　１　推荐　　　　０　非推荐　）
 	 */
 	private int IsTuijian;
+	private int page;
+	private int totlePage;
 	
-	
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getTotlePage() {
+		return totlePage;
+	}
+	public void setTotlePage(int totlePage) {
+		this.totlePage = totlePage;
+	}
 	public Video(int id, String title) {
 		this.id = id;
 		this.title = title;

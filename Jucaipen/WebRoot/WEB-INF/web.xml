@@ -21,8 +21,8 @@
     <servlet-class>com.jucaipen.main.index.QuerryTeacher</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>QuerryVide</servlet-name>
-    <servlet-class>com.jucaipen.main.video.QuerryVide</servlet-class>
+    <servlet-name>QuerryVideType</servlet-name>
+    <servlet-class>com.jucaipen.main.video.QuerryVideClass</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>VideoResource</servlet-name>
@@ -324,6 +324,21 @@
     <servlet-name>PurchGift</servlet-name>
     <servlet-class>com.jucaipen.main.user.PurchGift</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>QuerryVideoType</servlet-name>
+    <servlet-class>com.jucaipen.main.video.QuerryVideoType</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryVideoTeacher</servlet-name>
+    <servlet-class>com.jucaipen.main.video.QuerryVideoTeacher</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryVideoList</servlet-name>
+    <servlet-class>com.jucaipen.main.video.QuerryVideoList</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -365,8 +380,8 @@
     <url-pattern>/jucaipen/getfamous</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>QuerryVide</servlet-name>
-    <url-pattern>/jucaipen/gettypevideolist</url-pattern>
+    <servlet-name>QuerryVideType</servlet-name>
+    <url-pattern>/jucaipen/getvideoclass</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>VideoResource</servlet-name>
@@ -667,5 +682,17 @@
   <servlet-mapping>
     <servlet-name>PurchGift</servlet-name>
     <url-pattern>/jucaipen/purchgift</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryVideoType</servlet-name>
+    <url-pattern>/jucaipen/getvideotype</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryVideoTeacher</servlet-name>
+    <url-pattern>/jucaipen/getvideoteacher</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryVideoList</servlet-name>
+    <url-pattern>/jucaipen/getvideo</url-pattern>
   </servlet-mapping>
 </web-app>

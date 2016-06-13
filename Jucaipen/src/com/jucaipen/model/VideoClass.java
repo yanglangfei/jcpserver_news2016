@@ -13,7 +13,7 @@ public class VideoClass implements Serializable{
 	/**
 	 *  分类标题
 	 */
-	private int typeTitle;
+	private String typeTitle;
 	/**
 	 *  关键字
 	 */
@@ -36,10 +36,10 @@ public class VideoClass implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getTypeTitle() {
+	public String getTypeTitle() {
 		return typeTitle;
 	}
-	public void setTypeTitle(int typeTitle) {
+	public void setTypeTitle(String typeTitle) {
 		this.typeTitle = typeTitle;
 	}
 	public String getKeyWord() {

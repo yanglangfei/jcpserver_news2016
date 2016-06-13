@@ -8,11 +8,53 @@ public interface VideoDao {
 	/**
 	 * @return  获取所有视频
 	 */
-	public List<Video> findAll();
+	public List<Video> findAll(int page);
 	/**
 	 * @return  根据分类id 获取视频
 	 */
-	public List<Video> findVideoByClassId(int classId);
+	public List<Video> findVideoByClassId(int classId,int page);
+	/**
+	 * @param teacherId
+	 * @param page
+	 * @return
+	 */
+	public List<Video> findVideoByTeacherId(int teacherId,int page);
+	/**
+	 * @param typeId
+	 * @param page
+	 * @return
+	 */
+	public List<Video> findVideoByType(int typeId,int page);
+	/**
+	 * @param teacherId
+	 * @param type
+	 * @param page
+	 * @return
+	 */
+	public List<Video> findVideoByTeacherIdAndType(int teacherId,int type,int page);
+	/**
+	 * @param teacherId
+	 * @param classId
+	 * @param page
+	 * @return
+	 */
+	public List<Video>  findVideoByTeacherIdAndClassId(int teacherId,int classId,int page);
+	/**
+	 * @param type
+	 * @param classId
+	 * @param page
+	 * @return
+	 */
+	public List<Video> findVideoByTypeAndClassId(int type,int classId,int page);
+	/**
+	 * @param type
+	 * @param classId
+	 * @param teacherId
+	 * @param page
+	 * @return
+	 */
+	public List<Video> findVideoByTypeAndClassIdAndTeacherId(int type,int classId,int teacherId,int page);
+	
 	/**
 	 * @param id
 	 * @return   根据id 获取视频详细信息
