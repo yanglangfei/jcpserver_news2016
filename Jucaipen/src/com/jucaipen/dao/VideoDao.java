@@ -12,7 +12,7 @@ public interface VideoDao {
 	/**
 	 * @return  根据分类id 获取视频
 	 */
-	public List<Video> findVideoByClassId(int classId,int page);
+	public List<Video> findVideoByClassId(String classId,int page);
 	/**
 	 * @param teacherId
 	 * @param page
@@ -38,14 +38,14 @@ public interface VideoDao {
 	 * @param page
 	 * @return
 	 */
-	public List<Video>  findVideoByTeacherIdAndClassId(int teacherId,int classId,int page);
+	public List<Video>  findVideoByTeacherIdAndClassId(int teacherId,String classId,int page);
 	/**
 	 * @param type
 	 * @param classId
 	 * @param page
 	 * @return
 	 */
-	public List<Video> findVideoByTypeAndClassId(int type,int classId,int page);
+	public List<Video> findVideoByTypeAndClassId(int type,String classId,int page);
 	/**
 	 * @param type
 	 * @param classId
@@ -53,7 +53,7 @@ public interface VideoDao {
 	 * @param page
 	 * @return
 	 */
-	public List<Video> findVideoByTypeAndClassIdAndTeacherId(int type,int classId,int teacherId,int page);
+	public List<Video> findVideoByTypeAndClassIdAndTeacherId(int type,String classId,int teacherId,int page);
 	
 	/**
 	 * @param id
@@ -117,5 +117,11 @@ public interface VideoDao {
 	 * @return    根据分类获取最近几条视频直播
 	 */
 	public List<Video> findVideoByClassIdLast(int count,int classId);
+	
+	/**
+	 * @param classId
+	 * @return  根据classId获取视频信息   无分页信息
+	 */
+	public List<Video> findVideoByClassId(int classId);
 
 }

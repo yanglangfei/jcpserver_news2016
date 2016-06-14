@@ -1,4 +1,4 @@
-package com.jucaipen.main.index;
+package com.jucaipen.main.video;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -71,7 +71,7 @@ public class VideoList extends HttpServlet {
 
 	private String initAllData(int p) {
 		// 初始化全部数据
-		List<Video> videos = VideoServer.findVideoByClassId(1,p);
+		List<Video> videos = VideoServer.findVideoByClassId(1+"",p);
 		return JsonUtil.getVideoList(videos);
 	}
 
