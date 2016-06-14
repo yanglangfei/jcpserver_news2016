@@ -63,18 +63,16 @@ public class NewsDetail extends HttpServlet {
 
 	private String initNewsDetail(int id, int type) {
 		// 初始化新闻详细信息
-		News news;
-		HotIdea idea;
 		if(type==0){
 			//新闻详细信息
-			news=NewServer.findNewsById(id);
+			News news = NewServer.findNewsById(id);
 			int fromId=news.getFromId();
 			String from=ResourceFromServer.getRSources(fromId);
 			news.setFrom(from);
 			return JsonUtil.getNewsDetails(news);
 		}else {
 			//观点详细信息
-			idea=HotIdeaServ.findIdeaById(id);
+			HotIdea idea = HotIdeaServ.findIdeaById(id);
 			int tId=idea.getTeacherId();
 			FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(tId);
 			if(teacher==null){

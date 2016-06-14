@@ -195,11 +195,20 @@ public class AddRemark extends HttpServlet {
 						int commIntegeral = config.getCommIntegeral();
 						Account a = AccountSer.findAccountByUserId(uId);
 						// 更新总账户积分信息
-						AccountSer.updateIntegeral(uId,
-								commIntegeral + a.getIntegeral());
-						// 更新用户积分信息
-						UserServer.updateIntegeral(uId,
-								commIntegeral + a.getIntegeral());
+						if(a!=null){
+							AccountSer.updateIntegeral(uId,
+									commIntegeral + a.getIntegeral());
+							// 更新用户积分信息
+							UserServer.updateIntegeral(uId,
+									commIntegeral + a.getIntegeral());
+						}else{
+							Account account=new Account();
+							account.setUserId(uId);
+							account.setIntegeral(commIntegeral);
+							account.setJucaiBills(0);
+							AccountSer.addAccount(account);
+							UserServer.updateIntegeral(0, commIntegeral);
+						}
 						// 更新返现表
 						RebateIntegeralDetail inDetail = new RebateIntegeralDetail();
 						inDetail.setUserId(uId);
