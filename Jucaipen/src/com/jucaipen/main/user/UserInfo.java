@@ -25,8 +25,6 @@ import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
-import com.jucaipen.utils.TimeUtils;
-
 /**
  * @author Administrator
  * 
@@ -39,7 +37,6 @@ public class UserInfo extends HttpServlet {
 	private String localProvince;
 	private String localCity;
 	private String localArea;
-	private int age;
 	// Ω‚√‹ ÷ª˙∫≈
 	private String parsePhoneNum = "http://user.jucaipen.com/ashx/AndroidUser.ashx?action=GetDecryptMobileNum";
 	private Map<String, String> param = new HashMap<String, String>();
@@ -110,7 +107,6 @@ public class UserInfo extends HttpServlet {
 		}
 		if (birth != null) {
 			user.setBirthday(birth);
-			age = TimeUtils.getAge(birth);
 		}
 		int provinceId = user.getProvinceId();
 		int cityId = user.getCityId();

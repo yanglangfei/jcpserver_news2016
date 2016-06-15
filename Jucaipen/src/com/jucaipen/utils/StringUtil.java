@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 public class StringUtil {
 	public static final String sendPhoneAccount="jcpxxk";
 	public static final String sendPhonePwd="Tch456789";
@@ -33,6 +32,7 @@ public class StringUtil {
 	 * @param obj
 	 * @return
 	 */
+	@SuppressWarnings("rawtypes")
 	public static boolean isNullOrEmpty(Object obj) {
 		if (obj == null)
 			return true;
@@ -63,6 +63,24 @@ public class StringUtil {
 		
 		return false;
 	}
+	
+	/**
+	 * @param card
+	 * @return  判断是否是身份证
+	 */
+	public static boolean isIdCard(String card){
+		return EditCheckUtil.IDCardValidate(card);
+	}
+	
+	
+	/**
+	 * @param bank
+	 * @return  判断是否是银行卡号
+	 */
+	public static boolean isBankCard(String bank){
+		return EditCheckUtil.checkBankCard(bank);
+	}
+	
 
 	/**
 	 * 判断手机号码的正确性

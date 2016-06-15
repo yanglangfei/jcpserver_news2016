@@ -23,6 +23,11 @@ import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
 
+/**
+ * @author Administrator
+ *
+ *  ÐÞ¸ÄÊÖ»úºÅ
+ */
 @SuppressWarnings("serial")
 public class UpdatePhone extends HttpServlet {
 	private String result;

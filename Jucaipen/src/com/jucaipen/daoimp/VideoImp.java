@@ -134,7 +134,7 @@ public class VideoImp implements VideoDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT FK_ClassId,Id,Title,ImagesUrl,Description,IsMySite,VideoUrl FROM JCP_Video WHERE FK_ClassId="+classId);
+			res = sta.executeQuery("SELECT FK_ClassId,Id,Title,ImagesUrl,Description,IsMySite,VideoUrl,PlayCount,VideoDate FROM JCP_Video WHERE FK_ClassId="+classId);
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				String title = res.getString(SqlUtil.VIDEO_TITLE);
@@ -143,10 +143,14 @@ public class VideoImp implements VideoDao {
 				int isMySiteVideo = res.getInt("IsMySite");
 				String videoUrl=res.getString("VideoUrl");
 				int cId=res.getInt("FK_ClassId");
+				int playCount=res.getInt("PlayCount");
+				String videoDate=res.getString("VideoDate");
 				Video video = new Video(id, title);
 				video.setImages(Images);
 				video.setDescript(desc);
 				video.setClassId(cId);
+				video.setHitCount(playCount);
+				video.setVideoDate(videoDate);
 				video.setVideoUrl(videoUrl);
 				video.setIsMySiteVideo(isMySiteVideo);
 				videos.add(video);
@@ -706,7 +710,7 @@ public class VideoImp implements VideoDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select TOP "+count+" Id,Title,Description,ImagesUrl,PlayCount,VideoDate,VideoUrl from JCP_Video"
+					.executeQuery("select TOP "+count+" FK_ClassId,Id,Title,Description,ImagesUrl,PlayCount,VideoDate,VideoUrl from JCP_Video"
 							+" WHERE FK_ClassId="+classId+" ORDER BY InsertDate DESC");
 			
 			while (res.next()) {
@@ -717,12 +721,14 @@ public class VideoImp implements VideoDao {
 				int playCount=res.getInt("PlayCount");
 				String videoDate=res.getString("VideoDate");
 				String videoUrl=res.getString("VideoUrl");
+				int cId=res.getInt("FK_ClassId");
 				Video video = new Video(id, title);
 				video.setDescript(descript);
 				video.setImages(images);
 				video.setVideoUrl(videoUrl);
 				video.setHitCount(playCount);
 				video.setVideoDate(videoDate);
+				video.setClassId(cId);
 				videos.add(video);
 			}
 			return videos;

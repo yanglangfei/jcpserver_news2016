@@ -31,7 +31,6 @@ public class ChangePhone extends HttpServlet {
 		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
 		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
 		if(isDevice==HeaderUtil.PHONE_APP){
-			String userId=request.getParameter("userId");
 		}else{
 			result=StringUtil.isVaild;
 		}
