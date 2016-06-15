@@ -19,10 +19,22 @@ public class JdbcUtil {
 	 */
 	private static final String SQLSERVER_DRIVER_TEST = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	private static final String SQLSERVER_URL_TEST = "jdbc:sqlserver://192.168.1.198; DatabaseName=JcpStudyPlatformData";
-	// private static final String SQLSERVER_URL_TEST =
-	// "jdbc:sqlserver://192.168.1.233; DatabaseName=JCPData";
 	private static final String SQLSERVER_UNAME_TEST = "sa";
 	private static final String SQLSERVER_UPWD_TEST = "111111";
+	
+	
+	
+	/**
+	 *   新数据库
+	 */
+	private static final String SQLSERVER_DRIVER_N = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+	private static final String SQLSERVER_URL_N= "jdbc:sqlserver://121.41.46.228; DatabaseName=JcpStudyPlatformData";
+	private static final String SQLSERVER_UNAME_N = "jcpstudy";
+	private static final String SQLSERVER_UPWD_N = "jcp@)!^168";
+	
+	
+	
+	
 	/**
 	 * SqlServer 视频数据库
 	 */
@@ -77,13 +89,13 @@ public class JdbcUtil {
 	 */
 	public static Connection connSqlServer() {
 		try {
-			Class.forName(SQLSERVER_DRIVER);
+			Class.forName(SQLSERVER_DRIVER_N);
 			/*
 			 * dbConn = DriverManager.getConnection(SQLSERVER_URL,
 			 * SQLSERVER_UNAME, SQLSERVER_UPWD);
 			 */
-			dbConn = DriverManager.getConnection(SQLSERVER_URL_TEST,
-					SQLSERVER_UNAME_TEST, SQLSERVER_UPWD_TEST);
+			dbConn = DriverManager.getConnection(SQLSERVER_URL_N,
+					SQLSERVER_UNAME_N, SQLSERVER_UPWD_N);
 			return dbConn;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

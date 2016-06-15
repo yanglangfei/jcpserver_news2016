@@ -46,6 +46,13 @@ public interface VideoDao {
 	 * @return
 	 */
 	public List<Video> findVideoByTypeAndClassId(int type,String classId,int page);
+	
+	
+	/**
+	 * @param count
+	 * @return  获取最近几条视频
+	 */
+	public List<Video> findVideoByLast(int count);
 	/**
 	 * @param type
 	 * @param classId

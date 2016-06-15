@@ -144,5 +144,10 @@ public class VideoServer {
 		return dao.findVideoByClassId(classId);
 		
 	}
+	
+	public static List<Video> findVideoByLast(int count){
+		VideoDao dao=new VideoImp();
+		return dao.findVideoByLast(count);
+	}
 
 }

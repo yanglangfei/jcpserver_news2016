@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.model.Special;
 import com.jucaipen.model.Video;
+import com.jucaipen.service.SpecialSer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
@@ -71,13 +73,34 @@ public class VideoList extends HttpServlet {
 
 	private String initAllData(int p) {
 		// 初始化全部数据
-		List<Video> videos = VideoServer.findVideoByClassId(1+"",p);
+		List<Video> videos = VideoServer.findAll(p);
+		for(Video video : videos){
+			int pecialId=video.getPecialId();
+			Special sp=SpecialSer.findSpecialById(pecialId);
+			if(sp!=null){
+				video.setSpecial(true);
+				video.setCharge(sp.getIsFree()==2 ? true : false);
+			}else{
+				video.setSpecial(false);
+			}
+			
+		}
 		return JsonUtil.getVideoList(videos);
 	}
 
 	private String initIndexData() {
 		// 初始化首页数据
-		List<Video> videos = VideoServer.findVideoByClassIdLast(2, 1);
+		List<Video> videos = VideoServer.findVideoByLast(2);
+		for(Video video: videos){
+			int pecialId=video.getPecialId();
+			Special sp=SpecialSer.findSpecialById(pecialId);
+			if(sp!=null){
+				video.setSpecial(true);
+				video.setCharge(sp.getIsFree()==2 ? true : false);
+			}else{
+				video.setSpecial(false);
+			}
+		}
 		return  JsonUtil.getVideoList(videos);
 	}
 

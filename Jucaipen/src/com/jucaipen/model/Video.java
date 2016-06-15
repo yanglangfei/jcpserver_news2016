@@ -14,9 +14,17 @@ public class Video implements Serializable{
 	 */
 	private int id;
 	/**
+	 *  是否收费
+	 */
+	private boolean isCharge;
+	/**
 	 * 视频标题
 	 */
 	private String title;
+	/**
+	 *   是否属于专辑
+	 */
+	private boolean isSpecial;
 	/**
 	 * 描述
 	 */
@@ -120,6 +128,18 @@ public class Video implements Serializable{
 	private int page;
 	private int totlePage;
 	
+	public boolean isSpecial() {
+		return isSpecial;
+	}
+	public void setSpecial(boolean isSpecial) {
+		this.isSpecial = isSpecial;
+	}
+	public boolean isCharge() {
+		return isCharge;
+	}
+	public void setCharge(boolean isCharge) {
+		this.isCharge = isCharge;
+	}
 	public int getPage() {
 		return page;
 	}

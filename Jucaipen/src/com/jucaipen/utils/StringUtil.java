@@ -45,7 +45,6 @@ public class StringUtil {
 
 		if (obj instanceof Map)
 			return ((Map) obj).isEmpty();
-
 		if (obj instanceof Object[]) {
 			Object[] object = (Object[]) obj;
 			if (object.length == 0) {
@@ -69,16 +68,26 @@ public class StringUtil {
 	 * @return  判断是否是身份证
 	 */
 	public static boolean isIdCard(String card){
-		return EditCheckUtil.IDCardValidate(card);
+		if(isNotNull(card)){
+			return EditCheckUtil.IDCardValidate(card);
+		}else{
+			return false;
+		}
 	}
 	
 	
 	/**
 	 * @param bank
-	 * @return  判断是否是银行卡号
+	 * @return  判断是否是银行卡号   
+	 * 
+	 *   6228481698729890079
 	 */
 	public static boolean isBankCard(String bank){
-		return EditCheckUtil.checkBankCard(bank);
+		if(isNotNull(bank)){
+			return EditCheckUtil.checkBankCard(bank);
+		}else{
+			return false;
+		}
 	}
 	
 
@@ -180,6 +189,7 @@ public class StringUtil {
 		}
 		return strtemp;
 	}
+	
 	 /**
 	 * @param html
 	 * @return  过滤HTML 标签
