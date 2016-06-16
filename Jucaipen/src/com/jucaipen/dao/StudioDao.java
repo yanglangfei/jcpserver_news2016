@@ -28,5 +28,11 @@ public interface StudioDao {
 	 * @return 根据；栏目id获取演播室信息
 	 */
 	public List<Studio> findStudioByColumnId(int columnId,int page);
+	
+	/**
+	 * @param week
+	 * @return  获取今日演播信息
+	 */
+	public List<Studio>  findStudioByToday(int week);
 
 }

@@ -37,7 +37,7 @@ public interface AccountDetailDao {
 	 * @param page
 	 * @return  获取用户分类下的不同状态账户信息
 	 */
-	public List<AccountDetail> findDetailByUidAndTypeAndState(int uId,int state,int type,int page);
+	public List<AccountDetail> findDetailByUidAndState(int uId,int state,int page);
 	/**
 	 * @param detail
 	 * @return  添加账户详细信息

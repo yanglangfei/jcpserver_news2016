@@ -170,6 +170,41 @@ public class StudioImp implements StudioDao {
 		}
 		return null;
 	}
+	
+	
+	@Override
+	public List<Studio> findStudioByToday(int week) {
+		//获取今日演播信息
+		studios.clear();
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT Id,Title,RenQi,StratDate,EndDate,StudioUrl,ImageUrl FROM JCP_Studio WHERE BeginShowDate LIKE ('%"+week+"%')");
+			while (res.next()) {
+				int id=res.getInt("Id");
+				String title=res.getString("Title");
+				int renQi=res.getInt("RenQi");
+				String startDate=res.getString("StratDate");
+				String endDate=res.getString("EndDate");
+				String studioUrl=res.getString("StudioUrl");
+				String imageUrl=res.getString("ImageUrl");
+				Studio studio=new Studio();
+				studio.setId(id);
+				studio.setTitle(title);
+				studio.setStartDate(startDate);
+				studio.setEndDate(endDate);
+				studio.setRenQi(renQi);
+				studio.setImageUrl(imageUrl);
+				studio.setStudioUrl(studioUrl);
+				studios.add(studio);
+			}
+			return studios;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 
 	@Override
 	public List<Studio> findStudioByColumnId(int columnId, int page) {
@@ -236,5 +271,6 @@ public class StudioImp implements StudioDao {
 		}
 		return null;
 	}
+
 
 }

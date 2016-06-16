@@ -33,6 +33,16 @@ public class RebateSer {
 	}
 	
 	/**
+	 * @param userId
+	 * @param page
+	 * @return  获取我的返利信息
+	 */
+	public static List<Rebate> findRebateByUserId(int userId,int page){
+		RebateDao dao=new RebateImp();
+		return dao.findRebate(userId, page);
+	}
+	
+	/**
 	 * @param teacherId
 	 * @return 根据讲师id获取返利信息  无分页
 	 */

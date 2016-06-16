@@ -18,7 +18,7 @@ public class Rebate implements Serializable{
 	/**
 	 *  返利人  FK_TearchId
 	 */
-	private int teacherId;
+	private int userId;
 	/**
 	 *  返利类型（0讲师返利记录，1系统收入记录） RebateType
 	 */
@@ -70,11 +70,12 @@ public class Rebate implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getTeacherId() {
-		return teacherId;
+	
+	public int getUserId() {
+		return userId;
 	}
-	public void setTeacherId(int teacherId) {
-		this.teacherId = teacherId;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	public int getType() {
 		return type;

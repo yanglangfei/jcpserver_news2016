@@ -340,6 +340,21 @@
     <servlet-name>RelateVideo</servlet-name>
     <servlet-class>com.jucaipen.main.video.RelateVideo</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>QuerryCurrentStudio</servlet-name>
+    <servlet-class>com.jucaipen.main.play.QuerryCurrentStudio</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryTodayStusio</servlet-name>
+    <servlet-class>com.jucaipen.main.play.QuerryTodayStusio</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryRebate</servlet-name>
+    <servlet-class>com.jucaipen.main.user.QuerryRebate</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -703,5 +718,17 @@
   <servlet-mapping>
     <servlet-name>RelateVideo</servlet-name>
     <url-pattern>/jucaipen/getrelatevideo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryCurrentStudio</servlet-name>
+    <url-pattern>/jucaipen/getcurrentstudio</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryTodayStusio</servlet-name>
+    <url-pattern>/jucaipen/gettodaystudio</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryRebate</servlet-name>
+    <url-pattern>/jucaipen/getrebate</url-pattern>
   </servlet-mapping>
 </web-app>

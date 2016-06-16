@@ -126,7 +126,7 @@ public class StringUtil {
 	 * @return 判断用户名长度是否在1-9之间
 	 */
 	public static boolean isUserName(String nikName) {
-		if (nikName.trim().length() > 1 && nikName.trim().length() < 10) {
+		if (nikName.trim().length() > 1 && nikName.trim().length() < 20) {
 			return true;
 		} else {
 			return false;

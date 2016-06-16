@@ -42,9 +42,9 @@ public class AccountDetailSer{
 	 * @param page
 	 * @return  获取用户分类下的不同状态账户信息
 	 */
-	public static List<AccountDetail> findDetailByUserIdAndStateAndType(int state,int type,int userId,int page){
+	public static List<AccountDetail> findDetailByUserIdAndType(int userId,int state,int page){
 		AccountDetailDao dao=new AccountDetailImp();
-		return dao.findDetailByUidAndTypeAndState(userId, state, type, page);
+		return dao.findDetailByUidAndState(userId, state, page);
 	}
 	/**
 	 * @param id

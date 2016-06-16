@@ -18,7 +18,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取账单详细信息 type 0 收入 1 消费 state 0 金额 1 积分 2 聚财币
+ *         获取账单详细信息  state 0 金额 1 积分 2 聚财币
  */
 @SuppressWarnings("serial")
 public class QuerryAccountDetail extends HttpServlet {
@@ -34,7 +34,6 @@ public class QuerryAccountDetail extends HttpServlet {
 		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
 		if(isDevice==HeaderUtil.PHONE_APP){
 			String userId = request.getParameter("userId");
-			String type = request.getParameter("type");
 			String page = request.getParameter("page");
 			String state = request.getParameter("state");
 			if (StringUtil.isNotNull(userId)) {
@@ -44,19 +43,13 @@ public class QuerryAccountDetail extends HttpServlet {
 						if (StringUtil.isNotNull(page)
 								&& StringUtil.isInteger(page)) {
 							int p = Integer.parseInt(page);
-							if (StringUtil.isNotNull(type)
-									&& StringUtil.isInteger(type)) {
-								int t = Integer.parseInt(type);
 								if (StringUtil.isNotNull(state)
 										&& StringUtil.isInteger(state)) {
 									int s = Integer.parseInt(state);
-									result = initAccountData(uId, t, p, s);
+									result = initAccountData(uId, p, s);
 								} else {
 									result = JsonUtil.getRetMsg(1, "state 参数异常");
 								}
-							} else {
-								result = JsonUtil.getRetMsg(1, "type 参数异常");
-							}
 						} else {
 							result = JsonUtil.getRetMsg(1, "page 参数异常");
 						}
@@ -79,10 +72,10 @@ public class QuerryAccountDetail extends HttpServlet {
 		out.close();
 	}
 
-	private String initAccountData(int userId, int type, int page, int state) {
+	private String initAccountData(int userId,  int page, int state) {
 		// 初始化账户信息
 		List<AccountDetail> details = AccountDetailSer
-				.findDetailByUserIdAndStateAndType(state, type, userId, page);
+				.findDetailByUserIdAndType(userId, state, page);
 		return JsonUtil.getAccountDetail(details);
 	}
 

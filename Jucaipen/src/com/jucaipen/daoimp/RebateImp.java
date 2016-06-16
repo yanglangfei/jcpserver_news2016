@@ -56,14 +56,14 @@ public class RebateImp implements RebateDao {
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT * FROM JCP_Rebate WHERE Id=" + id);
 			while (res.next()) {
-				int teacherId = res.getInt(2); // FK_TearchId
+				int userId = res.getInt(2); // FK_TearchId
 				int type = res.getInt(3); // RebateType
 				double rebateMoney = res.getDouble(4); // RebateMoney
 				int fromId = res.getInt(5); // FK_FromUserId
 				String insertDate = res.getString(6); // InsertDate
 				String remark = res.getString(7); // Ramerk
 				Rebate rebate = new Rebate();
-				rebate.setTeacherId(teacherId);
+				rebate.setUserId(userId);
 				rebate.setType(type);
 				rebate.setRebateMoney(rebateMoney);
 				rebate.setFromId(fromId);
@@ -100,11 +100,58 @@ public class RebateImp implements RebateDao {
 				int id = res.getInt("Id");
 				int type = res.getInt("RebateType"); // RebateType
 				double rebateMoney = res.getDouble("RebateMoney"); // RebateMoney
+				int userId = res.getInt("FK_UserId"); // FK_FromUserId
+				String insertDate = res.getString("InsertDate"); // InsertDate
+				String remark = res.getString("Ramerk"); // Ramerk
+				Rebate rebate = new Rebate();
+				rebate.setFromId(teacherId);
+				rebate.setType(type);
+				rebate.setId(id);
+				rebate.setTotlePage(totlePage);
+				rebate.setPage(page);
+				rebate.setRebateMoney(rebateMoney);
+				rebate.setUserId(userId);
+				rebate.setInsertDate(insertDate);
+				rebate.setRemark(remark);
+				rebates.add(rebate);
+			}
+			return rebates;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return null;
+	}
+	
+	
+	@Override
+	public List<Rebate> findRebateByUserId(int userId, int page) {
+		// 根据用户id获取返利信息
+		rebates.clear();
+		int totlePage = getTotlePage("WHERE FK_UserId=" + userId);
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP 15 * FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Rebate WHERE FK_UserId="
+							+ userId + ") A " + "WHERE RowNumber > " + 15
+							* (page - 1));
+			while (res.next()) {
+				int id = res.getInt("Id");
+				int type = res.getInt("RebateType"); // RebateType
+				double rebateMoney = res.getDouble("RebateMoney"); // RebateMoney
 				int fromId = res.getInt("FK_FromUserId"); // FK_FromUserId
 				String insertDate = res.getString("InsertDate"); // InsertDate
 				String remark = res.getString("Ramerk"); // Ramerk
 				Rebate rebate = new Rebate();
-				rebate.setTeacherId(teacherId);
+				rebate.setFromId(fromId);
 				rebate.setType(type);
 				rebate.setId(id);
 				rebate.setTotlePage(totlePage);
@@ -125,9 +172,12 @@ public class RebateImp implements RebateDao {
 				e.printStackTrace();
 			}
 		}
-
 		return null;
 	}
+
+	
+	
+	
 
 	@Override
 	public int addRebate(Rebate rebate) {
@@ -136,14 +186,14 @@ public class RebateImp implements RebateDao {
 		try {
 			sta = dbConn.createStatement();
 			return sta
-					.executeUpdate("INSERT INTO JCP_Rebate(FK_TearchId,RebateType,RebateMoney,FK_FromUserId,InsertDate,Ramerk) VALUES("
-							+ rebate.getTeacherId()
+					.executeUpdate("INSERT INTO JCP_Rebate(FK_FromId,RebateType,RebateMoney,FK_UserId,InsertDate,Ramerk) VALUES("
+							+ rebate.getFromId()
 							+ ","
 							+ rebate.getType()
 							+ ",'"
 							+ rebate.getRebateMoney()
 							+ "',"
-							+ rebate.getFromId()
+							+ rebate.getUserId()
 							+ ",'"
 							+ rebate.getInsertDate()
 							+ "','"
@@ -172,15 +222,15 @@ public class RebateImp implements RebateDao {
 				int id = res.getInt("Id");
 				int type = res.getInt("RebateType"); // RebateType
 				double rebateMoney = res.getDouble("RebateMoney"); // RebateMoney
-				int fromId = res.getInt("FK_FromUserId"); // FK_FromUserId
+				int userId = res.getInt("FK_UserId"); // FK_FromUserId
 				String insertDate = res.getString("InsertDate"); // InsertDate
 				String remark = res.getString("Ramerk"); // Ramerk
 				Rebate rebate = new Rebate();
-				rebate.setTeacherId(teacherId);
+				rebate.setUserId(userId);
 				rebate.setType(type);
 				rebate.setId(id);
 				rebate.setRebateMoney(rebateMoney);
-				rebate.setFromId(fromId);
+				rebate.setFromId(teacherId);
 				rebate.setInsertDate(insertDate);
 				rebate.setRemark(remark);
 				rebates.add(rebate);

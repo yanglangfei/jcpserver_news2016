@@ -40,5 +40,14 @@ public class StudioSer{
 		StudioDao dao=new StudioImp();
 		return dao.findStudioByColumnId(columnId, page);
 	}
+	
+	/**
+	 * @param week
+	 * @return  获取今日演播节目榜
+	 */
+	public static List<Studio> findStudioByToday(int week){
+		StudioDao dao=new StudioImp();
+		return dao.findStudioByToday(week);
+	}
 
 }

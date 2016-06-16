@@ -18,6 +18,13 @@ public interface RebateDao {
 	 */
 	public List<Rebate> findRebateByTid(int teacherId,int page);
 	
+	
+	/**
+	 * @param userId
+	 * @return  获取我的返利信息
+	 */
+	public List<Rebate> findRebateByUserId(int userId,int page);
+	
 	/**
 	 * @param teacherId
 	 * @param 

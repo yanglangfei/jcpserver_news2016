@@ -61,6 +61,8 @@ public class CompleteInfo extends HttpServlet {
 		String trueName = request.getParameter("trueName");
 		String sex = request.getParameter("sex");
 		String birth = request.getParameter("birth");
+		String provinceId=request.getParameter("provinceId");
+		String areaId=request.getParameter("areaId");
 		String cityId = request.getParameter("cityId");
 		String investId = request.getParameter("investId");
 		String plain = request.getParameter("plain");
@@ -80,10 +82,21 @@ public class CompleteInfo extends HttpServlet {
 		if (StringUtil.isNotNull(birth)) {
 			user.setBirthday(birth);
 		}
+		
+		if(StringUtil.isNotNull(provinceId)&&StringUtil.isInteger(provinceId)){
+			int pId=Integer.parseInt(provinceId);
+			user.setProvinceId(pId);
+		}
+		
 
 		if (StringUtil.isNotNull(cityId) && StringUtil.isInteger(cityId)) {
 			int cId = Integer.parseInt(cityId);
 			user.setCityId(cId);
+		}
+		
+		if(StringUtil.isNotNull(areaId)&&StringUtil.isInteger(areaId)){
+			int aId=Integer.parseInt(areaId);
+			user.setAreaId(aId);
 		}
 
 		if (StringUtil.isNotNull(investId) && StringUtil.isInteger(investId)) {

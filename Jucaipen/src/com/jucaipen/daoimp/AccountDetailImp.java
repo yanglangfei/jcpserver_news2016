@@ -173,19 +173,18 @@ public class AccountDetailImp implements AccountDetailDao {
 	}
 
 	@Override
-	public List<AccountDetail> findDetailByUidAndTypeAndState(int uId,
-			int state, int type, int page) {
+	public List<AccountDetail> findDetailByUidAndState(int uId,
+			int state,  int page) {
 		// 根据用户id获取分类下的相应状态账单信息
 		accountDetails.clear();
-		int totlePage = getTotlePage("WHERE DetailType=" + type
-				+ " AND  UserId=" + uId + " AND State=" + state);
+		int totlePage = getTotlePage("WHERE  UserId=" + uId + " AND State=" + state);
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Account_Detail WHERE UserId="
-							+ uId + " AND DetailType=" + type + " AND State="
+							+ uId +  " AND State="
 							+ state + ") A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {

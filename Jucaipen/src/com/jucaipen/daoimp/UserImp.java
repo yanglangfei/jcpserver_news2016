@@ -103,7 +103,7 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select UserName,FK_InvestmentTypeId,ISNULL(TrueName,'') TrueName,ISNULL(NickName,'') NickName,ISNULL(Sex,'') Sex,ISNULL(MobileNum,'') MobileNum,CiytID,ISNULL(UserInformation,'') UserInformation,ISNULL(Birthday,'') Birthday,ISNULL(UserFace,'') UserFace from JCP_User where Id="
+					.executeQuery("select UserName,FK_InvestmentTypeId,ISNULL(TrueName,'') TrueName,ISNULL(NickName,'') NickName,ISNULL(Sex,'') Sex,ISNULL(MobileNum,'') MobileNum,ProvinceID,CiytID,AreaID,ISNULL(UserInformation,'') UserInformation,ISNULL(Birthday,'') Birthday,ISNULL(UserFace,'') UserFace from JCP_User where Id="
 							+ id);
 			while (res.next()) {
 				String userName=res.getString("UserName");
@@ -112,6 +112,8 @@ public class UserImp implements UserDao {
 				String sex = res.getString(SqlUtil.USER_SEX);
 				String telPhone = res.getString(SqlUtil.USER_MOBILE);
 				int localCity = res.getInt(SqlUtil.USER_LOCALCITY);
+				int localProvince=res.getInt(SqlUtil.USER_LOCALPROVINCE);
+				int localArea=res.getInt(SqlUtil.USER_LOCALAREA);
 				String desc = res.getString(SqlUtil.USER_BODYS);
 				String birthday = res.getString(SqlUtil.USER_BIRTH);
 				String logo = res.getString(SqlUtil.USRE_FACEIMAGE);
@@ -119,6 +121,8 @@ public class UserImp implements UserDao {
 				u = new User();
 				u.setNickName(nickName);
 				u.setSex(sex);
+				u.setProvinceId(localProvince);
+				u.setAreaId(localArea);
 				u.setUserName(userName);
 				u.setTrueName(trueName);
 				u.setMobileNum(telPhone);
