@@ -55,6 +55,10 @@ public interface HotIdeaDao {
 	 * @return 根据id获取热门观点
 	 */
 	public HotIdea findIdeaById(int id);
+	/**
+	 * @return  获取首页观点信息
+	 */
+	public List<HotIdea> findIndexIdea(int count);
 	
 
 }

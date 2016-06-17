@@ -23,8 +23,11 @@ import com.jucaipen.utils.StringUtil;
  *         获取今日热点 isIndex 0 首页 返回参数： id title from date remark imageThumb
  *         {"id":7214,"title":"","imageThumb":"","comms":0,
  *         "insertDate":"2016-02-19","from":"腾讯财经"} 1 全部数据 返回参数：
- * 
+ *      
+ *      
+ *        首页   精选
  */
+
 @SuppressWarnings("serial")
 public class HotNews extends HttpServlet {
 	private String result;
@@ -33,7 +36,7 @@ public class HotNews extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
-		request.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");  
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String userAgent = request.getParameter("User-Agent");

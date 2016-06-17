@@ -177,7 +177,7 @@ public class AccountDetailImp implements AccountDetailDao {
 			int state,  int page) {
 		// 根据用户id获取分类下的相应状态账单信息
 		accountDetails.clear();
-		int totlePage = getTotlePage("WHERE  UserId=" + uId + " AND State=" + state);
+		int totlePage = getTotlePage("WHERE  UserId=" + uId + " AND State=" + state+" AND IsDel=0");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
@@ -185,7 +185,7 @@ public class AccountDetailImp implements AccountDetailDao {
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Account_Detail WHERE UserId="
 							+ uId +  " AND State="
-							+ state + ") A " + "WHERE RowNumber > " + 15
+							+ state + " AND IsDel=0) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id");

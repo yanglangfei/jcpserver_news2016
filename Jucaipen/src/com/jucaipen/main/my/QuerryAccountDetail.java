@@ -1,4 +1,4 @@
-package com.jucaipen.main.user;
+package com.jucaipen.main.my;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,16 +9,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.service.AccountDetailSer;
+import com.jucaipen.service.AccountSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取账单详细信息  state 0 金额 1 积分 2 聚财币
+ *         获取账单详细信息  state 0 聚财币 1 积分 
  */
 @SuppressWarnings("serial")
 public class QuerryAccountDetail extends HttpServlet {
@@ -65,8 +67,6 @@ public class QuerryAccountDetail extends HttpServlet {
 		}else{
 			result=StringUtil.isVaild;
 		}
-		
-		
 		out.println(result);
 		out.flush();
 		out.close();
@@ -76,7 +76,8 @@ public class QuerryAccountDetail extends HttpServlet {
 		// 初始化账户信息
 		List<AccountDetail> details = AccountDetailSer
 				.findDetailByUserIdAndType(userId, state, page);
-		return JsonUtil.getAccountDetail(details);
+		Account account=AccountSer.findAccountByUserId(userId);
+		return JsonUtil.getAccountDetail(details,account);
 	}
 
 }

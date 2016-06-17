@@ -28,12 +28,16 @@ public interface AskDao {
 	 * @return 获取最近的几条提问
 	 */
 	public List<Ask> findLstAsk(int count);
-	
 	/**
 	 * @param userId
 	 * @return  获取当前用户下的所有提问
 	 */
 	public List<Ask> findAskByUserId(int userId);
+	/**
+	 * @param userId
+	 * @return  获取当前用户下的所有提问
+	 */
+	public List<Ask> findAskByUserId(int userId,int page);
 	/**
 	 * @param teacherId
 	 * @return 获取当前讲师下的所有提问

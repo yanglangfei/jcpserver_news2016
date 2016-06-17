@@ -39,7 +39,7 @@ public class HotIdeaImp implements HotIdeaDao {
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -59,7 +59,7 @@ public class HotIdeaImp implements HotIdeaDao {
 					+ hits + " WHERE Id=" + ideaId);
 			return isSuccess;
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -79,7 +79,7 @@ public class HotIdeaImp implements HotIdeaDao {
 							+ commCount + " WHERE Id=" + ideaId);
 			return isSuccess;
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -98,7 +98,7 @@ public class HotIdeaImp implements HotIdeaDao {
 					+ googs + " WHERE Id=" + ideaId);
 			return isSuccess;
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -129,7 +129,7 @@ public class HotIdeaImp implements HotIdeaDao {
 				return idea;
 			}
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -156,7 +156,7 @@ public class HotIdeaImp implements HotIdeaDao {
 				String body = res.getString(4);
 				int hits = res.getInt(5);
 				int teacherId = res.getInt(6);
-				int goods=res.getInt(7);
+				int goods = res.getInt(7);
 				HotIdea idea = new HotIdea();
 				idea.setId(id);
 				idea.setTotlePgae(totlePage);
@@ -172,7 +172,7 @@ public class HotIdeaImp implements HotIdeaDao {
 			return ideas;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -206,7 +206,7 @@ public class HotIdeaImp implements HotIdeaDao {
 			return ideas;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -230,7 +230,7 @@ public class HotIdeaImp implements HotIdeaDao {
 			return ideas;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -246,7 +246,7 @@ public class HotIdeaImp implements HotIdeaDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT Title,Bodys,InsertDate,Goods,FK_TearchId FROM JCP_Tearch_Log WHERE Id="
+					.executeQuery("SELECT Title,Bodys,InsertDate,Goods,FK_TearchId,ImagesUrl FROM JCP_Tearch_Log WHERE Id="
 							+ id + " ORDER BY InsertDate DESC");
 			while (res.next()) {
 				String title = res.getString(1);
@@ -254,9 +254,11 @@ public class HotIdeaImp implements HotIdeaDao {
 				String insertDate = res.getString(3);
 				int goods = res.getInt(4);
 				int teacherId = res.getInt(5);
+				String logImage=res.getString(6);
 				HotIdea idea = new HotIdea();
 				idea.setId(id);
 				idea.setBodys(body);
+				idea.setLogImage(logImage);
 				idea.setTitle(title);
 				idea.setInsertDate(insertDate);
 				idea.setGoods(goods);
@@ -266,7 +268,7 @@ public class HotIdeaImp implements HotIdeaDao {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -308,7 +310,7 @@ public class HotIdeaImp implements HotIdeaDao {
 			return ideas;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -317,6 +319,37 @@ public class HotIdeaImp implements HotIdeaDao {
 		}
 		return null;
 
+	}
+
+	@Override
+	public List<HotIdea> findIndexIdea(int count) {
+		ideas.clear();
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP "
+							+ count
+							+ " * FROM JCP_Tearch_Log WHERE IsJingXuan=1 AND IsIndex=1 ORDER BY InsertDate DESC");
+			while (res.next()) {
+				int id = res.getInt("Id");
+				String title = res.getString("Title");
+				String logImage = res.getString("ImagesUrl");
+				String insertDate=res.getString("InsertDate");
+				int comms=res.getInt("CommCount");
+				HotIdea idea = new HotIdea();
+				idea.setId(id);
+				idea.setCommens(comms);
+				idea.setLogImage(logImage);
+				idea.setInsertDate(insertDate);
+				idea.setTitle(title);
+				ideas.add(idea);
+			}
+			return ideas;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

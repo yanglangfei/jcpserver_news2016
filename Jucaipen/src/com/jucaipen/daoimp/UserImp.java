@@ -103,7 +103,7 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select UserName,FK_InvestmentTypeId,ISNULL(TrueName,'') TrueName,ISNULL(NickName,'') NickName,ISNULL(Sex,'') Sex,ISNULL(MobileNum,'') MobileNum,ProvinceID,CiytID,AreaID,ISNULL(UserInformation,'') UserInformation,ISNULL(Birthday,'') Birthday,ISNULL(UserFace,'') UserFace from JCP_User where Id="
+					.executeQuery("select UserLevel,UserName,FK_InvestmentTypeId,ISNULL(TrueName,'') TrueName,ISNULL(NickName,'') NickName,ISNULL(Sex,'') Sex,ISNULL(MobileNum,'') MobileNum,ProvinceID,CiytID,AreaID,ISNULL(UserInformation,'') UserInformation,ISNULL(Birthday,'') Birthday,ISNULL(UserFace,'') UserFace from JCP_User where Id="
 							+ id);
 			while (res.next()) {
 				String userName=res.getString("UserName");
@@ -118,12 +118,14 @@ public class UserImp implements UserDao {
 				String birthday = res.getString(SqlUtil.USER_BIRTH);
 				String logo = res.getString(SqlUtil.USRE_FACEIMAGE);
 				int investmentId = res.getInt("FK_InvestmentTypeId");
+				int userLeavel=res.getInt("UserLevel");
 				u = new User();
 				u.setNickName(nickName);
 				u.setSex(sex);
 				u.setProvinceId(localProvince);
 				u.setAreaId(localArea);
 				u.setUserName(userName);
+				u.setUserLeval(userLeavel);
 				u.setTrueName(trueName);
 				u.setMobileNum(telPhone);
 				u.setBirthday(birthday);

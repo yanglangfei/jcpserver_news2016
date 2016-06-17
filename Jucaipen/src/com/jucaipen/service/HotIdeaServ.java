@@ -81,6 +81,12 @@ public class HotIdeaServ{
 		HotIdeaDao dao=new HotIdeaImp();
 		return dao.findGoodAndHitAndComm(id);
 	}
+	
+	
+	public static List<HotIdea>  findIndexIdea(int count){
+		HotIdeaDao dao=new HotIdeaImp();
+		return dao.findIndexIdea(count);
+	}
 
 	
 	

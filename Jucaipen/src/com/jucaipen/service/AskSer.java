@@ -34,7 +34,7 @@ public class AskSer{
 		AskDao dao=new AskImp();
 		return dao.findAskNumByUId(uId);
 	}
-
+	
 	/**
 	 * @param userId
 	 * @return 根据用户id获取提问信息
@@ -42,6 +42,15 @@ public class AskSer{
 	public static List<Ask> findAskByUserId(int userId) {
 		AskDao dao=new AskImp();
 		return dao.findAskByUserId(userId);
+	}
+
+	/**
+	 * @param userId
+	 * @return 根据用户id获取提问信息
+	 */
+	public static List<Ask> findAskByUserId(int userId,int page) {
+		AskDao dao=new AskImp();
+		return dao.findAskByUserId(userId,page);
 	}
 
 	/**

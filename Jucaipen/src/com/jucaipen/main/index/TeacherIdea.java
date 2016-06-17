@@ -55,12 +55,10 @@ public class TeacherIdea extends HttpServlet {
 						int p = Integer.parseInt(page);
 						if (index == 0) {
 							// 首页信息
-							initIndexIdea();
+							result=initIndexIdea();
 						} else if (index == 1) {
 							// 全部信息
-							initAllIdea(p);
-							result = JsonUtil.getAllHotIdeaList(hotIdeas,
-									teachers);
+							result=initAllIdea(p);
 						} else if (index == 2) {
 							// 根据讲师id查询
 							String teacherId = request
@@ -68,9 +66,7 @@ public class TeacherIdea extends HttpServlet {
 							if (StringUtil.isNotNull(teacherId)
 									&& StringUtil.isInteger(teacherId)) {
 								int tId = Integer.parseInt(teacherId);
-								initIdeaByTeacherId(tId, p);
-								result = JsonUtil.getAllHotIdeaList(hotIdeas,
-										teachers);
+								result=initIdeaByTeacherId(tId, p);
 							} else {
 								result = JsonUtil.getRetMsg(4, "讲师id参数异常");
 							}
@@ -94,7 +90,7 @@ public class TeacherIdea extends HttpServlet {
 		out.close();
 	}
 
-	private void initIdeaByTeacherId(int tId, int page) {
+	private String initIdeaByTeacherId(int tId, int page) {
 		// 根据讲师id获取观点
 		teachers.clear();
 		hotIdeas = HotIdeaServ.findIdeaByTeacherId(tId, page);
@@ -107,14 +103,17 @@ public class TeacherIdea extends HttpServlet {
 			}
 			teachers.add(teacher);
 		}
+		return JsonUtil.getAllHotIdeaList(hotIdeas,teachers);
 	}
 
-	private void initIndexIdea() {
-		//
-
+	private String initIndexIdea() {
+		//获取首页热门观点信息       首页  精选
+		teachers.clear();
+		hotIdeas=HotIdeaServ.findIndexIdea(3);
+		return JsonUtil.getIndexList(hotIdeas);
 	}
 
-	private void initAllIdea(int page) {
+	private String initAllIdea(int page) {
 		// 初始化全部讲师观点
 		teachers.clear();
 		hotIdeas = HotIdeaServ.findAllHotIdea(page);
@@ -127,6 +126,7 @@ public class TeacherIdea extends HttpServlet {
 			}
 			teachers.add(teacher);
 		}
+		return JsonUtil.getAllHotIdeaList(hotIdeas,teachers);
 	}
 
 }

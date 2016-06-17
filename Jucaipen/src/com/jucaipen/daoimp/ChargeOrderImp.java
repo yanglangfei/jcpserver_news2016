@@ -132,6 +132,54 @@ public class ChargeOrderImp implements ChargeOrderDao {
 		}
 		return null;
 	}
+	
+	@Override
+	public  List<ChargeOrder> findOrderByUidAndState(int userId,int state,int page){
+		orders.clear();
+		int totlePage = getTotlePage(" WHERE UserId=" + userId + " AND OrderState="+state+" AND IsDel="
+				+ 0);
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP 15 * FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_AddOrder WHERE UserId="
+							+ userId + " AND OrderState="+state+" AND IsDel=" + 0 + ") A "
+							+ "WHERE RowNumber > " + 15 * (page - 1));
+			while (res.next()) {
+				String orderCode = res.getString("OrderCode");
+				double payMoney = res.getDouble("Pay_money");
+				String insertDate = res.getString("InsertDate");
+				String payDate = res.getString("PaymentDate");
+				int payType = res.getInt("PaymentMethod");
+				String alipayAccount = res.getString("AlipayAccount");
+				ChargeOrder order = new ChargeOrder();
+				order.setTotlePage(totlePage);
+				order.setPage(page);
+				order.setOrderCode(orderCode);
+				order.setChargeMoney(payMoney);
+				order.setInsertDate(insertDate);
+				order.setPayDate(payDate);
+				order.setPayType(payType);
+				order.setAlipayAccount(alipayAccount);
+				order.setOrderState(state);
+				orders.add(order);
+			}
+			return orders;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+		
+	}
+	
+	
 
 	@Override
 	public int addOrder(ChargeOrder order) {

@@ -62,7 +62,7 @@
   </servlet>
   <servlet>
     <servlet-name>UserInfo</servlet-name>
-    <servlet-class>com.jucaipen.main.user.UserInfo</servlet-class>
+    <servlet-class>com.jucaipen.main.my.UserInfo</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>QuerryProvince</servlet-name>
@@ -126,7 +126,7 @@
   </servlet>
   <servlet>
     <servlet-name>OtherAccountList</servlet-name>
-    <servlet-class>com.jucaipen.main.user.OtherAccountList</servlet-class>
+    <servlet-class>com.jucaipen.main.my.OtherAccountList</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>CollectNews</servlet-name>
@@ -218,7 +218,7 @@
   </servlet>
   <servlet>
     <servlet-name>QuerryAccountDetail</servlet-name>
-    <servlet-class>com.jucaipen.main.user.QuerryAccountDetail</servlet-class>
+    <servlet-class>com.jucaipen.main.my.QuerryAccountDetail</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>ChangePhone</servlet-name>
@@ -350,8 +350,18 @@
   </servlet>
   <servlet>
     <servlet-name>QuerryRebate</servlet-name>
-    <servlet-class>com.jucaipen.main.user.QuerryRebate</servlet-class>
+    <servlet-class>com.jucaipen.main.my.QuerryRebate</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>QuerryMyAsk</servlet-name>
+    <servlet-class>com.jucaipen.main.my.QuerryMyAsk</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>MyChargeRecoder</servlet-name>
+    <servlet-class>com.jucaipen.main.my.MyChargeRecoder</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -730,5 +740,13 @@
   <servlet-mapping>
     <servlet-name>QuerryRebate</servlet-name>
     <url-pattern>/jucaipen/getrebate</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryMyAsk</servlet-name>
+    <url-pattern>/jucaipen/getmyask</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MyChargeRecoder</servlet-name>
+    <url-pattern>/jucaipen/getchargerecoder</url-pattern>
   </servlet-mapping>
 </web-app>

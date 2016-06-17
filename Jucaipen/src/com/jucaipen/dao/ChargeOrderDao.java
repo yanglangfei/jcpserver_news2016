@@ -23,6 +23,8 @@ public interface ChargeOrderDao {
 	 */
 	public List<ChargeOrder> findOrderByUid(int userId,int page);
 	
+	public List<ChargeOrder> findOrderByUidAndState(int uId,int state,int page);
+	
 	/**
 	 * @param order
 	 * @return Ìí¼Ó¶©µ¥

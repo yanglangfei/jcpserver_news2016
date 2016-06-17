@@ -84,8 +84,10 @@ public class QuerryComments extends HttpServlet {
 		users.clear();
 		List<Comment> comms;
 		if (type == 0) {
+			//日志
 			comms = CommentSer.findCommenBykId(index, p, pId, 1);
 		} else {
+			//文字直播
 			comms = CommentSer.findCommenBykId(index, p, pId, 2);
 		}
 		for (Comment comment : comms) {

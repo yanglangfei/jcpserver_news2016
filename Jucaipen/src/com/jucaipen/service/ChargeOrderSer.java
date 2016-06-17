@@ -30,6 +30,11 @@ public class ChargeOrderSer {
 		ChargeOrderDao dao=new ChargeOrderImp();
 		return dao.findOrderByUid(userId, page);
 	}
+	
+	public static List<ChargeOrder> findOrderByUidAndState(int uId,int state,int page){
+		ChargeOrderDao dao=new ChargeOrderImp();
+		return dao.findOrderByUidAndState(uId, state, page);
+	}
 
 	/**
 	 * @param order
