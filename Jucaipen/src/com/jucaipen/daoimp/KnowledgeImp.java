@@ -112,7 +112,7 @@ public class KnowledgeImp implements KnowledgeDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_BasicKnowledge WHERE FK_ClassId="
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY Id ASC) AS RowNumber,* FROM JCP_BasicKnowledge WHERE FK_ClassId="
 							+ classId + ") A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {

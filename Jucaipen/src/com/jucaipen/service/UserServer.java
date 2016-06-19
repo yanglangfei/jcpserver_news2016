@@ -15,6 +15,7 @@ public class UserServer {
 		return dao.findUser(page);
 
 	}
+	
 
 	/**
 	 * @param id
@@ -23,6 +24,11 @@ public class UserServer {
 	public static User findUserById(int id) {
 		UserDao dao = new UserImp();
 		return dao.findUserById(id);
+	}
+	
+	public static User findBaseInfoById(int id){
+		UserDao dao = new UserImp();
+		return dao.findBaseInfoById(id);
 	}
 	
 	

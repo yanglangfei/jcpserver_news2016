@@ -41,6 +41,9 @@ public interface UserDao {
 	 * @return 通过id查询用户信息
 	 */
 	public User findUserById(int id);
+	
+	
+	public User findBaseInfoById(int id);
 	/**
 	 * @param id
 	 * @return  获取登录成功后的信息

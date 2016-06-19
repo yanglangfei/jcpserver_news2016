@@ -781,4 +781,30 @@ public class UserImp implements UserDao {
 		return null;
 	}
 
+	@Override
+	public User findBaseInfoById(int id) {
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT NickName,UserLevel,UserFace,UserName,MobileNum FROM JCP_User WHERE Id="+id);
+			while (res.next()) {
+				String nickName=res.getString(1);
+				int leavel=res.getInt(2);
+				String userFace=res.getString(3);
+				String userName=res.getString(4);
+				String telPhone=res.getString(5);
+				User user=new User();
+				user.setUserLeval(leavel);
+				user.setFaceImage(userFace);
+				user.setNickName(nickName);
+				user.setUserName(userName);
+				user.setMobileNum(telPhone);
+				return user;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

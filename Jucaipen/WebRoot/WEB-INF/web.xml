@@ -360,6 +360,11 @@
     <servlet-name>MyChargeRecoder</servlet-name>
     <servlet-class>com.jucaipen.main.my.MyChargeRecoder</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>UserBaseInfo</servlet-name>
+    <servlet-class>com.jucaipen.main.my.UserBaseInfo</servlet-class>
+  </servlet>
+
 
 
 
@@ -748,5 +753,9 @@
   <servlet-mapping>
     <servlet-name>MyChargeRecoder</servlet-name>
     <url-pattern>/jucaipen/getchargerecoder</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserBaseInfo</servlet-name>
+    <url-pattern>/jucaipen/getuserbaseinfo</url-pattern>
   </servlet-mapping>
 </web-app>
