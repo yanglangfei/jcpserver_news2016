@@ -50,6 +50,10 @@ public class Ask implements Serializable{
 	 */
 	private int isReply;
 	/**
+	 *  回复内容
+	 */
+	private String replyBody;
+	/**
 	 * 关联新闻id
 	 */
 	private int classId;
@@ -82,6 +86,14 @@ public class Ask implements Serializable{
 	 */
 	private int replyCount;
 	
+	
+	
+	public String getReplyBody() {
+		return replyBody;
+	}
+	public void setReplyBody(String replyBody) {
+		this.replyBody = replyBody;
+	}
 	public int getIsReturnJcb() {
 		return isReturnJcb;
 	}

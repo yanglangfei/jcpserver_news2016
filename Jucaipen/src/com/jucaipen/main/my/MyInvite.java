@@ -74,7 +74,7 @@ public class MyInvite extends HttpServlet {
 				page);
 		for (Recommder recommder : recommders) {
 			int userId = recommder.getUserId();
-			User user = UserServer.findUserById(userId);
+			User user = UserServer.findUserNikNameById(userId);
 			if (user == null) {
 				user = new User();
 			}

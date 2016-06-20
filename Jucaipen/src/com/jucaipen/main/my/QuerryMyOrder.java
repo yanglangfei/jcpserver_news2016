@@ -18,7 +18,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  *
- * 查询我的订单   type   （0 全部订单）   （1  已支付）  （2  未支付）       
+ * 查询我的订单   type   （0 未支付）   （1  已支付）  （2  支付失败）       
  */
 @SuppressWarnings("serial")
 public class QuerryMyOrder extends HttpServlet {
@@ -68,14 +68,14 @@ public class QuerryMyOrder extends HttpServlet {
 		//初始化订单信息
 		List<Order> orders;
 		if(t==0){
-			//获取全部订单
-			orders=OrderServer.findAllPayOrderList(p);
+			//未支付
+			orders=OrderServer.findPayOrderByPayState(1, p);
 		}else if(t==1){
-			//已完成订单
+			//已支付
 			orders=OrderServer.findPayOrderByPayState(2, p);
 		}else{
-			//未完成订单
-			orders=OrderServer.findPayOrderByPayState(1, p);
+			//支付失败
+			orders=OrderServer.findPayOrderByPayState(3, p);
 		}
 		return JsonUtil.getOrderList(orders);
 	}

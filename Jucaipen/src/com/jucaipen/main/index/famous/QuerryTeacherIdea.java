@@ -10,11 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jucaipen.model.Answer;
 import com.jucaipen.model.Ask;
 import com.jucaipen.model.HotIdea;
 import com.jucaipen.model.TextLive;
 import com.jucaipen.model.User;
 import com.jucaipen.model.VideoLive;
+import com.jucaipen.service.AnswerSer;
 import com.jucaipen.service.AskSer;
 import com.jucaipen.service.HotIdeaServ;
 import com.jucaipen.service.TxtLiveSer;
@@ -77,6 +79,11 @@ public class QuerryTeacherIdea extends HttpServlet {
 			 for(Ask ask : asks){
 				 int uId=ask.getUserId();
 				 User user=UserServer.findUserById(uId);
+				 int isReply=ask.getIsReply();
+				 if(isReply==2){
+					 Answer answer=AnswerSer.findAnswerByAskId(ask.getId());
+					 ask.setReplyBody(answer.getAnswerBody());
+				 }
 				 if(user==null){
 					 user=new User();
 				 }
