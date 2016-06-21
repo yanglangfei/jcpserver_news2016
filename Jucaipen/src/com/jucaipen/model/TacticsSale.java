@@ -17,9 +17,15 @@ public class TacticsSale {
 	 */
 	private int userId;
 	/**
-	 *   讲师id
+	 *   战法id
 	 */
 	private int tacticsId;
+	
+	private String tacticsTitle;
+	
+	private String tacticeImage;
+	
+	private String teacherName;
 	/**
 	 *  手机号
 	 */
@@ -49,6 +55,25 @@ public class TacticsSale {
 	 */
 	private String remark;
 	
+	
+	public String getTacticsTitle() {
+		return tacticsTitle;
+	}
+	public void setTacticsTitle(String tacticsTitle) {
+		this.tacticsTitle = tacticsTitle;
+	}
+	public String getTacticeImage() {
+		return tacticeImage;
+	}
+	public void setTacticeImage(String tacticeImage) {
+		this.tacticeImage = tacticeImage;
+	}
+	public String getTeacherName() {
+		return teacherName;
+	}
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
 	public int getPage() {
 		return page;
 	}

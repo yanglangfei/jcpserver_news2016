@@ -23,6 +23,17 @@ public class MyVideo implements Serializable{
 	 *  FK_VideoId
 	 */
 	private int videoId;
+	
+	/**
+	 *  购买视频标题
+	 */
+	private String videoTitle;
+	
+	/**
+	 *  购买视频封面图片
+	 */
+	private String videoImag;
+	
 	/**
 	 *  InsertDate
 	 */
@@ -48,6 +59,19 @@ public class MyVideo implements Serializable{
      */
     private String endDate;
     
+    
+	public String getVideoTitle() {
+		return videoTitle;
+	}
+	public void setVideoTitle(String videoTitle) {
+		this.videoTitle = videoTitle;
+	}
+	public String getVideoImag() {
+		return videoImag;
+	}
+	public void setVideoImag(String videoImag) {
+		this.videoImag = videoImag;
+	}
 	public int getPage() {
 		return page;
 	}

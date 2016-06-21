@@ -31,6 +31,10 @@ public class FamousTeacher implements Serializable{
 	 */
 	private String trueName;
 	/**
+	 *  ÊÇ·ñ¹Ø×¢
+	 */
+	private boolean isAttention;
+	/**
 	 * êÇ³Æ
 	 */
 	private String nickName;
@@ -165,6 +169,13 @@ public class FamousTeacher implements Serializable{
 	private double returnRate;
 	
 	
+	
+	public boolean isAttention() {
+		return isAttention;
+	}
+	public void setAttention(boolean isAttention) {
+		this.isAttention = isAttention;
+	}
 	public double getReturnRate() {
 		return returnRate;
 	}

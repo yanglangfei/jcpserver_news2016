@@ -216,6 +216,28 @@ public class HotIdeaImp implements HotIdeaDao {
 		return null;
 	}
 
+	@Override
+	public List<HotIdea> findLastIdeaByTeacherId(int teacherId, int count) {
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta.executeQuery("SELECT TOP " + count
+					+ " * FROM JCP_Tearch_Log WHERE FK_TearchId=" + teacherId
+					+ " ORDER BY InsertDate desc");
+			ideas = getHotIdea(res, 0, 0);
+			return ideas;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
 	public List<HotIdea> findIdeaByTeacherId(int teacherId, int page) {
 		try {
 			int totlePage = findTotlePage("WHERE FK_TearchId=" + teacherId);
@@ -254,7 +276,7 @@ public class HotIdeaImp implements HotIdeaDao {
 				String insertDate = res.getString(3);
 				int goods = res.getInt(4);
 				int teacherId = res.getInt(5);
-				String logImage=res.getString(6);
+				String logImage = res.getString(6);
 				HotIdea idea = new HotIdea();
 				idea.setId(id);
 				idea.setBodys(body);
@@ -292,6 +314,7 @@ public class HotIdeaImp implements HotIdeaDao {
 				String insertDate = result.getString("InsertDate");
 				int teacherId = result.getInt("FK_TearchId");
 				String logImage = result.getString("ImagesUrl");
+				int isFree = result.getInt("IsFree");
 				HotIdea idea = new HotIdea();
 				idea.setPage(page);
 				idea.setTotlePgae(totlePage);
@@ -300,6 +323,7 @@ public class HotIdeaImp implements HotIdeaDao {
 				idea.setTitle(title);
 				idea.setGoods(goods);
 				idea.setHits(hits);
+				idea.setIsFree(isFree);
 				idea.setCommens(comms);
 				idea.setClassId(classId);
 				idea.setInsertDate(insertDate);
@@ -335,8 +359,8 @@ public class HotIdeaImp implements HotIdeaDao {
 				int id = res.getInt("Id");
 				String title = res.getString("Title");
 				String logImage = res.getString("ImagesUrl");
-				String insertDate=res.getString("InsertDate");
-				int comms=res.getInt("CommCount");
+				String insertDate = res.getString("InsertDate");
+				int comms = res.getInt("CommCount");
 				HotIdea idea = new HotIdea();
 				idea.setId(id);
 				idea.setCommens(comms);

@@ -203,6 +203,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				float motnPrice=result.getFloat("MonthPrice");
 				float quarterPrice=result.getFloat("QuarterPrice");
 				float dayPrice=result.getFloat("DayPrice");
+				int renQi=result.getInt("LiveRenQi");
 				int askNum=result.getInt("AskNum");
 				FamousTeacher teacher=new FamousTeacher();
 				teacher.setPage(page);
@@ -222,6 +223,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				teacher.setQulaterPrice(quarterPrice);
 				teacher.setDayPrice(dayPrice);
 				teacher.setFans(fans);
+				teacher.setLiveFans(renQi);
 				teacher.setWeekRenQi(weekRenQi);
 				teacher.setMothRenQi(mothRenQi);
 				teacher.setHoby(hoby);

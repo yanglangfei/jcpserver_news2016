@@ -53,17 +53,19 @@ public class TxtLiveDetaileImp implements TxtLiveDetailsDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT Id,FK_LiveId,Bodys,InsertDate FROM JCP_TxtLive_Detail WHERE FK_LiveId="
+					.executeQuery("SELECT Id,FK_LiveId,Bodys,InsertDate,IsFree FROM JCP_TxtLive_Detail WHERE FK_LiveId="
 							+ liveId+" ORDER BY InsertDate DESC");
 			while (res.next()) {
 				int id=res.getInt(1);
 				int relate_LiveId=res.getInt(2);
 				String bodys=res.getString(3);
 				String insertDate=res.getString(4);
+				int isFree=res.getInt(5);
 				TxtLiveDetails diDetails=new TxtLiveDetails();
 				diDetails.setId(id);
 				diDetails.setFk_liveId(relate_LiveId);
 				diDetails.setBodys(bodys);
+				diDetails.setIsFree(isFree);
 				diDetails.setInsertDate(insertDate);
 				txtLiveDetails.add(diDetails);
 			}

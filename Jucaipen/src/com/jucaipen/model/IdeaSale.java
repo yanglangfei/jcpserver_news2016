@@ -22,6 +22,23 @@ public class IdeaSale implements Serializable{
 	 */
 	private int teacherId;
 	/**
+	 *  讲师头像
+	 */
+	private String teacherFace;
+	/**
+	 *  讲师昵称
+	 */
+	private String teacherNickName;
+	/**
+	 *  是否加V
+	 */
+	private int teacherIsV;
+	/**
+	 *  职称
+	 */
+	private String teacherLeavel;
+	
+	/**
 	 * 订单号
 	 */
 	private String orderCode;
@@ -30,9 +47,22 @@ public class IdeaSale implements Serializable{
 	 */
 	private int logId;
 	/**
+	 *  观点标题
+	 */
+	private String logTitle;
+	/**
+	 *  观点内容
+	 */
+	private String logBody;
+	/**
 	 *    订单生成时间
 	 */
 	private String insertDate;
+	
+	public IdeaSale() {
+		super();
+	}
+
 	public IdeaSale(int id, int userId, int teacherId, String orderCode,
 			int logId, String insertDate) {
 		super();
@@ -44,6 +74,57 @@ public class IdeaSale implements Serializable{
 		this.insertDate = insertDate;
 	}
 	
+	
+	public String getTeacherFace() {
+		return teacherFace;
+	}
+
+	public void setTeacherFace(String teacherFace) {
+		this.teacherFace = teacherFace;
+	}
+
+	public String getTeacherNickName() {
+		return teacherNickName;
+	}
+
+	public void setTeacherNickName(String teacherNickName) {
+		this.teacherNickName = teacherNickName;
+	}
+
+	
+
+	public int getTeacherIsV() {
+		return teacherIsV;
+	}
+
+	public void setTeacherIsV(int teacherIsV) {
+		this.teacherIsV = teacherIsV;
+	}
+
+	public String getTeacherLeavel() {
+		return teacherLeavel;
+	}
+
+	public void setTeacherLeavel(String teacherLeavel) {
+		this.teacherLeavel = teacherLeavel;
+	}
+
+	public String getLogTitle() {
+		return logTitle;
+	}
+
+	public void setLogTitle(String logTitle) {
+		this.logTitle = logTitle;
+	}
+
+	public String getLogBody() {
+		return logBody;
+	}
+
+	public void setLogBody(String logBody) {
+		this.logBody = logBody;
+	}
+
 	public int getPage() {
 		return page;
 	}

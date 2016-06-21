@@ -236,6 +236,7 @@ public class VideoLiveImp implements VideoLiveDao {
 				live.setRenQi(renQi);
 				chatRooms.add(live);
 			}
+			return chatRooms;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

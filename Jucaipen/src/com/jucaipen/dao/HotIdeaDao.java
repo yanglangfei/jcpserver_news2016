@@ -47,6 +47,12 @@ public interface HotIdeaDao {
 	public List<HotIdea> findIdeaByCount(int count);
 	/**
 	 * @param teacherId
+	 * @param count
+	 * @return  获取讲师最近几条观点
+	 */
+	public List<HotIdea> findLastIdeaByTeacherId(int teacherId,int count);
+	/**
+	 * @param teacherId
 	 * @return 根据教师id获取人们观点
 	 */
 	public List<HotIdea> findIdeaByTeacherId(int teacherId,int page);

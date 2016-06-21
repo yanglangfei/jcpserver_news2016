@@ -23,6 +23,22 @@ public class MySpecial implements Serializable{
 	 *  专辑id  FK_SpecialId
 	 */
 	private int specialId;
+	
+	/**
+	 *  专辑标题
+	 */
+	private String specialTitle;
+	
+	/**
+	 *   专辑图片
+	 */
+	private String specialImage;
+	
+	/**
+	 *  专辑讲师 
+	 */
+	private int specialTeacher;
+	
 	/**
 	 *  InsertDate
 	 */
@@ -48,6 +64,25 @@ public class MySpecial implements Serializable{
 	 */
 	private String endDate;
 	
+	
+	public String getSpecialTitle() {
+		return specialTitle;
+	}
+	public void setSpecialTitle(String specialTitle) {
+		this.specialTitle = specialTitle;
+	}
+	public String getSpecialImage() {
+		return specialImage;
+	}
+	public void setSpecialImage(String specialImage) {
+		this.specialImage = specialImage;
+	}
+	public int getSpecialTeacher() {
+		return specialTeacher;
+	}
+	public void setSpecialTeacher(int specialTeacher) {
+		this.specialTeacher = specialTeacher;
+	}
 	public int getPage() {
 		return page;
 	}

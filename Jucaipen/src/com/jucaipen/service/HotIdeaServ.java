@@ -33,6 +33,11 @@ public class HotIdeaServ{
 		HotIdeaDao dao=new HotIdeaImp();
 		return dao.findIdeaByTeacherId(teacherId,page);
 	}
+	
+	public static List<HotIdea>  findLastIdeaByTeacherId(int teacherId,int count){
+		HotIdeaDao dao=new HotIdeaImp();
+		return dao.findLastIdeaByTeacherId(teacherId, count);
+	}
 
 	/**
 	 * @param id

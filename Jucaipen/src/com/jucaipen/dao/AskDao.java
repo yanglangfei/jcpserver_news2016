@@ -45,6 +45,13 @@ public interface AskDao {
 	public List<Ask> findAskByTeacherId(int teacherId,int page);
 	
 	/**
+	 * @param teacherId
+	 * @param count
+	 * @return 获取讲师最近的几条问答
+	 */
+	public List<Ask> findLastByTeacherId(int teacherId,int count);
+	
+	/**
 	 * @param classId
 	 * @return 根据分类查询提问信息
 	 */

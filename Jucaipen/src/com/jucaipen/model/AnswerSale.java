@@ -14,6 +14,21 @@ public class AnswerSale {
 	 *  总页数
 	 */
 	private int totlePage;
+	
+	/**
+	 *  提问内容
+	 */
+	private String askBody;
+	
+	/**
+	 *  回复内容
+	 */
+	private String answerBody;
+	
+	/**
+	 *   回复讲师昵称
+	 */
+	private String answerTeacherName;
 	/**
 	 *  id   Id
 	 */
@@ -38,6 +53,26 @@ public class AnswerSale {
 	 *  添加时间  InsertDate
 	 */
 	private String insetDate;
+	
+	
+	public String getAskBody() {
+		return askBody;
+	}
+	public void setAskBody(String askBody) {
+		this.askBody = askBody;
+	}
+	public String getAnswerBody() {
+		return answerBody;
+	}
+	public void setAnswerBody(String answerBody) {
+		this.answerBody = answerBody;
+	}
+	public String getAnswerTeacherName() {
+		return answerTeacherName;
+	}
+	public void setAnswerTeacherName(String answerTeacherName) {
+		this.answerTeacherName = answerTeacherName;
+	}
 	public int getId() {
 		return id;
 	}

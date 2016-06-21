@@ -23,6 +23,11 @@ public class LiveDetailSale implements Serializable{
 	 * 所属讲师  FK_TearchId
 	 */
 	private int teacherId;
+	
+	/**
+	 *  直播所属讲师
+	 */
+	private String ownTeacher;
 	/**
 	 *  订单编号  OrderCode
 	 */
@@ -31,11 +36,30 @@ public class LiveDetailSale implements Serializable{
 	 *   直播观点id  FK_LiveDetailId
 	 */
 	private int liveDetailId;
+	
+	/**
+	 *  直播内容
+	 */
+	private String detailBody;
+	
 	/**
 	 *  InsertDate
 	 */
 	private String insertDate;
 	
+	
+	public String getOwnTeacher() {
+		return ownTeacher;
+	}
+	public void setOwnTeacher(String ownTeacher) {
+		this.ownTeacher = ownTeacher;
+	}
+	public String getDetailBody() {
+		return detailBody;
+	}
+	public void setDetailBody(String detailBody) {
+		this.detailBody = detailBody;
+	}
 	public int getPage() {
 		return page;
 	}

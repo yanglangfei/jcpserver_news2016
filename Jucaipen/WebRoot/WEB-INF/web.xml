@@ -364,6 +364,16 @@
     <servlet-name>UserBaseInfo</servlet-name>
     <servlet-class>com.jucaipen.main.my.UserBaseInfo</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>QuerryTeacherInfo</servlet-name>
+    <servlet-class>com.jucaipen.main.index.famous.QuerryBaseTeacherInfo</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryMySale</servlet-name>
+    <servlet-class>com.jucaipen.main.my.QuerryMySale</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -757,5 +767,13 @@
   <servlet-mapping>
     <servlet-name>UserBaseInfo</servlet-name>
     <url-pattern>/jucaipen/getuserbaseinfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryTeacherInfo</servlet-name>
+    <url-pattern>/jucaipen/getbaseteacherinfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryMySale</servlet-name>
+    <url-pattern>/jucaipen/getmysale</url-pattern>
   </servlet-mapping>
 </web-app>

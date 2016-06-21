@@ -128,6 +128,10 @@ public class Video implements Serializable{
 	private int page;
 	private int totlePage;
 	
+	
+	public Video() {
+		super();
+	}
 	public boolean isSpecial() {
 		return isSpecial;
 	}

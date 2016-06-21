@@ -112,39 +112,18 @@ public class AskImp implements AskDao {
 		return -1;
 	}
 
-	public List<Ask> findAskByUserId(int userId,int page) {
+	public List<Ask> findAskByUserId(int userId, int page) {
 		// 根据用户id获取提问信息
 		try {
-			int totlePage=findTotlePage("WHERE FK_UserId="+userId);
+			int totlePage = findTotlePage("WHERE FK_UserId=" + userId);
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT TOP 15 * FROM "
-					+ "(SELECT ROW_NUMBER() OVER (ORDER BY AskDate desc) AS RowNumber,* FROM JCP_Ask"
-					+ " WHERE FK_UserId=" + userId + ") A "
-					+ "WHERE RowNumber > " + 15 * (page - 1));
-			asks = getAsk(res,page , totlePage);
-			return asks;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				JdbcUtil.closeConn(sta, dbConn, res);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
-	
-	
-	
-	public List<Ask> findAskByUserId(int userId) {
-		// 根据用户id获取提问信息
-		try {
-			dbConn = JdbcUtil.connSqlServer();
-			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM  JCP_Ask  WHERE FK_UserId="+userId);
-			asks = getAsk(res,0 , 0);
+			res = sta
+					.executeQuery("SELECT TOP 15 * FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY AskDate desc) AS RowNumber,* FROM JCP_Ask"
+							+ " WHERE FK_UserId=" + userId + ") A "
+							+ "WHERE RowNumber > " + 15 * (page - 1));
+			asks = getAsk(res, page, totlePage);
 			return asks;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -158,6 +137,48 @@ public class AskImp implements AskDao {
 		return null;
 	}
 
+	public List<Ask> findAskByUserId(int userId) {
+		// 根据用户id获取提问信息
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta.executeQuery("SELECT * FROM  JCP_Ask  WHERE FK_UserId="
+					+ userId);
+			asks = getAsk(res, 0, 0);
+			return asks;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<Ask> findLastByTeacherId(int teacherId, int count) {
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta.executeQuery("SELECT TOP " + count
+					+ " * FROM JCP_Ask WHERE FK_TearchId=" + teacherId
+					+ " ORDER BY AskDate desc");
+			asks = getAsk(res, 0, 0);
+			return asks;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 
 	public List<Ask> findAskByTeacherId(int teacherId, int page) {
 		// 根据讲师id获取提问信息
@@ -275,18 +296,40 @@ public class AskImp implements AskDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta
-					.executeUpdate("INSERT INTO JCP_Ask"
-							+ "(FK_UserId,ParentId,AskBodys,AskDate,"
-							+ "AskState,Hits,IsReply,FK_TearchId,FK_ClassId,Ip,"
-							+ "IsPay,PayJucaibi,AskFrom,IsReturnJcb,ReplyCount) "
-							+ "VALUES("
-							+ask.getUserId()+","+ask.getParentId()+",'"+ask.getAskBody()
-							+"','"+ask.getAskDate()+"',"+ask.getAskState()+","+ask.getHits()
-							+","+ask.getIsReply()+","+ask.getTeacherId()+","+ask.getClassId()
-							+",'"+ask.getIp()+"',"+ask.getIsPay()+","+ask.getJucaiBills()
-							+","+ask.getAskFrom()+","+ask.getIsReturnJcb()+","+ask.getReplyCount()
-							+")");
+			isSuccess = sta.executeUpdate("INSERT INTO JCP_Ask"
+					+ "(FK_UserId,ParentId,AskBodys,AskDate,"
+					+ "AskState,Hits,IsReply,FK_TearchId,FK_ClassId,Ip,"
+					+ "IsPay,PayJucaibi,AskFrom,IsReturnJcb,ReplyCount) "
+					+ "VALUES("
+					+ ask.getUserId()
+					+ ","
+					+ ask.getParentId()
+					+ ",'"
+					+ ask.getAskBody()
+					+ "','"
+					+ ask.getAskDate()
+					+ "',"
+					+ ask.getAskState()
+					+ ","
+					+ ask.getHits()
+					+ ","
+					+ ask.getIsReply()
+					+ ","
+					+ ask.getTeacherId()
+					+ ","
+					+ ask.getClassId()
+					+ ",'"
+					+ ask.getIp()
+					+ "',"
+					+ ask.getIsPay()
+					+ ","
+					+ ask.getJucaiBills()
+					+ ","
+					+ ask.getAskFrom()
+					+ ","
+					+ ask.getIsReturnJcb()
+					+ ","
+					+ ask.getReplyCount() + ")");
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -314,7 +357,7 @@ public class AskImp implements AskDao {
 				int hits = result.getInt("Hits");
 				int isReply = result.getInt("IsReply");
 				String ip = result.getString("IP");
-				int replyCount=result.getInt("ReplyCount");
+				int replyCount = result.getInt("ReplyCount");
 				int teacherId = result.getInt("FK_TearchId");
 				Ask ask = new Ask();
 				ask.setTotlePage(totlePage);

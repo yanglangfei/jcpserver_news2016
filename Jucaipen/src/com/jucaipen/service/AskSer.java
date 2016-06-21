@@ -61,6 +61,11 @@ public class AskSer{
 		AskDao dao=new AskImp();
 		return dao.findAskByTeacherId(teacherId,page);
 	}
+	
+	public static List<Ask> findLastByTeacherId(int teacherId,int count){
+		AskDao dao=new AskImp();
+		return dao.findLastByTeacherId(teacherId, count);
+	}
 
 	/**
 	 * @param classId

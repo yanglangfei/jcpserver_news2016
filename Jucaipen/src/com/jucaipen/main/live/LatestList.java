@@ -21,7 +21,6 @@ import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
-
 /**
  * @author Administrator
  *
@@ -30,7 +29,6 @@ import com.jucaipen.utils.TimeUtils;
 @SuppressWarnings("serial")
 public class LatestList extends HttpServlet {
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
