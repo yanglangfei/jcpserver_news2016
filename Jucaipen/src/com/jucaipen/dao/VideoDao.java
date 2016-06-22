@@ -130,5 +130,11 @@ public interface VideoDao {
 	 * @return  根据classId获取视频信息   无分页信息
 	 */
 	public List<Video> findVideoByClassId(int classId);
+	
+	public List<Video> findLastVideoByCommId(int commId,int count);
+	
+	public List<Video> findAllVideoByCommId(int commId,int page);
+	
+	
 
 }

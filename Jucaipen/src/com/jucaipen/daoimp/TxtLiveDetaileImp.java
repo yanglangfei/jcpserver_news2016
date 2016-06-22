@@ -47,14 +47,14 @@ public class TxtLiveDetaileImp implements TxtLiveDetailsDao {
 		return 0;
 	}
 
-	public List<TxtLiveDetails> findTextDetaileByLiveId(int liveId) {
+	public List<TxtLiveDetails> findTextDetaileByLiveId(int liveId,int type) {
 		try {
 			txtLiveDetails.clear();
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT Id,FK_LiveId,Bodys,InsertDate,IsFree FROM JCP_TxtLive_Detail WHERE FK_LiveId="
-							+ liveId+" ORDER BY InsertDate DESC");
+							+ liveId+" AND LiveType="+type+" ORDER BY InsertDate ASC");
 			while (res.next()) {
 				int id=res.getInt(1);
 				int relate_LiveId=res.getInt(2);
@@ -82,6 +82,44 @@ public class TxtLiveDetaileImp implements TxtLiveDetailsDao {
 		return null;
 	}
 	
+	
+	@Override
+	public List<TxtLiveDetails> findLaseDetaileByLiveId(int liveId, int count,int type) {
+		try {
+			txtLiveDetails.clear();
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP "+count+" Id,FK_LiveId,Bodys,InsertDate,IsFree FROM JCP_TxtLive_Detail WHERE FK_LiveId="
+							+ liveId+" AND LiveType="+type+" ORDER BY InsertDate ASC");
+			while (res.next()) {
+				int id=res.getInt(1);
+				int relate_LiveId=res.getInt(2);
+				String bodys=res.getString(3);
+				String insertDate=res.getString(4);
+				int isFree=res.getInt(5);
+				TxtLiveDetails diDetails=new TxtLiveDetails();
+				diDetails.setId(id);
+				diDetails.setFk_liveId(relate_LiveId);
+				diDetails.setBodys(bodys);
+				diDetails.setIsFree(isFree);
+				diDetails.setInsertDate(insertDate);
+				txtLiveDetails.add(diDetails);
+			}
+			return txtLiveDetails;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	}
+		return null;
+		
+	}
+	
 	public List<TxtLiveDetails> findPullTextDetaileByLiveId(int liveId,int maxId) {
 		try {
 			txtLiveDetails.clear();
@@ -89,7 +127,7 @@ public class TxtLiveDetaileImp implements TxtLiveDetailsDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT Id,FK_LiveId,Bodys,InsertDate FROM JCP_TxtLive_Detail WHERE FK_LiveId="
-							+ liveId+"AND Id>"+maxId+" ORDER BY InsertDate DESC");
+							+ liveId+"AND Id>"+maxId+" ORDER BY InsertDate ASC");
 			while (res.next()) {
 				int id=res.getInt(1);
 				int relate_LiveId=res.getInt(2);
@@ -232,5 +270,6 @@ public class TxtLiveDetaileImp implements TxtLiveDetailsDao {
 		}
 		return null;
 	}
+
 
 }

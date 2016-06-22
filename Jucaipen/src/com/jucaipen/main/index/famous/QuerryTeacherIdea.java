@@ -121,9 +121,9 @@ public class QuerryTeacherIdea extends HttpServlet {
 				TextLive txt = txts.get(0);
 				if(isIndex==0){
 					//Ê×Ò³
-					txtDetails=TxtLiveDetaileSer.findPullTextDetaileByLiveId(txt.getId(), 3);
+					txtDetails=TxtLiveDetaileSer.findLaseDetaileByLiveId(txt.getId(), 3,0);
 				}else{
-					txtDetails = TxtLiveDetaileSer.findTextDetaileByLiveId(txt.getId());
+					txtDetails = TxtLiveDetaileSer.findTextDetaileByLiveId(txt.getId(),0);
 				}
 				return JsonUtil.getTxtLiveByTeacherId(txt,txtDetails);
 			}

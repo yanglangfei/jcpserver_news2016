@@ -34,6 +34,16 @@ public class VideoServer {
 		return dao.findVideoByTeacherId(teacherId, page);
 	}
 	
+	public static List<Video> findAllVideoByCommId(int commId,int page){
+		VideoDao dao=new VideoImp();
+		return dao.findAllVideoByCommId(commId, page);
+	}
+	
+	public static List<Video> findLastVideoByCommId(int commId,int count){
+		VideoDao dao=new VideoImp();
+		return dao.findLastVideoByCommId(commId, count);
+	}
+	
 	/**
 	 * @param typeId
 	 * @param page

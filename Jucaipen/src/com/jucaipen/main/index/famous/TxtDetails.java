@@ -8,11 +8,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.TextLive;
 import com.jucaipen.model.TxtLiveDetails;
-import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.TxtLiveDetaileSer;
 import com.jucaipen.service.TxtLiveSer;
 import com.jucaipen.utils.JsonUtil;
@@ -54,12 +51,9 @@ public class TxtDetails extends HttpServlet {
 		if(live==null){
 			return JsonUtil.getRetMsg(6,"直播信息不存在");
 		}
-		int teacherId = live.getTeacherId();
-		FamousTeacher teacher = FamousTeacherSer
-				.findFamousTeacherById(teacherId);
 		List<TxtLiveDetails> txtDetails = TxtLiveDetaileSer
-				.findTextDetaileByLiveId(tId);
-		return JsonUtil.getTxtDetails(txtDetails, live, teacher);
+				.findTextDetaileByLiveId(tId,0);
+		return JsonUtil.getTxtDetails(txtDetails);
 	}
 
 }

@@ -10,7 +10,10 @@ public class StringUtil {
 	public static final String sendPhonePwd="Tch456789";
 	
 	public static final String isVaild="访问无效";
+	
+	public static final String playUrl_MU="http://hls2.quklive.com:9080/broadcast/activity/9458019977964845/real.m3u8";
 
+	public static final String  playUrl_flv="http://hdl.quklive.com/broadcast/activity/9458019977964845.flv";
 	/**
 	 * @param string
 	 * @return 判断邮箱正确性

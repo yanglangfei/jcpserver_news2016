@@ -205,6 +205,33 @@ public class StudioImp implements StudioDao {
 		return null;
 	}
 	
+	
+	@Override
+	public List<Studio> findStudioFansByToday(int week) {
+		studios.clear();
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT Id,Title,RenQi,ImageUrl FROM JCP_Studio WHERE BeginShowDate LIKE ('%"+week+"%') ORDER BY RenQi DESC");
+			while (res.next()) {
+				int id=res.getInt("Id");
+				String title=res.getString("Title");
+				int renQi=res.getInt("RenQi");
+				String imageUrl=res.getString("ImageUrl");
+				Studio studio=new Studio();
+				studio.setId(id);
+				studio.setTitle(title);
+				studio.setRenQi(renQi);
+				studio.setImageUrl(imageUrl);
+				studios.add(studio);
+			}
+			return studios;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 
 	@Override
 	public List<Studio> findStudioByColumnId(int columnId, int page) {
@@ -271,6 +298,8 @@ public class StudioImp implements StudioDao {
 		}
 		return null;
 	}
+
+	
 
 
 }

@@ -31,9 +31,9 @@ public class TxtLiveDetaileSer{
 	 * @param liveId
 	 * @return  根据直播id获取文字直播详细内容
 	 */
-	public static List<TxtLiveDetails> findTextDetaileByLiveId(int liveId){
+	public static List<TxtLiveDetails> findTextDetaileByLiveId(int liveId,int type){
 		TxtLiveDetailsDao dao=new TxtLiveDetaileImp();
-		return dao.findTextDetaileByLiveId(liveId);
+		return dao.findTextDetaileByLiveId(liveId,type);
 	}
 	
 	/**
@@ -44,6 +44,11 @@ public class TxtLiveDetaileSer{
 	public static List<TxtLiveDetails> findPullTextDetaileByLiveId(int liveId,int maxId){
 		TxtLiveDetailsDao dao=new TxtLiveDetaileImp();
 		return dao.findPullTextDetaileByLiveId(liveId, maxId);
+	}
+	
+	public static List<TxtLiveDetails> findLaseDetaileByLiveId(int liveId,int count,int type){
+		TxtLiveDetailsDao dao=new TxtLiveDetaileImp();
+		return dao.findLaseDetaileByLiveId(liveId,count,type);
 	}
 	
 	

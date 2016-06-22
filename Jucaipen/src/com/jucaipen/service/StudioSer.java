@@ -49,5 +49,14 @@ public class StudioSer{
 		StudioDao dao=new StudioImp();
 		return dao.findStudioByToday(week);
 	}
+	
+	/**
+	 * @param week
+	 * @return  获取人气榜
+	 */
+	public static List<Studio>  findStudioFansByToday(int week){
+		StudioDao dao=new StudioImp();
+		return dao.findStudioFansByToday(week);
+	}
 
 }

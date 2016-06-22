@@ -34,5 +34,11 @@ public interface StudioDao {
 	 * @return  获取今日演播信息
 	 */
 	public List<Studio>  findStudioByToday(int week);
+	
+	/**
+	 * @param week
+	 * @return  获取演播室人气榜
+	 */
+	public List<Studio>  findStudioFansByToday(int week);
 
 }

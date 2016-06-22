@@ -30,7 +30,10 @@ public interface TxtLiveDetailsDao {
 	 * @param liveId
 	 * @return  根据直播id查询直播详细信息
 	 */
-	public List<TxtLiveDetails> findTextDetaileByLiveId(int liveId);
+	public List<TxtLiveDetails> findTextDetaileByLiveId(int liveId,int type);
+	
+	
+	public List<TxtLiveDetails> findLaseDetaileByLiveId(int liveId,int count,int type);
 	
 	/**
 	 * @param liveId
