@@ -43,7 +43,7 @@ public class SchoolVideoList extends HttpServlet {
 		out.flush();
 		out.close();
 	}
-
+	
 	private String initTeachList() {
 		// 初始化视频教程
 		List<Video> videos = VideoServer.findVideoByClassIdLast(4, 9);

@@ -15,6 +15,8 @@ public class Rebate implements Serializable{
 	 *  Id
 	 */
 	private int id;
+	
+	private int allBills;
 	/**
 	 *  返利人  FK_TearchId
 	 */
@@ -36,6 +38,8 @@ public class Rebate implements Serializable{
 	 *  来源用户昵称
 	 */
 	private String fromName;
+	
+	private String fromFace;
 	/**
 	 *  InsertDate
 	 */
@@ -46,6 +50,20 @@ public class Rebate implements Serializable{
 	private String remark;
 	
 	
+	
+	
+	public int getAllBills() {
+		return allBills;
+	}
+	public void setAllBills(int allBills) {
+		this.allBills = allBills;
+	}
+	public String getFromFace() {
+		return fromFace;
+	}
+	public void setFromFace(String fromFace) {
+		this.fromFace = fromFace;
+	}
 	public String getFromName() {
 		return fromName;
 	}

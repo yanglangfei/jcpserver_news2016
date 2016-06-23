@@ -29,6 +29,7 @@ import com.jucaipen.utils.TimeUtils;
 @SuppressWarnings("serial")
 public class LatestList extends HttpServlet {
 	private String result;
+	private int currentId;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -73,26 +74,39 @@ public class LatestList extends HttpServlet {
 		if(t==0){
 			//日榜单
 			for(Rebate rebate : rebates){
+				int userId=rebate.getFromId();
 				String insertDate=rebate.getInsertDate();
 				if(TimeUtils.isToday(insertDate)){
-					int fromId=rebate.getFromId();
-					User user=UserServer.findUserById(fromId);
+					if(userId==currentId){
+						continue ;
+					}
+					int bills=RebateSer.contributeBills(userId, tId);
+					User user=UserServer.findUserById(userId);
 					rebate.setFromName(user.getNickName());
-					rebateArray.add(rebate);
+     				rebate.setFromFace(user.getFaceImage());
+     				rebate.setAllBills(bills);
+     				rebateArray.add(rebate);
 				}
+				
 			}
 			return JsonUtil.getLateList(rebateArray);
 		}else{
 			//月榜单
 			for(Rebate rebate : rebates){
+				int userId=rebate.getFromId();
 				String insertDate=rebate.getInsertDate();
 				if(TimeUtils.isMoth(insertDate)){
-					int fromId=rebate.getFromId();
-					User user=UserServer.findUserById(fromId);
+					if(userId==currentId){
+						continue ;
+					}
+					int bills=RebateSer.contributeBills(userId, tId);
+					currentId=userId;
+					User user=UserServer.findUserById(userId);
 					rebate.setFromName(user.getNickName());
-					rebateArray.add(rebate);
+     				rebate.setFromFace(user.getFaceImage());
+     				rebate.setAllBills(bills);
+     				rebateArray.add(rebate);
 				}
-				
 			}
 			return JsonUtil.getLateList(rebateArray);
 		}

@@ -12,6 +12,9 @@ public interface RebateDao {
 	 */
 	public  Rebate findRebateById(int id);
 	
+	
+	public int contributeBills(int uId,int tId);
+	
 	/**
 	 * @param teacherId
 	 * @return 根据讲师获取返利信息  分页

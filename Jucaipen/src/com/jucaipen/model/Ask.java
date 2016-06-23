@@ -1,6 +1,8 @@
 package com.jucaipen.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Administrator              --------------------数据已更新     5.18
@@ -85,9 +87,16 @@ public class Ask implements Serializable{
 	 *   回复数
 	 */
 	private int replyCount;
+	private List<Answer> answers=new ArrayList<Answer>();
 	
 	
 	
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
+	}
 	public String getReplyBody() {
 		return replyBody;
 	}

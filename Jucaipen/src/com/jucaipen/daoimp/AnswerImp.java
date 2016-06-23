@@ -159,8 +159,9 @@ public class AnswerImp implements AnswerDao {
 		return null;
 	}
 
-	public Answer findAnswerByAskId(int askId) {
+	public List<Answer> findAnswerByAskId(int askId) {
 		try {
+			answers.clear();
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
@@ -174,8 +175,9 @@ public class AnswerImp implements AnswerDao {
 				answer.setAnswerBody(answerBody);
 				answer.setAnswerDate(insertDate);
 				answer.setTeacherId(teacherId);
-				return answer;
+				answers.add(answer);
 			}
+			return answers;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{

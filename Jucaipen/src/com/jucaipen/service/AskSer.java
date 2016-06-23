@@ -25,6 +25,11 @@ public class AskSer{
 		return dao.findLstAsk(count);
 	}
 	
+	public static List<Ask> findAskByParentId(int pId){
+		AskDao dao=new AskImp();
+		return dao.findAskByParentId(pId);
+	}
+	
 	
 	/**
 	 * @param uId

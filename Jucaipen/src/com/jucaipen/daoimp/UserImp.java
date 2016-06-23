@@ -121,6 +121,7 @@ public class UserImp implements UserDao {
 				int userLeavel=res.getInt("UserLevel");
 				u = new User();
 				u.setNickName(nickName);
+				System.out.println("V:"+nickName);
 				u.setSex(sex);
 				u.setProvinceId(localProvince);
 				u.setAreaId(localArea);

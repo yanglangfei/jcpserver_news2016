@@ -103,9 +103,9 @@ public class QuerryTeacherIdea extends HttpServlet {
 				 int uId=ask.getUserId();
 				 User user=UserServer.findUserById(uId);
 				 int isReply=ask.getIsReply();
-				 Answer answer=AnswerSer.findAnswerByAskId(ask.getId());
+				 List<Answer> answer=AnswerSer.findAnswerByAskId(ask.getId());
 				 if(answer!=null&&isReply==2){
-					 ask.setReplyBody(answer.getAnswerBody());
+					 ask.setReplyBody(answer.get(0).getAnswerBody());
 				 }
 				 if(user==null){
 					 user=new User();

@@ -86,7 +86,7 @@ public class VideoLiveImp implements VideoLiveDao {
 	public VideoLive getRoomInfo(int id) {
 		// 根据id 获取指定直播间信息
 		try {
-			dbConn = JdbcUtil.connVideoSqlServer();
+			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT * FROM JCP_VideoLive WHERE Id=" + id);

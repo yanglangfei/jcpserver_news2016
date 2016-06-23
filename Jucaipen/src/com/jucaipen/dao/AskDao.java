@@ -19,6 +19,12 @@ public interface AskDao {
 	public int findTotlePage(String condition);
 	
 	/**
+	 * @param pId
+	 * @return  
+	 */
+	public List<Ask> findAskByParentId(int pId);
+	
+	/**
 	 * @return  获取所有提问信息
 	 */
 	public List<Ask> findAllAsk(int page);

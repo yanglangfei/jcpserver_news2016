@@ -2,6 +2,7 @@ package com.jucaipen.main.index.famous;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -57,10 +58,10 @@ public class AnswerDetails extends HttpServlet {
 		int uId = ask.getUserId();
 		User user = UserServer.findUserById(uId);
 		if (isReply == 2) {
-			Answer answer = AnswerSer.findAnswerByAskId(id);
-			int tId = answer.getTeacherId();
+			List<Answer> answer = AnswerSer.findAnswerByAskId(id);
+			int tId = answer.get(0).getTeacherId();
 			FamousTeacher teacher = FamousTeacherSer.findFamousTeacherById(tId);
-			return JsonUtil.getAnswerDetails(ask, answer, teacher, user);
+			return JsonUtil.getAnswerDetails(ask, answer.get(0), teacher, user);
 		} else {
 			return JsonUtil.getAskDetails(ask, user);
 		}

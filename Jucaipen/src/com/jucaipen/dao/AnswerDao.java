@@ -39,7 +39,7 @@ public interface AnswerDao {
 	 * @param askId
 	 * @return  根据提问获取回答
 	 */
-	public  Answer findAnswerByAskId(int askId);
+	public  List<Answer> findAnswerByAskId(int askId);
 	
 	/**
 	 * @param teacherId

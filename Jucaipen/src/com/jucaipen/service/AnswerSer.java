@@ -56,7 +56,7 @@ public class AnswerSer{
 	 * @param askId
 	 * @return  根据提问获取回复信息
 	 */
-	public static Answer findAnswerByAskId(int askId) {
+	public static List<Answer> findAnswerByAskId(int askId) {
 		AnswerDao dao=new AnswerImp();
 		return dao.findAnswerByAskId(askId);
 	}

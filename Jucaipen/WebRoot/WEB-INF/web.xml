@@ -384,6 +384,11 @@
     <servlet-name>FansList</servlet-name>
     <servlet-class>com.jucaipen.main.play.FansList</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>AnswerList</servlet-name>
+    <servlet-class>com.jucaipen.main.index.famous.AnswerList</servlet-class>
+  </servlet>
+
 
 
 
@@ -802,5 +807,9 @@
   <servlet-mapping>
     <servlet-name>FansList</servlet-name>
     <url-pattern>/jucaipen/getfanslist</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AnswerList</servlet-name>
+    <url-pattern>/jucaipen/getanswerlist</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -78,7 +78,7 @@ public class StringUtil {
 		}
 	}
 	
-	
+	  
 	/**
 	 * @param bank
 	 * @return  判断是否是银行卡号   

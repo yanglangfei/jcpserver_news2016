@@ -42,6 +42,11 @@ public class RebateSer {
 		return dao.findRebate(userId, page);
 	}
 	
+	public static int contributeBills(int uId,int tId){
+		RebateDao dao=new RebateImp();
+		return dao.contributeBills(uId, tId);
+	}
+	
 	/**
 	 * @param teacherId
 	 * @return 根据讲师id获取返利信息  无分页

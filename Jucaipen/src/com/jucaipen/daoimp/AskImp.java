@@ -389,4 +389,38 @@ public class AskImp implements AskDao {
 		return null;
 	}
 
+	@Override
+	public List<Ask> findAskByParentId(int pId) {
+		asks.clear();
+		try {
+			dbConn=JdbcUtil.connSqlServer();
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT FK_UserId,AskBodys,AskDate,IsReply,FK_TearchId,IsPay,ReplyCount,Id FROM JCP_Ask WHERE ParentId="+pId);
+		    while (res.next()) {
+				int uId=res.getInt(1);
+				String askBody=res.getString(2);
+				String askDate=res.getString(3);
+				int isReply=res.getInt(4);
+				int tId=res.getInt(5);
+				int isPay=res.getInt(6);
+				int replyCount=res.getInt(7);
+				int id=res.getInt(8);
+				Ask ask=new Ask();
+				ask.setId(id);
+				ask.setUserId(uId);
+				ask.setAskBody(askBody);
+				ask.setAskDate(askDate);
+				ask.setTeacherId(tId);
+				ask.setIsPay(isPay);
+				ask.setIsReply(isReply);
+				ask.setReplyCount(replyCount);
+				asks.add(ask);
+			}
+		    return asks;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

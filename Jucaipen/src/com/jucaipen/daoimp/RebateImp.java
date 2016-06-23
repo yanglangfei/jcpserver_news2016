@@ -37,7 +37,7 @@ public class RebateImp implements RebateDao {
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -73,7 +73,7 @@ public class RebateImp implements RebateDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -104,13 +104,13 @@ public class RebateImp implements RebateDao {
 				String insertDate = res.getString("InsertDate"); // InsertDate
 				String remark = res.getString("Ramerk"); // Ramerk
 				Rebate rebate = new Rebate();
-				rebate.setFromId(teacherId);
+				rebate.setFromId(fromId);
 				rebate.setType(type);
 				rebate.setId(id);
 				rebate.setTotlePage(totlePage);
 				rebate.setPage(page);
 				rebate.setRebateMoney(rebateMoney);
-				rebate.setFromId(fromId);
+				rebate.setTeacherId(teacherId);
 				rebate.setInsertDate(insertDate);
 				rebate.setRemark(remark);
 				rebates.add(rebate);
@@ -118,7 +118,7 @@ public class RebateImp implements RebateDao {
 			return rebates;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -128,8 +128,7 @@ public class RebateImp implements RebateDao {
 
 		return null;
 	}
-	
-	
+
 	@Override
 	public List<Rebate> findRebateByUserId(int userId, int page) {
 		// 根据用户id获取返利信息
@@ -164,7 +163,7 @@ public class RebateImp implements RebateDao {
 			return rebates;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -173,10 +172,6 @@ public class RebateImp implements RebateDao {
 		}
 		return null;
 	}
-
-	
-	
-	
 
 	@Override
 	public int addRebate(Rebate rebate) {
@@ -199,7 +194,7 @@ public class RebateImp implements RebateDao {
 							+ rebate.getRemark() + "')");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -211,12 +206,14 @@ public class RebateImp implements RebateDao {
 
 	@Override
 	public List<Rebate> findRebateByTid(int teacherId) {
-		// 获取讲师下的榜单信息  
+		// 获取讲师下的榜单信息
 		rebates.clear();
-		dbConn=JdbcUtil.connSqlServer();
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_Rebate WHERE FK_TearchId="+teacherId);
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT * FROM JCP_Rebate WHERE FK_TearchId="
+							+ teacherId);
 			while (res.next()) {
 				int id = res.getInt("Id");
 				int type = res.getInt("RebateType"); // RebateType
@@ -229,7 +226,7 @@ public class RebateImp implements RebateDao {
 				rebate.setType(type);
 				rebate.setId(id);
 				rebate.setRebateMoney(rebateMoney);
-				rebate.setFromId(teacherId);
+				rebate.setTeacherId(teacherId);
 				rebate.setInsertDate(insertDate);
 				rebate.setRemark(remark);
 				rebates.add(rebate);
@@ -245,10 +242,12 @@ public class RebateImp implements RebateDao {
 	public List<Rebate> findRebate(int uId, int tId) {
 		// 获取用户贡献讲师聚财币信息
 		rebates.clear();
-		dbConn=JdbcUtil.connSqlServer();
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_Rebate WHERE FK_TearchId="+tId+" AND FK_FromUserId="+uId);
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT * FROM JCP_Rebate WHERE FK_TearchId="
+							+ tId + " AND FK_FromUserId=" + uId);
 			while (res.next()) {
 				int id = res.getInt("Id");
 				int type = res.getInt("RebateType"); // RebateType
@@ -270,6 +269,22 @@ public class RebateImp implements RebateDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public int contributeBills(int uId, int tId) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT SUM(RebateMoney) from JCP_Rebate WHERE FK_FromUserId="
+							+ uId + " AND FK_TearchId=" + tId);
+			res.next();
+			return res.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }
