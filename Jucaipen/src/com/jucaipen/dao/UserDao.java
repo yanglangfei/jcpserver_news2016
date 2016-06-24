@@ -25,6 +25,9 @@ public interface UserDao {
 	 * @return 用户注册
 	 */
 	public int reginUser(User user);
+	
+	public User findUserChatInfo(int uId);
+	
 	/**
 	 * @return 查找所有用户
 	 */

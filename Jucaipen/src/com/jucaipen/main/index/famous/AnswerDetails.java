@@ -23,7 +23,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取问答详细信息
+ *         获取主问答
  */
 @SuppressWarnings("serial")
 public class AnswerDetails extends HttpServlet {

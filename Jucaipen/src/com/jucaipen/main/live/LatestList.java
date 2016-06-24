@@ -89,6 +89,8 @@ public class LatestList extends HttpServlet {
 				}
 				
 			}
+			
+			//rebateArray=filterRebates(rebateArray);
 			return JsonUtil.getLateList(rebateArray);
 		}else{
 			//ÔÂ°ñµ¥
@@ -108,9 +110,25 @@ public class LatestList extends HttpServlet {
      				rebateArray.add(rebate);
 				}
 			}
+			//rebateArray=filterRebates(rebateArray);
 			return JsonUtil.getLateList(rebateArray);
 		}
 		
+	}
+	
+	
+	public List<Rebate> filterRebates(List<Rebate> array){
+		//V:zhang V:zr V:Á³×Ó V:zr V:zhang
+		for(int i=0;i<array.size();i++){
+			int id=array.get(i).getFromId();
+			for(int j=0;j<array.size();j++){
+				int fId=array.get(j).getFromId();
+				if(id==fId){
+					array.remove(i);
+				}
+			}
+		}
+		return array;
 	}
 
 }

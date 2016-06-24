@@ -13,7 +13,11 @@ public class UserServer {
 	public static List<User> findUser(int page) {
 		UserDao dao = new UserImp();
 		return dao.findUser(page);
-
+	}
+	
+	public static User findUserChatInfo(int uId){
+		UserDao dao = new UserImp();
+		return dao.findUserChatInfo(uId);
 	}
 	
 

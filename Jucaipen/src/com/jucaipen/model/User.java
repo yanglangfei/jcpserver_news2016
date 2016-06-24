@@ -164,6 +164,9 @@ public class User implements Serializable {
 	 *  用户名
 	 */
 	private String userName;
+	/**
+	 *  
+	 */
 	private int isFree;
 	/**
 	 *  直播间 服务开始时间
@@ -181,8 +184,80 @@ public class User implements Serializable {
 	 *  是否客服 0否 1是
 	 */
 	private int serverId;
+	/**
+	 *  直播间服务课是否停止 0否 1是
+	 */
+	private int isRoomManager;
+	/**
+	 *  直播室产品Id
+	 */
+	private int buyProductId;
+	/**
+	 *  直播发言状态： 0,正常  1,禁言
+	 */
+	private int isGag;
+	/**
+	 *  是否无使用期  0有  1 无
+	 */
+	private int isssy;
+	/**
+	 *   0普通用户  1 第一直播间产品用户  2第二直播间产品用户
+	 */
+	private int chatType;
+	/**
+	 *  1 第一组 2第二组
+	 */
+	private int group;
+	
+	/**
+	 * 是否老师 0否 1是
+	 */
+	private int isTeacher;
 	
 	
+	
+	public int getIsRoomManager() {
+		return isRoomManager;
+	}
+	public void setIsRoomManager(int isRoomManager) {
+		this.isRoomManager = isRoomManager;
+	}
+	public int getBuyProductId() {
+		return buyProductId;
+	}
+	public void setBuyProductId(int buyProductId) {
+		this.buyProductId = buyProductId;
+	}
+	public int getIsGag() {
+		return isGag;
+	}
+	public void setIsGag(int isGag) {
+		this.isGag = isGag;
+	}
+	public int getIsssy() {
+		return isssy;
+	}
+	public void setIsssy(int isssy) {
+		this.isssy = isssy;
+	}
+	public int getChatType() {
+		return chatType;
+	}
+	public void setChatType(int chatType) {
+		this.chatType = chatType;
+	}
+	public int getGroup() {
+		return group;
+	}
+	public void setGroup(int group) {
+		this.group = group;
+	}
+	public int getIsTeacher() {
+		return isTeacher;
+	}
+	public void setIsTeacher(int isTeacher) {
+		this.isTeacher = isTeacher;
+	}
 	public int getIsFree() {
 		return isFree;
 	}
