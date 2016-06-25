@@ -21,6 +21,8 @@ public class VideoLiveMsg implements Serializable{
 	 *  SendName
 	 */
 	private String sendName;
+	
+	private String sendFace;
 	/**
 	 *  Msg
 	 */
@@ -37,6 +39,8 @@ public class VideoLiveMsg implements Serializable{
 	 *  ReceiverName
 	 */
 	private String receiverName;
+	
+	private String receiverFace;
 	/**
 	 *  Fk_VideoLiveId
 	 */
@@ -57,10 +61,63 @@ public class VideoLiveMsg implements Serializable{
 	 *  SendDate
 	 */
 	private String sendDate;
+	private int isTeacher;
+	private int isShouhu;
+	private int isChatAdmin;
+	private int userLeavel;
+	private int isServer;
+	
 	/**
 	 *  IP
 	 */
 	private String ip;
+	
+	
+	
+	
+	
+	public String getSendFace() {
+		return sendFace;
+	}
+	public void setSendFace(String sendFace) {
+		this.sendFace = sendFace;
+	}
+	public String getReceiverFace() {
+		return receiverFace;
+	}
+	public void setReceiverFace(String receiverFace) {
+		this.receiverFace = receiverFace;
+	}
+	public int getIsServer() {
+		return isServer;
+	}
+	public void setIsServer(int isServer) {
+		this.isServer = isServer;
+	}
+	public int getUserLeavel() {
+		return userLeavel;
+	}
+	public void setUserLeavel(int userLeavel) {
+		this.userLeavel = userLeavel;
+	}
+	public int getIsTeacher() {
+		return isTeacher;
+	}
+	public void setIsTeacher(int isTeacher) {
+		this.isTeacher = isTeacher;
+	}
+	public int getIsShouhu() {
+		return isShouhu;
+	}
+	public void setIsShouhu(int isShouhu) {
+		this.isShouhu = isShouhu;
+	}
+	public int getIsChatAdmin() {
+		return isChatAdmin;
+	}
+	public void setIsChatAdmin(int isChatAdmin) {
+		this.isChatAdmin = isChatAdmin;
+	}
 	public int getId() {
 		return id;
 	}
