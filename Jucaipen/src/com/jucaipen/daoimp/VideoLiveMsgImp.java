@@ -25,10 +25,11 @@ public class VideoLiveMsgImp implements VideoLiveMsgDao {
 			sta=dbConn.createStatement();
 			if(isChek){
 				//获取审核的聊天信息
-				res=sta.executeQuery("SELECT TOP "+count+" * FROM JCP_VideoLive_Msg WHERE Fk_VideoLiveId="+liveId+" AND shenhe>0 ORDER BY SendDate ASC");
+				//select TOP 10 * FROM (SELECT TOP 10 * from JCP_VideoLive_Msg WHERE Fk_VideoLiveId=5 AND shenhe>0 ORDER BY SendDate DESC) as a ORDER BY SendDate ASC
+				res=sta.executeQuery("SELECT  * FROM (SELECT TOP "+count+" * from JCP_VideoLive_Msg WHERE Fk_VideoLiveId="+liveId+" AND shenhe>0 ORDER BY SendDate DESC) as a ORDER BY SendDate ASC");
 			}else{
 				//获取全部的聊天信息
-				res=sta.executeQuery("SELECT TOP "+count+" * FROM JCP_VideoLive_Msg WHERE Fk_VideoLiveId="+liveId+" ORDER BY SendDate ASC");
+				res=sta.executeQuery("SELECT  * FROM (SELECT TOP "+count+" * from JCP_VideoLive_Msg WHERE Fk_VideoLiveId="+liveId+" ORDER BY SendDate DESC) as a ORDER BY SendDate ASC");
 			}
 			while (res.next()) {
 				int id=res.getInt(1); 
@@ -83,9 +84,10 @@ public class VideoLiveMsgImp implements VideoLiveMsgDao {
 				res=sta.executeQuery("SELECT  * FROM JCP_VideoLive_Msg WHERE Fk_VideoLiveId="+liveId+" AND shenhe>0  AND Id>"+maxId+" ORDER BY SendDate DESC");
 			}else{
 				//获取全部的聊天信息
-				res=sta.executeQuery("SELECT TOP  * FROM JCP_VideoLive_Msg WHERE Fk_VideoLiveId="+liveId+" ADN Id>"+maxId+" ORDER BY SendDate DESC");
+				res=sta.executeQuery("SELECT   * FROM JCP_VideoLive_Msg WHERE Fk_VideoLiveId="+liveId+" AND Id>"+maxId+" ORDER BY SendDate DESC");
 			}
 			while (res.next()) {
+				int id=res.getInt(1);
 				int senderId=res.getInt(2);  //SendUserId
 				String senderName=res.getString(3);  //SendName
 				String msg=res.getString(4);  //Msg
@@ -105,6 +107,7 @@ public class VideoLiveMsgImp implements VideoLiveMsgDao {
 				liveMsg.setSendName(senderName);
 				liveMsg.setMsg(msg);
 				liveMsg.setShenhe(shenhe);
+				liveMsg.setId(id);
 				liveMsg.setReceiverId(receiverId);
 				liveMsg.setReceiverName(receiverName);
 				liveMsg.setIsSysAdmin(isSysAdmin);
@@ -145,6 +148,7 @@ public class VideoLiveMsgImp implements VideoLiveMsgDao {
 		}
 		return 0;
 	}
+
 
 
 }

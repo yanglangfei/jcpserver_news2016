@@ -2,7 +2,7 @@ package com.jucaipen.dao;
 
 import java.util.List;
 
-import com.jucaipen.model.LiveMsg;
+import com.jucaipen.model.TxtLiveMsg;
 /**
  * @author Administrator
  *
@@ -10,38 +10,25 @@ import com.jucaipen.model.LiveMsg;
  *   直播互动
  */
 public interface TxtMsgDao {
+	/**
+	 * @param count
+	 * @param liveId
+	 * @return  获取指定文字直播聊天最近的几条记录
+	 */
+	public List<TxtLiveMsg> findLastTxtMsg(int count,int liveId,boolean isCheck);
+	/**
+	 * @param maxId
+	 * @param liveId
+	 * @param isCheck
+	 * @return  根据最大的id实时获取最新的聊天信息
+	 */
+	public List<TxtLiveMsg>  findTxtMsgByMaxId(int maxId,int liveId,boolean isCheck);
 	
 	/**
-	 * @param interactive
-	 * @return  添加互动
+	 * @param msg
+	 * @return  添加聊天信息
 	 */
-	public int insertLiveInteractive(LiveMsg interactive);
-	
-	/**
-	 * @return  获取所有互动
-	 */
-	public List<LiveMsg> findAll();
-	/**
-	 * @param userId
-	 * @return  根据用户id获取用户互动
-	 */
-	public List<LiveMsg> findByUserId(int userId);
-	/**
-	 * @param liveId
-	 * @return  根据直播id获取直播互动信息
-	 */
-	public List<LiveMsg> findByLiveId(int liveId,int page);
-	/**
-	 * @param uId
-	 * @param liveId
-	 * @return 根据用户id 直播id获取直播互动信息
-	 */
-	public List<LiveMsg> findByUidAndLiveId(int uId,int liveId);
-	/**
-	 * @param id
-	 * @return 根据id获取直播互动详细信息
-	 */
-	public LiveMsg findById(int id);
+	public int addMsg(TxtLiveMsg msg);
 	
 
 }

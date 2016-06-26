@@ -17,6 +17,16 @@ public class TxtLiveMsg implements Serializable{
 	 *  UserId
 	 */
 	private int userId;
+	
+	private String sendFace;
+	
+	private String receiverFace;
+	
+	private String userName;
+	
+	private String receiverName;
+	
+	private int UserLeavel;
 	/**
 	 *  MessBody
 	 */
@@ -49,6 +59,39 @@ public class TxtLiveMsg implements Serializable{
 	 *  IP
 	 */
 	private String ip;
+	
+	
+	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getReceiverName() {
+		return receiverName;
+	}
+	public void setReceiverName(String receiverName) {
+		this.receiverName = receiverName;
+	}
+	public int getUserLeavel() {
+		return UserLeavel;
+	}
+	public void setUserLeavel(int userLeavel) {
+		UserLeavel = userLeavel;
+	}
+	public String getSendFace() {
+		return sendFace;
+	}
+	public void setSendFace(String sendFace) {
+		this.sendFace = sendFace;
+	}
+	public String getReceiverFace() {
+		return receiverFace;
+	}
+	public void setReceiverFace(String receiverFace) {
+		this.receiverFace = receiverFace;
+	}
 	public int getId() {
 		return id;
 	}

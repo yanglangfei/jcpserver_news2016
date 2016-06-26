@@ -392,6 +392,11 @@
     <servlet-name>LiveChat</servlet-name>
     <servlet-class>com.jucaipen.main.live.LiveChat</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>TxtChat</servlet-name>
+    <servlet-class>com.jucaipen.main.live.TxtChat</servlet-class>
+  </servlet>
+
 
 
 
@@ -820,5 +825,9 @@
   <servlet-mapping>
     <servlet-name>LiveChat</servlet-name>
     <url-pattern>/jucaipen/getlivechat</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TxtChat</servlet-name>
+    <url-pattern>/jucaipen/gettxtchat</url-pattern>
   </servlet-mapping>
 </web-app>
