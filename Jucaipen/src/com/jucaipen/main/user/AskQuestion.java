@@ -21,7 +21,7 @@ import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
  * 
- *         咨询名师
+ *         咨询名师    同一个问题只能问三次，之后需要聚财币购买   
  */
 @SuppressWarnings("serial")
 public class AskQuestion extends HttpServlet {
@@ -129,7 +129,6 @@ public class AskQuestion extends HttpServlet {
 		ask.setIsReturnJcb(0);
 		isSuccess = AskSer.insertAsk(ask);
 		return isSuccess==1 ?JsonUtil.getRetMsg(0, "提问信息提交成功") : JsonUtil.getRetMsg(1,"提问信息提交失败");
-
 	}
 
 }

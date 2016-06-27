@@ -36,7 +36,6 @@ public class UpdatePhone extends HttpServlet {
 	private Map<String, String> param = new HashMap<String, String>();
 	private int isSuccess;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

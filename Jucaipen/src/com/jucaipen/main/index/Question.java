@@ -50,8 +50,7 @@ public class Question extends HttpServlet {
 							&& StringUtil.isInteger(type)) {
 						int t = Integer.parseInt(type);
 						if (t == 0) {
-							initAllQuestion(p);
-							result = JsonUtil.getAskList(asks, users);
+							result=initAllQuestion(p);
 						} else {
 							String teacherId = request.getParameter("teacherId");
 							if (StringUtil.isNotNull(teacherId)
@@ -96,7 +95,7 @@ public class Question extends HttpServlet {
 
 	}
 
-	private void initAllQuestion(int page) {
+	private String initAllQuestion(int page) {
 		// 初始化所有问答信息
 		users.clear();
 		asks = AskSer.findAllAsk(page);
@@ -108,7 +107,7 @@ public class Question extends HttpServlet {
 			}
 			users.add(user);
 		}
-
+		return JsonUtil.getAskList(asks, users);
 	}
 
 }

@@ -72,13 +72,13 @@ public class Login extends HttpServlet {
 		// 处理登录
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
-		if (userName.isEmpty()) {
+		if (!StringUtil.isNotNull(userName)) {
 			return JsonUtil.getRetMsg(4, "用户名不能为空");
 		}
 		if (!StringUtil.isUserName(userName)) {
 			return JsonUtil.getRetMsg(5, "用户名必须为1-10位");
 		}
-		if (password.isEmpty()) {
+		if (!StringUtil.isNotNull(password)) {
 			return JsonUtil.getRetMsg(6, "密码不能为空");
 		}
 		if (!StringUtil.isPassword(password)) {

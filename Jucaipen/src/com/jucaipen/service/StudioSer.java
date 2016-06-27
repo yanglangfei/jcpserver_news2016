@@ -5,7 +5,6 @@ import java.util.List;
 import com.jucaipen.dao.StudioDao;
 import com.jucaipen.daoimp.StudioImp;
 import com.jucaipen.model.Studio;
-
 /**
  * @author Administrator
  *
@@ -57,6 +56,25 @@ public class StudioSer{
 	public static List<Studio>  findStudioFansByToday(int week){
 		StudioDao dao=new StudioImp();
 		return dao.findStudioFansByToday(week);
+	}
+	
+	/**
+	 * @param id
+	 * @return  根据id获取人气信息
+	 */
+	public static int findStudioRenQiById(int id){
+		StudioDao dao=new StudioImp();
+		return dao.findStudioRenQiById(id);
+	}
+	
+	/**
+	 * @param id
+	 * @param renQi
+	 * @return 根据id获取人气信息
+	 */
+	public static int updateStudioRenQiById(int id,int renQi){
+		StudioDao dao=new StudioImp();
+		return dao.updateStudioRenQiById(id, renQi);
 	}
 
 }

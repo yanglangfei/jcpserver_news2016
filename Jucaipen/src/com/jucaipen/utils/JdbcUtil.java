@@ -25,7 +25,7 @@ public class JdbcUtil {
 	
 	
 	/**
-	 *   新数据库
+	 *   新数据库    正式
 	 */
 	private static final String SQLSERVER_DRIVER_N = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	private static final String SQLSERVER_URL_N= "jdbc:sqlserver://121.41.46.228; DatabaseName=JcpStudyPlatformData";

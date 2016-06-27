@@ -23,7 +23,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取主问答
+ *         获取主问答   ---主问答
  */
 @SuppressWarnings("serial")
 public class AnswerDetails extends HttpServlet {
@@ -57,15 +57,26 @@ public class AnswerDetails extends HttpServlet {
 		int isReply = ask.getAskState();
 		int uId = ask.getUserId();
 		User user = UserServer.findUserById(uId);
+		if(user==null){
+			user=new User();
+		}
 		if (isReply == 2) {
 			List<Answer> answer = AnswerSer.findAnswerByAskId(id);
-			int tId = answer.get(0).getTeacherId();
-			FamousTeacher teacher = FamousTeacherSer.findFamousTeacherById(tId);
-			return JsonUtil.getAnswerDetails(ask, answer.get(0), teacher, user);
+			if(answer!=null){
+				for(Answer ans : answer){
+					int teacherId=ans.getTeacherId();
+					FamousTeacher teacher = FamousTeacherSer.findFamousTeacherById(teacherId);
+					if(teacher==null){
+						teacher=new FamousTeacher();
+					}
+					ans.setTeacherFace(teacher.getHeadFace());
+					ans.setTeacherName(teacher.getNickName());
+					ans.setTeacherLeavel(teacher.getLevel());
+				}
+			}
+			return JsonUtil.getAnswerDetails(ask, answer, user);
 		} else {
 			return JsonUtil.getAskDetails(ask, user);
 		}
-
 	}
-
 }

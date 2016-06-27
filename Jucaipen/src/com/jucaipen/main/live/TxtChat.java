@@ -109,7 +109,6 @@ public class TxtChat extends HttpServlet {
 		int isRoomManager=user.getIsRoomManager();
 		int isSysAdmin=user.getIsSysAdmin();
 		int isTeacher=user.getIsTeacher();
-		
 		if(isSysAdmin==1||isRoomAdmin==1||isRoomManager==1||isTeacher==1){
 			 msgs = TxtMsgSer.findLastTxtMsg(10, liveId, false);
 		}else{

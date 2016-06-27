@@ -55,4 +55,14 @@ public class VideoLiveServer {
 		return dao.findLiveBytId(tId);
 	}
 	
+	
+	/**
+	 * @param isEnd
+	 * @return  获取正在直播的视频
+	 */
+	public static List<VideoLive>  findLiveByIsEnd(int isEnd){
+		VideoLiveDao dao=new VideoLiveImp();
+		return dao.findLiveByIsEnd(isEnd);
+	}
+	
 }

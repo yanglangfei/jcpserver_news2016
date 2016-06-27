@@ -37,5 +37,12 @@ public interface VideoLiveDao {
 	 * @return  获取讲师下的视频直播
 	 */
 	public List<VideoLive>  findLiveBytId(int tId);
+	
+	
+	/**
+	 * @param isEnd
+	 * @return   获取正在直播的视频直播
+	 */
+	public List<VideoLive>  findLiveByIsEnd(int isEnd);
 
 }

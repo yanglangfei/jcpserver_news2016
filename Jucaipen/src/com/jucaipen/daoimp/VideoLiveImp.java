@@ -243,4 +243,46 @@ public class VideoLiveImp implements VideoLiveDao {
 		return null;
 	}
 
+
+	@Override
+	public List<VideoLive> findLiveByIsEnd(int isEnd) {
+		chatRooms.clear();
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM JCP_VideoLive WHERE IsEnd="+isEnd);
+			while (res.next()) {
+				int id=res.getInt("Id");
+				String title=res.getString("Title");  //Title
+				String keyWord=res.getString("Keyword");  //Keyword
+				String desc=res.getString("Descirption");  //Descirption
+				int classId=res.getInt("Fk_CalssId");  //Fk_CalssId
+				String videoUrl=res.getString("Videourl");  //Videourl
+				String videoImage=res.getString("VideoImg");  //VideoImg
+				String startDate=res.getString("StratDate");  //StratDate
+				String endDate=res.getString("EndDate");  //EndDate
+				int renQi=res.getInt("RenQi");  //RenQi
+				int teacherId=res.getInt("Fk_TeacherId");
+				VideoLive live=new VideoLive();
+				live.setId(id);
+				live.setTitle(title);
+				live.setKeyWord(keyWord);
+				live.setDescript(desc);
+				live.setClassId(classId);
+				live.setVideoUrl(videoUrl);
+				live.setVideoImage(videoImage);
+				live.setTeacherId(teacherId);
+				live.setIsEnd(isEnd);
+				live.setStartDate(startDate);
+				live.setEndDate(endDate);
+				live.setRenQi(renQi);
+				chatRooms.add(live);
+			}
+			return chatRooms;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

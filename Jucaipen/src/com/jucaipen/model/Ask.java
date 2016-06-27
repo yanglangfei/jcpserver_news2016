@@ -27,6 +27,13 @@ public class Ask implements Serializable{
 	 * 提问用户id
 	 */
 	private int userId;
+	
+	private String userFace;
+	
+	private String userName;
+	
+	private int userLeavel;
+	
 	/**
 	 *  追提问id 追问有效
 	 */
@@ -89,8 +96,24 @@ public class Ask implements Serializable{
 	private int replyCount;
 	private List<Answer> answers=new ArrayList<Answer>();
 	
-	
-	
+	public String getUserFace() {
+		return userFace;
+	}
+	public void setUserFace(String userFace) {
+		this.userFace = userFace;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public int getUserLeavel() {
+		return userLeavel;
+	}
+	public void setUserLeavel(int userLeavel) {
+		this.userLeavel = userLeavel;
+	}
 	public List<Answer> getAnswers() {
 		return answers;
 	}

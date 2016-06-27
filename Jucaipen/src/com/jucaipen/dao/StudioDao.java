@@ -40,5 +40,17 @@ public interface StudioDao {
 	 * @return  获取演播室人气榜
 	 */
 	public List<Studio>  findStudioFansByToday(int week);
+	
+	/**
+	 * @param id
+	 * @return  通过演播室id获取人气
+	 */
+	public int findStudioRenQiById(int id);
+	
+	/**
+	 * @param id
+	 * @return  根据id修改人气信息
+	 */
+	public int updateStudioRenQiById(int id,int renQi);
 
 }

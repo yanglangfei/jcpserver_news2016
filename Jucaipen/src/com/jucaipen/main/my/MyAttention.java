@@ -96,7 +96,6 @@ public class MyAttention extends HttpServlet {
 			// 关注我的（针对讲师）
 			fans = FansSer.findFansByTeacherId(uId, p);
 		}
-
 		for (Fans f : fans) {
 			int uid = f.getUserId();
 			int tid = f.getTeacherId();

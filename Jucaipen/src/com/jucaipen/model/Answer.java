@@ -29,6 +29,12 @@ public class Answer implements Serializable{
 	 * 讲师id
 	 */
 	private int teacherId;
+	
+	private String teacherName;
+	
+	private String teacherFace;
+	
+	private String teacherLeavel;
 	/**
 	 * 回答问题的id
 	 */
@@ -49,6 +55,26 @@ public class Answer implements Serializable{
 	 *  私密部分
 	 */
 	private String privateBody;
+	
+	
+	public String getTeacherName() {
+		return teacherName;
+	}
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
+	public String getTeacherFace() {
+		return teacherFace;
+	}
+	public void setTeacherFace(String teacherFace) {
+		this.teacherFace = teacherFace;
+	}
+	public String getTeacherLeavel() {
+		return teacherLeavel;
+	}
+	public void setTeacherLeavel(String teacherLeavel) {
+		this.teacherLeavel = teacherLeavel;
+	}
 	public int getPage() {
 		return page;
 	}

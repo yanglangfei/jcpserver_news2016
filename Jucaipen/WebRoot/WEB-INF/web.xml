@@ -396,47 +396,10 @@
     <servlet-name>TxtChat</servlet-name>
     <servlet-class>com.jucaipen.main.live.TxtChat</servlet-class>
   </servlet>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <servlet>
+    <servlet-name>Encourage</servlet-name>
+    <servlet-class>com.jucaipen.main.play.Encourage</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>QuerryAdvise</servlet-name>
@@ -829,5 +792,9 @@
   <servlet-mapping>
     <servlet-name>TxtChat</servlet-name>
     <url-pattern>/jucaipen/gettxtchat</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Encourage</servlet-name>
+    <url-pattern>/jucaipen/encourage</url-pattern>
   </servlet-mapping>
 </web-app>

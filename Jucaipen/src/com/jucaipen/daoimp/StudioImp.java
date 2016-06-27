@@ -179,7 +179,9 @@ public class StudioImp implements StudioDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT Id,Title,RenQi,StratDate,EndDate,StudioUrl,ImageUrl FROM JCP_Studio WHERE BeginShowDate LIKE ('%"+week+"%')");
+			res=sta.executeQuery("SELECT Id,Title,RenQi,StratDate,EndDate,"
+					+ "StudioUrl,ImageUrl FROM JCP_Studio "
+					+ "WHERE BeginShowDate LIKE ('%"+week+"%') ORDER BY SortId ASC");
 			while (res.next()) {
 				int id=res.getInt("Id");
 				String title=res.getString("Title");
@@ -297,6 +299,32 @@ public class StudioImp implements StudioDao {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int findStudioRenQiById(int id) {
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT RenQi FROM JCP_Studio WHERE Id="+id);
+			res.next();
+			return res.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public int updateStudioRenQiById(int id,int renQi) {
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_Studio SET RenQi="+renQi+" WHERE Id="+id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 	

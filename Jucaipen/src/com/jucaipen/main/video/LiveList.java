@@ -77,9 +77,9 @@ public class LiveList extends HttpServlet {
 	}
 
 	private String initLive(int page) {
-		// 初始化视频直播
+		// 初始化视频直播    ----正在直播的视频
 		teachers.clear();
-		List<VideoLive> videos = VideoLiveServer.findAll(page);
+		List<VideoLive> videos = VideoLiveServer.findLiveByIsEnd(2);
 		for (VideoLive live : videos) {
 			int tId = live.getTeacherId();
 			FamousTeacher teacher = FamousTeacherSer.findFamousTeacherById(tId);
@@ -93,9 +93,9 @@ public class LiveList extends HttpServlet {
 	}
 
 	private String initTxtLive(int page) {
-		// 初始化文字直播
+		// 初始化文字直播   ---获取正在直播的文字直播
 		teachers.clear();
-		List<TextLive> txtLives = TxtLiveSer.findAllTextLive(page);
+		List<TextLive> txtLives = TxtLiveSer.findTextLiveByIsEnd(2);
 		for (TextLive txt : txtLives) {
 			int tId = txt.getTeacherId();
 			FamousTeacher teacher = FamousTeacherSer.findFamousTeacherById(tId);

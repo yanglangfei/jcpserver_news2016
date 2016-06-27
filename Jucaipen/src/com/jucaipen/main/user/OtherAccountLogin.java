@@ -89,7 +89,6 @@ public class OtherAccountLogin extends HttpServlet {
 	private void loginUser(int type, String accountId) {
 		// 利用第三方账号登录程序
 		user = UserServer.otherAccountLogin(type, accountId);
-
 	}
 
 }
