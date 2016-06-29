@@ -90,7 +90,7 @@ public class VideoList extends HttpServlet {
 
 	private String initIndexData() {
 		// 初始化首页数据
-		List<Video> videos = VideoServer.findVideoByLast(2);
+		List<Video> videos = VideoServer.findVideoByLast(4);
 		for(Video video: videos){
 			int pecialId=video.getPecialId();
 			Special sp=SpecialSer.findSpecialById(pecialId);

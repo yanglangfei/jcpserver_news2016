@@ -69,6 +69,7 @@ public class LatestList extends HttpServlet {
 		//初始化榜单信息  
 		List<Rebate> rebateArray=new ArrayList<Rebate>();
 		VideoLive live=VideoLiveServer.getRoomInfo(lId);
+		System.out.println(lId);
 		int tId=live.getTeacherId();
 		List<Rebate> rebates = RebateSer.findRebateByTid(tId);
 		if(t==0){

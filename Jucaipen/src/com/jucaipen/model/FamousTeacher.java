@@ -66,6 +66,10 @@ public class FamousTeacher implements Serializable{
 	 * 日志数
 	 */
 	private int articleCount;
+	/**
+	 *   视频直播是否结束
+	 */
+	private int liveIsEnd;
 
 	/**
 	 * 日志阅读量
@@ -170,6 +174,14 @@ public class FamousTeacher implements Serializable{
 	
 	
 	
+	
+	
+	public int getLiveIsEnd() {
+		return liveIsEnd;
+	}
+	public void setLiveIsEnd(int liveIsEnd) {
+		this.liveIsEnd = liveIsEnd;
+	}
 	public boolean isAttention() {
 		return isAttention;
 	}

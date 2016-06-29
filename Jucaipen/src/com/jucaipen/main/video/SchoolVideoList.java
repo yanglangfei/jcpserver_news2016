@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.model.Special;
 import com.jucaipen.model.Video;
+import com.jucaipen.service.SpecialSer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
@@ -47,6 +49,16 @@ public class SchoolVideoList extends HttpServlet {
 	private String initTeachList() {
 		// 初始化视频教程
 		List<Video> videos = VideoServer.findVideoByClassIdLast(4, 9);
+		if(videos!=null){
+			for(Video video : videos){
+				//是否为付费视频  0为免费视频，1为付费视频
+				int specialId=video.getPecialId();
+				int videoType=video.getVideoType();
+				video.setCharge(videoType==1);
+				Special special = SpecialSer.findSpecialById(specialId);
+				video.setSpecial(special!=null);
+			}
+		}
 		return JsonUtil.getTeachVideList(videos);
 	}
 

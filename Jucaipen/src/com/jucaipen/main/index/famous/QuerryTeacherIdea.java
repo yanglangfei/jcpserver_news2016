@@ -14,6 +14,7 @@ import com.google.gson.JsonArray;
 import com.jucaipen.model.Answer;
 import com.jucaipen.model.Ask;
 import com.jucaipen.model.HotIdea;
+import com.jucaipen.model.Special;
 import com.jucaipen.model.TextLive;
 import com.jucaipen.model.TxtLiveDetails;
 import com.jucaipen.model.User;
@@ -22,6 +23,7 @@ import com.jucaipen.model.VideoLive;
 import com.jucaipen.service.AnswerSer;
 import com.jucaipen.service.AskSer;
 import com.jucaipen.service.HotIdeaServ;
+import com.jucaipen.service.SpecialSer;
 import com.jucaipen.service.TxtLiveDetaileSer;
 import com.jucaipen.service.TxtLiveSer;
 import com.jucaipen.service.UserServer;
@@ -132,6 +134,16 @@ public class QuerryTeacherIdea extends HttpServlet {
 			//直播
 			List<VideoLive> lives = VideoLiveServer.findLiveBytId(tId);
 			List<Video> videos = VideoServer.findVideoByTeacherId(tId, p);
+			if(videos!=null){
+				for(Video video : videos){
+					//是否为付费视频  0为免费视频，1为付费视频
+					int videoType=video.getVideoType();
+					int specialId=video.getPecialId();
+					video.setCharge(videoType==1);
+					Special special = SpecialSer.findSpecialById(specialId);
+					video.setSpecial(special!=null);
+				}
+			}
 			return JsonUtil.getLive(lives,videos);
 		}
 	}

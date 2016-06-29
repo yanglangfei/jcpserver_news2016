@@ -13,8 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.Fans;
+import com.jucaipen.model.VideoLive;
 import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.FansSer;
+import com.jucaipen.service.VideoLiveServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
@@ -90,17 +92,16 @@ public class QuerryTeacher extends HttpServlet {
 	private String initAllData(int page,int uId) {
 		// 初始化全部名师信息
 		List<FamousTeacher> teachers = FamousTeacherSer.findAllFamousTeacher(page);
-		List<Integer>  isAttentions=new ArrayList<Integer>();
-		for(FamousTeacher teacher : teachers){
-			int tId=teacher.getId();
-			Fans fan=FansSer.findIsFans(uId, tId);
-			if(fan!=null){
-				isAttentions.add(0);
-			}else{
-				isAttentions.add(1);
+		if(teachers!=null){
+			for(FamousTeacher teacher : teachers){
+				int tId=teacher.getId();
+				List<VideoLive> lives = VideoLiveServer.findLiveBytId(tId);
+				if(lives!=null&&lives.size()>0){
+					teacher.setLiveIsEnd(lives.get(0).getIsEnd());
+				}
 			}
 		}
-		return JsonUtil.getFamousTeacherList(teachers,isAttentions);
+		return JsonUtil.getAllFamousTeacherList(teachers);
 	}
 
 	private String initIndexData(int uId) {

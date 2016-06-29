@@ -52,7 +52,7 @@ public class AskImp implements AskDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY AskDate desc) AS RowNumber,* FROM JCP_Ask) A "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY AskDate ASC) AS RowNumber,* FROM JCP_Ask) A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
 			asks = getAsk(res, page, totlePage);
 			return asks;

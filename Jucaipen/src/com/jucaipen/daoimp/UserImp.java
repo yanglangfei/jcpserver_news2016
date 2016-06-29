@@ -798,6 +798,7 @@ public class UserImp implements UserDao {
 				String userName = res.getString(4);
 				String telPhone = res.getString(5);
 				User user = new User();
+				user.setId(id);
 				user.setUserLeval(leavel);
 				user.setFaceImage(userFace);
 				user.setNickName(nickName);

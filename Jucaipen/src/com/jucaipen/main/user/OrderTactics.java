@@ -52,7 +52,7 @@ public class OrderTactics extends HttpServlet {
 						result = JsonUtil.getRetMsg(4, "tacticeId 参数不能为空");
 					}
 				} else {
-					result = JsonUtil.getRetMsg(3, " 用户还没登录");
+					result = JsonUtil.getRetMsg(3, "用户还没登录");
 				}
 			} else {
 				result = JsonUtil.getRetMsg(2, "userId 参数数字格式化异常");

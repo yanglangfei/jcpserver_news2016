@@ -17,6 +17,7 @@ import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.LoginLog;
 import com.jucaipen.model.User;
 import com.jucaipen.service.LoginLogServer;
+import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
@@ -94,8 +95,7 @@ public class Login extends HttpServlet {
 		if(res){
 			//登录成功处理
 			handleLoginLog(userName, 0, userId, password, "登录成功", os);
-			User user=new User();
-			user.setId(userId);
+			User user=UserServer.findBaseInfoById(userId);
 			return JsonUtil.getLoginResult(user);
 		}else{
 			//登录失败处理

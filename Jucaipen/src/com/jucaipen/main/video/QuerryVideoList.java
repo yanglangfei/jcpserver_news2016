@@ -4,12 +4,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.jucaipen.model.Special;
 import com.jucaipen.model.Video;
 import com.jucaipen.model.VideoClass;
+import com.jucaipen.service.SpecialSer;
 import com.jucaipen.service.VideoClassSer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.JsonUtil;
@@ -85,6 +89,16 @@ public class QuerryVideoList extends HttpServlet {
 			cIdArray.delete(cIdArray.length()-1, cIdArray.length());
 			
 			List<Video> videos = VideoServer.findVideoByTypeAndClassIdAndTeacherId(type, cIdArray.toString(), tId, p);
+			if(videos!=null){
+				for(Video video : videos){
+					//是否为付费视频  0为免费视频，1为付费视频
+					int specialId=video.getPecialId();
+					int videoType=video.getVideoType();
+					video.setCharge(videoType==1);
+					Special special=SpecialSer.findSpecialById(specialId);
+					video.setSpecial(special!=null);
+				}
+			}
 			return JsonUtil.getVideoList(videos);
 		}
 		// cId>0
@@ -102,6 +116,17 @@ public class QuerryVideoList extends HttpServlet {
 			}
 			cIdArray.delete(cIdArray.length()-1, cIdArray.length());
 			List<Video> videos = VideoServer.findVideoByClassId(cIdArray.toString(), p);
+			if(videos!=null){
+				for(Video video : videos){
+					//是否为付费视频  0为免费视频，1为付费视频
+					int specialId=video.getPecialId();
+					int videoType=video.getVideoType();
+					video.setCharge(videoType==1);
+					Special special=SpecialSer.findSpecialById(specialId);
+					video.setSpecial(special!=null);
+				}
+			}
+			
 			return JsonUtil.getVideoList(videos);
 		}
 		
@@ -120,6 +145,17 @@ public class QuerryVideoList extends HttpServlet {
 			
 			List<Video> videos = VideoServer.findVideoByTypeAndClassId(type,
 					cIdArray.toString(), p);
+			if(videos!=null){
+				for(Video video : videos){
+					//是否为付费视频  0为免费视频，1为付费视频
+					int specialId=video.getPecialId();
+					int videoType=video.getVideoType();
+					video.setCharge(videoType==1);
+					Special special=SpecialSer.findSpecialById(specialId);
+					video.setSpecial(special!=null);
+				}
+			}
+			
 			return JsonUtil.getVideoList(videos);
 		}
 
@@ -139,6 +175,17 @@ public class QuerryVideoList extends HttpServlet {
 			
 			List<Video> videos = VideoServer.findVideoByTeacherIdAndClassId(
 					tId, cIdArray.toString(), p);
+			if(videos!=null){
+				for(Video video : videos){
+					//是否为付费视频  0为免费视频，1为付费视频
+					int specialId=video.getPecialId();
+					int videoType=video.getVideoType();
+					video.setCharge(videoType==1);
+					Special special=SpecialSer.findSpecialById(specialId);
+					video.setSpecial(special!=null);
+				}
+			}
+			
 			return JsonUtil.getVideoList(videos);
 		}
 
