@@ -241,4 +241,22 @@ public class GuardianImp implements GuardianDao {
 		return null;
 	}
 
+	@Override
+	public Guardian findIsGuardian(int teacherId, int userId) {
+	     dbConn=JdbcUtil.connSqlServer();
+	     try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT Id FROM JCP_ShouHuZhe WHERE FK_UserId="+userId+" AND FK_TearchId="+teacherId+" AND State=0");
+			while (res.next()) {
+				int id=res.getInt(1);
+				Guardian guardian=new Guardian();
+				guardian.setId(id);
+				return guardian;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

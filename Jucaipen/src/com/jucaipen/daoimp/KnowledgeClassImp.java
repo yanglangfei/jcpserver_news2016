@@ -63,7 +63,7 @@ public class KnowledgeClassImp implements KnowledgeClassDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCP_BasicKnowledgeClass");
+					.executeQuery("SELECT * FROM JCP_BasicKnowledgeClass ORDER BY SortId");
             while (res.next()) {
             	int id=res.getInt(1);
 				String name=res.getString(2);  //ClassName
@@ -99,7 +99,7 @@ public class KnowledgeClassImp implements KnowledgeClassDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCP_BasicKnowledgeClass WHERE ParentId="+pId);
+					.executeQuery("SELECT * FROM JCP_BasicKnowledgeClass WHERE ParentId="+pId+" ORDER BY SortId");
             while (res.next()) {
             	int id=res.getInt(1);
 				String name=res.getString(2);  //ClassName

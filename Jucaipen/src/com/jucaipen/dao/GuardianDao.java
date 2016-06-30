@@ -41,5 +41,12 @@ public interface GuardianDao {
 	 * @return 添加守护信息
 	 */
 	public int addGuardian(Guardian guardian);
+	
+	/**
+	 * @param teacherId
+	 * @param userId
+	 * @return  获取是否守护
+	 */
+	public Guardian findIsGuardian(int teacherId,int userId);
 
 }

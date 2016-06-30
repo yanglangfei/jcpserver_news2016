@@ -52,7 +52,8 @@ public class LastPlay extends HttpServlet {
 			for(Video v : videos){
 				Special special=SpecialSer.findSpecialById(v.getPecialId());
 			    v.setSpecial(special!=null);
-			}
+			    v.setCharge(v.getVideoType()==1);
+			}     
 			return JsonUtil.getLastPlayList(videos);
 		}else{
 			String page=req.getParameter("page");
@@ -62,6 +63,7 @@ public class LastPlay extends HttpServlet {
 				for(Video v : videos){
 					Special special=SpecialSer.findSpecialById(v.getPecialId());
 				    v.setSpecial(special!=null);
+				    v.setCharge(v.getVideoType()==1);
 				}
 				return JsonUtil.getLastPlayList(videos);
 			}else{

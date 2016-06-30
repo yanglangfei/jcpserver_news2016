@@ -400,6 +400,21 @@
     <servlet-name>Encourage</servlet-name>
     <servlet-class>com.jucaipen.main.play.Encourage</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>QuerryIsCollect</servlet-name>
+    <servlet-class>com.jucaipen.main.index.QuerryIsCollect</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>StudioChat</servlet-name>
+    <servlet-class>com.jucaipen.main.live.StudioChat</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>QuerryIsGradian</servlet-name>
+    <servlet-class>com.jucaipen.main.my.QuerryIsGradian</servlet-class>
+  </servlet>
+
+
+
 
   <servlet-mapping>
     <servlet-name>QuerryAdvise</servlet-name>
@@ -796,5 +811,17 @@
   <servlet-mapping>
     <servlet-name>Encourage</servlet-name>
     <url-pattern>/jucaipen/encourage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryIsCollect</servlet-name>
+    <url-pattern>/jucaipen/getiscollect</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>StudioChat</servlet-name>
+    <url-pattern>/jucaipen/getstudiochat</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryIsGradian</servlet-name>
+    <url-pattern>/jucaipen/getisgradian</url-pattern>
   </servlet-mapping>
 </web-app>

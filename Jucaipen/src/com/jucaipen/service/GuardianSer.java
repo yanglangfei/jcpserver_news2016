@@ -61,5 +61,15 @@ public class GuardianSer  {
 		GuardianDao dao=new GuardianImp();
 		return dao.addGuardian(guardian);
 	}
+	
+	/**
+	 * @param teacherId
+	 * @param userId
+	 * @return  »ñÈ¡ÊØ»¤×´Ì¬
+	 */
+	public static Guardian findIsGuardian(int teacherId,int userId){
+		GuardianDao dao=new GuardianImp();
+		return dao.findIsGuardian(teacherId, userId);
+	}
 
 }

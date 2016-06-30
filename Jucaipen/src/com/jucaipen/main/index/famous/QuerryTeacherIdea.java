@@ -31,120 +31,121 @@ import com.jucaipen.service.VideoLiveServer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
+
 /**
- * @author Administrator
- *     type    (0   观点)   (1   问答)   (2   文字直播)   (3  视频直播)
+ * @author Administrator type (0 观点) (1 问答) (2 文字直播) (3 视频直播)
  */
 @SuppressWarnings("serial")
 public class QuerryTeacherIdea extends HttpServlet {
 	private String result;
+
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String isIndex=request.getParameter("isIndex");
-		String teacherId=request.getParameter("teacherId");
-		String typeId=request.getParameter("typeId");
-		String page=request.getParameter("page");
-		if(StringUtil.isNotNull(teacherId)){
-			if(StringUtil.isInteger(teacherId)){
-				int tId=Integer.parseInt(teacherId);
-				if(StringUtil.isNotNull(typeId)&&StringUtil.isInteger(typeId)){
-					int type=Integer.parseInt(typeId);
-					if(StringUtil.isNotNull(page)&&StringUtil.isInteger(page)){
-						int p=Integer.parseInt(page);
-						if(StringUtil.isNotNull(isIndex)&&StringUtil.isInteger(isIndex)){
-							int index=Integer.parseInt(isIndex);
-							result=initTeacherIdeaData(tId,type,p,index);
-						}else{
-							result=JsonUtil.getRetMsg(5,"isIndex 参数异常");
+		String isIndex = request.getParameter("isIndex");
+		String teacherId = request.getParameter("teacherId");
+		String typeId = request.getParameter("typeId");
+		String page = request.getParameter("page");
+		if (StringUtil.isNotNull(teacherId)) {
+			if (StringUtil.isInteger(teacherId)) {
+				int tId = Integer.parseInt(teacherId);
+				if (StringUtil.isNotNull(typeId)
+						&& StringUtil.isInteger(typeId)) {
+					int type = Integer.parseInt(typeId);
+					if (StringUtil.isNotNull(page)
+							&& StringUtil.isInteger(page)) {
+						int p = Integer.parseInt(page);
+						if (StringUtil.isNotNull(isIndex)
+								&& StringUtil.isInteger(isIndex)) {
+							int index = Integer.parseInt(isIndex);
+							result = initTeacherIdeaData(tId, type, p, index);
+						} else {
+							result = JsonUtil.getRetMsg(5, "isIndex 参数异常");
 						}
-					}else{
-						result=JsonUtil.getRetMsg(4,"page 参数异常");
+					} else {
+						result = JsonUtil.getRetMsg(4, "page 参数异常");
 					}
-				}else{
-					result=JsonUtil.getRetMsg(3,"typeId 参数异常");
+				} else {
+					result = JsonUtil.getRetMsg(3, "typeId 参数异常");
 				}
-			}else{
-				result=JsonUtil.getRetMsg(2,"teacherId 参数数字格式化异常");
+			} else {
+				result = JsonUtil.getRetMsg(2, "teacherId 参数数字格式化异常");
 			}
-		}else{
-			result=JsonUtil.getRetMsg(1,"teacherId 参数不能为空");
+		} else {
+			result = JsonUtil.getRetMsg(1, "teacherId 参数不能为空");
 		}
 		out.print(result);
 		out.flush();
 		out.close();
 	}
 
-	private String initTeacherIdeaData(int tId, int type, int p,int isIndex) {
-		// 初始化讲师热门观点   问答   文字直播   直播信息
-		if(type==0){
-			//热门观点
+	private String initTeacherIdeaData(int tId, int type, int p, int isIndex) {
+		// 初始化讲师热门观点 问答 文字直播 直播信息
+		if (type == 0) {
+			// 热门观点
 			List<HotIdea> ideas;
-			if(isIndex==0){
-				//首页
-				ideas=HotIdeaServ.findLastIdeaByTeacherId(tId, 3);
-			}else{
+			if (isIndex == 0) {
+				// 首页
+				ideas = HotIdeaServ.findLastIdeaByTeacherId(tId, 3);
+			} else {
 				ideas = HotIdeaServ.findIdeaByTeacherId(tId, p);
 			}
 			return JsonUtil.getIdeaList(ideas);
-		}else if(type==1){
-			//问答
-			 List<Ask> asks;
-			 if(isIndex==0){
-				 //首页
-				 asks=AskSer.findLastByTeacherId(tId,3);
-			 }else {
-				  asks = AskSer.findAskByTeacherId(tId, p);
+		} else if (type == 1) {
+			// 问答
+			List<Ask> asks;
+			if (isIndex == 0) {
+				// 首页
+				asks = AskSer.findLastByTeacherId(tId, 3);
+			} else {
+				asks = AskSer.findAskByTeacherId(tId, p);
 			}
-			 
-			 List<User> users=new ArrayList<User>();
-			 for(Ask ask : asks){
-				 int uId=ask.getUserId();
-				 User user=UserServer.findUserById(uId);
-				 int isReply=ask.getIsReply();
-				 List<Answer> answer=AnswerSer.findAnswerByAskId(ask.getId());
-				 if(answer!=null&&isReply==2&&answer.size()>0){
-					 ask.setReplyBody(answer.get(0).getAnswerBody());
-				 }
-				 if(user==null){
-					 user=new User();
-				 }
-				 users.add(user);
-			 }
-			 return JsonUtil.getAskList(asks, users);
-		}else if(type==2){
-			//文字直播
-			List<TxtLiveDetails> txtDetails;
-			List<TextLive> txts = TxtLiveSer.findTxtLiveByTeacherIdAndLast(tId, 1);
-			if(txts!=null&&txts.size()>0){
-				TextLive txt = txts.get(0);
-				if(isIndex==0){
-					//首页
-					txtDetails=TxtLiveDetaileSer.findLaseDetaileByLiveId(txt.getId(), 3,0);
-				}else{
-					txtDetails = TxtLiveDetaileSer.findTextDetaileByLiveId(txt.getId(),0);
+
+			List<User> users = new ArrayList<User>();
+			for (Ask ask : asks) {
+				int uId = ask.getUserId();
+				User user = UserServer.findUserById(uId);
+				int isReply = ask.getIsReply();
+				List<Answer> answer = AnswerSer.findAnswerByAskId(ask.getId());
+				if (answer != null && isReply == 2 && answer.size() > 0) {
+					ask.setReplyBody(answer.get(0).getAnswerBody());
 				}
-				return JsonUtil.getTxtLiveByTeacherId(txt,txtDetails);
+				if (user == null) {
+					user = new User();
+				}
+				users.add(user);
 			}
-			return new JsonArray().toString();
-		}else{
-			//直播
+			return JsonUtil.getAskList(asks, users);
+		} else if (type == 2) {
+			// 文字直播
+			List<TextLive> txts = TxtLiveSer.findTxtLiveByTeacherIdAndLast(tId,
+					1);
+			List<TextLive> allTxts;
+			if (isIndex == 0) {
+				// 首页
+				allTxts = TxtLiveSer.findTxtLiveByTeacherIdAndLast(tId, 3);
+			} else {
+				allTxts = TxtLiveSer.findTextLiveByTeacherId(tId, p);
+			}
+			return JsonUtil.getTxtLiveByTeacherId(txts, allTxts);
+		} else {
+			// 直播
 			List<VideoLive> lives = VideoLiveServer.findLiveBytId(tId);
 			List<Video> videos = VideoServer.findVideoByTeacherId(tId, p);
-			if(videos!=null){
-				for(Video video : videos){
-					//是否为付费视频  0为免费视频，1为付费视频
-					int videoType=video.getVideoType();
-					int specialId=video.getPecialId();
-					video.setCharge(videoType==1);
+			if (videos != null) {
+				for (Video video : videos) {
+					// 是否为付费视频 0为免费视频，1为付费视频
+					int videoType = video.getVideoType();
+					int specialId = video.getPecialId();
+					video.setCharge(videoType == 1);
 					Special special = SpecialSer.findSpecialById(specialId);
-					video.setSpecial(special!=null);
+					video.setSpecial(special != null);
 				}
 			}
-			return JsonUtil.getLive(lives,videos);
+			return JsonUtil.getLive(lives, videos);
 		}
 	}
 
