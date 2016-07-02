@@ -37,7 +37,14 @@ public class SchoolVideoList extends HttpServlet {
 		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
-			result=initTeachList();
+			String page=request.getParameter("page");
+			if(StringUtil.isNotNull(page)&&StringUtil.isInteger(page)){
+				int p=Integer.parseInt(page);
+				result=initTeachList(p);
+			}else{
+				result=JsonUtil.getRetMsg(1,"page 参数异常");
+			}
+			
 		} else {
 			result = StringUtil.isVaild;
 		}
@@ -46,9 +53,9 @@ public class SchoolVideoList extends HttpServlet {
 		out.close();
 	}
 	
-	private String initTeachList() {
+	private String initTeachList(int p) {
 		// 初始化视频教程
-		List<Video> videos = VideoServer.findVideoByClassIdLast(4, 9);
+		List<Video> videos = VideoServer.findVideoByClassId(9+"", p);
 		if(videos!=null){
 			for(Video video : videos){
 				//是否为付费视频  0为免费视频，1为付费视频

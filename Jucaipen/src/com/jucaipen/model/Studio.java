@@ -85,6 +85,12 @@ public class Studio {
 	 */
 	private String beginShowDate;
 	
+	public String getBeginShowDate() {
+		return beginShowDate;
+	}
+	public void setBeginShowDate(String beginShowDate) {
+		this.beginShowDate = beginShowDate;
+	}
 	public int getPage() {
 		return page;
 	}

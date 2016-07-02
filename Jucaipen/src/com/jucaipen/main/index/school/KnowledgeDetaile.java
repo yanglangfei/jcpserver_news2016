@@ -57,23 +57,6 @@ public class KnowledgeDetaile extends HttpServlet {
 			int fromId=knowledge.getFromId();
 			String from = ResourceFromServer.getRSources(fromId);
 			knowledge.setFrom(from);
-			//获取上下篇
-			Knowledge lastKnow=KnowledgetSer.findTitleById(kId-1, cId);
-			Knowledge nextKnow=KnowledgetSer.findTitleById(kId+1, cId);
-			if(lastKnow==null){
-				knowledge.setLastId(-1);
-				knowledge.setLastTitle("没有上一篇");
-			}else{
-				knowledge.setLastId(kId-1);
-				knowledge.setLastTitle(lastKnow.getTitle());
-			}
-			if(nextKnow==null){
-				knowledge.setNextId(-1);
-				knowledge.setNextTitle("没有下一篇");
-			}else{
-				knowledge.setNextId(kId+1);
-				knowledge.setNextTitle(nextKnow.getTitle());
-			}
 		}
 		return JsonUtil.getKnowDetails(knowledge);
 	}

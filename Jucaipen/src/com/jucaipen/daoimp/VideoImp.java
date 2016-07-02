@@ -480,7 +480,7 @@ public class VideoImp implements VideoDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select Id,Title,KeyWords,PlayCount,InsertDate,Description from JCP_Video where Id="
+					.executeQuery("select Id,Title,KeyWords,PlayCount,InsertDate,Description,ImagesUrl from JCP_Video where Id="
 							+ id);
 			while (res.next()) {
 				int vId = res.getInt(SqlUtil.NEWS_ID);
@@ -489,8 +489,10 @@ public class VideoImp implements VideoDao {
 				String insertDate = res.getString(SqlUtil.VIDEO_INSERTDATE);
 				int hitCount = res.getInt(SqlUtil.VIDEO_HITCOUNT);
 				String Description = res.getString(SqlUtil.VIDEO_DESC);
+				String imageUrl=res.getString("ImagesUrl");
 				Video video = new Video(vId, title);
 				video.setKeyWords(keyWord);
+				video.setImages(imageUrl);
 				video.setInsertDate(insertDate);
 				video.setHitCount(hitCount);
 				video.setDescript(Description);

@@ -3,20 +3,16 @@ package com.jucaipen.main.index.famous;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.Answer;
 import com.jucaipen.model.Ask;
 import com.jucaipen.model.FamousTeacher;
-import com.jucaipen.model.User;
 import com.jucaipen.service.AnswerSer;
 import com.jucaipen.service.AskSer;
 import com.jucaipen.service.FamousTeacherSer;
-import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
@@ -56,7 +52,7 @@ public class AnswerDetails extends HttpServlet {
 		Ask ask = AskSer.findAskById(id);
 		System.out.println(id);
 		int isReply = ask.getIsReply();
-		if (isReply == 2) {
+		if (isReply == 2) {           
 			List<Answer> answer = AnswerSer.findAnswerByAskId(id);
 			if(answer!=null){
 				for(Answer ans : answer){

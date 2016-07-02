@@ -102,7 +102,7 @@ public class QuerryMySale extends HttpServlet {
 					video=new Video();
 				}
 				vd.setVideoImag(video.getImages());
-				vd.setVideoImag(video.getTitle());
+				vd.setVideoTitle(video.getTitle());
 			}
 			return JsonUtil.getMyVideoList(myVideos);
 		} else if (type == 1) {
