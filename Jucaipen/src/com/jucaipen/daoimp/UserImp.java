@@ -103,7 +103,7 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select UserLevel,UserName,FK_InvestmentTypeId,ISNULL(TrueName,'') TrueName,ISNULL(NickName,'') NickName,ISNULL(Sex,'') Sex,ISNULL(MobileNum,'') MobileNum,ProvinceID,CiytID,AreaID,ISNULL(UserInformation,'') UserInformation,ISNULL(Birthday,'') Birthday,ISNULL(UserFace,'') UserFace from JCP_User where Id="
+					.executeQuery("select UserLevel,UserName,ISNULL(FK_InvestmentTypeId,'') FK_InvestmentTypeId,ISNULL(TrueName,'') TrueName,ISNULL(NickName,'') NickName,ISNULL(Sex,'') Sex,ISNULL(MobileNum,'') MobileNum,ProvinceID,CiytID,AreaID,ISNULL(UserInformation,'') UserInformation,ISNULL(Birthday,'') Birthday,ISNULL(UserFace,'') UserFace from JCP_User where Id="
 							+ id);
 			while (res.next()) {
 				String userName = res.getString("UserName");
@@ -334,7 +334,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("update JCP_User set NickName='"
+			return  sta.executeUpdate("update JCP_User set NickName='"
 					+ user.getNickName() + "',TrueName='" + user.getTrueName()
 					+ "',Sex='" + user.getSex() + "',UserInformation='"
 					+ user.getDescript() + "',Birthday='" + user.getBirthday()
@@ -342,7 +342,6 @@ public class UserImp implements UserDao {
 					+ ",ProvinceID=" + user.getProvinceId() + ",CiytID="
 					+ user.getCityId() + ",AreaID=" + user.getAreaId()
 					+ " WHERE Id=" + id);
-			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -822,25 +821,26 @@ public class UserImp implements UserDao {
 							+ "FK_RoomTearchId,Isteacher,IsRoomManager,UserLevel,"
 							+ "ServerId FROM JCP_User WHERE Id="
 							+ uId);
-			res.next();
-			String nickName=res.getString(1);
-			int proId=res.getInt(2);
-			int isSysAdmin=res.getInt(3);
-			int isRoom=res.getInt(4);
-			int fk_roomId=res.getInt(5);
-			int isTeacher=res.getInt(6);
-			int isChatMess=res.getInt(7);
-			int userLeavel=res.getInt(8);
-			User user=new User();
-			user.setNickName(nickName);
-			user.setIsRoomAdmin(isRoom);
-			user.setIsRoomManager(isChatMess);
-			user.setUserLeval(userLeavel);
-			user.setBuyProductId(proId);
-			user.setIsSysAdmin(isSysAdmin);
-			user.setFk_roomTeacherId(fk_roomId);
-			user.setIsTeacher(isTeacher);
-			return user;
+			while (res.next()) {
+				String nickName=res.getString(1);
+				int proId=res.getInt(2);
+				int isSysAdmin=res.getInt(3);
+				int isRoom=res.getInt(4);
+				int fk_roomId=res.getInt(5);
+				int isTeacher=res.getInt(6);
+				int isChatMess=res.getInt(7);
+				int userLeavel=res.getInt(8);
+				User user=new User();
+				user.setNickName(nickName);
+				user.setIsRoomAdmin(isRoom);
+				user.setIsRoomManager(isChatMess);
+				user.setUserLeval(userLeavel);
+				user.setBuyProductId(proId);
+				user.setIsSysAdmin(isSysAdmin);
+				user.setFk_roomTeacherId(fk_roomId);
+				user.setIsTeacher(isTeacher);
+				return user;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

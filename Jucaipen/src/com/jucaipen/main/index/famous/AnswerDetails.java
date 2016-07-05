@@ -3,10 +3,13 @@ package com.jucaipen.main.index.famous;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.JsonArray;
 import com.jucaipen.model.Answer;
 import com.jucaipen.model.Ask;
 import com.jucaipen.model.FamousTeacher;
@@ -68,6 +71,6 @@ public class AnswerDetails extends HttpServlet {
 			}
 			return JsonUtil.getAnswerDetails( answer);
 		}
-		return null;
+		return new JsonArray().toString();
 	}
 }

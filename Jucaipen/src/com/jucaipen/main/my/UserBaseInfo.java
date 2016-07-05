@@ -2,15 +2,20 @@ package com.jucaipen.main.my;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.map.HashedMap;
+
 import com.jucaipen.model.User;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
 
 /**
@@ -21,7 +26,11 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class UserBaseInfo extends HttpServlet {
 	private String result;
-
+	/**
+	 *   Ω‚√‹ ÷ª˙∫≈
+	 */
+	private String parsePhoneNum = "http://user.jucaipen.com/ashx/AndroidUser.ashx?action=GetDecryptMobileNum";
+	private Map<String, String> param=new HashMap<String, String>();
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -51,6 +60,14 @@ public class UserBaseInfo extends HttpServlet {
 
 	private String initBaseInfo(int uId) {
 		User user=UserServer.findBaseInfoById(uId);
+		param.put("mobilenum", user.getMobileNum());
+		String resJson=LoginUtil.sendHttpPost(parsePhoneNum, param);
+		org.json.JSONObject object = new org.json.JSONObject(resJson);
+		boolean isParse = object.getBoolean("Result");
+		if (isParse) {
+			String mobile = object.getString("MobileNum");
+			user.setMobileNum(mobile);
+		}
 		return JsonUtil.getBaseInfo(user);
 	}
 

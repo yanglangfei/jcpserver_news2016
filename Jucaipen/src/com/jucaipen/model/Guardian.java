@@ -30,6 +30,21 @@ public class Guardian implements Serializable{
 	 *  守护用户昵称
 	 */
 	private String userName;
+	
+	/**
+	 *  守护者等级
+	 */
+	private int userLeavel;
+	/**
+	 *  守护等级职称
+	 */
+	private String leavelStr;
+	
+	/**
+	 *   守护者头像
+	 */
+	private String userFace;
+	
 	/**
 	 *  FK_TearchId
 	 */
@@ -55,6 +70,28 @@ public class Guardian implements Serializable{
 	 */
 	private int state;
 	
+	
+	
+	
+	
+	public String getUserFace() {
+		return userFace;
+	}
+	public void setUserFace(String userFace) {
+		this.userFace = userFace;
+	}
+	public int getUserLeavel() {
+		return userLeavel;
+	}
+	public void setUserLeavel(int userLeavel) {
+		this.userLeavel = userLeavel;
+	}
+	public String getLeavelStr() {
+		return leavelStr;
+	}
+	public void setLeavelStr(String leavelStr) {
+		this.leavelStr = leavelStr;
+	}
 	public String getUserName() {
 		return userName;
 	}

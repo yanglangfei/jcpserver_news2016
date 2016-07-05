@@ -35,6 +35,8 @@ public class Answer implements Serializable{
 	private String teacherFace;
 	
 	private String teacherLeavel;
+	
+	private int isReplay;
 	/**
 	 * 回答问题的id
 	 */
@@ -57,6 +59,14 @@ public class Answer implements Serializable{
 	private String privateBody;
 	
 	
+	
+	
+	public int getIsReplay() {
+		return isReplay;
+	}
+	public void setIsReplay(int isReplay) {
+		this.isReplay = isReplay;
+	}
 	public String getTeacherName() {
 		return teacherName;
 	}

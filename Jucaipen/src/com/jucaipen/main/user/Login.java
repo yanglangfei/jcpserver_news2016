@@ -87,7 +87,9 @@ public class Login extends HttpServlet {
 		}
 		param.put("username", userName);
 		param.put("pwd", password);
+		System.out.println("name:"+userName+"   pd:"+password);
 		String result=LoginUtil.sendHttpPost(loginUrl, param);
+		System.out.println("result:"+result);
 		JSONObject object=new JSONObject(result);
 		boolean res=object.getBoolean("Result");
 		String msg=object.getString("Msg");

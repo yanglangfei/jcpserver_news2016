@@ -31,14 +31,35 @@ public class Favorites implements Serializable {
 	 */
 	private int fk_Id;
 	
+	private boolean isCharge;
+	
+	
+	private boolean isSpecial;
+	
 	/**
 	 * 收藏时间
 	 */
 	private String date;
 	/**
 	 * 1为收藏视频 2为收藏知识
+	 * 
+	 * 
 	 */
 	private int type;
+	
+	
+	public boolean isCharge() {
+		return isCharge;
+	}
+	public void setCharge(boolean isCharge) {
+		this.isCharge = isCharge;
+	}
+	public boolean isSpecial() {
+		return isSpecial;
+	}
+	public void setSpecial(boolean isSpecial) {
+		this.isSpecial = isSpecial;
+	}
 	public int getPager() {
 		return pager;
 	}

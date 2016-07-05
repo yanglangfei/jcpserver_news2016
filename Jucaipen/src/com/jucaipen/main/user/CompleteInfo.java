@@ -2,6 +2,7 @@ package com.jucaipen.main.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -66,7 +67,7 @@ public class CompleteInfo extends HttpServlet {
 		String cityId = request.getParameter("cityId");
 		String investId = request.getParameter("investId");
 		String plain = request.getParameter("plain");
-		if (!StringUtil.isNotNull(nickName)) {
+		if (nickName==null||nickName.length()<=0) {
 			return JsonUtil.getRetMsg(1, "êÇ³Æ²»ÄÜÎª¿Õ");
 		}
 		User user = new User();

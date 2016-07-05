@@ -137,7 +137,10 @@ public class Regin extends HttpServlet {
 		account.setIntegeral(regIntegeral);
 		account.setJucaiBills(0);
 		// 更新总账户积分信息
-		AccountSer.addAccount(account);
+		Account a = AccountSer.findAccountById(userId);
+		if(a==null){
+			AccountSer.addAccount(account);
+		}
 		RebateIntegeralDetail inDetail = new RebateIntegeralDetail();
 		inDetail.setUserId(userId);
 		inDetail.setType(2);

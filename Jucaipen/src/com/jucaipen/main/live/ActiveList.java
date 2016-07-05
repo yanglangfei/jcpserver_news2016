@@ -16,6 +16,7 @@ import com.jucaipen.model.VideoLive;
 import com.jucaipen.service.GuardianSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.service.VideoLiveServer;
+import com.jucaipen.utils.BaseData;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
@@ -64,6 +65,9 @@ public class ActiveList extends HttpServlet {
 					user=new User();
 				}
 				guardian.setUserName(user.getNickName());
+				guardian.setUserLeavel(user.getUserLeval());
+				guardian.setUserFace(user.getFaceImage());
+				guardian.setLeavelStr(BaseData.getLeavelStr(user.getUserLeval()));
 				guardianArray.add(guardian);
 			}
 		}

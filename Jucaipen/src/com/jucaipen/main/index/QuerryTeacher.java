@@ -108,6 +108,7 @@ public class QuerryTeacher extends HttpServlet {
 		// 初始化首页名师推荐列表信息
 		List<FamousTeacher> teachers = FamousTeacherSer.findFamousTeacherByIndex(3);
 		List<Integer>  isAttentions=new ArrayList<Integer>();
+		if(teachers!=null){
 			for(FamousTeacher teacher : teachers){
 				int tId=teacher.getId();
 				Fans fan=FansSer.findIsFans(uId, tId);
@@ -117,6 +118,7 @@ public class QuerryTeacher extends HttpServlet {
 					isAttentions.add(1);
 				}
 			}
+		}
 		return JsonUtil.getFamousTeacherList(teachers,isAttentions);
 	}
 

@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.model.Ask;
+import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.User;
 import com.jucaipen.service.AskSer;
+import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
@@ -63,6 +65,17 @@ public class QuerryMyAsk extends HttpServlet {
 	private String initMyQuestion(int uId, int p) {
 		users.clear();
 		List<Ask> asks=AskSer.findAskByUserId(uId, p);
+		if(asks!=null){
+			for(Ask ask : asks){
+				int teacherId=ask.getTeacherId();
+				FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(teacherId);
+				if(teacher==null){
+					teacher=new FamousTeacher();
+				}
+				ask.setTeacherName(teacher.getNickName());
+			}
+			
+		}
 		User user=UserServer.findUserById(uId);
 		return JsonUtil.getAskList(asks, user);
 	}

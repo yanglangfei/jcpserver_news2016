@@ -70,6 +70,8 @@ public class Ask implements Serializable{
 	 * 被提问老师id
 	 */
 	private int teacherId;
+	
+	private String teacherName;
 	/**
 	 *  提问者ip
 	 */
@@ -94,6 +96,14 @@ public class Ask implements Serializable{
 	 *   回复数
 	 */
 	private int replyCount;
+	
+	
+	public String getTeacherName() {
+		return teacherName;
+	}
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
 	private List<Answer> answers=new ArrayList<Answer>();
 	
 	public String getUserFace() {

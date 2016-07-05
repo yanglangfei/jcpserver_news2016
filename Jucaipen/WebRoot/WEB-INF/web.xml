@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.0"
-    xmlns="http://java.sun.com/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+   <display-name></display-name>
    
   <servlet>
     <servlet-name>QuerryAdvise</servlet-name>
@@ -412,6 +413,11 @@
     <servlet-name>QuerryIsGradian</servlet-name>
     <servlet-class>com.jucaipen.main.my.QuerryIsGradian</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>BindOtherAccount</servlet-name>
+    <servlet-class>com.jucaipen.main.user.BindOtherAccount</servlet-class>
+  </servlet>
+
 
 
 
@@ -823,5 +829,9 @@
   <servlet-mapping>
     <servlet-name>QuerryIsGradian</servlet-name>
     <url-pattern>/jucaipen/getisgradian</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BindOtherAccount</servlet-name>
+    <url-pattern>/jucaipen/bindaccount</url-pattern>
   </servlet-mapping>
 </web-app>

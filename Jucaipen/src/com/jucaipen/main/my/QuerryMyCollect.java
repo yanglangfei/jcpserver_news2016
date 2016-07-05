@@ -13,9 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.Favorites;
 import com.jucaipen.model.Knowledge;
+import com.jucaipen.model.Special;
 import com.jucaipen.model.Video;
 import com.jucaipen.service.FavoritesSer;
 import com.jucaipen.service.KnowledgetSer;
+import com.jucaipen.service.SpecialSer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
@@ -24,7 +26,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取我的收藏 type 0 视频 1 知识
+ *         获取我的收藏 type 0 视频  1 知识
  */
 @SuppressWarnings("serial")
 public class QuerryMyCollect extends HttpServlet {
@@ -99,9 +101,20 @@ public class QuerryMyCollect extends HttpServlet {
 			int fkId = fa.getFk_Id();
 			if (t == 0) {
 				Video video = VideoServer.findVideoById(fkId);
+				if(video==null){
+					video=new Video();
+				}
+				int specialId=video.getPecialId();
+				int isFree=video.getVideoType();
+				fa.setCharge(isFree==1);
+				Special special = SpecialSer.findSpecialById(specialId);
+				fa.setSpecial(special!=null);
 				videos.add(video);
 			} else {
 				Knowledge knowledge = KnowledgetSer.findKnowledgeById(fkId);
+				if(knowledge==null){
+					knowledge=new Knowledge();
+				}
 				knowledges.add(knowledge);
 			}
 		}

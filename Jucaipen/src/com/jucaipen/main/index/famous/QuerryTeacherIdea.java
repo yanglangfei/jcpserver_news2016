@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.JsonArray;
 import com.jucaipen.model.Answer;
 import com.jucaipen.model.Ask;
 import com.jucaipen.model.HotIdea;
@@ -98,22 +101,21 @@ public class QuerryTeacherIdea extends HttpServlet {
 			} else {
 				asks = AskSer.findAskByTeacherId(tId, p);
 			}
-
-			List<User> users = new ArrayList<User>();
-			for (Ask ask : asks) {
-				int uId = ask.getUserId();
-				User user = UserServer.findUserById(uId);
-				int isReply = ask.getIsReply();
-				List<Answer> answer = AnswerSer.findAnswerByAskId(ask.getId());
-				if (answer != null && isReply == 2 && answer.size() > 0) {
-					ask.setReplyBody(answer.get(0).getAnswerBody());
-				}
-				if (user == null) {
-					user = new User();
-				}
-				users.add(user);
-			}
-			return JsonUtil.getAskList(asks, users);
+            	List<User> users = new ArrayList<User>();
+    			for (Ask ask : asks) {
+    				int uId = ask.getUserId();
+    				User user = UserServer.findUserById(uId);
+    				int isReply = ask.getIsReply();
+    				List<Answer> answer = AnswerSer.findAnswerByAskId(ask.getId());
+    				if (answer != null && isReply == 2 && answer.size() > 0) {
+    					ask.setReplyBody(answer.get(0).getAnswerBody());
+    				}
+    				if (user == null) {
+    					user = new User();
+    				}
+    				users.add(user);
+    			}
+    			return JsonUtil.getAskList(asks, users);	
 		} else if (type == 2) {
 			// ÎÄ×ÖÖ±²¥
 			List<TextLive> txts = TxtLiveSer.findTxtLiveByTeacherIdAndLast(tId,

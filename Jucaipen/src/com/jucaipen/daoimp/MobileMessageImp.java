@@ -24,7 +24,7 @@ public class MobileMessageImp implements MobileMessageDao {
 			sta = dbConn.createStatement();
 			isSuccess = sta
 					.executeUpdate("INSERT INTO JCP_MobileMess"
-							+ " (MobileNum,ActionCode,MessContent,SendDate,SendDev,MessType,Return_resptime,Return_respstatus,Return_msgid,SendIp) VALUES ('"
+							+ " (MobileNum,ActionCode,MessContent,SendDate,SendDev,MessType,Return_resptime,Return_respstatus,Return_msgid,SendIp,Remark) VALUES ('"
 							+ message.getTelPhone()
 							+ "','"
 							+ message.getActionCode()
@@ -44,7 +44,8 @@ public class MobileMessageImp implements MobileMessageDao {
 							+ message.getMsgid()
 							+ "','"
 							+ message.getSendIp()
-							+ "')");
+							+ "','"
+							+message.getRemark()+"')");
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
