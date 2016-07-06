@@ -10,8 +10,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.PushPayload;
+
 import com.jucaipen.model.ChatMsgObject;
 import com.jucaipen.model.Studio;
 import com.jucaipen.model.User;
@@ -34,6 +37,7 @@ import com.jucaipen.utils.TimeUtils;
 public class StudioChat extends HttpServlet {
 	private Timer timer;
 	private String ip;
+	private boolean isManager;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -52,7 +56,7 @@ public class StudioChat extends HttpServlet {
 					//上线   --推送历史记录
 					int maxId=requestChatMsg(userId,liveId);
 					timer = new Timer();
-					StudioMsgTask task=new StudioMsgTask(maxId,userId,liveId);
+					StudioMsgTask task=new StudioMsgTask(maxId,userId,liveId,isManager);
 					timer.scheduleAtFixedRate(task, new Date(), 2000);
 				}else if(opType==2){
 					//聊天
@@ -124,6 +128,9 @@ public class StudioChat extends HttpServlet {
 	 */
 	private int requestChatMsg(int userId, int studioId) {
 		Studio studio = StudioSer.findStudioById(studioId);
+		if(studio==null){
+			return -1;
+		}
 		int liveId=studio.getVideoLiveId();
 		List<VideoLiveMsg> msgs;
 		User user;
@@ -138,8 +145,10 @@ public class StudioChat extends HttpServlet {
 		int isTeacher=user.getIsTeacher();
 		
 		if(isSysAdmin==1||isRoomAdmin==1||isRoomManager==1||isTeacher==1){
+			isManager=true;
 			 msgs = VideoLiveMsgSer.findLastLiveMsg(10, liveId, false);
 		}else{
+			isManager=false;
 			msgs = VideoLiveMsgSer.findLastLiveMsg(10, liveId, true);
 		}
 		if(msgs!=null){
@@ -161,11 +170,16 @@ public class StudioChat extends HttpServlet {
 		
 		String pushMsg = JsonUtil.createLiveMsgArray(msgs);
 		JPushClient client = JPushUtils.getJPush();
-		PushPayload msgObj = JPushUtils.createMsg("alert", "测试消息", pushMsg, null);
-		JPushUtils.pushMsg(client, msgObj);
-		System.out.println(pushMsg);
+		PushPayload msgObj = JPushUtils.createMsg("msg", "studioMsg", pushMsg, null);
+		PushResult res = JPushUtils.pushMsg(client, msgObj);
+		System.out.println("studioAll:"+res.toString());
 		if(msgs!=null&&msgs.size()>0){
-			return msgs.get(msgs.size()-1).getId();
+			if(isManager){
+				return msgs.get(msgs.size()-1).getId();
+			}else{
+				return msgs.get(msgs.size()-1).getShenhe();
+			}
+			
 		}else{
 			return -1;
 		}

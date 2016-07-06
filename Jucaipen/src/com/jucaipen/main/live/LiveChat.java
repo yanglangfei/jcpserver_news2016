@@ -28,6 +28,7 @@ import com.jucaipen.utils.TimeUtils;
 public class LiveChat extends HttpServlet {
 	private String ip;
 	private Timer timer;
+	private boolean isManager;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -45,7 +46,7 @@ public class LiveChat extends HttpServlet {
 					//上线   --推送历史记录
 					int maxId=requestChatMsg(userId,liveId);
 					timer = new Timer();
-					VideoLiveMsgTask task=new VideoLiveMsgTask(maxId,userId,liveId);
+					VideoLiveMsgTask task=new VideoLiveMsgTask(maxId,userId,liveId,isManager);
 					timer.scheduleAtFixedRate(task, new Date(), 2000);
 				}else if(opType==2){
 					//聊天
@@ -83,10 +84,11 @@ public class LiveChat extends HttpServlet {
 		int isRoomManager=user.getIsRoomManager();
 		int isSysAdmin=user.getIsSysAdmin();
 		int isTeacher=user.getIsTeacher();
-		
 		if(isSysAdmin==1||isRoomAdmin==1||isRoomManager==1||isTeacher==1){
+			isManager=true;
 			 msgs = VideoLiveMsgSer.findLastLiveMsg(10, lId, false);
 		}else{
+			isManager=false;
 			msgs = VideoLiveMsgSer.findLastLiveMsg(10, lId, true);
 		}
 		if(msgs!=null){
@@ -105,16 +107,19 @@ public class LiveChat extends HttpServlet {
 				m.setReceiverFace(tu.getFaceImage());
 			}
 		}
-		
 		String pushMsg = JsonUtil.createLiveMsgArray(msgs);
 		JPushClient client = JPushUtils.getJPush();
-		PushPayload msgObj = JPushUtils.createMsg("alert", "测试消息", pushMsg, null);
+		PushPayload msgObj = JPushUtils.createMsg("msg", "liveMsg", pushMsg, null);
 		JPushUtils.pushMsg(client, msgObj);
-		System.out.println(pushMsg);
 		if(msgs!=null&&msgs.size()>0){
-			return msgs.get(msgs.size()-1).getId();
+			if(isManager){
+				return msgs.get(msgs.size()-1).getId();
+			}else{
+				return msgs.get(msgs.size()-1).getShenhe();
+			}
+			
 		}else{
-			return -1;
+			return 0;
 		}
 	}
 	

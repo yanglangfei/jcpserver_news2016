@@ -48,7 +48,7 @@ public class TxtChatMsgTask extends TimerTask{
 		if(msgs!=null&&msgs.size()>0){
 			String pushMsg = JsonUtil.createTxtMsgArray(msgs);
 			JPushClient client = JPushUtils.getJPush();
-			PushPayload msgObj = JPushUtils.createMsg("alert", "≤‚ ‘œ˚œ¢", pushMsg, null);
+			PushPayload msgObj = JPushUtils.createMsg("msg", "txtMsg", pushMsg, null);
 			JPushUtils.pushMsg(client, msgObj);
 			maxId= msgs.get(msgs.size()-1).getId();
 		}

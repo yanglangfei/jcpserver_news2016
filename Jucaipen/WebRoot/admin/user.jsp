@@ -30,7 +30,7 @@
 	<%
 		Connection conn = JdbcUtil.connSqlServer();
 		Statement sta = conn.createStatement();
-		ResultSet res = sta.executeQuery("select * from JCPUser where RegFrom="+5);
+		ResultSet res = sta.executeQuery("select * from JCP_User where RegFrom="+5);
 	%>
 	<div style="text-align: center;">
 		<font size="5" color="pink">用户管理中心</font>
@@ -58,7 +58,7 @@
 			<td align="center"><%=res.getString("TrueName")%></td>
 			<td align="center"><%=res.getString("NickName")%></td>
 			<td align="center"><%=res.getString("Email")%></td>
-			<td align="center"><%=res.getString("FaceImage")%></td>
+			<td align="center"><%=res.getString("UserFace")%></td>
 			<td align="center"><%=res.getString("MobileNum")%></td>
 			<td align="center"><%=res.getString("Sex")%></td>
 		</tr>

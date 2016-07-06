@@ -93,8 +93,8 @@ public class JdbcUtil {
 			 * dbConn = DriverManager.getConnection(SQLSERVER_URL,
 			 * SQLSERVER_UNAME, SQLSERVER_UPWD);
 			 */
-			dbConn = DriverManager.getConnection(SQLSERVER_URL_TEST,
-					SQLSERVER_UNAME_TEST, SQLSERVER_UPWD_TEST);
+			dbConn = DriverManager.getConnection(SQLSERVER_URL_N,
+					SQLSERVER_UNAME_N, SQLSERVER_UPWD_N);
 			return dbConn;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

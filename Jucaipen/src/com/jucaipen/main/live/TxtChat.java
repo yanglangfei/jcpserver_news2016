@@ -136,7 +136,7 @@ public class TxtChat extends HttpServlet {
 		
 		String pushMsg = JsonUtil.createTxtMsgArray(msgs);
 		JPushClient client = JPushUtils.getJPush();
-		PushPayload msgObj = JPushUtils.createMsg("alert", "²âÊÔÏûÏ¢", pushMsg, null);
+		PushPayload msgObj = JPushUtils.createMsg("msg", "txtMsg", pushMsg, null);
 		JPushUtils.pushMsg(client, msgObj);
 		System.out.println(pushMsg);
 		if(msgs!=null&&msgs.size()>0){

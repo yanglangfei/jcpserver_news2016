@@ -11,7 +11,6 @@ import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
 import cn.jpush.api.push.model.notification.Notification;
-
 public class JPushUtils {
 	
 	private static final String masterSecret="9f494f11a07a309a5ff89e93";
@@ -29,7 +28,7 @@ public class JPushUtils {
 	
 	public static PushPayload createMsg(String alert,String title,String content,Map<String, String> extras){
 		PushPayload payload=PushPayload.newBuilder().setPlatform(Platform.android())
-				.setMessage(Message.content(content))
+				.setMessage(Message.newBuilder().setMsgContent(content).setTitle(title).build())
 				.setAudience(Audience.all())
 				.build();
 		return payload;
@@ -46,13 +45,6 @@ public class JPushUtils {
 		}
 		return null;
 		
-	}
-	
-	public static void main(String[] args) {
-		JPushClient c = getJPush();
-		PushPayload msg = createMsg("ss", "tt", "cc", null);
-		PushResult res = pushMsg(c, msg);
-		System.out.println(res.toString());
 	}
 	
 

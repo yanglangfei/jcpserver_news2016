@@ -417,6 +417,21 @@
     <servlet-name>BindOtherAccount</servlet-name>
     <servlet-class>com.jucaipen.main.user.BindOtherAccount</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>UploadApk</servlet-name>
+    <servlet-class>com.jucaipen.base.UploadApk</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>LoginServer</servlet-name>
+    <servlet-class>com.jucaipen.manager.LoginServer</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>WebPush</servlet-name>
+    <servlet-class>com.jucaipen.manager.WebPush</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -833,5 +848,17 @@
   <servlet-mapping>
     <servlet-name>BindOtherAccount</servlet-name>
     <url-pattern>/jucaipen/bindaccount</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UploadApk</servlet-name>
+    <url-pattern>/jucaipen/uploadApk</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LoginServer</servlet-name>
+    <url-pattern>/LoginServer</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>WebPush</servlet-name>
+    <url-pattern>/jucaipen/webPush</url-pattern>
   </servlet-mapping>
 </web-app>
