@@ -67,6 +67,12 @@ public class VideoLiveMsgImp implements VideoLiveMsgDao {
 			return msgs;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -122,6 +128,12 @@ public class VideoLiveMsgImp implements VideoLiveMsgDao {
 			return msgs;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -144,6 +156,12 @@ public class VideoLiveMsgImp implements VideoLiveMsgDao {
 					+",'"+msg.getSendDate()+"','"+msg.getIp()+"')");
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return 0;
 	}

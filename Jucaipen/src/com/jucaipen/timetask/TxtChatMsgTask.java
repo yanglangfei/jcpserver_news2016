@@ -16,19 +16,21 @@ public class TxtChatMsgTask extends TimerTask{
 	private int maxId;
 	private int userId;
 	private int liveId;
+	private boolean isManager;
 
-	public TxtChatMsgTask(int maxId, int userId, int liveId) {
+	public TxtChatMsgTask(int maxId, int userId, int liveId,boolean isManager) {
 		this.maxId=maxId;
 		this.userId=userId;
 		this.liveId=liveId;
+		this.isManager=isManager;
 	}
 
 	@Override
 	public void run() {
-		checkMsg(maxId, liveId, userId);
+		checkMsg(maxId, liveId, userId,isManager);
 	}
 
-	private void checkMsg(int mId, int lId, int uId) {
+	private void checkMsg(int mId, int lId, int uId,boolean isM) {
 		List<TxtLiveMsg> msgs;
 		User user;
 		if(userId>0){
@@ -41,8 +43,10 @@ public class TxtChatMsgTask extends TimerTask{
 		int isSysAdmin=user.getIsSysAdmin();
 		int isTeacher=user.getIsTeacher();
 		if(isSysAdmin==1||isRoomAdmin==1||isRoomManager==1||isTeacher==1){
+			isM=true;
 			 msgs = TxtMsgSer.findTxtMsgByMaxId(mId, liveId, false);
 		}else{
+			isM=false;
 			msgs = TxtMsgSer.findTxtMsgByMaxId(mId, liveId, true);
 		}
 		if(msgs!=null&&msgs.size()>0){
@@ -50,7 +54,12 @@ public class TxtChatMsgTask extends TimerTask{
 			JPushClient client = JPushUtils.getJPush();
 			PushPayload msgObj = JPushUtils.createMsg("msg", "txtMsg", pushMsg, null);
 			JPushUtils.pushMsg(client, msgObj);
-			maxId= msgs.get(msgs.size()-1).getId();
+			if(isM){
+				maxId= msgs.get(msgs.size()-1).getId();
+			}else{
+				maxId=msgs.get(msgs.size()-1).getShenhe();
+			}
+			
 		}
 	}
 

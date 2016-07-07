@@ -180,7 +180,14 @@ public class MyPresentImp implements MyPresentDao {
 			return parent;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
+		
 		return null;
 	}
 
@@ -193,6 +200,12 @@ public class MyPresentImp implements MyPresentDao {
 			return sta.executeUpdate("UPDATE JCP_MyPresent SET PresentNum="+num+" WHERE Id="+id);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return 0;
 	}

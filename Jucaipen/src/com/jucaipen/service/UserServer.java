@@ -1,7 +1,6 @@
 package com.jucaipen.service;
 
 import java.util.List;
-
 import com.jucaipen.dao.UserDao;
 import com.jucaipen.daoimp.UserImp;
 import com.jucaipen.model.User;

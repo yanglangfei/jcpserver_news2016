@@ -55,8 +55,13 @@ public class TransactionImp {
 				return false;
 			}
 			
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, null);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		
 		
 	}
 

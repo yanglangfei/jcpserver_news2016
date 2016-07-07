@@ -6,12 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.jucaipen.dao.LoginLogDao;
 import com.jucaipen.model.LoginLog;
 import com.jucaipen.utils.JdbcUtil;
-import com.jucaipen.utils.SqlUtil;
-
 /**
  * @author YLF
  * 

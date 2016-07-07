@@ -16,8 +16,7 @@ import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
- * 
- *         订阅战法信息
+ *       订阅战法信息
  */
 @SuppressWarnings("serial")
 public class OrderTactics extends HttpServlet {
@@ -43,7 +42,15 @@ public class OrderTactics extends HttpServlet {
 						if (StringUtil.isInteger(tacticeId)) {
 							int tId = Integer.parseInt(tacticeId);
 							if(StringUtil.isNotNull(telPhone)&&StringUtil.isMobileNumber(telPhone)){
-								result = orderTactics(uId, tId,telPhone);
+								if(StringUtil.isNotNull(startDate)){
+									if(StringUtil.isNotNull(endDate)){
+										result = orderTactics(uId, tId,telPhone,startDate,endDate);
+									}else{
+										result=JsonUtil.getRetMsg(7, "endDate 参数异常");
+									}
+								}else{
+									result=JsonUtil.getRetMsg(6, "startDate 参数异常");
+								}
 							}
 						}else{
 							result=JsonUtil.getRetMsg(5,"tacticeId 参数数字格式化异常和");
@@ -65,12 +72,15 @@ public class OrderTactics extends HttpServlet {
 		out.close();
 	}
 
-	private String orderTactics(int uId, int tId, String telPhone) {
+	private String orderTactics(int uId, int tId, String telPhone,String startDate,String endDate) {
 		TacticsSale sale=new TacticsSale();
 		sale.setUserId(uId);
 		sale.setTacticsId(tId);
 		sale.setIp(ip);
+		sale.setStartDate(startDate);
+		sale.setEndDate(endDate);
 		sale.setTelPhone(telPhone);
+		sale.setIsStop(0);
 		sale.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 		// 订阅战法信息
 		int isSuccess=TacticsSaleSer.addSale(sale);

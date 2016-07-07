@@ -88,6 +88,12 @@ public class SignImp implements SignDao {
 					+sign.getIp()+"',QDCount="+sign.getSignNum()+" WHERE UserId="+sign.getUserId());
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return 0;
 	}
@@ -104,6 +110,12 @@ public class SignImp implements SignDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return 0;
 	}

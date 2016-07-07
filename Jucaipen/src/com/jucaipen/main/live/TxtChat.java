@@ -29,6 +29,7 @@ import com.jucaipen.utils.TimeUtils;
  */
 @SuppressWarnings("serial")
 public class TxtChat extends HttpServlet {
+	private boolean isManager;
 	private String ip;
 	private Timer timer;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -47,7 +48,7 @@ public class TxtChat extends HttpServlet {
 					//上线   --推送历史记录
 					int maxId=requestChatMsg(userId,liveId);
 					timer = new Timer();
-					TxtChatMsgTask task=new TxtChatMsgTask(maxId,userId,liveId);
+					TxtChatMsgTask task=new TxtChatMsgTask(maxId,userId,liveId,isManager);
 					timer.scheduleAtFixedRate(task, new Date(), 2000);
 				}else if(opType==2){
 					//聊天
@@ -110,8 +111,10 @@ public class TxtChat extends HttpServlet {
 		int isSysAdmin=user.getIsSysAdmin();
 		int isTeacher=user.getIsTeacher();
 		if(isSysAdmin==1||isRoomAdmin==1||isRoomManager==1||isTeacher==1){
+			isManager=true;
 			 msgs = TxtMsgSer.findLastTxtMsg(10, liveId, false);
 		}else{
+			isManager=false;
 			msgs = TxtMsgSer.findLastTxtMsg(10, liveId, true);
 		}
 		if(msgs!=null){
@@ -140,7 +143,11 @@ public class TxtChat extends HttpServlet {
 		JPushUtils.pushMsg(client, msgObj);
 		System.out.println(pushMsg);
 		if(msgs!=null&&msgs.size()>0){
-			return msgs.get(msgs.size()-1).getId();
+			if(isManager){
+				return msgs.get(msgs.size()-1).getId();
+			}else{
+				return msgs.get(msgs.size()-1).getShenhe();
+			}
 		}else{
 			return -1;
 		}}

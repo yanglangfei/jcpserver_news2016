@@ -30,11 +30,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/derby.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/derbytools.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/ezmorph-1.0.6.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gexin-rp-sdk-base-4.0.0.3.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gexin-rp-sdk-http-4.0.1.0.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gexin-rp-sdk-template-4.0.0.3.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gson-2.2.4.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jackson-all-1.8.5.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jdom.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/json-lib-2.4-jdk15.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/jsoup-1.8.3.jar"/>

@@ -2,7 +2,8 @@
 <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	metadata-complete="true">
    <display-name></display-name>
    
   <servlet>
@@ -429,6 +430,11 @@
     <servlet-name>WebPush</servlet-name>
     <servlet-class>com.jucaipen.manager.WebPush</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Control</servlet-name>
+    <servlet-class>com.jucaipen.manager.Control</servlet-class>
+  </servlet>
+
 
 
 
@@ -860,5 +866,9 @@
   <servlet-mapping>
     <servlet-name>WebPush</servlet-name>
     <url-pattern>/jucaipen/webPush</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Control</servlet-name>
+    <url-pattern>/jcp/control</url-pattern>
   </servlet-mapping>
 </web-app>

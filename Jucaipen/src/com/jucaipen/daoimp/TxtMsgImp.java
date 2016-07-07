@@ -63,6 +63,12 @@ public class TxtMsgImp implements TxtMsgDao {
 			return msgs;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return null;
@@ -78,11 +84,11 @@ public class TxtMsgImp implements TxtMsgDao {
 			if (isCheck) {
 				res = sta
 						.executeQuery("SELECT * FROM JCP_TxtLive_Msg WHERE Fk_TxtLiveId="
-								+ liveId + " AND shenhe>0 Id>" + maxId);
+								+ liveId + " AND shenhe>0 shenhe>" + maxId+" ORDER BY InsertDate ASC");
 			} else {
 				res = sta
 						.executeQuery("SELECT * FROM JCP_TxtLive_Msg WHERE Fk_TxtLiveId="
-								+ liveId + " AND Id>" + maxId);
+								+ liveId + " AND Id>" + maxId+" ORDER BY InsertDate ASC");
 			}
 			while (res.next()) {
 				int id = res.getInt(1);
@@ -108,6 +114,12 @@ public class TxtMsgImp implements TxtMsgDao {
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
@@ -126,6 +138,12 @@ public class TxtMsgImp implements TxtMsgDao {
 					+ msg.getIsSysAdmin() + "," + msg.getIsSysAdmin() + ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return 0;
 	}

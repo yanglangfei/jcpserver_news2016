@@ -9,9 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.collections.map.HashedMap;
-
 import com.jucaipen.model.User;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;

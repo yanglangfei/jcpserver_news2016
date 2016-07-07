@@ -1,14 +1,10 @@
 package com.jucaipen.main.user;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.User;
 import com.jucaipen.service.UserServer;

@@ -2,14 +2,11 @@ package com.jucaipen.main.video;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.Special;
 import com.jucaipen.model.Video;
 import com.jucaipen.model.VideoClass;
@@ -18,7 +15,6 @@ import com.jucaipen.service.VideoClassSer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  * 
@@ -27,6 +23,7 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class QuerryVideoList extends HttpServlet {
 	private String result;
+	private StringBuffer cIdArray;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -69,7 +66,6 @@ public class QuerryVideoList extends HttpServlet {
 	private String initVideoList(int type, int tId, int cId, int p) {
 		// cId 查询时必须存在 大于0
 		//List<VideoClass> las;
-		StringBuffer cIdArray;
 		if (cId < 0) {
 			return JsonUtil.getRetMsg(1, "分类id必须大于0");
 		}
@@ -78,17 +74,9 @@ public class QuerryVideoList extends HttpServlet {
 			// 各种分类 非全部
 			cIdArray=new StringBuffer();
 			List<VideoClass> vcs = VideoClassSer.findClassByPid(0);
-			List<List<VideoClass>> vs = getVideoClass(vcs);
-				for(List<VideoClass> c : vs){
-					for(VideoClass s : c){
-						int id=s.getId();
-						cIdArray.append(id);
-						cIdArray.append(",");
-					}
-			}
-			cIdArray.delete(cIdArray.length()-1, cIdArray.length());
-			
-			List<Video> videos = VideoServer.findVideoByTypeAndClassIdAndTeacherId(type, cIdArray.toString(), tId, p);
+			StringBuffer vs = getVideoClass(vcs);
+			vs.delete(vs.length()-1, vs.length());
+			List<Video> videos = VideoServer.findVideoByTypeAndClassIdAndTeacherId(type, vs.toString(), tId, p);
 			if(videos!=null){
 				for(Video video : videos){
 					//是否为付费视频  0为免费视频，1为付费视频
@@ -106,16 +94,9 @@ public class QuerryVideoList extends HttpServlet {
 		if (cId >= 0 && type < 0 && tId < 0) {
 			cIdArray=new StringBuffer();
 			List<VideoClass> vcs = VideoClassSer.findClassByPid(0);
-			List<List<VideoClass>> vs = getVideoClass(vcs);
-				for(List<VideoClass> c : vs){
-					for(VideoClass s : c){
-						int id=s.getId();
-						cIdArray.append(id);
-						cIdArray.append(",");
-					}
-			}
-			cIdArray.delete(cIdArray.length()-1, cIdArray.length());
-			List<Video> videos = VideoServer.findVideoByClassId(cIdArray.toString(), p);
+			StringBuffer vs = getVideoClass(vcs);
+			vs.delete(vs.length()-1, vs.length());
+			List<Video> videos = VideoServer.findVideoByClassId(vs.toString(), p);
 			if(videos!=null){
 				for(Video video : videos){
 					//是否为付费视频  0为免费视频，1为付费视频
@@ -133,18 +114,11 @@ public class QuerryVideoList extends HttpServlet {
 		if (cId >= 0 && type >= 0 && tId < 0) {
 			cIdArray=new StringBuffer();
 			List<VideoClass> vcs = VideoClassSer.findClassByPid(0);
-			List<List<VideoClass>> vs = getVideoClass(vcs);
-				for(List<VideoClass> c : vs){
-					for(VideoClass s : c){
-						int id=s.getId();
-						cIdArray.append(id);
-						cIdArray.append(",");
-					}
-			}
-			cIdArray.delete(cIdArray.length()-1, cIdArray.length());
+			StringBuffer vs = getVideoClass(vcs);
+			vs.delete(vs.length()-1, vs.length());
 			
 			List<Video> videos = VideoServer.findVideoByTypeAndClassId(type,
-					cIdArray.toString(), p);
+					vs.toString(), p);
 			if(videos!=null){
 				for(Video video : videos){
 					//是否为付费视频  0为免费视频，1为付费视频
@@ -163,18 +137,11 @@ public class QuerryVideoList extends HttpServlet {
 		if (cId >= 0 && type < 0 && tId >= 0) {
 			cIdArray=new StringBuffer();
 			List<VideoClass> vcs = VideoClassSer.findClassByPid(0);
-			List<List<VideoClass>> vs = getVideoClass(vcs);
-				for(List<VideoClass> c : vs){
-					for(VideoClass s : c){
-						int id=s.getId();
-						cIdArray.append(id);
-						cIdArray.append(",");
-					}
-			}
-			cIdArray.delete(cIdArray.length()-1, cIdArray.length());
+			StringBuffer vs = getVideoClass(vcs);
+			vs.delete(vs.length()-1, vs.length());
 			
 			List<Video> videos = VideoServer.findVideoByTeacherIdAndClassId(
-					tId, cIdArray.toString(), p);
+					tId, vs.toString(), p);
 			if(videos!=null){
 				for(Video video : videos){
 					//是否为付费视频  0为免费视频，1为付费视频
@@ -192,16 +159,16 @@ public class QuerryVideoList extends HttpServlet {
 		return null;
 	}
 	
-	public  List<List<VideoClass>> getVideoClass(List<VideoClass> vcs){
-		List<List<VideoClass>> vArray=new ArrayList<List<VideoClass>>();
+	public  StringBuffer getVideoClass(List<VideoClass> vcs){
 		for(VideoClass vc : vcs){
+			cIdArray.append(vc.getId());
+			cIdArray.append(",");
 			List<VideoClass> vs = VideoClassSer.findClassByPid(vc.getId());
 			if(vs!=null){
 				getVideoClass(vs);
 			}
-			vArray.add(vs);
 		}
-		return vArray;
+		return cIdArray;
 	}
 
 }

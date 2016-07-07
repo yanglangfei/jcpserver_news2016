@@ -110,9 +110,9 @@ public class JdbcUtil {
 	 */
 	public static Connection connTestSqlServer() {
 		try {
-			Class.forName(SQLSERVER_DRIVER_N);
-			dbConn = DriverManager.getConnection(SQLSERVER_URL_N,
-					SQLSERVER_UNAME_N, SQLSERVER_UPWD_N);
+			Class.forName(SQLSERVER_DRIVER_TEST);
+			dbConn = DriverManager.getConnection(SQLSERVER_URL_TEST,
+					SQLSERVER_UNAME_TEST, SQLSERVER_UPWD_TEST);
 			return dbConn;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

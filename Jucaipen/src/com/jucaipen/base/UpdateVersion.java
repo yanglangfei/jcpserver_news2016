@@ -38,8 +38,7 @@ public class UpdateVersion extends HttpServlet {
         ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);	
         int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
 		if(isDevice==HeaderUtil.PHONE_APP){
-			initServerVersion();
-			result = JsonUtil.getApkInfo(info);
+			result=initServerVersion();
 		}else{
 			result=StringUtil.isVaild;
 		}
@@ -48,9 +47,10 @@ public class UpdateVersion extends HttpServlet {
 		out.close();
 	}
 
-	private void initServerVersion() {
+	private String initServerVersion() {
 		// 获取服务器app最新版本号
 		info = ApkInfoServer.findLastApkInfo(-1);
+		return JsonUtil.getApkInfo(info);
 	}
 
 }
