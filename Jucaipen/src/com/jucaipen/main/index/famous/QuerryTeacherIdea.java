@@ -99,21 +99,21 @@ public class QuerryTeacherIdea extends HttpServlet {
 			} else {
 				asks = AskSer.findAskByTeacherId(tId, p);
 			}
-            	List<User> users = new ArrayList<User>();
-    			for (Ask ask : asks) {
-    				int uId = ask.getUserId();
-    				User user = UserServer.findUserById(uId);
-    				int isReply = ask.getIsReply();
-    				List<Answer> answer = AnswerSer.findAnswerByAskId(ask.getId());
-    				if (answer != null && isReply == 2 && answer.size() > 0) {
-    					ask.setReplyBody(answer.get(0).getAnswerBody());
-    				}
-    				if (user == null) {
-    					user = new User();
-    				}
-    				users.add(user);
-    			}
-    			return JsonUtil.getAskList(asks, users);	
+			List<User> users = new ArrayList<User>();
+			for (Ask ask : asks) {
+				int uId = ask.getUserId();
+				User user = UserServer.findUserById(uId);
+				int isReply = ask.getIsReply();
+				List<Answer> answer = AnswerSer.findAnswerByAskId(ask.getId());
+				if (answer != null && isReply == 2 && answer.size() > 0) {
+					ask.setReplyBody(answer.get(0).getAnswerBody());
+				}
+				if (user == null) {
+					user = new User();
+				}
+				users.add(user);
+			}
+			return JsonUtil.getAskList(asks, users);
 		} else if (type == 2) {
 			// ÎÄ×ÖÖ±²¥
 			List<TextLive> txts = TxtLiveSer.findTxtLiveByTeacherIdAndLast(tId,

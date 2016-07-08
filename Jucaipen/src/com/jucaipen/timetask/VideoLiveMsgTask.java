@@ -4,15 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimerTask;
-
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.push.model.PushPayload;
-
-import com.jucaipen.model.ChatMsgObject;
 import com.jucaipen.model.User;
 import com.jucaipen.model.VideoLiveMsg;
 import com.jucaipen.service.UserServer;
-import com.jucaipen.service.VideoLiveMsgSer;
 import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
@@ -22,32 +18,27 @@ public class VideoLiveMsgTask extends TimerTask{
 	private int maxId;
 	private int userId;
 	private int liveId;
-	private static final String GET_LIVE_MSG="http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
+	private static final String GET_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
 	private boolean isManager;
-	private int teacherId;
 
-
-	public VideoLiveMsgTask(int maxId, int userId, int liveId,int teacherId,boolean isManager) {
+	public VideoLiveMsgTask(int maxId, int userId, int liveId,boolean isManager) {
 		this.maxId=maxId;
 		this.userId=userId;
 		this.liveId=liveId;
 		this.isManager=isManager;
-		this.teacherId=teacherId;
 	}
 
 	@Override
 	public void run() {
 		//checkLiveMsg(maxId, liveId, userId,isManager);
-		checkMsg(maxId, liveId, userId, teacherId, isManager);
+		checkMsg(maxId, liveId, userId, isManager);
 		
 	}
 	
 	
 	
 	
-	public  int checkMsg(int mId,int lId,int uId,int tId,boolean isM){
-		//lid  tid  topid  IsServerId
-		params.clear();
+	public  void checkMsg(int mId,int lId,int uId,boolean isM){
 		User user;
 		if(uId>0){
 			user=UserServer.findUserChatInfo(uId);
@@ -63,41 +54,40 @@ public class VideoLiveMsgTask extends TimerTask{
 		}else{
 			isM=false;
 		}
+		params.clear();
 		params.put("lid", lId+"");
-		params.put("tid", tId+"");
 		params.put("topid", mId+"");
 		params.put("IsServerId", user.getServerId()+"");
 		String result=LoginUtil.sendHttpPost(GET_LIVE_MSG, params);
-		List<ChatMsgObject>  msgObj =JsonUtil.repCompleMsgObj(result);
-		if(msgObj.size()>0){
-			if(isM){
-				return  msgObj.get(msgObj.size()-1).getId();
-			}else{
-				return msgObj.get(msgObj.size()-1).getShenhe();
+		List<VideoLiveMsg>  msgObjs =JsonUtil.repCompleMsgObj(result);
+		if(msgObjs!=null){
+			for(VideoLiveMsg liveMsg : msgObjs){
+				int sendId=liveMsg.getSendUserId();
+				int receiverId=liveMsg.getReceiverId();
+				User fromUser = UserServer.findBaseInfoById(sendId);
+				User toUser = UserServer.findBaseInfoById(receiverId);
+				if(fromUser==null){
+					fromUser=new User();
+				}
+				liveMsg.setSendFace(fromUser.getFaceImage());
+				if(toUser==null){
+					toUser=new User();
+				}
+				liveMsg.setReceiverFace(toUser.getFaceImage());
 			}
+			String pushMsg=JsonUtil.createLiveMsg(msgObjs);
+			JPushClient client = JPushUtils.getJPush();
+			PushPayload msgs = JPushUtils.createMsg("msg", "liveMsg", pushMsg, null);
+		    JPushUtils.pushMsg(client, msgs);
+		    if(msgObjs.size()>0){
+				if(isM){
+					maxId=  msgObjs.get(msgObjs.size()-1).getId();
+				}else{
+					maxId= msgObjs.get(msgObjs.size()-1).getShenhe();
+				}
+			}
+			
 		}
-		return 0;
-		
-		/* {
-		        "Id": 481,
-		        "SendUserId": 6750,
-		        "SendName": "钻石",
-		        "Msg": "<img src=\"http://img.jucaipen.com/jucaipenUpload/2015/7/15/2015715174137.gif\">",
-		        "shenhe": 284,
-		        "ReceiverId": 0,
-		        "ReceiverName": "",
-		        "Fk_VideoLiveId": 1,
-		        "BuyProductId": 0,
-		        "IsSysAdmin": 1,
-		        "IsRoomAdmin": 0,
-		        "Isteacher": 0,
-		        "IsShouhuzhe": 0,
-		        "IsChatAdmin": 0,
-		        "UserLevel": 1,
-		        "IsSeverId": 0,
-		        "SendDate": "2016-07-07T17:30:53",
-		        "IP": "192.168.1.134"
-		    }*/
 		
 	}
 	
@@ -105,7 +95,7 @@ public class VideoLiveMsgTask extends TimerTask{
 	
 	/**
 	 *   实时监测消息
-	 */
+	 *//*
 	public void checkLiveMsg(int mId,int liveId,int userId,boolean isM){
 		List<VideoLiveMsg> msgs;
 		User user;
@@ -153,6 +143,6 @@ public class VideoLiveMsgTask extends TimerTask{
 			}
 		}
 	}
-	
+	*/
 
 }

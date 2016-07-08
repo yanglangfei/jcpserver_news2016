@@ -75,7 +75,9 @@ public class QuerryVideoList extends HttpServlet {
 			cIdArray=new StringBuffer();
 			List<VideoClass> vcs = VideoClassSer.findClassByPid(0);
 			StringBuffer vs = getVideoClass(vcs);
-			vs.delete(vs.length()-1, vs.length());
+			if(vs!=null&&vs.toString().endsWith(",")){
+				vs.replace(vs.length()-1, vs.length(),"");
+			}
 			List<Video> videos = VideoServer.findVideoByTypeAndClassIdAndTeacherId(type, vs.toString(), tId, p);
 			if(videos!=null){
 				for(Video video : videos){
@@ -95,7 +97,9 @@ public class QuerryVideoList extends HttpServlet {
 			cIdArray=new StringBuffer();
 			List<VideoClass> vcs = VideoClassSer.findClassByPid(0);
 			StringBuffer vs = getVideoClass(vcs);
-			vs.delete(vs.length()-1, vs.length());
+			if(vs!=null&&vs.toString().endsWith(",")){
+				vs.replace(vs.length()-1, vs.length(),"");
+			}
 			List<Video> videos = VideoServer.findVideoByClassId(vs.toString(), p);
 			if(videos!=null){
 				for(Video video : videos){
@@ -115,8 +119,9 @@ public class QuerryVideoList extends HttpServlet {
 			cIdArray=new StringBuffer();
 			List<VideoClass> vcs = VideoClassSer.findClassByPid(0);
 			StringBuffer vs = getVideoClass(vcs);
-			vs.delete(vs.length()-1, vs.length());
-			
+			if(vs!=null&&vs.toString().endsWith(",")){
+				vs.replace(vs.length()-1, vs.length(),"");
+			}
 			List<Video> videos = VideoServer.findVideoByTypeAndClassId(type,
 					vs.toString(), p);
 			if(videos!=null){
@@ -138,8 +143,9 @@ public class QuerryVideoList extends HttpServlet {
 			cIdArray=new StringBuffer();
 			List<VideoClass> vcs = VideoClassSer.findClassByPid(0);
 			StringBuffer vs = getVideoClass(vcs);
-			vs.delete(vs.length()-1, vs.length());
-			
+			if(vs!=null&&vs.toString().endsWith(",")){
+				vs.replace(vs.length()-1, vs.length(),"");
+			}
 			List<Video> videos = VideoServer.findVideoByTeacherIdAndClassId(
 					tId, vs.toString(), p);
 			if(videos!=null){

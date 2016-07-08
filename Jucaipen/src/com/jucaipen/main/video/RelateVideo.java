@@ -56,31 +56,6 @@ public class RelateVideo extends HttpServlet {
 
 	private String initVideoList(int cId, int type, int index) {
 		List<Video> videos;
-		/*if(type==1){
-			//选集
-			if(index==0){
-				//首页
-				 videos = VideoServer.findVideoByClassIdLast(6, cId);
-			}else{
-				 videos = VideoServer.findVideoByClassId(cId);
-			}
-		}else if(type==2){
-			//推荐视频
-			if(index==0){
-				 videos = VideoServer.findVideoByClassIdLast(6, cId);
-			}else{
-				videos = VideoServer.findVideoByClassId(cId);
-			}
-		}else{
-			//相关视频
-			if(index==0){
-				videos = VideoServer.findVideoByClassIdLast(6, cId);
-			}else{
-				videos =  VideoServer.findVideoByClassId(cId);
-			}
-			
-		}*/
-		
 		if(index==0){
 			//首页
 			 videos = VideoServer.findVideoByClassIdLast(6, cId);

@@ -21,11 +21,19 @@ public class ChatMsgObject {
 	private int userLeavel;
 	private int serverId;
 	private String sendDate;
+	private String sendFace;
 	private int liveId;
 	private int opType;
 	private int toId;
 	private String msg;
 	private int teacherId;
+	
+	public String getSendFace() {
+		return sendFace;
+	}
+	public void setSendFace(String sendFace) {
+		this.sendFace = sendFace;
+	}
 	public int getTeacherId() {
 		return teacherId;
 	}

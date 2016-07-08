@@ -51,13 +51,11 @@ public class DownFile extends HttpServlet {
 			fileName = request.getParameter("fileName");
 			if (StringUtil.isNotNull(fileName)) {
 				loadPath = rootPath + fileName;
-				System.out.println("loadPath:"+loadPath);
 				File apkFile = new File(loadPath);
 				if (apkFile.exists()) {
 					downLoadApk(response);
 				} else {
-					System.out.println("文件不存在");
-
+					result=JsonUtil.getRetMsg(3, "文件不存在");
 				}
 			} else {
 				PrintWriter out = response.getWriter();

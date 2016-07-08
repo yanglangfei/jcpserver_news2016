@@ -205,10 +205,12 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				float dayPrice=result.getFloat("DayPrice");
 				int renQi=result.getInt("LiveRenQi");
 				int askNum=result.getInt("AskNum");
+				String videoUrl=result.getString("VideoLiveUrl");
 				FamousTeacher teacher=new FamousTeacher();
 				teacher.setPage(page);
 				teacher.setTotlePage(totlePage);
 				teacher.setId(id);
+				teacher.setVideoLiveUrl(videoUrl);
 				teacher.setAnswerCount(answerCount);
 				teacher.setArticleCount(articleCount);
 				teacher.setTrueName(trueName);

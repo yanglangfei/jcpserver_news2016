@@ -3,12 +3,20 @@ package com.jucaipen.main.live;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.model.PushPayload;
 
 import com.jucaipen.model.Guardian;
 import com.jucaipen.model.User;
@@ -17,29 +25,34 @@ import com.jucaipen.service.GuardianSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.service.VideoLiveServer;
 import com.jucaipen.utils.BaseData;
+import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator
  *
- *  获取活跃榜    ---讲师守护者
+ *  用户席位    ---讲师守护者
  */
 @SuppressWarnings("serial")
 public class ActiveList extends HttpServlet {
 	private String result;
+	private Map<String, String> param=new HashMap<String, String>();
+	private static final String GETUser="http://www.jucaipen.com/TeacherLive/ashx/user.ashx?action=GetUserList";
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String liveId=request.getParameter("liveId");
-		if(StringUtil.isNotNull(liveId)){
-			if(StringUtil.isInteger(liveId)){
-				int lId=Integer.parseInt(liveId);
-				result=initActiveList(lId);
+		String teacherId=request.getParameter("teacherId");
+		if(StringUtil.isNotNull(teacherId)){
+			if(StringUtil.isInteger(teacherId)){
+				int lId=Integer.parseInt(teacherId);
+			    initBangList(lId);
+				//result=initActiveList(lId);
 			}else{
 				result=JsonUtil.getRetMsg(2,"liveId 参数数字格式化异常");
 			}
@@ -72,6 +85,31 @@ public class ActiveList extends HttpServlet {
 			}
 		}
 		return JsonUtil.getGuardianList(guardianArray);
+	}
+	
+	public  void initBangList(int tId){
+		Timer timer=new Timer();
+		UpdateOnLine task=new UpdateOnLine(tId);
+		timer.scheduleAtFixedRate(task, new Date(), 1000*60);
+	}
+	
+	
+	class UpdateOnLine extends TimerTask{
+		private int tId;
+		public UpdateOnLine(int tId) {
+			this.tId=tId;
+		}
+
+		@Override
+		public void run() {
+			param.clear();
+			param.put("tId", tId+"");
+			String res = LoginUtil.sendHttpPost(GETUser, param);
+			JPushClient client = JPushUtils.getJPush();
+			PushPayload msgObj = JPushUtils.createMsg("msg", "onLine",res , null);
+			JPushUtils.pushMsg(client, msgObj);
+		}
+		
 	}
 
 }
