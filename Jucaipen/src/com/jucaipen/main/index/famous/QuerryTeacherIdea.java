@@ -113,7 +113,7 @@ public class QuerryTeacherIdea extends HttpServlet {
 				}
 				users.add(user);
 			}
-			return JsonUtil.getAskList(asks, users);
+			return JsonUtil.getAskList(asks, users,0);
 		} else if (type == 2) {
 			// ÎÄ×ÖÖ±²¥
 			List<TextLive> txts = TxtLiveSer.findTxtLiveByTeacherIdAndLast(tId,

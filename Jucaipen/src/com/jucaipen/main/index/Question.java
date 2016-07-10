@@ -91,7 +91,7 @@ public class Question extends HttpServlet {
 			}
 			users.add(user);
 		}
-		return JsonUtil.getAskList(asks, users);
+		return JsonUtil.getAskList(asks, users,0);
 
 	}
 
@@ -107,7 +107,7 @@ public class Question extends HttpServlet {
 			}
 			users.add(user);
 		}
-		return JsonUtil.getAskList(asks, users);
+		return JsonUtil.getAskList(asks, users,1);
 	}
 
 }

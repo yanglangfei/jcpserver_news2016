@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
-	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	metadata-complete="true">
-   <display-name></display-name>
-   
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" metadata-complete="true" version="2.5">
+  <display-name></display-name>
   <servlet>
     <servlet-name>QuerryAdvise</servlet-name>
     <servlet-class>com.jucaipen.base.QuerryAdvise</servlet-class>
@@ -434,15 +429,6 @@
     <servlet-name>Control</servlet-name>
     <servlet-class>com.jucaipen.manager.Control</servlet-class>
   </servlet>
-
-
-
-
-
-
-
-
-
   <servlet-mapping>
     <servlet-name>QuerryAdvise</servlet-name>
     <url-pattern>/jucaipen/getadvise</url-pattern>
@@ -525,7 +511,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>DownFile</servlet-name>
-    <url-pattern>/jucaipen/download</url-pattern>
+    <url-pattern>/jucaipen/downLoadApk</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>CheckMobileCode</servlet-name>
@@ -537,7 +523,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>UpdateVersion</servlet-name>
-    <url-pattern>/jucaipen/updateversion</url-pattern>
+    <url-pattern>/accumulate/updateVersion</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>UploadUserLogo</servlet-name>

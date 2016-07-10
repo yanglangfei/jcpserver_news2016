@@ -8,23 +8,16 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.jucaipen.model.ClientOsInfo;
-import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
- * 
- *         下载APK文件
- * 
+ *      下载APK文件
  */
 @SuppressWarnings("serial")
 public class DownFile extends HttpServlet {
@@ -44,10 +37,6 @@ public class DownFile extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		String userAgent=request.getParameter("User-Agent");
-		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
-		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
-		if(isDevice==HeaderUtil.PHONE_APP){
 			fileName = request.getParameter("fileName");
 			if (StringUtil.isNotNull(fileName)) {
 				loadPath = rootPath + fileName;
@@ -64,15 +53,6 @@ public class DownFile extends HttpServlet {
 				out.flush();
 				out.close();
 			}
-			
-		}else{
-			PrintWriter out = response.getWriter();
-			result = StringUtil.isVaild;
-			out.write(result);
-			out.flush();
-			out.close();
-		}
-		
 	}
 
 	private void downLoadApk(HttpServletResponse response) {
