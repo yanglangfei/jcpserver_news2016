@@ -429,6 +429,11 @@
     <servlet-name>Control</servlet-name>
     <servlet-class>com.jucaipen.manager.Control</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>LevLiveUrl</servlet-name>
+    <servlet-class>com.jucaipen.main.video.LevLiveUrl</servlet-class>
+  </servlet>
+
   <servlet-mapping>
     <servlet-name>QuerryAdvise</servlet-name>
     <url-pattern>/jucaipen/getadvise</url-pattern>
@@ -856,5 +861,9 @@
   <servlet-mapping>
     <servlet-name>Control</servlet-name>
     <url-pattern>/jcp/control</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LevLiveUrl</servlet-name>
+    <url-pattern>/jucaipen/getlevurl</url-pattern>
   </servlet-mapping>
 </web-app>

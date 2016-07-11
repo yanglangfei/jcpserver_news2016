@@ -9,14 +9,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.Fans;
-import com.jucaipen.model.VideoLive;
+import com.jucaipen.model.TextLive;
 import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.FansSer;
-import com.jucaipen.service.VideoLiveServer;
+import com.jucaipen.service.TxtLiveSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
@@ -95,9 +94,9 @@ public class QuerryTeacher extends HttpServlet {
 		if(teachers!=null){
 			for(FamousTeacher teacher : teachers){
 				int tId=teacher.getId();
-				List<VideoLive> lives = VideoLiveServer.findLiveBytId(tId);
-				if(lives!=null&&lives.size()>0){
-					teacher.setLiveIsEnd(lives.get(0).getIsEnd());
+				List<TextLive> txt = TxtLiveSer.findTxtLiveByTeacherIdAndLast(tId, 1);
+				if(txt!=null&&txt.size()>0){
+					teacher.setLiveIsEnd(txt.get(0).getIsEnd());
 				}
 			}
 		}

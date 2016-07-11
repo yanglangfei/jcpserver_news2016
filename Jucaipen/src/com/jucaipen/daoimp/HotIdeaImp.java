@@ -146,7 +146,7 @@ public class HotIdeaImp implements HotIdeaDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 15 Id,InsertDate,Title,Bodys,Hits,FK_TearchId,Goods FROM "
+					.executeQuery("SELECT TOP 15 Id,InsertDate,Title,Bodys,Hits,FK_TearchId,Goods,CommCount FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Tearch_Log) A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
@@ -157,8 +157,10 @@ public class HotIdeaImp implements HotIdeaDao {
 				int hits = res.getInt(5);
 				int teacherId = res.getInt(6);
 				int goods = res.getInt(7);
+				int commCount=res.getInt(8);
 				HotIdea idea = new HotIdea();
 				idea.setId(id);
+				idea.setCommens(commCount);
 				idea.setTotlePgae(totlePage);
 				idea.setPage(page);
 				idea.setInsertDate(insertDate);

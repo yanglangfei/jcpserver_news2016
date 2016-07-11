@@ -76,5 +76,4 @@ public class RelateVideo extends HttpServlet {
 		}
 		return JsonUtil.getVideoList(videos);
 	}
-
 }

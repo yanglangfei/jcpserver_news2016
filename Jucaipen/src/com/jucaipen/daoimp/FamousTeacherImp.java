@@ -88,7 +88,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 			dbConn=JdbcUtil.connSqlServer();
 			sta=dbConn.createStatement();
 			res=sta.executeQuery("SELECT TOP 15 * FROM "
-					+ "(SELECT ROW_NUMBER() OVER (ORDER BY Fans DESC) AS RowNumber,* FROM JCP_Tearcher) A "
+					+ "(SELECT ROW_NUMBER() OVER (ORDER BY LiveRenQi ASC) AS RowNumber,* FROM JCP_Tearcher) A "
 					+ "WHERE RowNumber > " + 15 * (page - 1));
 			teachers=getTeacher(res,page,totlePage);
 			return teachers;
@@ -125,10 +125,12 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				String touxian=res.getString("TouXian");
 				String introduce=res.getString("Jianjie");
 				String notice=res.getString("Notice");
+				String ShanChang=res.getString("ShanChang");
 				int fans=res.getInt("Fans");
 				FamousTeacher famousTeacher=new FamousTeacher();
 				famousTeacher.setId(id);
 				famousTeacher.setIsV(isV);
+				famousTeacher.setHoby(ShanChang);
 				famousTeacher.setNickName(nickName);
 				famousTeacher.setHeadFace(headFace);
 				famousTeacher.setLevel(touxian);
