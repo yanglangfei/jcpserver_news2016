@@ -53,7 +53,6 @@ public class AnswerDetails extends HttpServlet {
 	private String initAskData(int id) {
 		// 初始化问答详细信息
 		Ask ask = AskSer.findAskById(id);
-		System.out.println(id);
 		int isReply = ask.getIsReply();
 		if (isReply == 2) {           
 			List<Answer> answer = AnswerSer.findAnswerByAskId(id);

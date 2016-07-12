@@ -14,6 +14,11 @@ public class VideoServer {
 		VideoDao dao = new VideoImp();
 		return dao.findAll(page);
 	}
+	
+	public static List<Video>  findVideoBySpecialId(int specialId){
+		VideoDao dao = new VideoImp();
+		return dao.findVideoBySpecialId(specialId);
+	}
 
 	/**
 	 * @param classId
@@ -22,6 +27,11 @@ public class VideoServer {
 	public static List<Video> findVideoByClassId(String classId,int page) {
 		VideoDao dao = new VideoImp();
 		return dao.findVideoByClassId(classId,page);
+	}
+	
+	public static List<Video> findVideoByIsRecommId(int isRecomm,int classId){
+		VideoDao dao = new VideoImp();
+		return dao.findVideoByIsRecommId(isRecomm, classId);
 	}
 	
 	/**
@@ -42,6 +52,11 @@ public class VideoServer {
 	public static List<Video> findLastVideoByCommId(int commId,int count){
 		VideoDao dao=new VideoImp();
 		return dao.findLastVideoByCommId(commId, count);
+	}
+	
+	public static List<Video> findVideoByIsTopId(int isTop,int classId){
+		VideoDao dao=new VideoImp();
+		return dao.findVideoByIsTopId(isTop, classId);
 	}
 	
 	/**
@@ -148,6 +163,8 @@ public class VideoServer {
 		return dao.findVideoByClassIdLast(count, classId);
 
 	}
+	
+	
 	
 	public static List<Video>  findVideoByClassId(int classId){
 		VideoDao dao=new VideoImp();

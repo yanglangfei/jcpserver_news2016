@@ -14,6 +14,7 @@ import com.jucaipen.service.FansSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
+
 /**
  * @author Administrator
  * 
@@ -22,6 +23,7 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class QuerryAttention extends HttpServlet {
 	private String result;
+
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -37,15 +39,15 @@ public class QuerryAttention extends HttpServlet {
 			if (StringUtil.isNotNull(userId)) {
 				if (StringUtil.isInteger(userId)) {
 					int uId = Integer.parseInt(userId);
-					if(uId>0){
+					if (uId > 0) {
 						if (StringUtil.isInteger(teacherId)) {
 							int tId = Integer.parseInt(teacherId);
-							result=querryIsAttention(uId, tId);
+							result = querryIsAttention(uId, tId);
 						} else {
 							result = JsonUtil.getRetMsg(1, "讲师id数字格式化异常");
 						}
-					}else{
-						result=JsonUtil.getRetMsg(3,"用户还没登录");
+					} else {
+						result = JsonUtil.getRetMsg(3, "用户还没登录");
 					}
 				} else {
 					result = JsonUtil.getRetMsg(2, "userId 参数数字格式化异常");
@@ -62,8 +64,9 @@ public class QuerryAttention extends HttpServlet {
 	}
 
 	public String querryIsAttention(int uId, int tId) {
-		Fans fans=FansSer.findIsFans(uId, tId);
-		return fans==null?JsonUtil.getRetMsg(1,"该讲师还没关注") :JsonUtil.getRetMsg(0, "该讲师已经关注");
+		Fans fans = FansSer.findIsFans(uId, tId);
+		return fans == null ? JsonUtil.getRetMsg(1, "该讲师还没关注") : JsonUtil
+				.getRetMsg(0, "该讲师已经关注");
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

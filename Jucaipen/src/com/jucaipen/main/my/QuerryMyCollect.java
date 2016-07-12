@@ -101,21 +101,19 @@ public class QuerryMyCollect extends HttpServlet {
 			int fkId = fa.getFk_Id();
 			if (t == 0) {
 				Video video = VideoServer.findVideoById(fkId);
-				if(video==null){
-					video=new Video();
+				if(video!=null){
+					int specialId=video.getPecialId();
+					int isFree=video.getVideoType();
+					fa.setCharge(isFree==1);
+					Special special = SpecialSer.findSpecialById(specialId);
+					fa.setSpecial(special!=null);
+					videos.add(video);
 				}
-				int specialId=video.getPecialId();
-				int isFree=video.getVideoType();
-				fa.setCharge(isFree==1);
-				Special special = SpecialSer.findSpecialById(specialId);
-				fa.setSpecial(special!=null);
-				videos.add(video);
 			} else {
 				Knowledge knowledge = KnowledgetSer.findKnowledgeById(fkId);
-				if(knowledge==null){
-					knowledge=new Knowledge();
+				if(knowledge!=null){
+					knowledges.add(knowledge);
 				}
-				knowledges.add(knowledge);
 			}
 		}
 		if (t == 0) {

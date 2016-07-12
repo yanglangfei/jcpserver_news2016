@@ -19,7 +19,9 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  *
- *   获取(相关视频    typeId    0  选集    typeId    1)  推荐视频   typeId  2
+ *   获取(相关视频    typeId    0  
+ *        选集    typeId    1
+ *        推荐视频   typeId  2
  */
 @SuppressWarnings("serial")
 public class RelateVideo extends HttpServlet {
@@ -56,12 +58,23 @@ public class RelateVideo extends HttpServlet {
 
 	private String initVideoList(int cId, int type, int index) {
 		List<Video> videos;
-		if(index==0){
+		if(type==0){
+			//相关视频        ----classId       isTop
+			videos=VideoServer.findVideoByIsTopId(1, cId);
+		}else if(type==1){
+			//选集               -----specialId
+			videos=VideoServer.findVideoBySpecialId(cId);
+		}else{
+			//推荐视频     --------classId     isTuijian
+			videos=VideoServer.findVideoByIsRecommId(1, cId);
+		}
+		
+		/*if(index==0){
 			//首页
 			 videos = VideoServer.findVideoByClassIdLast(6, cId);
 		}else{
 			 videos = VideoServer.findVideoByClassId(cId);
-		}
+		}*/
 		
 		if(videos!=null){
 			for(Video video : videos){

@@ -19,6 +19,12 @@ public interface VideoDao {
 	 * @return
 	 */
 	public List<Video> findVideoByTeacherId(int teacherId,int page);
+	
+	/**
+	 * @param specialId
+	 * @return  获取同类专辑的视频信息
+	 */
+	public List<Video>  findVideoBySpecialId(int specialId);
 	/**
 	 * @param typeId
 	 * @param page
