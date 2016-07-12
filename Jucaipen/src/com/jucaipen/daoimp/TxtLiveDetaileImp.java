@@ -54,7 +54,7 @@ public class TxtLiveDetaileImp implements TxtLiveDetailsDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT Id,FK_LiveId,Bodys,InsertDate,IsFree FROM JCP_TxtLive_Detail WHERE FK_LiveId="
-							+ liveId+" AND LiveType="+type+" ORDER BY InsertDate ASC");
+							+ liveId+" AND LiveType="+type+" ORDER BY InsertDate DESC");
 			while (res.next()) {
 				int id=res.getInt(1);
 				int relate_LiveId=res.getInt(2);

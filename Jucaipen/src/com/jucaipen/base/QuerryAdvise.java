@@ -19,7 +19,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * 获取广告页面
  * 
- * type ---1 首页 2 阅观点 7 视频 8 学院 9学院详情
+ * type ---10  首页    8 学院 
  */
 @SuppressWarnings("serial")
 public class QuerryAdvise extends HttpServlet {

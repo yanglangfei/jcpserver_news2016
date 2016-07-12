@@ -49,41 +49,46 @@ public class AskQuestion extends HttpServlet {
 			if (StringUtil.isInteger(userId)) {
 				// 用户id格式正确
 				int uId = Integer.parseInt(userId);
-				if (StringUtil.isInteger(teacherId)) {
-					// 讲师id数字格式化正确
-					int tId = Integer.parseInt(teacherId);
-					// 判断提问数量是否超出限制的提问数
-					if (initMaxAskNum(uId, tId)) {
-						if (tId > 0) {
-							if (StringUtil.isInteger(askType)) {
-								// 提问类型数字格式化正确
-								if (StringUtil.isNotNull(askBodys)) {
-									int type = Integer.parseInt(askType);
-									if (type > 0) {
-										result=createAskModel(uId, tId, type, askBodys);
+				if(uId>0){
+					if (StringUtil.isInteger(teacherId)) {
+						// 讲师id数字格式化正确
+						int tId = Integer.parseInt(teacherId);
+						// 判断提问数量是否超出限制的提问数
+						if (initMaxAskNum(uId, tId)) {
+							if (tId > 0) {
+								if (StringUtil.isInteger(askType)) {
+									// 提问类型数字格式化正确
+									if (StringUtil.isNotNull(askBodys)) {
+										int type = Integer.parseInt(askType);
+										if (type > 0) {
+											result=createAskModel(uId, tId, type, askBodys);
+										} else {
+											result = JsonUtil.getRetMsg(6, "分类id找不到");
+										}
 									} else {
-										result = JsonUtil.getRetMsg(6, "分类id找不到");
+										result = JsonUtil.getRetMsg(5, "咨询内容不能为空");
 									}
+
 								} else {
-									result = JsonUtil.getRetMsg(5, "咨询内容不能为空");
+									// 提问类型数字格式化异常
+									result = JsonUtil.getRetMsg(2, "咨询分类参数数字格式化异常");
 								}
 
 							} else {
-								// 提问类型数字格式化异常
-								result = JsonUtil.getRetMsg(2, "咨询分类参数数字格式化异常");
+								result = JsonUtil.getRetMsg(7, "讲师id异常");
 							}
 
 						} else {
-							result = JsonUtil.getRetMsg(7, "讲师id异常");
+							result = JsonUtil.getRetMsg(8, "您的提问数已经超出限制");
 						}
-
 					} else {
-						result = JsonUtil.getRetMsg(8, "您的提问数已经超出限制");
-					}
-				} else {
-					// 讲师id数字格式化异常
-					result = JsonUtil.getRetMsg(3, "讲师id数字格式化异常");
+						// 讲师id数字格式化异常
+						result = JsonUtil.getRetMsg(3, "讲师id数字格式化异常");
+					}	
+				}else{
+					result=JsonUtil.getRetMsg(5,"用户还没登录");
 				}
+				
 			} else {
 				// 用户id数字格式化异常
 				result = JsonUtil.getRetMsg(4, "用户id数字格式化异常");

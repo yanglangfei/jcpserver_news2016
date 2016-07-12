@@ -37,7 +37,7 @@ public class AdverticeImp implements AdverticeDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("select * from JCP_Slide where FK_ClassId="
-					+ pId);
+					+ pId+" ORDER BY SortId ASC");
 			while (res.next()) {
 				int id = res.getInt("Id");
 				int pageId = res.getInt("FK_ClassId");

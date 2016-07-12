@@ -55,7 +55,8 @@ public class SchoolVideoList extends HttpServlet {
 	
 	private String initTeachList(int p) {
 		// 初始化视频教程
-		List<Video> videos = VideoServer.findVideoByClassId(9+"", p);
+		List<Video> videos=VideoServer.findVideoByClassIdLast(4, 9);
+		//List<Video> videos = VideoServer.findVideoByClassId(9+"", p);
 		if(videos!=null){
 			for(Video video : videos){
 				//是否为付费视频  0为免费视频，1为付费视频
