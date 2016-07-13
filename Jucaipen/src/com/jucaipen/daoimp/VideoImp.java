@@ -534,15 +534,21 @@ public class VideoImp implements VideoDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select Id,Title,VideoUrl from JCP_Video where Id="
+					.executeQuery("select VideoUrl,VideoType,FK_Pecial,JiDuPrice,NianPrice from JCP_Video where Id="
 							+ id);
 
 			while (res.next()) {
-				int Vid = res.getInt(SqlUtil.NEWS_ID);
-				String title = res.getString(SqlUtil.VIDEO_TITLE);
 				String videoUrl = res.getString(SqlUtil.VIDEO_URL);
-				Video video = new Video(Vid, title);
+				int videoType=res.getInt("VideoType");
+				int specialId=res.getInt("FK_Pecial");
+				double quartPrice=res.getDouble("NianPrice");
+				double yearPrice=res.getDouble("NianPrice");
+				Video video = new Video();
 				video.setVideoUrl(videoUrl);
+				video.setVideoType(videoType);
+				video.setPecialId(specialId);
+				video.setQuartPrice(quartPrice);
+				video.setYearPrice(yearPrice);
 				return video;
 			}
 		} catch (SQLException e) {
@@ -598,8 +604,11 @@ public class VideoImp implements VideoDao {
 				int vId = res.getInt(SqlUtil.NEWS_ID);
 				String title = res.getString(SqlUtil.VIDEO_TITLE);
 				String images = res.getString(SqlUtil.VIDEO_IMAGES);
+				String videoUrl=res.getString("VideoUrl");
 				Video video = new Video(vId, title);
 				video.setImages(images);
+				video.setVideoUrl(videoUrl);
+				video.setPecialId(specialId);
 				videos.add(video);
 			}
 			return videos;

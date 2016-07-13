@@ -63,8 +63,11 @@ public class SchoolVideoList extends HttpServlet {
 				int specialId=video.getPecialId();
 				int videoType=video.getVideoType();
 				video.setCharge(videoType==1);
-				Special special = SpecialSer.findSpecialById(specialId);
-				video.setSpecial(special!=null);
+				
+				if(specialId>0){
+					Special special = SpecialSer.findSpecialById(specialId);
+					video.setCharge(special.getIsFree()==2);
+				}
 			}
 		}
 		return JsonUtil.getTeachVideList(videos);

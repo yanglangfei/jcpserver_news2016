@@ -60,8 +60,18 @@ public class TxtLiveMsg implements Serializable{
 	 */
 	private String ip;
 	
+	private int msgType;
 	
 	
+	
+	
+	
+	public int getMsgType() {
+		return msgType;
+	}
+	public void setMsgType(int msgType) {
+		this.msgType = msgType;
+	}
 	public String getUserName() {
 		return userName;
 	}

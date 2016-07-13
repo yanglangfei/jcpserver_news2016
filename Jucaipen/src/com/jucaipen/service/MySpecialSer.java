@@ -44,5 +44,11 @@ public class MySpecialSer {
 		MySpecialDao dao=new MySpecialImp();
 		return dao.removeSpecial(id);
 	}
+	
+	public static MySpecial getIsMySpecial(int uId,int sId){
+		MySpecialDao dao=new MySpecialImp();
+		return dao.getIsMySpecial(uId, sId);
+		
+	}
 
 }

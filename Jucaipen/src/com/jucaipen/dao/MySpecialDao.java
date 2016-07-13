@@ -33,5 +33,12 @@ public interface MySpecialDao {
 	 * @return  É¾³ý×¨¼­
 	 */
 	public int removeSpecial(int id);
+	
+	/**
+	 * @param uId
+	 * @param sId
+	 * @return  ÊÇ·ñ¹ºÂò×¨¼­
+	 */
+	public MySpecial getIsMySpecial(int uId,int sId);
 
 }

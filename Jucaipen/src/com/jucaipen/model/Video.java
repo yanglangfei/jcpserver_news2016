@@ -22,6 +22,10 @@ public class Video implements Serializable{
 	 */
 	private String title;
 	/**
+	 *    是否购买    0  有购买     1    未购买      2  已过期
+	 */
+	private int isPurch;
+	/**
 	 *   是否属于专辑
 	 */
 	private boolean isSpecial;
@@ -125,10 +129,48 @@ public class Video implements Serializable{
 	 * 是否推荐　（　１　推荐　　　　０　非推荐　）
 	 */
 	private int IsTuijian;
+	
+	/**
+	 *   月付价格
+	 */
+	private double mothPrice;
+	/**
+	 *   季付价格
+	 */
+	private double quartPrice;
+	/**
+	 * 年付价格
+	 */
+	private double yearPrice;
 	private int page;
 	private int totlePage;
 	
 	
+	
+	public int getIsPurch() {
+		return isPurch;
+	}
+	public void setIsPurch(int isPurch) {
+		this.isPurch = isPurch;
+	}
+	public double getMothPrice() {
+		return mothPrice;
+	}
+	public void setMothPrice(double mothPrice) {
+		this.mothPrice = mothPrice;
+	}
+	public double getQuartPrice() {
+		return quartPrice;
+	}
+	public void setQuartPrice(double quartPrice) {
+		this.quartPrice = quartPrice;
+	}
+	public double getYearPrice() {
+		return yearPrice;
+	}
+	public void setYearPrice(double yearPrice) {
+		this.yearPrice = yearPrice;
+	}
 	public Video() {
 		super();
 	}

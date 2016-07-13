@@ -3,10 +3,12 @@ package com.jucaipen.main.video;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.model.Special;
 import com.jucaipen.model.Video;
 import com.jucaipen.model.VideoClass;
@@ -69,12 +71,11 @@ public class QuerryVideoList extends HttpServlet {
 		if (cId < 0) {
 			return JsonUtil.getRetMsg(1, "分类id必须大于0");
 		}
-
 		if (type >= 0 && tId >= 0 && cId >= 0) {
 			// 各种分类 非全部
 			cIdArray=new StringBuffer();
 			List<VideoClass> vcs = VideoClassSer.findClassByPid(0);
-			StringBuffer vs = getVideoClass(vcs);
+			StringBuffer vs = getVideoClass(vcs);  
 			if(vs!=null&&vs.toString().endsWith(",")){
 				vs.replace(vs.length()-1, vs.length(),"");
 			}
@@ -85,8 +86,11 @@ public class QuerryVideoList extends HttpServlet {
 					int specialId=video.getPecialId();
 					int videoType=video.getVideoType();
 					video.setCharge(videoType==1);
-					Special special=SpecialSer.findSpecialById(specialId);
-					video.setSpecial(special!=null);
+					
+					if(specialId>0){
+						Special special = SpecialSer.findSpecialById(specialId);
+						video.setCharge(special.getIsFree()==2);
+					}
 				}
 			}
 			return JsonUtil.getVideoList(videos);
@@ -107,8 +111,11 @@ public class QuerryVideoList extends HttpServlet {
 					int specialId=video.getPecialId();
 					int videoType=video.getVideoType();
 					video.setCharge(videoType==1);
-					Special special=SpecialSer.findSpecialById(specialId);
-					video.setSpecial(special!=null);
+					
+					if(specialId>0){
+						Special special = SpecialSer.findSpecialById(specialId);
+						video.setCharge(special.getIsFree()==2);
+					}
 				}
 			}
 			
@@ -130,8 +137,11 @@ public class QuerryVideoList extends HttpServlet {
 					int specialId=video.getPecialId();
 					int videoType=video.getVideoType();
 					video.setCharge(videoType==1);
-					Special special=SpecialSer.findSpecialById(specialId);
-					video.setSpecial(special!=null);
+					
+					if(specialId>0){
+						Special special = SpecialSer.findSpecialById(specialId);
+						video.setCharge(special.getIsFree()==2);
+					}
 				}
 			}
 			
@@ -154,14 +164,17 @@ public class QuerryVideoList extends HttpServlet {
 					int specialId=video.getPecialId();
 					int videoType=video.getVideoType();
 					video.setCharge(videoType==1);
-					Special special=SpecialSer.findSpecialById(specialId);
-					video.setSpecial(special!=null);
+					
+					if(specialId>0){
+						Special special = SpecialSer.findSpecialById(specialId);
+						video.setCharge(special.getIsFree()==2);
+					}
+					
 				}
 			}
 			
 			return JsonUtil.getVideoList(videos);
 		}
-
 		return null;
 	}
 	

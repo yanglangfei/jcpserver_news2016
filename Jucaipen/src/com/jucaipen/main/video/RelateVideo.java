@@ -75,17 +75,17 @@ public class RelateVideo extends HttpServlet {
 		}else{
 			 videos = VideoServer.findVideoByClassId(cId);
 		}*/
-		
 		if(videos!=null){
 			for(Video video : videos){
 				//是否为付费视频  0为免费视频，1为付费视频
 				int specialId=video.getPecialId();
 				int videoType=video.getVideoType();
 				video.setCharge(videoType==1);
-				Special special = SpecialSer.findSpecialById(specialId);
-				video.setSpecial(special!=null);
+				if(specialId>0){
+					Special special = SpecialSer.findSpecialById(specialId);
+					video.setCharge(special.getIsFree()==2);
+				}
 			}
-			
 		}
 		return JsonUtil.getVideoList(videos);
 	}

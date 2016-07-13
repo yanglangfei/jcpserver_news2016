@@ -44,5 +44,15 @@ public class MyVideoSer {
 		MyVideoDao dao=new MyVideoImp();
 		return dao.removeMyVideo(id);
 	}
+	
+	/**
+	 * @param uId
+	 * @param vId
+	 * @return  获取是否是购买的视频
+	 */
+	public static MyVideo findIsMyVideo(int uId,int vId){
+		MyVideoDao dao=new MyVideoImp();
+		return dao.findIsMyVideo(uId, vId);
+	}
 
 }

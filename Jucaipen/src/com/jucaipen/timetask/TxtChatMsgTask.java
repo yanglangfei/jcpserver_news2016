@@ -17,20 +17,22 @@ public class TxtChatMsgTask extends TimerTask{
 	private int userId;
 	private int liveId;
 	private boolean isManager;
+	private int msgType;
 
-	public TxtChatMsgTask(int maxId, int userId, int liveId,boolean isManager) {
+	public TxtChatMsgTask(int maxId, int userId, int liveId,boolean isManager,int msgType) {
 		this.maxId=maxId;
 		this.userId=userId;
 		this.liveId=liveId;
 		this.isManager=isManager;
+		this.msgType=msgType;
 	}
 
 	@Override
 	public void run() {
-		checkMsg(maxId, liveId, userId,isManager);
+		checkMsg(maxId, liveId, userId,isManager,msgType);
 	}
 
-	private void checkMsg(int mId, int lId, int uId,boolean isM) {
+	private void checkMsg(int mId, int lId, int uId,boolean isM, int type) {
 		List<TxtLiveMsg> msgs;
 		User user;
 		if(userId>0){
@@ -44,10 +46,10 @@ public class TxtChatMsgTask extends TimerTask{
 		int isTeacher=user.getIsTeacher();
 		if(isSysAdmin==1||isRoomAdmin==1||isRoomManager==1||isTeacher==1){
 			isM=true;
-			 msgs = TxtMsgSer.findTxtMsgByMaxId(mId, liveId, false);
+			 msgs = TxtMsgSer.findTxtMsgByMaxId(mId, liveId, false,type);
 		}else{
 			isM=false;
-			msgs = TxtMsgSer.findTxtMsgByMaxId(mId, liveId, true);
+			msgs = TxtMsgSer.findTxtMsgByMaxId(mId, liveId, true,type);
 		}
 		if(msgs!=null&&msgs.size()>0){
 			String pushMsg = JsonUtil.createTxtMsgArray(msgs);

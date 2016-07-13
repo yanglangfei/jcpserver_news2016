@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.model.TxtLiveDetails;
 import com.jucaipen.service.TxtLiveDetaileSer;
 import com.jucaipen.utils.JsonUtil;
@@ -16,7 +17,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- * 浏览解盘
+ * 浏览解盘   ----变更互动区
  */
 @SuppressWarnings("serial")
 public class SolutionDish extends HttpServlet {
@@ -44,7 +45,7 @@ public class SolutionDish extends HttpServlet {
 	}
 
 	private String initDishInfo(int liveId) {
-		List<TxtLiveDetails> details = TxtLiveDetaileSer.findTextDetaileByLiveId(liveId, 1);
+	    List<TxtLiveDetails> details = TxtLiveDetaileSer.findTextDetaileByLiveId(liveId, 1);
 		return JsonUtil.getSoultionDishList(details);
 	}
 

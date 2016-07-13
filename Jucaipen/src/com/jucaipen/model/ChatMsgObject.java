@@ -27,7 +27,14 @@ public class ChatMsgObject {
 	private int toId;
 	private String msg;
 	private int teacherId;
+	private int msgType;
 	
+	public int getMsgType() {
+		return msgType;
+	}
+	public void setMsgType(int msgType) {
+		this.msgType = msgType;
+	}
 	public String getSendFace() {
 		return sendFace;
 	}

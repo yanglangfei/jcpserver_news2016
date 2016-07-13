@@ -7,6 +7,7 @@ import com.jucaipen.daoimp.TxtMsgImp;
 import com.jucaipen.model.TxtLiveMsg;
 
 public class TxtMsgSer {
+	
 
 	/**
 	 * @param count
@@ -15,9 +16,9 @@ public class TxtMsgSer {
 	 * @return  读取最近的十条聊天记录
 	 */
 	public static List<TxtLiveMsg> findLastTxtMsg(int count, int liveId,
-			boolean isCheck) {
+			boolean isCheck,int msgType) {
 		TxtMsgDao dao=new TxtMsgImp();
-		return dao.findLastTxtMsg(count, liveId, isCheck);
+		return dao.findLastTxtMsg(count, liveId, isCheck,msgType);
 	}
 
 	/**
@@ -27,9 +28,9 @@ public class TxtMsgSer {
 	 * @return  获取最新的聊天信息
 	 */
 	public static List<TxtLiveMsg> findTxtMsgByMaxId(int maxId, int liveId,
-			boolean isCheck) {
+			boolean isCheck,int msgType) {
 		TxtMsgDao dao=new TxtMsgImp();
-		return dao.findTxtMsgByMaxId(maxId, liveId, isCheck);
+		return dao.findTxtMsgByMaxId(maxId, liveId, isCheck,msgType);
 	}
 
 	/**

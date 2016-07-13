@@ -21,13 +21,14 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取视频列表 非直播 isIndex 0 首页推荐视频 返回参数：id title desc image
+ *         获取视频列表 isIndex 0 首页推荐视频 返回参数：id title desc image
  *         {"id":94,"title":"111","imageUrl":"","comms":0,"hits":5,"desc":"1"} 1
  *         全部
  */
 @SuppressWarnings("serial")
 public class VideoList extends HttpServlet {
 	private String result;
+
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -44,14 +45,14 @@ public class VideoList extends HttpServlet {
 					int index = Integer.parseInt(isIndex);
 					if (index == 0) {
 						// 首页推荐视频
-						result=initIndexData();
+						result = initIndexData();
 					} else {
 						// 全部视频
 						String page = request.getParameter("page");
 						if (StringUtil.isNotNull(page)
 								&& StringUtil.isInteger(page)) {
-							int p=Integer.parseInt(page);
-							result=initAllData(p);
+							int p = Integer.parseInt(page);
+							result = initAllData(p);
 						} else {
 							result = JsonUtil.getRetMsg(2, "page参数异常");
 						}
@@ -74,16 +75,15 @@ public class VideoList extends HttpServlet {
 	private String initAllData(int p) {
 		// 初始化全部数据
 		List<Video> videos = VideoServer.findAll(p);
-		for(Video video : videos){
-			int pecialId=video.getPecialId();
-			Special sp=SpecialSer.findSpecialById(pecialId);
-			if(sp!=null){
-				video.setSpecial(true);
-				video.setCharge(sp.getIsFree()==2 ? true : false);
-			}else{
-				video.setSpecial(false);
-			}
+		for (Video video : videos) {
+			int specialId=video.getPecialId();
+			int videoType=video.getVideoType();
+			video.setCharge(videoType==1);
 			
+			if(specialId>0){
+				Special special = SpecialSer.findSpecialById(specialId);
+				video.setCharge(special.getIsFree()==2);
+			}
 		}
 		return JsonUtil.getVideoList(videos);
 	}
@@ -91,17 +91,16 @@ public class VideoList extends HttpServlet {
 	private String initIndexData() {
 		// 初始化首页数据
 		List<Video> videos = VideoServer.findVideoByLast(4);
-		for(Video video: videos){
-			int pecialId=video.getPecialId();
-			Special sp=SpecialSer.findSpecialById(pecialId);
-			if(sp!=null){
-				video.setSpecial(true);
-				video.setCharge(sp.getIsFree()==2 ? true : false);
-			}else{
-				video.setSpecial(false);
+		for (Video video : videos) {
+			int specialId=video.getPecialId();
+			int videoType=video.getVideoType();
+			video.setCharge(videoType==1);
+			if(specialId>0){
+				Special special = SpecialSer.findSpecialById(specialId);
+				video.setCharge(special.getIsFree()==2);
 			}
 		}
-		return  JsonUtil.getVideoList(videos);
+		return JsonUtil.getVideoList(videos);
 	}
 
 }

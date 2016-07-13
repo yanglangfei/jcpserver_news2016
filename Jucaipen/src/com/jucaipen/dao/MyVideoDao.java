@@ -35,5 +35,7 @@ public interface MyVideoDao {
 	 */
 	public int removeMyVideo(int id);
 	
+	public MyVideo findIsMyVideo(int uId,int vId);
+	
 
 }

@@ -85,6 +85,37 @@ public class MyVideoImp implements MyVideoDao {
 		}
 		return null;
 	}
+	
+	
+	@Override
+	public MyVideo findIsMyVideo(int uId, int vId) {
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM JCP_MyVideo WHERE FK_UserId="+uId+" AND FK_VideoId="+vId);
+			while (res.next()) {
+				int userId=res.getInt(2);  //FK_UserId
+				int videoId=res.getInt(3);  //FK_VideoId
+				String insertDate=res.getString(4);  //InsertDate
+				String remark=res.getString(5);  //Remark
+				int isStop=res.getInt(7);  //IsStop
+				String startDate=res.getString(8);  //StartDate
+				String endDate=res.getString(9);  //EndDate
+				MyVideo video=new MyVideo();
+				video.setUserId(userId);
+				video.setVideoId(videoId);
+				video.setInsertDate(insertDate);
+				video.setRemark(remark);
+				video.setIsStop(isStop);
+				video.setStartDate(startDate);
+				video.setEndDate(endDate);
+				return video;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public List<MyVideo> findMyVideoByUserId(int userId, int page) {
@@ -172,5 +203,7 @@ public class MyVideoImp implements MyVideoDao {
 		//É¾³ýÎÒµÄÊÓÆµ
 		return 0;
 	}
+
+
 
 }

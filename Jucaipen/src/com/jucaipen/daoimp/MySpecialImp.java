@@ -37,7 +37,7 @@ public class MySpecialImp implements MySpecialDao {
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -76,7 +76,7 @@ public class MySpecialImp implements MySpecialDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -84,6 +84,44 @@ public class MySpecialImp implements MySpecialDao {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public MySpecial getIsMySpecial(int uId, int sId) {
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT * FROM JCP_MySpecial WHERE FK_UserId="
+							+ uId
+							+ " AND FK_SpecialId="
+							+ sId
+							+ " AND IsStop=0");
+			while (res.next()) {
+				String insertDate = res.getString(4); // InsertDate
+				String remark = res.getString(5); // Remark
+				int isStop = res.getInt(7); // IsStop
+				String startDate = res.getString(8); // StartDate
+				String endDate = res.getString(9); // EndDate
+				MySpecial mySpecial = new MySpecial();
+				mySpecial.setInsertDate(insertDate);
+				mySpecial.setRemark(remark);
+				mySpecial.setIsStop(isStop);
+				mySpecial.setStartDate(startDate);
+				mySpecial.setEndDate(endDate);
+				return mySpecial;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+
 	}
 
 	@Override
@@ -123,7 +161,7 @@ public class MySpecialImp implements MySpecialDao {
 			return mySpecials;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -158,7 +196,7 @@ public class MySpecialImp implements MySpecialDao {
 							+ special.getEndDate() + "')");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -170,7 +208,7 @@ public class MySpecialImp implements MySpecialDao {
 
 	@Override
 	public int removeSpecial(int id) {
-		//删除专辑信息
+		// 删除专辑信息
 		return 0;
 	}
 

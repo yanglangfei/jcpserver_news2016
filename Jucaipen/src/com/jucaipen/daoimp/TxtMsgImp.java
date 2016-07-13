@@ -19,7 +19,7 @@ public class TxtMsgImp implements TxtMsgDao {
 
 	@Override
 	public List<TxtLiveMsg> findLastTxtMsg(int count, int liveId,
-			boolean isCheck) {
+			boolean isCheck,int msgType) {
 		msgs.clear();
 		dbConn = JdbcUtil.connSqlServer();
 		try {
@@ -31,14 +31,14 @@ public class TxtMsgImp implements TxtMsgDao {
 								+ count
 								+ " * from JCP_TxtLive_Msg WHERE Fk_TxtLiveId="
 								+ liveId
-								+ " AND shenhe>0 ORDER BY InsertDate DESC) as a ORDER BY InsertDate ASC");
+								+ " AND shenhe>0 AND MsgType="+msgType+" ORDER BY InsertDate DESC) as a ORDER BY InsertDate ASC");
 			} else {
 				res = sta
 						.executeQuery("SELECT  * FROM (SELECT TOP "
 								+ count
 								+ " * from JCP_TxtLive_Msg WHERE Fk_TxtLiveId="
 								+ liveId
-								+ " ORDER BY InsertDate DESC) as a ORDER BY InsertDate ASC");
+								+ " AND MsgType="+msgType+" ORDER BY InsertDate DESC) as a ORDER BY InsertDate ASC");
 			}
 			while (res.next()) {
 				int id = res.getInt(1); // UserId
@@ -76,7 +76,7 @@ public class TxtMsgImp implements TxtMsgDao {
 
 	@Override
 	public List<TxtLiveMsg> findTxtMsgByMaxId(int maxId, int liveId,
-			boolean isCheck) {
+			boolean isCheck,int msgType) {
 		msgs.clear();
 		dbConn = JdbcUtil.connSqlServer();
 		try {
@@ -84,11 +84,11 @@ public class TxtMsgImp implements TxtMsgDao {
 			if (isCheck) {
 				res = sta
 						.executeQuery("SELECT * FROM JCP_TxtLive_Msg WHERE Fk_TxtLiveId="
-								+ liveId + " AND shenhe>0 shenhe>" + maxId+" ORDER BY InsertDate ASC");
+								+ liveId + " AND shenhe>0 shenhe>" + maxId+" AND MsgType="+msgType+" ORDER BY InsertDate ASC");
 			} else {
 				res = sta
 						.executeQuery("SELECT * FROM JCP_TxtLive_Msg WHERE Fk_TxtLiveId="
-								+ liveId + " AND Id>" + maxId+" ORDER BY InsertDate ASC");
+								+ liveId + " AND Id>" + maxId+" AND MsgType="+msgType+" ORDER BY InsertDate ASC");
 			}
 			while (res.next()) {
 				int id = res.getInt(1);
@@ -131,11 +131,11 @@ public class TxtMsgImp implements TxtMsgDao {
 			sta = dbConn.createStatement();
 			return sta.executeUpdate("INSERT INTO Fk_TxtLiveId"
 					+ "(UserId,MessBody,shenhe,Fk_TxtLiveId,InsertDate,"
-					+ "ReceiverId,IsSysAdmin,IsRoomAdmin,IP) VALUES ("
+					+ "ReceiverId,IsSysAdmin,IsRoomAdmin,IP,MsgType) VALUES ("
 					+ msg.getUserId() + ",'" + msg.getMessBody() + "',"
 					+ msg.getShenhe() + "," + msg.getTxtLiveId() + ",'"
 					+ msg.getInsertDate() + "'," + msg.getReceiverId() + ","
-					+ msg.getIsSysAdmin() + "," + msg.getIsSysAdmin() + ")");
+					+ msg.getIsSysAdmin() + "," + msg.getIsSysAdmin() +","+msg.getMsgType()+ ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{

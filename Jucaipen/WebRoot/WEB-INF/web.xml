@@ -456,7 +456,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>VideoResource</servlet-name>
-    <url-pattern>/jucaipen/getvideoresource</url-pattern>
+    <url-pattern>/jucaipen/getpurchstate</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>TeacherIdea</servlet-name>

@@ -7,23 +7,28 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.ClientOsInfo;
-import com.jucaipen.model.VideoLive;
-import com.jucaipen.service.VideoLiveServer;
+import com.jucaipen.model.MySpecial;
+import com.jucaipen.model.MyVideo;
+import com.jucaipen.model.Special;
+import com.jucaipen.model.Video;
+import com.jucaipen.service.MySpecialSer;
+import com.jucaipen.service.MyVideoSer;
+import com.jucaipen.service.SpecialSer;
+import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
+import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator
  * 
- *         获取视频资源
+ *         获取视频资源 videoUrl isPurch
  */
 @SuppressWarnings("serial")
 public class VideoResource extends HttpServlet {
 	private String result;
-	private VideoLive live;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -43,9 +48,8 @@ public class VideoResource extends HttpServlet {
 					if (StringUtil.isNotNull(videoId)) {
 						if (StringUtil.isInteger(videoId)) {
 							int id = Integer.parseInt(videoId);
-							if (id == 1 && uId > 0) {
-								initVideoResource(id);
-								result = JsonUtil.getLiveUrl(live);
+							if (uId > 0) {
+								result = initVideoResource(id, uId);
 							} else {
 								result = JsonUtil.getRetMsg(5, "用户还没登录");
 							}
@@ -69,9 +73,36 @@ public class VideoResource extends HttpServlet {
 		out.close();
 	}
 
-	private void initVideoResource(int id) {
+	private String initVideoResource(int id, int uId) {
 		// 获取视频资源
-		live = VideoLiveServer.getRoomLiveUrl(id);
+		Video video = VideoServer.findVideoResourceById(id);
+		MyVideo myVideo = MyVideoSer.findIsMyVideo(uId, id);
+		int videoType = video.getVideoType();
+		int specialId = video.getPecialId();
+		video.setCharge(videoType == 1);
+		if (myVideo != null) {
+			if (TimeUtils.isLive(myVideo.getStartDate(), myVideo.getEndDate())) {
+				video.setIsPurch(0);
+			} else {
+				video.setIsPurch(2);
+			}
+		} else {
+			video.setIsPurch(1);
+		}
+		if (specialId > 0) {
+			Special special = SpecialSer.findSpecialById(specialId);
+			int isFree = special.getIsFree();
+			video.setCharge(isFree == 2);
+			MySpecial mySpecial = MySpecialSer.getIsMySpecial(uId, specialId);
+			if (mySpecial != null) {
+				if (TimeUtils.isLive(mySpecial.getStartDate(),
+						mySpecial.getEndDate())) {
+					video.setIsPurch(0);
+				} else {
+					video.setIsPurch(2);
+				}
+			}
+		}
+		return JsonUtil.getLiveUrl(video);
 	}
-
 }
