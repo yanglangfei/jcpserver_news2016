@@ -31,6 +31,16 @@ public class FamousTeacherSer {
 		FamousTeacherDao dao = new FamousTeacherImp();
 		return dao.findIndexData();
 	}
+	
+	public static FamousTeacher findTeacherBaseInfo(int tId){
+		FamousTeacherDao dao = new FamousTeacherImp();
+		return dao.findTeacherBaseInfo(tId);
+	}
+	
+	public static int updateFansNum(int fans,int id){
+		FamousTeacherDao dao = new FamousTeacherImp();
+		return dao.updateFansNum(fans, id);
+	}
 
 	/**
 	 * @param count

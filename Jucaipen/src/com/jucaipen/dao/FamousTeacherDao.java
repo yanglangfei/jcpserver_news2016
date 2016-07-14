@@ -18,6 +18,19 @@ public interface FamousTeacherDao {
 	public List<FamousTeacher> findIndexData();
 	
 	/**
+	 * @param tId
+	 * @return  获取讲师基本信息
+	 */
+	public FamousTeacher findTeacherBaseInfo(int tId);
+	
+	/**
+	 * @param fans
+	 * @param id
+	 * @return  更新粉丝数量
+	 */
+	public int updateFansNum(int fans,int id);
+	
+	/**
 	 * @return 获取所有名师信息   分页
 	 */
 	public List<FamousTeacher> findAllFamousTeacher(int page);

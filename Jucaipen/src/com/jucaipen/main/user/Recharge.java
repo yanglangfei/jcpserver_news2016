@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 /**
  * @author Administrator
  *
@@ -22,6 +21,11 @@ public class Recharge extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
+		String userId=request.getParameter("userId");
+		String jucaiBills=request.getParameter("jucaiBills");
+		String ip=request.getRemoteAddr();
+		
+		
 		
 		
 		

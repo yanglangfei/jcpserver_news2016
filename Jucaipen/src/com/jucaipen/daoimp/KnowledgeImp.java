@@ -82,6 +82,7 @@ public class KnowledgeImp implements KnowledgeDao {
 				knowledge.setFk_ClassId(classId);
 				knowledge.setHits(hits);
 				knowledge.setXnHits(xnHits);
+				knowledge.setId(id);
 				knowledge.setFromId(fromId);
 				knowledge.setInsertDate(insertDate);
 				knowledge.setImageUrl(imageUrl);

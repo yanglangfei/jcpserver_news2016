@@ -3,12 +3,16 @@ package com.jucaipen.main.user;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.Fans;
+import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.FansSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
@@ -85,6 +89,11 @@ public class Attention extends HttpServlet {
 			fan.setIp(ip);
 			fan.setInsertDate(TimeUtils.format(new Date()));;
 			int isSuccess=FansSer.addFans(fan);
+			if(isSuccess==1){
+				//添加讲师粉丝数
+				FamousTeacher teacher=FamousTeacherSer.findTeacherBaseInfo(tId);
+				FamousTeacherSer.updateFansNum(teacher.getFans()+1, tId);
+			}
 			return isSuccess==1?JsonUtil.getRetMsg(0, "关注成功"):JsonUtil.getRetMsg(2,"关注失败");
 		}else if(type==1){
 			//取消关注

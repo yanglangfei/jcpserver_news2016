@@ -293,5 +293,35 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		return null;
 	}
 
+	@Override
+	public FamousTeacher findTeacherBaseInfo(int tId) {
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT Fans FROM JCP_Tearcher WHERE Id="+tId);
+			while (res.next()) {
+				int fans=res.getInt(1);
+				FamousTeacher teacher=new FamousTeacher();
+				teacher.setFans(fans);
+				return teacher;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public int updateFansNum(int fans, int id) {
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_Tearcher SET Fans="+fans+" WHERE Id="+id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 
 }
