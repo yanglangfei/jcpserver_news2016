@@ -60,4 +60,11 @@ public interface TxtLiveDao {
 	 * @return   获取最近几条要推送的消息
 	 */
 	public List<TextLive> findLastPushLive(int count);
+	
+	/**
+	 * @param hits
+	 * @param id
+	 * @return  更新点击数
+	 */
+	public int addHits(int hits,int id);
 }

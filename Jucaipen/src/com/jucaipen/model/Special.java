@@ -43,12 +43,31 @@ public class Special implements Serializable {
 	/**
 	 *  AmountMoney 购买专辑应付金额
 	 */
-	private double allMoney;
+	private int allMoney;
 	/**
 	 *  ShiFuMoney   实际支付金额
 	 */
-	private double payMoney;
+	private int mothMoney;
 	
+	private int quarBills;
+	
+	private int yearBills;
+	
+	public int getQuarBills() {
+		return quarBills;
+	}
+	public void setQuarBills(int quarBills) {
+		this.quarBills = quarBills;
+	}
+	public int getYearBills() {
+		return yearBills;
+	}
+	public void setYearBills(int yearBills) {
+		this.yearBills = yearBills;
+	}
+	public void setAllMoney(int allMoney) {
+		this.allMoney = allMoney;
+	}
 	public int getPage() {
 		return page;
 	}
@@ -106,13 +125,10 @@ public class Special implements Serializable {
 	public double getAllMoney() {
 		return allMoney;
 	}
-	public void setAllMoney(double allMoney) {
-		this.allMoney = allMoney;
+	public int getMothMoney() {
+		return mothMoney;
 	}
-	public double getPayMoney() {
-		return payMoney;
-	}
-	public void setPayMoney(double payMoney) {
-		this.payMoney = payMoney;
+	public void setMothMoney(int mothMoney) {
+		this.mothMoney = mothMoney;
 	}
 }

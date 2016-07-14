@@ -27,7 +27,7 @@ public class JPushUtils {
 			String content, Map<String, String> extras) {
 		PushPayload payload = PushPayload
 				.newBuilder()
-				.setPlatform(Platform.android())
+				.setPlatform(Platform.android_ios())
 				.setMessage(
 						Message.newBuilder().setMsgContent(content)
 								.setTitle(title).build())

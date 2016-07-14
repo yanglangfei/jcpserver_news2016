@@ -176,5 +176,11 @@ public class VideoServer {
 		VideoDao dao=new VideoImp();
 		return dao.findVideoByLast(count);
 	}
-
+	
+	public static int updateHits(int hits,int xnHits,int id){
+		VideoDao dao=new VideoImp();
+		return dao.updateHits(hits, xnHits, id);
+		
+	}
+	
 }

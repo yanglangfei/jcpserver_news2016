@@ -2,33 +2,38 @@ package com.jucaipen.main.video;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
 import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.model.LevBean;
 import com.jucaipen.model.MySpecial;
 import com.jucaipen.model.MyVideo;
-import com.jucaipen.model.Special;
 import com.jucaipen.model.Video;
 import com.jucaipen.service.MySpecialSer;
 import com.jucaipen.service.MyVideoSer;
-import com.jucaipen.service.SpecialSer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator
  * 
- *         获取视频资源 videoUrl isPurch
+ *         获取视频资源 以及购买状态 videoUrl isPurch
  */
 @SuppressWarnings("serial")
 public class VideoResource extends HttpServlet {
 	private String result;
+	private static Map<String, String> param = new HashMap<String, String>();
+	private static final String LEVT_PATH = "http://www.jucaipen.com/ashx/AndroidUser.ashx?action=VideoDetail";
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -51,7 +56,7 @@ public class VideoResource extends HttpServlet {
 							if (uId > 0) {
 								result = initVideoResource(id, uId);
 							} else {
-								result = JsonUtil.getRetMsg(5, "用户还没登录");
+								result = JsonUtil.getRetMsg(4, "用户还没登录");
 							}
 						} else {
 							result = JsonUtil.getRetMsg(1, "参数videoId 数字格式化异常");
@@ -77,9 +82,7 @@ public class VideoResource extends HttpServlet {
 		// 获取视频资源
 		Video video = VideoServer.findVideoResourceById(id);
 		MyVideo myVideo = MyVideoSer.findIsMyVideo(uId, id);
-		int videoType = video.getVideoType();
 		int specialId = video.getPecialId();
-		video.setCharge(videoType == 1);
 		if (myVideo != null) {
 			if (TimeUtils.isLive(myVideo.getStartDate(), myVideo.getEndDate())) {
 				video.setIsPurch(0);
@@ -90,9 +93,6 @@ public class VideoResource extends HttpServlet {
 			video.setIsPurch(1);
 		}
 		if (specialId > 0) {
-			Special special = SpecialSer.findSpecialById(specialId);
-			int isFree = special.getIsFree();
-			video.setCharge(isFree == 2);
 			MySpecial mySpecial = MySpecialSer.getIsMySpecial(uId, specialId);
 			if (mySpecial != null) {
 				if (TimeUtils.isLive(mySpecial.getStartDate(),
@@ -103,6 +103,36 @@ public class VideoResource extends HttpServlet {
 				}
 			}
 		}
+
+		if (video.getVideoUrl().contains("script")) {
+			// 乐视
+			video.setPlayType(2);
+			LevBean ben = getLevtVideoUrl(id);
+			video.setVid(ben.getVid());
+			video.setUid(ben.getUid());
+		} else {
+			// 趣看
+			video.setPlayType(1);
+		}
 		return JsonUtil.getLiveUrl(video);
 	}
+
+	private LevBean getLevtVideoUrl(int id) {
+		param.clear();
+		param.put("id", id + "");
+		String res = LoginUtil.sendHttpPost(LEVT_PATH, param);
+		JSONObject object = new JSONObject(res);
+		boolean Result = object.getBoolean("Result");
+		// String Msg=object.getString("Msg");
+		if (Result) {
+			String vu = object.getString("vu");
+			String uu = object.getString("uu");
+			LevBean lev = new LevBean();
+			lev.setUid(uu);
+			lev.setVid(vu);
+			return lev;
+		}
+		return null;
+	}
+
 }

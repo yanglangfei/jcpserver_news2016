@@ -342,4 +342,16 @@ public class TextLiveImp implements TxtLiveDao {
 		return null;
 	}
 
+	@Override
+	public int addHits(int hits, int id) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_TxtLive SET Hits="+hits+" WHERE Id="+id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

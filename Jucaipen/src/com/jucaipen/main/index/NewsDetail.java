@@ -78,9 +78,19 @@ public class NewsDetail extends HttpServlet {
 			if(teacher==null){
 				teacher=new FamousTeacher();
 			}
+			initIdeaHits(id,idea.getHits()+1);
 			return JsonUtil.getIdeaDetails(idea,teacher);
 		}
 		
+	}
+
+	/**
+	 * @param id
+	 *   更新观点点击数
+	 * @param hits 
+	 */
+	private void initIdeaHits(int id, int hits) {
+		HotIdeaServ.addHit(id, hits);
 	}
 
 }

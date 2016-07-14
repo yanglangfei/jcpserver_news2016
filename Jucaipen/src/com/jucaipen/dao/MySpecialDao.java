@@ -17,6 +17,12 @@ public interface MySpecialDao {
 	 */
 	public MySpecial findSpecialById(int id);
 	
+	
+	/**
+	 * @param specialId
+	 * @return  专辑购买数量
+	 */
+	public int getSpecialSallNum(int specialId);
 	/**
 	 * @param id
 	 * @return 获取我的专辑信息

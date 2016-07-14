@@ -111,10 +111,10 @@ public class VideoImp implements VideoDao {
 				String pageUrl = res.getString("VideoPageUrl");
 				int cId = res.getInt("FK_ClassId");
 				int pecialId = res.getInt("FK_Pecial");
-				int hits=res.getInt("PlayCount");
-				int videoType=res.getInt("VideoType");
-				String VideoUrl=res.getString("VideoUrl");
-				String VideoDate=res.getString("VideoDate");
+				int hits = res.getInt("PlayCount");
+				int videoType = res.getInt("VideoType");
+				String VideoUrl = res.getString("VideoUrl");
+				String VideoDate = res.getString("VideoDate");
 				Video video = new Video(id, title);
 				video.setImages(Images);
 				video.setDescript(desc);
@@ -161,8 +161,8 @@ public class VideoImp implements VideoDao {
 				int cId = res.getInt("FK_ClassId");
 				int playCount = res.getInt("PlayCount");
 				String videoDate = res.getString("VideoDate");
-				int specialId=res.getInt("FK_Pecial");
-				int videoType=res.getInt("VideoType");
+				int specialId = res.getInt("FK_Pecial");
+				int videoType = res.getInt("VideoType");
 				Video video = new Video(id, title);
 				video.setImages(Images);
 				video.setDescript(desc);
@@ -211,9 +211,9 @@ public class VideoImp implements VideoDao {
 				String insertDate = res.getString("InsertDate");
 				int hits = res.getInt("PlayCount");
 				int videoType = res.getInt("VideoType");
-				int specialId=res.getInt("FK_Pecial");
-				String pageUrl=res.getString("VideoPageUrl");
-				int classId=res.getInt("FK_ClassId");
+				int specialId = res.getInt("FK_Pecial");
+				String pageUrl = res.getString("VideoPageUrl");
+				int classId = res.getInt("FK_ClassId");
 				Video video = new Video(id, title);
 				video.setImages(Images);
 				video.setHitCount(hits);
@@ -348,10 +348,10 @@ public class VideoImp implements VideoDao {
 				String desc = res.getString("Description");
 				String pageUrl = res.getString("VideoPageUrl");
 				int cId = res.getInt("FK_ClassId");
-				int specialId=res.getInt("FK_Pecial");
-				int videoType=res.getInt("VideoType");
-				int hits=res.getInt("PlayCount");
-				String videoDate=res.getString("VideoDate");
+				int specialId = res.getInt("FK_Pecial");
+				int videoType = res.getInt("VideoType");
+				int hits = res.getInt("PlayCount");
+				String videoDate = res.getString("VideoDate");
 				Video video = new Video(id, title);
 				video.setImages(Images);
 				video.setDescript(desc);
@@ -401,10 +401,10 @@ public class VideoImp implements VideoDao {
 				String Images = res.getString(SqlUtil.VIDEO_IMAGES);
 				String pageUrl = res.getString("VideoPageUrl");
 				int cId = res.getInt("FK_ClassId");
-				int specialId=res.getInt("FK_Pecial");
-				int videoType=res.getInt("VideoType");
-				int hits=res.getInt("PlayCount");
-				String videoDate=res.getString("VideoDate");
+				int specialId = res.getInt("FK_Pecial");
+				int videoType = res.getInt("VideoType");
+				int hits = res.getInt("PlayCount");
+				String videoDate = res.getString("VideoDate");
 				Video video = new Video(id, title);
 				video.setImages(Images);
 				video.setVideoDate(videoDate);
@@ -455,10 +455,10 @@ public class VideoImp implements VideoDao {
 				String Images = res.getString(SqlUtil.VIDEO_IMAGES);
 				String pageUrl = res.getString("VideoPageUrl");
 				int cId = res.getInt("FK_ClassId");
-				int videoType=res.getInt("VideoType");
-				int hits=res.getInt("PlayCount");
-				String videoDate=res.getString("VideoDate");
-				int specialId=res.getInt("FK_Pecial");
+				int videoType = res.getInt("VideoType");
+				int hits = res.getInt("PlayCount");
+				String videoDate = res.getString("VideoDate");
+				int specialId = res.getInt("FK_Pecial");
 				Video video = new Video(id, title);
 				video.setImages(Images);
 				video.setHtmlUrl(pageUrl);
@@ -490,7 +490,7 @@ public class VideoImp implements VideoDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select Id,Title,KeyWords,PlayCount,InsertDate,Description,ImagesUrl,VideoType,VideoPageUrl,FK_Pecial,FK_ClassId from JCP_Video where Id="
+					.executeQuery("select Id,Title,KeyWords,PlayCount,InsertDate,Description,ImagesUrl,VideoType,VideoPageUrl,FK_Pecial,FK_ClassId,ShiFuMoney,JiDuPrice,NianPrice from JCP_Video where Id="
 							+ id);
 			while (res.next()) {
 				int vId = res.getInt(SqlUtil.NEWS_ID);
@@ -499,11 +499,14 @@ public class VideoImp implements VideoDao {
 				String insertDate = res.getString(SqlUtil.VIDEO_INSERTDATE);
 				int hitCount = res.getInt(SqlUtil.VIDEO_HITCOUNT);
 				String Description = res.getString(SqlUtil.VIDEO_DESC);
-				String imageUrl=res.getString("ImagesUrl");
-				String pageUrl=res.getString("VideoPageUrl");
-				int specialId=res.getInt("FK_Pecial");
-				int videoType=res.getInt("VideoType");
-				int classId=res.getInt("FK_ClassId");
+				String imageUrl = res.getString("ImagesUrl");
+				String pageUrl = res.getString("VideoPageUrl");
+				int specialId = res.getInt("FK_Pecial");
+				int videoType = res.getInt("VideoType");
+				int classId = res.getInt("FK_ClassId");
+				int monthBills=res.getInt("ShiFuMoney");
+				int quartBills=res.getInt("JiDuPrice");
+				int yearBills=res.getInt("NianPrice");
 				Video video = new Video(vId, title);
 				video.setKeyWords(keyWord);
 				video.setHtmlUrl(pageUrl);
@@ -513,6 +516,9 @@ public class VideoImp implements VideoDao {
 				video.setImages(imageUrl);
 				video.setInsertDate(insertDate);
 				video.setHitCount(hitCount);
+				video.setMothPrice(monthBills);
+				video.setQuartPrice(quartBills);
+				video.setYearPrice(yearBills);
 				video.setDescript(Description);
 				return video;
 			}
@@ -534,21 +540,23 @@ public class VideoImp implements VideoDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select VideoUrl,VideoType,FK_Pecial,JiDuPrice,NianPrice from JCP_Video where Id="
+					.executeQuery("select VideoUrl,VideoType,FK_Pecial,PlayCount,PlayXNCount,VideoPageUrl from JCP_Video where Id="
 							+ id);
 
 			while (res.next()) {
 				String videoUrl = res.getString(SqlUtil.VIDEO_URL);
-				int videoType=res.getInt("VideoType");
-				int specialId=res.getInt("FK_Pecial");
-				double quartPrice=res.getDouble("NianPrice");
-				double yearPrice=res.getDouble("NianPrice");
+				int videoType = res.getInt("VideoType");
+				int specialId = res.getInt("FK_Pecial");
+				int hits = res.getInt("PlayCount");
+				int xnHits = res.getInt("PlayXNCount");
+				String htmlPage=res.getString("VideoPageUrl");
 				Video video = new Video();
 				video.setVideoUrl(videoUrl);
 				video.setVideoType(videoType);
+				video.setXnHitCount(xnHits);
+				video.setHtmlUrl(htmlPage);
 				video.setPecialId(specialId);
-				video.setQuartPrice(quartPrice);
-				video.setYearPrice(yearPrice);
+				video.setHitCount(hits);
 				return video;
 			}
 		} catch (SQLException e) {
@@ -591,20 +599,20 @@ public class VideoImp implements VideoDao {
 		}
 		return null;
 	}
-	
-	public List<Video> findVideoBySpecialId(int specialId){
+
+	public List<Video> findVideoBySpecialId(int specialId) {
 		videos.clear();
 		// 获取专辑下的视频
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("select * from JCP_Video where FK_Pecial="
-					+ specialId+" ORDER BY VideoDate DESC");
+					+ specialId + " ORDER BY VideoDate DESC");
 			while (res.next()) {
 				int vId = res.getInt(SqlUtil.NEWS_ID);
 				String title = res.getString(SqlUtil.VIDEO_TITLE);
 				String images = res.getString(SqlUtil.VIDEO_IMAGES);
-				String videoUrl=res.getString("VideoUrl");
+				String videoUrl = res.getString("VideoUrl");
 				Video video = new Video(vId, title);
 				video.setImages(images);
 				video.setVideoUrl(videoUrl);
@@ -753,7 +761,8 @@ public class VideoImp implements VideoDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("select * from JCP_Video where IsTuijian="
-					+ isRecomm + " FK_ClassId=" + classId+" ORDER BY VideoDate DESC");
+					+ isRecomm + " FK_ClassId=" + classId
+					+ " ORDER BY VideoDate DESC");
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				String title = res.getString(SqlUtil.VIDEO_TITLE);
@@ -781,7 +790,8 @@ public class VideoImp implements VideoDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("select * from JCP_Video WHERE IsTop="
-					+ isTop + " AND  FK_ClassId=" + classId+" ORDER BY VideoDate DESC");
+					+ isTop + " AND  FK_ClassId=" + classId
+					+ " ORDER BY VideoDate DESC");
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				String title = res.getString(SqlUtil.VIDEO_TITLE);
@@ -857,7 +867,7 @@ public class VideoImp implements VideoDao {
 				String VideoUrl = res.getString("VideoUrl");
 				int cId = res.getInt("FK_ClassId");
 				int specialId = res.getInt("FK_Pecial");
-				int videoType=res.getInt("VideoType");
+				int videoType = res.getInt("VideoType");
 				Video video = new Video(id, title);
 				video.setDescript(descript);
 				video.setImages(images);
@@ -935,18 +945,18 @@ public class VideoImp implements VideoDao {
 					.executeQuery("SELECT TOP "
 							+ count
 							+ " Id,ImagesUrl,Title,PlayCount,VideoDate,VideoType,VideoPageUrl,FK_Pecial,FK_ClassId FROM JCP_Video WHERE ColumnId="
-							+ commId+" ORDER BY VideoDate DESC");
+							+ commId + " ORDER BY VideoDate DESC");
 			while (res.next()) {
-				int id=res.getInt(1);
-				String imageUrl=res.getString(2);
-				String title=res.getString(3);
-				int playCount=res.getInt(4);
-				String videoDate=res.getString(5);
-				int videoType=res.getInt(6);
-				String  pageUrl=res.getString(7);
-				int specialId=res.getInt(8);
-				int classId=res.getInt(9);
-				Video video=new Video();
+				int id = res.getInt(1);
+				String imageUrl = res.getString(2);
+				String title = res.getString(3);
+				int playCount = res.getInt(4);
+				String videoDate = res.getString(5);
+				int videoType = res.getInt(6);
+				String pageUrl = res.getString(7);
+				int specialId = res.getInt(8);
+				int classId = res.getInt(9);
+				Video video = new Video();
 				video.setId(id);
 				video.setTitle(title);
 				video.setPecialId(specialId);
@@ -961,7 +971,7 @@ public class VideoImp implements VideoDao {
 			return videos;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -981,19 +991,22 @@ public class VideoImp implements VideoDao {
 			res = sta
 					.executeQuery("SELECT TOP 15 Id,ImagesUrl,Title,PlayCount,VideoDate,VideoType,VideoPageUrl,FK_Pecial,FK_ClassId FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Video WHERE ColumnId = "
-							+ commId+") A "
-							+ "WHERE RowNumber > " + 15 * (page - 1));
+							+ commId
+							+ ") A "
+							+ "WHERE RowNumber > "
+							+ 15
+							* (page - 1));
 			while (res.next()) {
-				int id=res.getInt("Id");
-				String imageUrl=res.getString("ImagesUrl");
-				String title=res.getString("Title");
-				int playCount=res.getInt("PlayCount");
-				String videoDate=res.getString("VideoDate");
-				int videoType=res.getInt("VideoType");
-				String  pageUrl=res.getString("VideoPageUrl");
-				int specialId=res.getInt("FK_Pecial");
-				int classId=res.getInt("FK_ClassId");
-				Video video=new Video();
+				int id = res.getInt("Id");
+				String imageUrl = res.getString("ImagesUrl");
+				String title = res.getString("Title");
+				int playCount = res.getInt("PlayCount");
+				String videoDate = res.getString("VideoDate");
+				int videoType = res.getInt("VideoType");
+				String pageUrl = res.getString("VideoPageUrl");
+				int specialId = res.getInt("FK_Pecial");
+				int classId = res.getInt("FK_ClassId");
+				Video video = new Video();
 				video.setId(id);
 				video.setTotlePage(totlePage);
 				video.setPage(page);
@@ -1018,6 +1031,19 @@ public class VideoImp implements VideoDao {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int updateHits(int hits, int xnHits, int id) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_Video SET PlayCount=" + hits
+					+ ", PlayXNCount=" + xnHits + " WHERE Id=" + id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }

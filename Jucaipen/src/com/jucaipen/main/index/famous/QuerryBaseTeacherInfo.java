@@ -17,7 +17,7 @@ import com.jucaipen.utils.StringUtil;
 
 /**
  * @author Administrator
- *
+ * 
  *  获取讲师基本信息    baseinfo
  */
 @SuppressWarnings("serial")

@@ -17,7 +17,6 @@ public interface HotIdeaDao {
 	 * @return  添加评论数
 	 */
 	public int addComment(int ideaId,int commCount);
-	
 	/**
 	 * @param ideaId
 	 * @return   点赞
@@ -65,6 +64,8 @@ public interface HotIdeaDao {
 	 * @return  获取首页观点信息
 	 */
 	public List<HotIdea> findIndexIdea(int count);
+	
+	
 	
 
 }

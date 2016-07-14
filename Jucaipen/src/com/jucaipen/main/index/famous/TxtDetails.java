@@ -53,7 +53,14 @@ public class TxtDetails extends HttpServlet {
 		}
 		List<TxtLiveDetails> txtDetails = TxtLiveDetaileSer
 				.findTextDetaileByLiveId(tId,0);
+		initTxtHits(tId,live.getHits()+1);
 		return JsonUtil.getTxtDetails(txtDetails);
+	}
+
+	
+	private void initTxtHits(int tId, int hits) {
+		TxtLiveSer.addHits(hits, tId);
+		
 	}
 
 }

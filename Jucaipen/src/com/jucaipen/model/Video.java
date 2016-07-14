@@ -14,6 +14,14 @@ public class Video implements Serializable{
 	 */
 	private int id;
 	/**
+	 *   播放视频类型     1   趣看     2   乐视
+	 */
+	private int playType;
+	
+	private String vid;
+	
+	private String uid;
+	/**
 	 *  是否收费
 	 */
 	private boolean isCharge;
@@ -133,109 +141,25 @@ public class Video implements Serializable{
 	/**
 	 *   月付价格
 	 */
-	private double mothPrice;
+	private int mothPrice;
 	/**
 	 *   季付价格
 	 */
-	private double quartPrice;
+	private int quartPrice;
 	/**
 	 * 年付价格
 	 */
-	private double yearPrice;
+	private int yearPrice;
 	private int page;
 	private int totlePage;
 	
 	
-	
-	public int getIsPurch() {
-		return isPurch;
-	}
-	public void setIsPurch(int isPurch) {
-		this.isPurch = isPurch;
-	}
-	public double getMothPrice() {
-		return mothPrice;
-	}
-	public void setMothPrice(double mothPrice) {
-		this.mothPrice = mothPrice;
-	}
-	public double getQuartPrice() {
-		return quartPrice;
-	}
-	public void setQuartPrice(double quartPrice) {
-		this.quartPrice = quartPrice;
-	}
-	public double getYearPrice() {
-		return yearPrice;
-	}
-	public void setYearPrice(double yearPrice) {
-		this.yearPrice = yearPrice;
-	}
 	public Video() {
 		super();
-	}
-	public boolean isSpecial() {
-		return isSpecial;
-	}
-	public void setSpecial(boolean isSpecial) {
-		this.isSpecial = isSpecial;
-	}
-	public boolean isCharge() {
-		return isCharge;
-	}
-	public void setCharge(boolean isCharge) {
-		this.isCharge = isCharge;
-	}
-	public int getPage() {
-		return page;
-	}
-	public void setPage(int page) {
-		this.page = page;
-	}
-	public int getTotlePage() {
-		return totlePage;
-	}
-	public void setTotlePage(int totlePage) {
-		this.totlePage = totlePage;
 	}
 	public Video(int id, String title) {
 		this.id = id;
 		this.title = title;
-	}
-	public Video(int id, String title, String descript, int hitCount,
-			int xnHitCount, String insertDate, String videoDate, int classId,
-			int videoType, String allMoney, String payMoney, int teacherId,
-			int isTop, int isBest, int goods, String videoUrl, int commCount,
-			String keyWords, String images, int typeId, int contentId,
-			int isMySiteVideo, int pecialId, int sortId, String htmlUrl,
-			int isIndex, int isTuijian) {
-		this.id = id;
-		this.title = title;
-		this.descript = descript;
-		HitCount = hitCount;
-		XnHitCount = xnHitCount;
-		InsertDate = insertDate;
-		VideoDate = videoDate;
-		this.classId = classId;
-		this.videoType = videoType;
-		this.allMoney = allMoney;
-		this.payMoney = payMoney;
-		this.teacherId = teacherId;
-		IsTop = isTop;
-		this.isBest = isBest;
-		this.goods = goods;
-		VideoUrl = videoUrl;
-		CommCount = commCount;
-		this.keyWords = keyWords;
-		Images = images;
-		this.typeId = typeId;
-		this.contentId = contentId;
-		IsMySiteVideo = isMySiteVideo;
-		this.pecialId = pecialId;
-		this.sortId = sortId;
-		this.htmlUrl = htmlUrl;
-		IsIndex = isIndex;
-		IsTuijian = isTuijian;
 	}
 	public int getId() {
 		return id;
@@ -243,11 +167,47 @@ public class Video implements Serializable{
 	public void setId(int id) {
 		this.id = id;
 	}
+	public int getPlayType() {
+		return playType;
+	}
+	public void setPlayType(int playType) {
+		this.playType = playType;
+	}
+	public String getVid() {
+		return vid;
+	}
+	public void setVid(String vid) {
+		this.vid = vid;
+	}
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+	public boolean isCharge() {
+		return isCharge;
+	}
+	public void setCharge(boolean isCharge) {
+		this.isCharge = isCharge;
+	}
 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public int getIsPurch() {
+		return isPurch;
+	}
+	public void setIsPurch(int isPurch) {
+		this.isPurch = isPurch;
+	}
+	public boolean isSpecial() {
+		return isSpecial;
+	}
+	public void setSpecial(boolean isSpecial) {
+		this.isSpecial = isSpecial;
 	}
 	public String getDescript() {
 		return descript;
@@ -399,8 +359,35 @@ public class Video implements Serializable{
 	public void setIsTuijian(int isTuijian) {
 		IsTuijian = isTuijian;
 	}
-	
-   	
-	
+	public int getMothPrice() {
+		return mothPrice;
+	}
+	public void setMothPrice(int mothPrice) {
+		this.mothPrice = mothPrice;
+	}
+	public int getQuartPrice() {
+		return quartPrice;
+	}
+	public void setQuartPrice(int quartPrice) {
+		this.quartPrice = quartPrice;
+	}
+	public int getYearPrice() {
+		return yearPrice;
+	}
+	public void setYearPrice(int yearPrice) {
+		this.yearPrice = yearPrice;
+	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getTotlePage() {
+		return totlePage;
+	}
+	public void setTotlePage(int totlePage) {
+		this.totlePage = totlePage;
+	}
 	
 }

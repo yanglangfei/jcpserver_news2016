@@ -433,6 +433,16 @@
     <servlet-name>LevLiveUrl</servlet-name>
     <servlet-class>com.jucaipen.main.video.LevLiveUrl</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>QuerryPurchInfo</servlet-name>
+    <servlet-class>com.jucaipen.main.order.QuerryPurchInfo</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdateBaseData</servlet-name>
+    <servlet-class>com.jucaipen.main.video.UpdateBaseData</servlet-class>
+  </servlet>
+
+
 
   <servlet-mapping>
     <servlet-name>QuerryAdvise</servlet-name>
@@ -865,5 +875,13 @@
   <servlet-mapping>
     <servlet-name>LevLiveUrl</servlet-name>
     <url-pattern>/jucaipen/getlevurl</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryPurchInfo</servlet-name>
+    <url-pattern>/jucaipen/getpurchinfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateBaseData</servlet-name>
+    <url-pattern>/jucaipen/updatebasedata</url-pattern>
   </servlet-mapping>
 </web-app>

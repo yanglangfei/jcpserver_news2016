@@ -89,5 +89,15 @@ public class TxtLiveSer{
 		TxtLiveDao dao=new TextLiveImp();
 		return dao.findLastPushLive(count);
 	}
+	
+	/**
+	 * @param hits
+	 * @param id
+	 * @return  更新点击数
+	 */
+	public static int addHits(int hits,int id){
+		TxtLiveDao dao=new TextLiveImp();
+		return dao.addHits(hits, id);
+	}
 
 }

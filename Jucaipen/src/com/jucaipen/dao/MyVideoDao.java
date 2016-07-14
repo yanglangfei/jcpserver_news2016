@@ -37,5 +37,11 @@ public interface MyVideoDao {
 	
 	public MyVideo findIsMyVideo(int uId,int vId);
 	
+	/**
+	 * @param id
+	 * @return  获取购买视频数量
+	 */
+	public int getPurchVideoNum(int id);
+	
 
 }

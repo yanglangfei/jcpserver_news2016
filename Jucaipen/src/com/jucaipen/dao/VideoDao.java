@@ -141,6 +141,13 @@ public interface VideoDao {
 	
 	public List<Video> findAllVideoByCommId(int commId,int page);
 	
+	/**
+	 * @param hits
+	 * @param id
+	 * @return  ÐÞ¸Äµã»÷Êý
+	 */
+	public int updateHits(int hits,int xnHits,int id);
+	
 	
 
 }

@@ -162,6 +162,21 @@ public class MyVideoImp implements MyVideoDao {
 		}
 		return null;
 	}
+	
+	@Override
+	public int getPurchVideoNum(int id) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res=sta.executeQuery("SELECT COUNT(*) FROM JCP_MyVideo WHERE Id="+id);
+			while (res.next()) {
+				return res.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 
 	@Override
 	public int addMyVideo(MyVideo video) {

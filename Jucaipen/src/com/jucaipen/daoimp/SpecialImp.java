@@ -61,16 +61,18 @@ public class SpecialImp implements SpecialDao {
 				String description=res.getString(4);  //Description
 				int sortId=res.getInt(5);  //SortId
 				int isFree=res.getInt(7);  //IsFree
-				double amountMoney=res.getDouble(8);  //AmountMoney
-				double payMoney=res.getDouble(9);  //ShiFuMoney
+				int mothMoney=res.getInt(9);  //ShiFuMoney
+				int quarBills=res.getInt(10);
+				int yearBills=res.getInt(11);
 				Special special=new Special();
 				special.setName(name);
 				special.setInsertDate(insertDate);
 				special.setDescription(description);
 				special.setSortId(sortId);
 				special.setIsFree(isFree);
-				special.setAllMoney(amountMoney);
-				special.setPayMoney(payMoney);
+				special.setQuarBills(quarBills);
+				special.setYearBills(yearBills);
+				special.setMothMoney(mothMoney);
 				return special;
 			}
 		} catch (SQLException e) {
@@ -105,8 +107,7 @@ public class SpecialImp implements SpecialDao {
 				String description=res.getString("Description");  //Description
 				int sortId=res.getInt("SortId");  //SortId
 				int isFree=res.getInt("IsFree");  //IsFree
-				double amountMoney=res.getDouble("AmountMoney");  //AmountMoney
-				double payMoney=res.getDouble("ShiFuMoney");  //ShiFuMoney
+				int mothMoney=res.getInt("ShiFuMoney");  //ShiFuMoney
 				Special special=new Special();
 				special.setName(name);
 				special.setId(id);
@@ -116,8 +117,7 @@ public class SpecialImp implements SpecialDao {
 				special.setDescription(description);
 				special.setSortId(sortId);
 				special.setIsFree(isFree);
-				special.setAllMoney(amountMoney);
-				special.setPayMoney(payMoney);
+				special.setMothMoney(mothMoney);
 				specials.add(special);
 			}
 			return specials;

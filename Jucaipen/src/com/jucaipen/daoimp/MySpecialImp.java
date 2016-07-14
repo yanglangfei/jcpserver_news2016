@@ -212,4 +212,19 @@ public class MySpecialImp implements MySpecialDao {
 		return 0;
 	}
 
+	@Override
+	public int getSpecialSallNum(int specialId) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res=sta.executeQuery("SELECT  COUNT(*) FROM JCP_MySpecial WHERE FK_SpecialId="+specialId);
+			while (res.next()) {
+				return res.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

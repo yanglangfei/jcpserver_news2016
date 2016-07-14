@@ -23,6 +23,8 @@ public class Recharge extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		
+		
+		
 		out.println(result);
 		out.flush();
 		out.close();

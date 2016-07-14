@@ -16,6 +16,11 @@ public class MySpecialSer {
 		MySpecialDao dao=new MySpecialImp();
 		return dao.findSpecialById(id);
 	}
+	
+	public static int getSpecialSallNum(int specialId){
+		MySpecialDao dao=new MySpecialImp();
+		return dao.getSpecialSallNum(specialId);
+	}
 
 	/**
 	 * @param userId

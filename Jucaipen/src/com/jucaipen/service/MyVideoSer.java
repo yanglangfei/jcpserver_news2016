@@ -54,5 +54,11 @@ public class MyVideoSer {
 		MyVideoDao dao=new MyVideoImp();
 		return dao.findIsMyVideo(uId, vId);
 	}
+	public static int getPurchVideoNum(int id){
+		MyVideoDao dao=new MyVideoImp();
+		return dao.getPurchVideoNum(id);
+	}
+	
+	
 
 }
