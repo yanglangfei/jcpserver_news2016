@@ -84,8 +84,7 @@ public class QuerryPurchInfo extends HttpServlet {
 			// ×¨¼­
 			Special special = SpecialSer.findSpecialById(fId);
 			int sallNum = MySpecialSer.getSpecialSallNum(fId);
-			return JsonUtil
-					.getSpecialPurchInfo(special, ownJucaiBills, sallNum);
+			return JsonUtil.getSpecialPurchInfo(special, ownJucaiBills, sallNum);
 		}
 		return null;
 	}
