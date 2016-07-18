@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.model.Ask;
 import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.service.AskSer;
 import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.utils.HeaderUtil;
@@ -41,13 +42,14 @@ public class AskQuestion extends HttpServlet {
 		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
 		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
 		if(isDevice==HeaderUtil.PHONE_APP){
+			String isFree=request.getParameter("isFree");
 			String askType = request.getParameter("questionType");
 			String userId = request.getParameter("userId");
 			String askBodys = request.getParameter("askBodys");
 			String teacherId = request.getParameter("teacherId");
 			ip = request.getRemoteAddr();
 			if (StringUtil.isInteger(userId)) {
-				// 用户id格式正确
+				// 用户id格式正确    
 				int uId = Integer.parseInt(userId);
 				if(uId>0){
 					if (StringUtil.isInteger(teacherId)) {
@@ -133,6 +135,10 @@ public class AskQuestion extends HttpServlet {
 		ask.setJucaiBills(0);
 		ask.setIsReturnJcb(0);
 		isSuccess = AskSer.insertAsk(ask);
+		if(isSuccess==1){
+			FamousTeacher teacher=FamousTeacherSer.findTeacherBaseInfo(tId);
+			FamousTeacherSer.updateAskNum(teacher.getAskNum()+1, tId);
+		}
 		return isSuccess==1 ?JsonUtil.getRetMsg(0, "提问信息提交成功") : JsonUtil.getRetMsg(1,"提问信息提交失败");
 	}
 

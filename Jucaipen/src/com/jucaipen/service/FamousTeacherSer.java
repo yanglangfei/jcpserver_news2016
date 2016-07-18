@@ -23,6 +23,17 @@ public class FamousTeacherSer {
 		FamousTeacherDao dao=new FamousTeacherImp();
 		return dao.findAllTeacher();
 	}
+	
+	/**
+	 * @param tId
+	 * @return  获取守护讲师信息
+	 */
+	public static FamousTeacher findPurchInfo(int tId){
+		FamousTeacherDao dao=new FamousTeacherImp();
+		return dao.findPurchInfo(tId);
+	}
+	
+	
 
 	/**
 	 * @return  获取首页统计数据  （人气    观点   回答数   粉丝数）
@@ -40,6 +51,16 @@ public class FamousTeacherSer {
 	public static int updateFansNum(int fans,int id){
 		FamousTeacherDao dao = new FamousTeacherImp();
 		return dao.updateFansNum(fans, id);
+	}
+	
+	/**
+	 * @param num
+	 * @param id
+	 * @return 更新提问数
+	 */
+	public static int updateAskNum(int num,int id){
+		FamousTeacherDao dao = new FamousTeacherImp();
+		return dao.updateAskNum(num, id);
 	}
 
 	/**

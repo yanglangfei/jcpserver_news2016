@@ -94,6 +94,7 @@ public class SignIn extends HttpServlet {
 			sign.setUserId(uId);
 			SignSer.updateSign(sign);
 			
+			//获取签到返积分信息
 			SiteConfig config = SiteConfigSer.findSiteConfig();
 			int signIntegeral=config.getSignIntegeral();
 			//更新返利表

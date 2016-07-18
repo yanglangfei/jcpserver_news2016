@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.jucaipen.dao.ChargeOrderDao;
 import com.jucaipen.model.ChargeOrder;
 import com.jucaipen.utils.JdbcUtil;
@@ -53,7 +54,8 @@ public class ChargeOrderImp implements ChargeOrderDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCP_AddOrder WHERE Id=" + id+" AND IsDel="+0);
+			res = sta.executeQuery("SELECT * FROM JCP_AddOrder WHERE Id=" + id
+					+ " AND IsDel=" + 0);
 			while (res.next()) {
 				int userId = res.getInt(2); // UserId
 				String orderCode = res.getString(3); // OrderCode
@@ -132,20 +134,22 @@ public class ChargeOrderImp implements ChargeOrderDao {
 		}
 		return null;
 	}
-	
+
 	@Override
-	public  List<ChargeOrder> findOrderByUidAndState(int userId,int state,int page){
+	public List<ChargeOrder> findOrderByUidAndState(int userId, int state,
+			int page) {
 		orders.clear();
-		int totlePage = getTotlePage(" WHERE UserId=" + userId + " AND OrderState="+state+" AND IsDel="
-				+ 0);
+		int totlePage = getTotlePage(" WHERE UserId=" + userId
+				+ " AND OrderState=" + state + " AND IsDel=" + 0);
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_AddOrder WHERE UserId="
-							+ userId + " AND OrderState="+state+" AND IsDel=" + 0 + ") A "
-							+ "WHERE RowNumber > " + 15 * (page - 1));
+							+ userId + " AND OrderState=" + state
+							+ " AND IsDel=" + 0 + ") A " + "WHERE RowNumber > "
+							+ 15 * (page - 1));
 			while (res.next()) {
 				String orderCode = res.getString("OrderCode");
 				double payMoney = res.getDouble("Pay_money");
@@ -176,10 +180,8 @@ public class ChargeOrderImp implements ChargeOrderDao {
 			}
 		}
 		return null;
-		
+
 	}
-	
-	
 
 	@Override
 	public int addOrder(ChargeOrder order) {
@@ -187,16 +189,40 @@ public class ChargeOrderImp implements ChargeOrderDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			return sta.executeUpdate("INSERT INTO JCP_AddOrder(UserId,"
+			System.out.println("INSERT INTO JCP_AddOrder(UserId,"
 					+ "OrderCode,Pay_money,InsertDate,PaymentDate,"
 					+ "IsDel,IP,PaymentMethod,AlipayAccount,BankChannel,"
 					+ "OrderState) VALUES(" + order.getUserId() + ",'"
 					+ order.getOrderCode() + "','" + order.getChargeMoney()
 					+ "','" + order.getInsertDate() + "','"
-					+ order.getPayDate() + "'," + order.getIsDel() + ",'"
+					+ order.getPayDate() + "'," + order.getIsDel() + ","
 					+ order.getPayType() + ",'" + order.getAlipayAccount()
 					+ "','" + order.getBankChannel() + "',"
 					+ order.getOrderState() + ")");
+			return sta.executeUpdate("INSERT INTO JCP_AddOrder(UserId,"
+					+ "OrderCode,Pay_money,InsertDate,PaymentDate,"
+					+ "IsDel,IP,PaymentMethod,AlipayAccount,BankChannel,"
+					+ "OrderState) VALUES("
+					+ order.getUserId()
+					+ ",'"
+					+ order.getOrderCode()
+					+ "','"
+					+ order.getChargeMoney()
+					+ "','"
+					+ order.getInsertDate()
+					+ "','"
+					+ order.getPayDate()
+					+ "',"
+					+ order.getIsDel()
+					+ ",'"
+					+ order.getIp()
+					+ "',"
+					+ order.getPayType()
+					+ ",'"
+					+ order.getAlipayAccount()
+					+ "','"
+					+ order.getBankChannel()
+					+ "'," + order.getOrderState() + ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -219,12 +245,27 @@ public class ChargeOrderImp implements ChargeOrderDao {
 					+ " WHERE Id=" + id);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}
+		return 0;
+	}
+
+	@Override
+	public int updatePayState(String orderCode, int state, String payDate,
+			String ip) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_AddOrder SET OrderState="
+					+ state + ",PaymentDate='" + payDate + "',IP='" + ip
+					+ "' WHERE OrderCode='" + orderCode + "'");
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return 0;
 	}

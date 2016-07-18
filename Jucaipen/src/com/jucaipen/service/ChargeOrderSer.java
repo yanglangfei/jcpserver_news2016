@@ -44,5 +44,17 @@ public class ChargeOrderSer {
 		ChargeOrderDao dao=new ChargeOrderImp();
 		return dao.addOrder(order);
 	}
+	
+	/**
+	 * @param orderCode
+	 * @param state
+	 * @param payDate
+	 * @param ip
+	 * @return  ÐÞ¸Ä³äÖµ¶©µ¥×´Ì¬
+	 */
+	public static int updatePayState(String orderCode,int state,String payDate,String ip){
+		ChargeOrderDao dao=new ChargeOrderImp();
+		return dao.updatePayState(orderCode, state, payDate, ip);
+	}
 
 }

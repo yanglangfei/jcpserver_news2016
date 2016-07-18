@@ -37,4 +37,13 @@ public interface ChargeOrderDao {
 	 */
 	public int deleteOrder(int id);
 	
+	/**
+	 * @param orderCode
+	 * @param state
+	 * @param payDate
+	 * @param ip
+	 * @return  ÐÞ¸ÄÖ§¸¶×´Ì¬
+	 */
+	public int updatePayState(String orderCode,int state,String payDate,String ip);
+	
 }

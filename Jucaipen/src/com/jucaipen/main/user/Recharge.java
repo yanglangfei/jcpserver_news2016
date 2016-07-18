@@ -20,7 +20,8 @@ import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
  * 
- *         充值 payType 1 通联 2 支付宝 5 汇付宝 payState 1 未支付 2 已支付 3 支付失败
+ *        
+ *         payState 1 未支付 2 已支付 3 支付失败
  */
 @SuppressWarnings("serial")
 public class Recharge extends HttpServlet {
@@ -33,7 +34,6 @@ public class Recharge extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String userId = request.getParameter("userId");
-		String payType = request.getParameter("payType");
 		String jucaiBills = request.getParameter("jucaiBills");
 		String orderCode = request.getParameter("orderCode");
 		String payState = request.getParameter("payState");
@@ -45,35 +45,29 @@ public class Recharge extends HttpServlet {
 				if (StringUtil.isNotNull(jucaiBills)
 						&& StringUtil.isInteger(jucaiBills)) {
 					int bills = Integer.parseInt(jucaiBills);
-					if (StringUtil.isNotNull(payType)
-							&& StringUtil.isInteger(payType)) {
-						int pType = Integer.parseInt(payType);
-						if (StringUtil.isNotNull(orderCode)) {
-							if (StringUtil.isNotNull(payState)
-									&& StringUtil.isInteger(payState)) {
-								int pState = Integer.parseInt(payState);
-								if (pState == 2) {
-									if (StringUtil.isNotNull(payDate)) {
-										result = initRecharge(uId, bills, ip,
-												pType, orderCode, payDate,
-												pState);
-									} else {
-										result = JsonUtil.getRetMsg(5,
-												"支付时间不能为空");
-									}
+					if (StringUtil.isNotNull(orderCode)) {
+						if (StringUtil.isNotNull(payState)
+								&& StringUtil.isInteger(payState)) {
+							int pState = Integer.parseInt(payState);
+							if (pState == 2) {
+								if (StringUtil.isNotNull(payDate)) {
+									result = initRecharge(uId, bills, ip,
+											orderCode, payDate, pState);
+								} else {
+									result = JsonUtil.getRetMsg(5, "支付时间不能为空");
 								}
-								result = initRecharge(uId, bills, ip, pType,
-										orderCode, payDate, pState);
 							} else {
-								result = JsonUtil.getRetMsg(6, "支付状态异常");
+								result = initRecharge(uId, bills, ip,
+										orderCode, payDate, pState);
 							}
-
 						} else {
-							result = JsonUtil.getRetMsg(4, "订单号不能为空");
+							result = JsonUtil.getRetMsg(6, "支付状态异常");
 						}
+
 					} else {
-						result = JsonUtil.getRetMsg(2, "payType 参数异常");
+						result = JsonUtil.getRetMsg(4, "订单号不能为空");
 					}
+
 				} else {
 					result = JsonUtil.getRetMsg(1, "jucaiBills 参数异常");
 				}
@@ -88,21 +82,10 @@ public class Recharge extends HttpServlet {
 		out.close();
 	}
 
-	private String initRecharge(int uId, int bills, String ip, int pType,
+	private String initRecharge(int uId, int bills, String ip,
 			String orderCode, String payDate, int pState) {
-		ChargeOrder order = new ChargeOrder();
-		order.setUserId(uId);
-		order.setChargeMoney(bills);
-		order.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
-		order.setIp(ip);
-		order.setIsDel(0);
-		order.setOrderCode(orderCode);
-		order.setOrderState(pState);
-		if (pState == 2) {
-			order.setPayDate(payDate);
-		}
-		order.setPayType(pType);
-		int isSuccess = ChargeOrderSer.addOrder(order);
+		int isSuccess = ChargeOrderSer.updatePayState(orderCode, pState,
+				payDate, ip);
 		if (isSuccess == 1) {
 			// 更新聚财币信息账单 和 账单详细表信息
 			Account a = AccountSer.findAccountByUserId(uId);

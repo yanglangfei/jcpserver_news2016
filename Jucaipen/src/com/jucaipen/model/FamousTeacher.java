@@ -122,23 +122,23 @@ public class FamousTeacher implements Serializable{
 	/**
 	 *   回答收费价格
 	 */
-	private double answerPrice;
+	private int answerPrice;
 	/**
 	 *   成为守护者年价格 
 	 */
-	private double yaerPrice;
+	private int yaerPrice;
 	/**
 	 *   成为守护者月价格 
 	 */
-	private double mothPrice;
+	private int mothPrice;
 	/**
 	 *   成为守护者季度价格 
 	 */
-	private double qulaterPrice;
+	private int qulaterPrice;
 	/**
 	 *   成为守护者天价格
 	 */
-	private double dayPrice;
+	private int dayPrice;
 	/**
 	 *   是否推荐   0  否    1  是
 	 */
@@ -171,29 +171,6 @@ public class FamousTeacher implements Serializable{
 	 *  返现率
 	 */
 	private double returnRate;
-	
-	
-	
-	
-	
-	public int getLiveIsEnd() {
-		return liveIsEnd;
-	}
-	public void setLiveIsEnd(int liveIsEnd) {
-		this.liveIsEnd = liveIsEnd;
-	}
-	public boolean isAttention() {
-		return isAttention;
-	}
-	public void setAttention(boolean isAttention) {
-		this.isAttention = isAttention;
-	}
-	public double getReturnRate() {
-		return returnRate;
-	}
-	public void setReturnRate(double returnRate) {
-		this.returnRate = returnRate;
-	}
 	public int getPage() {
 		return page;
 	}
@@ -223,6 +200,12 @@ public class FamousTeacher implements Serializable{
 	}
 	public void setTrueName(String trueName) {
 		this.trueName = trueName;
+	}
+	public boolean isAttention() {
+		return isAttention;
+	}
+	public void setAttention(boolean isAttention) {
+		this.isAttention = isAttention;
 	}
 	public String getNickName() {
 		return nickName;
@@ -271,6 +254,12 @@ public class FamousTeacher implements Serializable{
 	}
 	public void setArticleCount(int articleCount) {
 		this.articleCount = articleCount;
+	}
+	public int getLiveIsEnd() {
+		return liveIsEnd;
+	}
+	public void setLiveIsEnd(int liveIsEnd) {
+		this.liveIsEnd = liveIsEnd;
 	}
 	public int getArticleReadCount() {
 		return articleReadCount;
@@ -344,34 +333,34 @@ public class FamousTeacher implements Serializable{
 	public void setIsPay(int isPay) {
 		this.isPay = isPay;
 	}
-	public double getAnswerPrice() {
+	public int getAnswerPrice() {
 		return answerPrice;
 	}
-	public void setAnswerPrice(double answerPrice) {
+	public void setAnswerPrice(int answerPrice) {
 		this.answerPrice = answerPrice;
 	}
-	public double getYaerPrice() {
+	public int getYaerPrice() {
 		return yaerPrice;
 	}
-	public void setYaerPrice(double yaerPrice) {
+	public void setYaerPrice(int yaerPrice) {
 		this.yaerPrice = yaerPrice;
 	}
-	public double getMothPrice() {
+	public int getMothPrice() {
 		return mothPrice;
 	}
-	public void setMothPrice(double mothPrice) {
+	public void setMothPrice(int mothPrice) {
 		this.mothPrice = mothPrice;
 	}
-	public double getQulaterPrice() {
+	public int getQulaterPrice() {
 		return qulaterPrice;
 	}
-	public void setQulaterPrice(double qulaterPrice) {
+	public void setQulaterPrice(int qulaterPrice) {
 		this.qulaterPrice = qulaterPrice;
 	}
-	public double getDayPrice() {
+	public int getDayPrice() {
 		return dayPrice;
 	}
-	public void setDayPrice(double dayPrice) {
+	public void setDayPrice(int dayPrice) {
 		this.dayPrice = dayPrice;
 	}
 	public int getIsTuijian() {
@@ -416,7 +405,11 @@ public class FamousTeacher implements Serializable{
 	public void setBankAccount(String bankAccount) {
 		this.bankAccount = bankAccount;
 	}
-	
-	
+	public double getReturnRate() {
+		return returnRate;
+	}
+	public void setReturnRate(double returnRate) {
+		this.returnRate = returnRate;
+	}
 
 }

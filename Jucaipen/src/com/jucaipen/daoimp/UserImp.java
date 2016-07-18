@@ -334,7 +334,7 @@ public class UserImp implements UserDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			return  sta.executeUpdate("update JCP_User set NickName='"
+			return sta.executeUpdate("update JCP_User set NickName='"
 					+ user.getNickName() + "',TrueName='" + user.getTrueName()
 					+ "',Sex='" + user.getSex() + "',UserInformation='"
 					+ user.getDescript() + "',Birthday='" + user.getBirthday()
@@ -720,7 +720,7 @@ public class UserImp implements UserDao {
 					+ integeral + " WHERE Id=" + uId);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -739,7 +739,7 @@ public class UserImp implements UserDao {
 			return sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + leavel);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -768,7 +768,7 @@ public class UserImp implements UserDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -796,7 +796,7 @@ public class UserImp implements UserDao {
 			return user;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -812,7 +812,7 @@ public class UserImp implements UserDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT NickName,UserLevel,UserFace,UserName,MobileNum FROM JCP_User WHERE Id="
+					.executeQuery("SELECT NickName,UserLevel,UserFace,UserName,MobileNum,LoginTime FROM JCP_User WHERE Id="
 							+ id);
 			while (res.next()) {
 				String nickName = res.getString(1);
@@ -820,8 +820,10 @@ public class UserImp implements UserDao {
 				String userFace = res.getString(3);
 				String userName = res.getString(4);
 				String telPhone = res.getString(5);
+				int loginNum = res.getInt(6);
 				User user = new User();
 				user.setId(id);
+				user.setLoginNum(loginNum);
 				user.setUserLeval(leavel);
 				user.setFaceImage(userFace);
 				user.setNickName(nickName);
@@ -831,7 +833,7 @@ public class UserImp implements UserDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -849,18 +851,17 @@ public class UserImp implements UserDao {
 			res = sta
 					.executeQuery("SELECT NickName,BuyProductId,IsSysAdmin,IsRoomAdmin,"
 							+ "FK_RoomTearchId,Isteacher,IsRoomManager,UserLevel,"
-							+ "ServerId FROM JCP_User WHERE Id="
-							+ uId);
+							+ "ServerId FROM JCP_User WHERE Id=" + uId);
 			while (res.next()) {
-				String nickName=res.getString(1);
-				int proId=res.getInt(2);
-				int isSysAdmin=res.getInt(3);
-				int isRoom=res.getInt(4);
-				int fk_roomId=res.getInt(5);
-				int isTeacher=res.getInt(6);
-				int isChatMess=res.getInt(7);
-				int userLeavel=res.getInt(8);
-				User user=new User();
+				String nickName = res.getString(1);
+				int proId = res.getInt(2);
+				int isSysAdmin = res.getInt(3);
+				int isRoom = res.getInt(4);
+				int fk_roomId = res.getInt(5);
+				int isTeacher = res.getInt(6);
+				int isChatMess = res.getInt(7);
+				int userLeavel = res.getInt(8);
+				User user = new User();
 				user.setNickName(nickName);
 				user.setIsRoomAdmin(isRoom);
 				user.setIsRoomManager(isChatMess);
@@ -873,7 +874,7 @@ public class UserImp implements UserDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -881,6 +882,19 @@ public class UserImp implements UserDao {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int updateLoginNum(int num, int uId,String ip) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_User SET LoginTime=" + num
+					+ ",LastLoginIp='"+ip+"' WHERE Id=" + uId);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }

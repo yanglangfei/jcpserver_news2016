@@ -120,6 +120,16 @@ public class UserServer {
 		UserDao dao = new UserImp();
 		return dao.updateUserLogoById(id, faceImage);
 	}
+	
+	/**
+	 * @param num
+	 * @param uId
+	 * @return 更新登录次数
+	 */
+	public static int updateLoginNum(int num,int uId,String ip){
+		UserDao dao = new UserImp();
+		return dao.updateLoginNum(num, uId,ip);
+	}
 
 	/**
 	 * @param id

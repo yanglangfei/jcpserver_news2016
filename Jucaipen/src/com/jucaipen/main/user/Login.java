@@ -23,6 +23,7 @@ import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
+
 /**
  * @author Administrator
  * 
@@ -30,10 +31,10 @@ import com.jucaipen.utils.TimeUtils;
  */
 @SuppressWarnings("serial")
 public class Login extends HttpServlet {
-    private String loginUrl="http://www.jcplicai.com/ashx/AndroidUser.ashx?action=login";
+	private String loginUrl = "http://www.jcplicai.com/ashx/AndroidUser.ashx?action=login";
 	private String result;
 	private String loginIp;
-	private Map<String, String> param=new HashMap<String, String>();
+	private Map<String, String> param = new HashMap<String, String>();
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -46,12 +47,12 @@ public class Login extends HttpServlet {
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
 			String userId = request.getParameter("userId");
-			loginIp=request.getRemoteAddr();
+			loginIp = request.getRemoteAddr();
 			if (StringUtil.isNotNull(userId)) {
 				if (StringUtil.isInteger(userId)) {
 					int id = Integer.parseInt(userId);
 					if (id <= 0) {
-						result = userLogin(request,os);
+						result = userLogin(request, os);
 					} else {
 						result = JsonUtil.getRetMsg(3, "当前用户已经登录");
 					}
@@ -69,7 +70,7 @@ public class Login extends HttpServlet {
 		out.close();
 	}
 
-	private String userLogin(HttpServletRequest request,ClientOsInfo os) {
+	private String userLogin(HttpServletRequest request, ClientOsInfo os) {
 		// 处理登录
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
@@ -87,25 +88,32 @@ public class Login extends HttpServlet {
 		}
 		param.put("username", userName);
 		param.put("pwd", password);
-		String result=LoginUtil.sendHttpPost(loginUrl, param);
-		JSONObject object=new JSONObject(result);
-		boolean res=object.getBoolean("Result");
-		String msg=object.getString("Msg");
-		int userId=object.getInt("ActionId");
-		if(res){
-			//登录成功处理
-			handleLoginLog(userName, 0, userId, password, "登录成功", os);
-			User user=UserServer.findBaseInfoById(userId);
+		String result = LoginUtil.sendHttpPost(loginUrl, param);
+		JSONObject object = new JSONObject(result);
+		boolean res = object.getBoolean("Result");
+		String msg = object.getString("Msg");
+		int userId = object.getInt("ActionId");
+		if (res) {
+			// 登录成功处理
+			User user = UserServer.findBaseInfoById(userId);
+			//handleLoginLog(userName, 0, userId, password, "登录成功", os);
+			// initLoginCount(user.getLoginNum()+1,userId);
 			return JsonUtil.getLoginResult(user);
-		}else{
-			//登录失败处理
-			handleLoginLog(userName, 1, 0, password, "登录失败:"+msg, os);
+		} else {
+			// 登录失败处理
+			//handleLoginLog(userName, 1, 0, password, "登录失败:" + msg, os);
 			return JsonUtil.getRetMsg(1, msg);
 		}
 	}
-	
-	public void handleLoginLog(String userName,int logResult,int userId,String password,String remark,ClientOsInfo os){
-		LoginLog log=new LoginLog();
+
+	/*
+	 * private void initLoginCount(int num,int uId) {
+	 * //UserServer.updateLoginNum(num, uId,loginIp); }
+	 */
+
+	public void handleLoginLog(String userName, int logResult, int userId,
+			String password, String remark, ClientOsInfo os) {
+		LoginLog log = new LoginLog();
 		log.setAccount(userName);
 		log.setLoginDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 		log.setLoginIp(loginIp);
@@ -114,12 +122,11 @@ public class Login extends HttpServlet {
 		log.setPassword(password);
 		log.setUserId(userId);
 		log.setRemark(remark);
-		if(os!=null){
+		if (os != null) {
 			log.setBrowserName(os.getDeviceType());
 			log.setOsName(os.getPhoneType());
 		}
 		LoginLogServer.insertLog(log);
-		
 	}
 
 }

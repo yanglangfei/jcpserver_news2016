@@ -31,6 +31,13 @@ public interface FamousTeacherDao {
 	public int updateFansNum(int fans,int id);
 	
 	/**
+	 * @param num
+	 * @param id
+	 * @return  更新提问数量
+	 */
+	public int updateAskNum(int num,int id);
+	
+	/**
 	 * @return 获取所有名师信息   分页
 	 */
 	public List<FamousTeacher> findAllFamousTeacher(int page);
@@ -57,6 +64,12 @@ public interface FamousTeacherDao {
 	 * @return  获取最大提问数
 	 */
 	public int findMaxAsk(int id);
+	
+	/**
+	 * @param tId
+	 * @return  获取讲师守护信息
+	 */
+	public FamousTeacher findPurchInfo(int tId);
 	
 
 }

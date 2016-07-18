@@ -201,10 +201,10 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				int serviceNum=result.getInt("QianYueCount");
 				String joinDate=result.getString("JoinDate");
 				int liveGbookIsPass=result.getInt("LiveGbookIsPass");
-				float  yearPrice=result.getFloat("YearPrice");
-				float motnPrice=result.getFloat("MonthPrice");
-				float quarterPrice=result.getFloat("QuarterPrice");
-				float dayPrice=result.getFloat("DayPrice");
+				int  yearPrice=result.getInt("YearPrice");
+				int motnPrice=result.getInt("MonthPrice");
+				int quarterPrice=result.getInt("QuarterPrice");
+				int dayPrice=result.getInt("DayPrice");
 				int renQi=result.getInt("LiveRenQi");
 				int askNum=result.getInt("AskNum");
 				String videoUrl=result.getString("VideoLiveUrl");
@@ -298,11 +298,13 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT Fans FROM JCP_Tearcher WHERE Id="+tId);
+			res=sta.executeQuery("SELECT Fans,AskNum FROM JCP_Tearcher WHERE Id="+tId);
 			while (res.next()) {
 				int fans=res.getInt(1);
+				int askNum=res.getInt(2);
 				FamousTeacher teacher=new FamousTeacher();
 				teacher.setFans(fans);
+				teacher.setAskNum(askNum);
 				return teacher;
 			}
 		} catch (SQLException e) {
@@ -321,6 +323,44 @@ public class FamousTeacherImp implements FamousTeacherDao {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	@Override
+	public int updateAskNum(int num, int id) {
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_Tearcher SET AskNum="+num+" WHERE Id="+id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public FamousTeacher findPurchInfo(int tId) {
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT NickName,DayPrice,QuarterPrice,MonthPrice,YearPrice FROM JCP_Tearcher WHERE Id="+tId);
+		    while (res.next()) {
+				String nickName=res.getString(1);
+				int dayPrice=res.getInt(2);
+				int quartPrice=res.getInt(3);
+				int mothPrice=res.getInt(4);
+				int yearPrice=res.getInt(5);
+				FamousTeacher teacher=new FamousTeacher();
+				teacher.setNickName(nickName);
+				teacher.setDayPrice(dayPrice);
+				teacher.setMothPrice(mothPrice);
+				teacher.setQulaterPrice(quartPrice);
+				teacher.setYaerPrice(yearPrice);
+				return teacher;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 
