@@ -1,4 +1,4 @@
-package com.jucaipen.main.user;
+package com.jucaipen.main.purch;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,14 +10,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.daoimp.TransactionImp;
+import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
 import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.model.Contribute;
 import com.jucaipen.model.FamousTeacher;
+import com.jucaipen.model.HotIdea;
 import com.jucaipen.model.Marker;
+import com.jucaipen.model.Rebate;
+import com.jucaipen.model.SysAccount;
+import com.jucaipen.model.SysDetailAccount;
 import com.jucaipen.service.AccountDetailSer;
 import com.jucaipen.service.AccountSer;
+import com.jucaipen.service.ContributeSer;
 import com.jucaipen.service.FamousTeacherSer;
+import com.jucaipen.service.HotIdeaServ;
+import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
@@ -93,8 +102,10 @@ public class AddReward extends HttpServlet {
 		out.close();
 	}
 
-	private String initMarkerInfo(int uId, int tId, int fId, int markerMoney) {
+	private String initMarkerInfo(int uId, int typeId, int fId, int markerMoney) {
 		// 初始化打赏数据
+		FamousTeacher teacher = null;
+		HotIdea idea = null;
 		String nickName=null;
 		AccountDetail detail=new AccountDetail();
 		Account account=AccountSer.findAccountByUserId(uId);
@@ -106,15 +117,22 @@ public class AddReward extends HttpServlet {
 	    if(jucaiBills<markerMoney){
 	    	return JsonUtil.getRetMsg(3,"账户聚财币不足，请充值");
 	    }
+	    
+	    
 		Marker marker = new Marker();
-		if (tId == 0) {
+		if (typeId == 0) {
 			// 打赏讲师
-			FamousTeacher teacher = FamousTeacherSer.findFamousTeacherById(fId);
+			teacher = FamousTeacherSer.findFamousTeacherById(fId);
 			nickName=teacher.getNickName();
 			detail.setRemark("打赏给名师：【"+nickName+"】");
 			marker.setType(1);
 		} else {
 			// 打赏观点
+			idea=HotIdeaServ.findIdeaById(fId);
+			int teacherId=idea.getTeacherId();
+			FamousTeacherSer.findFamousTeacherById(teacherId);
+			String title = idea.getTitle();
+			detail.setRemark("打赏观点：【"+title+"】");
 			marker.setType(2);
 		}
 		marker.setIp(ip);
@@ -122,33 +140,56 @@ public class AddReward extends HttpServlet {
 		marker.setUserId(uId);
 		marker.setIdeaId(fId);
 		marker.setInsertDate(TimeUtils.format(new Date()));
-		int newBills=account.getJucaiBills()-markerMoney;
-		//同步打赏  账户信息  聚财币数据
-		boolean isSuccess=TransactionImp.addMarker(marker, uId, newBills);
-		if(isSuccess){
-			detail.setOrderCode(TimeUtils.format(new Date(), "yyyyMMddHHmmssSSSS"));
-			detail.setDetailMoney(markerMoney);
-			detail.setDetailType(1);
-			detail.setState(0);
-			detail.setInsertDate(TimeUtils.format(new Date()));
-			detail.setIsDel(0);
-			detail.setUserId(uId);
-			//更新账户详细信息   聚财币信息
-			int isAdded = AccountDetailSer.addDetails(detail);
-			if(isAdded==1){
-				//更新账户积分信息
-				AccountSer.updateIntegeral(uId, integeral+markerMoney);
-				detail.setDetailType(0);
-				detail.setState(1);
-				detail.setRemark("打赏给名师：【"+nickName+"】，账户积分+"+markerMoney);
-				detail.setOrderCode(TimeUtils.format(new Date(), "yyyyMMddHHmmssSSSS"));
-				//更新账户详细信息    积分信息
-				AccountDetailSer.addDetails(detail);
-				//更新用户等级   积分信息
-				UserServer.updateIntegeral(uId,integeral+markerMoney);
-			}
+		
+		detail.setOrderCode("");
+		detail.setDetailMoney(markerMoney);
+		detail.setDetailType(1);
+		detail.setState(0);
+		detail.setInsertDate(TimeUtils.format(new Date()));
+		detail.setIsDel(0);
+		detail.setUserId(uId);
+		
+		Contribute contribute=new Contribute();
+		if(typeId == 0){
+			//打赏讲师
+			contribute.setComType(5);
+			contribute.setFk_id(0);
+		}else{
+			contribute.setComType(9);
+			contribute.setFk_id(fId);
 		}
-		return isSuccess ? JsonUtil.getRetMsg(0, "打赏成功") : JsonUtil
+		contribute.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		contribute.setUserId(uId);
+		contribute.setTeacherId(fId);
+		contribute.setAllJucaiBills(markerMoney);
+		
+		SysAccount sysAccount=SysAccountSer.findAccountInfo();
+		
+		
+		SysDetailAccount sysDetail=new SysDetailAccount();
+		sysDetail.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		sysDetail.setIsDel(0);
+		sysDetail.setIp(ip);
+		sysDetail.setOrderId(0);
+		sysDetail.setPrice(markerMoney);
+		sysDetail.setRecoderType(2);
+		if(typeId>0){
+			sysDetail.setRemark("打赏给名师：【"+teacher.getNickName()+"】");
+		}else{
+			sysDetail.setRemark("打赏观点：【"+idea.getTitle()+"】");
+		}
+		
+		sysDetail.setType(13);
+		sysDetail.setUserId(uId);
+		
+		Rebate rebate=new Rebate();
+		rebate.setRebateMoney(markerMoney);
+		//rebate.setType(type);
+		
+		
+		
+		int isSuccess = RollBackUtil.addReward(marker,detail,integeral,markerMoney,jucaiBills,uId,contribute,sysAccount,sysDetail);
+		return isSuccess==1 ? JsonUtil.getRetMsg(0, "打赏成功") : JsonUtil
 				.getRetMsg(1, "打赏失败");
 	}
 

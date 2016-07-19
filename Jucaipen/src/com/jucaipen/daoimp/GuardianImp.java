@@ -10,6 +10,7 @@ import java.util.List;
 import com.jucaipen.dao.GuardianDao;
 import com.jucaipen.model.Guardian;
 import com.jucaipen.utils.JdbcUtil;
+import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator
@@ -252,12 +253,18 @@ public class GuardianImp implements GuardianDao {
 	     dbConn=JdbcUtil.connSqlServer();
 	     try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT Id FROM JCP_ShouHuZhe WHERE FK_UserId="+userId+" AND FK_TearchId="+teacherId+" AND State=0");
+			res=sta.executeQuery("SELECT Id,StartDate,EndDate FROM JCP_ShouHuZhe WHERE FK_UserId="+userId+" AND FK_TearchId="+teacherId+" AND State=0");
 			while (res.next()) {
 				int id=res.getInt(1);
-				Guardian guardian=new Guardian();
-				guardian.setId(id);
-				return guardian;
+				String startDate=res.getString(2);
+				String endDate=res.getString(3);
+				if(TimeUtils.isLive(startDate, endDate)){
+					Guardian guardian=new Guardian();
+					guardian.setId(id);
+					guardian.setStartDate(startDate);
+					guardian.setEndDate(endDate);
+					return guardian;
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

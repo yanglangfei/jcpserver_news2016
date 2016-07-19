@@ -16,6 +16,9 @@ public class Rebate implements Serializable{
 	 */
 	private int id;
 	
+	/**
+	 *   ¹±Ï×¾Û²Æ±Ò
+	 */
 	private int allBills;
 	/**
 	 *  ·µÀûÈË  FK_TearchId
@@ -102,6 +105,7 @@ public class Rebate implements Serializable{
 	public void setType(int type) {
 		this.type = type;
 	}
+	
 	public double getRebateMoney() {
 		return rebateMoney;
 	}

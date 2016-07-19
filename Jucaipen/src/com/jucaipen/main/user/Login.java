@@ -47,6 +47,7 @@ public class Login extends HttpServlet {
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
 			String userId = request.getParameter("userId");
+			System.out.println("userId:"+userId);
 			loginIp = request.getRemoteAddr();
 			if (StringUtil.isNotNull(userId)) {
 				if (StringUtil.isInteger(userId)) {
@@ -74,6 +75,7 @@ public class Login extends HttpServlet {
 		// 处理登录
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
+		System.out.println(""+userName+"   "+password);
 		if (!StringUtil.isNotNull(userName)) {
 			return JsonUtil.getRetMsg(4, "用户名不能为空");
 		}

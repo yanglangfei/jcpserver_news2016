@@ -1,26 +1,27 @@
-package com.jucaipen.main.user;
+package com.jucaipen.main.purch;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
-import com.jucaipen.model.ChargeOrder;
-import com.jucaipen.service.AccountDetailSer;
+import com.jucaipen.model.SysAccount;
+import com.jucaipen.model.SysDetailAccount;
 import com.jucaipen.service.AccountSer;
-import com.jucaipen.service.ChargeOrderSer;
+import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
-
 /**
  * @author Administrator
  * 
- *        
+ * 
  *         payState 1 未支付 2 已支付 3 支付失败
  */
 @SuppressWarnings("serial")
@@ -84,39 +85,32 @@ public class Recharge extends HttpServlet {
 
 	private String initRecharge(int uId, int bills, String ip,
 			String orderCode, String payDate, int pState) {
-		int isSuccess = ChargeOrderSer.updatePayState(orderCode, pState,
-				payDate, ip);
-		if (isSuccess == 1) {
-			// 更新聚财币信息账单 和 账单详细表信息
-			Account a = AccountSer.findAccountByUserId(uId);
-			int isAdd;
-			int isA = 0;
-			if (a == null) {
-				Account account = new Account();
-				account.setIntegeral(0);
-				account.setJucaiBills(bills);
-				account.setUserId(uId);
-				isAdd = AccountSer.addAccount(account);
-			} else {
-				isAdd = AccountSer.updateBills(uId, bills + a.getJucaiBills());
-			}
-			if (isAdd == 1) {
-				AccountDetail detail = new AccountDetail();
-				detail.setDetailMoney(bills);
-				detail.setDetailType(0);
-				detail.setInsertDate(TimeUtils.format(new Date(),
-						"yyyy-MM-dd HH:mm:ss"));
-				detail.setIsDel(0);
-				detail.setOrderCode(orderCode);
-				detail.setRemark("充值聚财币");
-				detail.setState(0);
-				detail.setUserId(uId);
-				isA = AccountDetailSer.addDetails(detail);
-			}
-			return isA == 1 ? JsonUtil.getRetMsg(0, "账单更新成功") : JsonUtil
-					.getRetMsg(1, "账单更新失败");
-
-		}
-		return JsonUtil.getRetMsg(1, "账单更新失败");
+		Account a = AccountSer.findAccountByUserId(uId);
+		AccountDetail detail = new AccountDetail();
+		SysAccount account=SysAccountSer.findAccountInfo();
+		detail.setDetailMoney(bills);
+		detail.setDetailType(0);
+		detail.setInsertDate(TimeUtils
+				.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		detail.setIsDel(0);
+		detail.setOrderCode(orderCode);
+		detail.setRemark("充值聚财币");
+		detail.setState(0);
+		detail.setUserId(uId);
+		
+		SysDetailAccount detailAccount=new SysDetailAccount();
+		detailAccount.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		detailAccount.setIsDel(0);
+		detailAccount.setOrderId(0);
+		detailAccount.setPrice(bills);
+		detailAccount.setRecoderType(1);
+		detailAccount.setType(1);
+		detailAccount.setIp(ip);
+		detailAccount.setRemark("用户通联充值聚财币");
+		detailAccount.setUserId(uId);
+		int isSuccess = RollBackUtil.recharge(orderCode, pState, payDate, ip,
+				bills, a, uId, detail,account,detailAccount);
+		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "账单更新成功") : JsonUtil
+				.getRetMsg(1, "账单更新失败");
 	}
 }

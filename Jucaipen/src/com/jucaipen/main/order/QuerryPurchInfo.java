@@ -10,11 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.model.Account;
 import com.jucaipen.model.FamousTeacher;
+import com.jucaipen.model.Guardian;
 import com.jucaipen.model.Special;
 import com.jucaipen.model.User;
 import com.jucaipen.model.Video;
 import com.jucaipen.service.AccountSer;
 import com.jucaipen.service.FamousTeacherSer;
+import com.jucaipen.service.GuardianSer;
 import com.jucaipen.service.MySpecialSer;
 import com.jucaipen.service.MyVideoSer;
 import com.jucaipen.service.SpecialSer;
@@ -93,7 +95,8 @@ public class QuerryPurchInfo extends HttpServlet {
 			//  ÿª§–≈œ¢
 			User user = UserServer.findBaseInfoById(uId);
 			FamousTeacher teacher = FamousTeacherSer.findPurchInfo(fId);
-			return JsonUtil.getGuardianPurchInfo(user, teacher);
+			Guardian guardian=GuardianSer.findIsGuardian(fId, uId);
+			return JsonUtil.getGuardianPurchInfo(user, teacher,ownJucaiBills,guardian);
 		}
 		return null;    
 	}

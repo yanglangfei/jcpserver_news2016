@@ -151,7 +151,7 @@
   </servlet>
   <servlet>
     <servlet-name>AddReward</servlet-name>
-    <servlet-class>com.jucaipen.main.user.AddReward</servlet-class>
+    <servlet-class>com.jucaipen.main.purch.AddReward</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>LatestList</servlet-name>
@@ -287,11 +287,11 @@
   </servlet>
   <servlet>
     <servlet-name>Recharge</servlet-name>
-    <servlet-class>com.jucaipen.main.user.Recharge</servlet-class>
+    <servlet-class>com.jucaipen.main.purch.Recharge</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>OpenGurdian</servlet-name>
-    <servlet-class>com.jucaipen.main.user.OpenGurdian</servlet-class>
+    <servlet-class>com.jucaipen.main.purch.OpenGurdian</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>SendApply</servlet-name>
@@ -307,7 +307,7 @@
   </servlet>
   <servlet>
     <servlet-name>OrderTactics</servlet-name>
-    <servlet-class>com.jucaipen.main.user.OrderTactics</servlet-class>
+    <servlet-class>com.jucaipen.main.purch.OrderTactics</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>TestOnLine</servlet-name>
@@ -319,7 +319,7 @@
   </servlet>
   <servlet>
     <servlet-name>PurchGift</servlet-name>
-    <servlet-class>com.jucaipen.main.user.PurchGift</servlet-class>
+    <servlet-class>com.jucaipen.main.purch.PurchGift</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>QuerryVideoType</servlet-name>
@@ -441,6 +441,11 @@
     <servlet-name>UpdateBaseData</servlet-name>
     <servlet-class>com.jucaipen.main.video.UpdateBaseData</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>PurchAsk</servlet-name>
+    <servlet-class>com.jucaipen.main.purch.PurchAsk</servlet-class>
+  </servlet>
+
 
 
 
@@ -883,5 +888,9 @@
   <servlet-mapping>
     <servlet-name>UpdateBaseData</servlet-name>
     <url-pattern>/jucaipen/updatebasedata</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PurchAsk</servlet-name>
+    <url-pattern>/jucaipen/purchask</url-pattern>
   </servlet-mapping>
 </web-app>

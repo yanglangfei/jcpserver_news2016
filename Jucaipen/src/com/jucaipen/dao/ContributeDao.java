@@ -40,4 +40,10 @@ public interface ContributeDao {
 	 * @return 获取所有的贡献信息
 	 */
 	public List<Contribute> findAllContribute();
+	
+	/**
+	 * @param contribute
+	 * @return   添加贡献
+	 */  
+	public int addContribute(Contribute contribute);
 }
