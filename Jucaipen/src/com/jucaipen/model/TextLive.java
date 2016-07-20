@@ -43,6 +43,10 @@ public class TextLive implements Serializable{
 	 */
 	private int hits;
 	/**
+	 *  虚拟点击数
+	 */
+	private int xnHits;
+	/**
 	 * 讲师id
 	 */
 	private int teacherId;
@@ -50,6 +54,13 @@ public class TextLive implements Serializable{
 	 * 是否结束（1未开始，2进行中，3已结束）   
 	 */
 	private int isEnd;
+	
+	public int getXnHits() {
+		return xnHits;
+	}
+	public void setXnHits(int xnHits) {
+		this.xnHits = xnHits;
+	}
 	public int getPage() {
 		return page;
 	}

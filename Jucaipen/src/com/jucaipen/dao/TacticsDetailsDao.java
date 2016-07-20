@@ -1,5 +1,7 @@
 package com.jucaipen.dao;
 
+import java.util.List;
+
 import com.jucaipen.model.TacticsDetails;
 
 /**
@@ -19,7 +21,7 @@ public interface TacticsDetailsDao {
 	 * @param fkId
 	 * @return  根据战法id获取详细信息
 	 */
-	public TacticsDetails findDetailsByFkId(int fkId);
+	public List<TacticsDetails> findDetailsByFkId(int fkId);
 	
 	
 

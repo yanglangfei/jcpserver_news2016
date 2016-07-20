@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jucaipen.daoimp.TransactionImp;
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
@@ -21,9 +20,8 @@ import com.jucaipen.model.Marker;
 import com.jucaipen.model.Rebate;
 import com.jucaipen.model.SysAccount;
 import com.jucaipen.model.SysDetailAccount;
-import com.jucaipen.service.AccountDetailSer;
+import com.jucaipen.model.User;
 import com.jucaipen.service.AccountSer;
-import com.jucaipen.service.ContributeSer;
 import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.HotIdeaServ;
 import com.jucaipen.service.SysAccountSer;
@@ -105,34 +103,40 @@ public class AddReward extends HttpServlet {
 	private String initMarkerInfo(int uId, int typeId, int fId, int markerMoney) {
 		// 初始化打赏数据
 		FamousTeacher teacher = null;
+		int teacherId;
 		HotIdea idea = null;
-		String nickName=null;
-		AccountDetail detail=new AccountDetail();
-		Account account=AccountSer.findAccountByUserId(uId);
-	    if(account==null){
-	    	return JsonUtil.getRetMsg(3,"账户聚财币不足，请充值");
-	    }
-	    int integeral=account.getIntegeral();
-	    int jucaiBills=account.getJucaiBills();
-	    if(jucaiBills<markerMoney){
-	    	return JsonUtil.getRetMsg(3,"账户聚财币不足，请充值");
-	    }
-	    
-	    
+		String nickName = null;
+		AccountDetail detail = new AccountDetail();
+		AccountDetail detailIntegeral = new AccountDetail();
+		Account account = AccountSer.findAccountByUserId(uId);
+		if (account == null) {
+			return JsonUtil.getRetMsg(3, "账户聚财币不足，请充值");
+		}
+		int integeral = account.getIntegeral();
+		int jucaiBills = account.getJucaiBills();
+		if (jucaiBills < markerMoney) {
+			return JsonUtil.getRetMsg(3, "账户聚财币不足，请充值");
+		}
+
+		User user = UserServer.findBaseInfoById(uId);
 		Marker marker = new Marker();
 		if (typeId == 0) {
 			// 打赏讲师
-			teacher = FamousTeacherSer.findFamousTeacherById(fId);
-			nickName=teacher.getNickName();
-			detail.setRemark("打赏给名师：【"+nickName+"】");
+			teacherId = fId;
+			teacher = FamousTeacherSer.findTeacherBaseInfo(fId);
+			nickName = teacher.getNickName();
+			detail.setRemark("打赏给名师：【" + nickName + "】");
+			detailIntegeral
+					.setRemark("打赏给名师：【" + nickName + "】,账户积分+" + markerMoney);
 			marker.setType(1);
 		} else {
 			// 打赏观点
-			idea=HotIdeaServ.findIdeaById(fId);
-			int teacherId=idea.getTeacherId();
-			FamousTeacherSer.findFamousTeacherById(teacherId);
+			idea = HotIdeaServ.findIdeaById(fId);
+			teacherId = idea.getTeacherId();
+			teacher = FamousTeacherSer.findTeacherBaseInfo(teacherId);
 			String title = idea.getTitle();
-			detail.setRemark("打赏观点：【"+title+"】");
+			detail.setRemark("打赏观点：【" + title + "】");
+			detailIntegeral.setRemark("打赏观点：【" + title + "】,账户积分+" + markerMoney);
 			marker.setType(2);
 		}
 		marker.setIp(ip);
@@ -140,56 +144,83 @@ public class AddReward extends HttpServlet {
 		marker.setUserId(uId);
 		marker.setIdeaId(fId);
 		marker.setInsertDate(TimeUtils.format(new Date()));
-		
+
 		detail.setOrderCode("");
+		detailIntegeral.setOrderCode("");
 		detail.setDetailMoney(markerMoney);
+		detailIntegeral.setDetailMoney(markerMoney);
+		// 订单类型 0收入，1消费
 		detail.setDetailType(1);
+		detailIntegeral.setDetailType(0);
+		// 0聚财币，1积分
 		detail.setState(0);
+		detailIntegeral.setState(1);
 		detail.setInsertDate(TimeUtils.format(new Date()));
+		detailIntegeral.setInsertDate(TimeUtils.format(new Date()));
 		detail.setIsDel(0);
+		detailIntegeral.setIsDel(0);
 		detail.setUserId(uId);
-		
-		Contribute contribute=new Contribute();
-		if(typeId == 0){
-			//打赏讲师
+		detailIntegeral.setUserId(uId);
+
+		Contribute contribute = new Contribute();
+		if (typeId == 0) {
+			// 打赏讲师
 			contribute.setComType(5);
 			contribute.setFk_id(0);
-		}else{
+		} else {
 			contribute.setComType(9);
 			contribute.setFk_id(fId);
 		}
-		contribute.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		contribute.setInsertDate(TimeUtils.format(new Date(),
+				"yyyy-MM-dd HH:mm:ss"));
 		contribute.setUserId(uId);
 		contribute.setTeacherId(fId);
 		contribute.setAllJucaiBills(markerMoney);
-		
-		SysAccount sysAccount=SysAccountSer.findAccountInfo();
-		
-		
-		SysDetailAccount sysDetail=new SysDetailAccount();
-		sysDetail.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+
+		SysAccount sysAccount = SysAccountSer.findAccountInfo();
+
+		SysDetailAccount sysDetail = new SysDetailAccount();
+		sysDetail.setInsertDate(TimeUtils.format(new Date(),
+				"yyyy-MM-dd HH:mm:ss"));
 		sysDetail.setIsDel(0);
 		sysDetail.setIp(ip);
 		sysDetail.setOrderId(0);
 		sysDetail.setPrice(markerMoney);
 		sysDetail.setRecoderType(2);
-		if(typeId>0){
-			sysDetail.setRemark("打赏给名师：【"+teacher.getNickName()+"】");
-		}else{
-			sysDetail.setRemark("打赏观点：【"+idea.getTitle()+"】");
+		if (typeId == 0) {
+			sysDetail.setRemark("打赏给名师：【" + teacher.getNickName() + "】");
+		} else {
+			sysDetail.setRemark("打赏观点：【" + idea.getTitle() + "】");
 		}
-		
+
 		sysDetail.setType(13);
 		sysDetail.setUserId(uId);
-		
-		Rebate rebate=new Rebate();
-		rebate.setRebateMoney(markerMoney);
-		//rebate.setType(type);
-		
-		
-		
-		int isSuccess = RollBackUtil.addReward(marker,detail,integeral,markerMoney,jucaiBills,uId,contribute,sysAccount,sysDetail);
-		return isSuccess==1 ? JsonUtil.getRetMsg(0, "打赏成功") : JsonUtil
+
+		// 讲师返利
+		Rebate rebate = new Rebate();
+		rebate.setRebateMoney((markerMoney * teacher.getReturnRate()));
+		rebate.setType(0);
+		rebate.setTeacherId(teacherId);
+		rebate.setFromId(uId);
+		rebate.setInsertDate(TimeUtils
+				.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		rebate.setRemark("用户打赏返利");
+
+		// 系统返利
+
+		Rebate sysRebate = new Rebate();
+		sysRebate.setRebateMoney((markerMoney * (1 - teacher.getReturnRate())));
+		sysRebate.setType(1);
+		sysRebate.setTeacherId(teacherId);
+		sysRebate.setFromId(uId);
+		sysRebate.setInsertDate(TimeUtils.format(new Date(),
+				"yyyy-MM-dd HH:mm:ss"));
+		sysRebate.setRemark("用户打赏返利");
+
+		int isSuccess = RollBackUtil.addReward(marker, detail, integeral,
+				markerMoney, jucaiBills, uId, contribute, sysAccount,
+				sysDetail, user, rebate, sysRebate,detailIntegeral);
+		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "打赏成功") : JsonUtil
 				.getRetMsg(1, "打赏失败");
 	}
 

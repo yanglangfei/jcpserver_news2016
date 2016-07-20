@@ -67,10 +67,10 @@ public class TacticsImp implements TacticsDao {
 				String imageUrl=res.getString("Imagesurl");  //Imagesurl
 				int teacherId=res.getInt("TeacherId");  //TeacherId
 				String insertDate=res.getString("InsertDate");  //InsertDate
-				double halfYearsMoney=res.getDouble("halfYearsMoney"); //halfYearsMoney
-				double threeMonthmoney=res.getDouble("threeMonthmoney");  //threeMonthmoney
-				double yearMoney=res.getDouble("YearsMoney");  //YearsMoney
-				double mothMoney=res.getDouble("MonthMoney");  //MonthMoney
+				int halfYearsMoney=res.getInt("halfYearsMoney"); //halfYearsMoney
+				int threeMonthmoney=res.getInt("threeMonthmoney");  //threeMonthmoney
+				int yearMoney=res.getInt("YearsMoney");  //YearsMoney
+				int mothMoney=res.getInt("MonthMoney");  //MonthMoney
 				int isDel=res.getInt("IsDel");
 				Tactics tactics=new Tactics();
 				tactics.setId(id);
@@ -116,10 +116,10 @@ public class TacticsImp implements TacticsDao {
 				String imageUrl=res.getString("Imagesurl");  //Imagesurl
 				int teacherId=res.getInt("TeacherId");  //TeacherId
 				String insertDate=res.getString("InsertDate");  //InsertDate
-				double halfYearsMoney=res.getDouble("halfYearsMoney"); //halfYearsMoney
-				double threeMonthmoney=res.getDouble("threeMonthmoney");  //threeMonthmoney
-				double yearMoney=res.getDouble("YearsMoney");  //YearsMoney
-				double mothMoney=res.getDouble("MonthMoney");  //MonthMoney
+				int halfYearsMoney=res.getInt("halfYearsMoney"); //halfYearsMoney
+				int threeMonthmoney=res.getInt("threeMonthmoney");  //threeMonthmoney
+				int yearMoney=res.getInt("YearsMoney");  //YearsMoney
+				int mothMoney=res.getInt("MonthMoney");  //MonthMoney
 				int isDel=res.getInt("IsDel");
 				Tactics tactics=new Tactics();
 				tactics.setId(id);
@@ -134,7 +134,7 @@ public class TacticsImp implements TacticsDao {
 				tactics.setYearsMoney(yearMoney);
 				tactics.setMothMoney(mothMoney);
 				tactics.setIsDel(isDel);
-				tacticsArray.add(tactics);
+				return tactics;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -168,10 +168,10 @@ public class TacticsImp implements TacticsDao {
 				String imageUrl=res.getString("Imagesurl");  //Imagesurl
 				int teacherId=res.getInt("TeacherId");  //TeacherId
 				String insertDate=res.getString("InsertDate");  //InsertDate
-				double halfYearsMoney=res.getDouble("halfYearsMoney"); //halfYearsMoney
-				double threeMonthmoney=res.getDouble("threeMonthmoney");  //threeMonthmoney
-				double yearMoney=res.getDouble("YearsMoney");  //YearsMoney
-				double mothMoney=res.getDouble("MonthMoney");  //MonthMoney
+				int halfYearsMoney=res.getInt("halfYearsMoney"); //halfYearsMoney
+				int threeMonthmoney=res.getInt("threeMonthmoney");  //threeMonthmoney
+				int yearMoney=res.getInt("YearsMoney");  //YearsMoney
+				int mothMoney=res.getInt("MonthMoney");  //MonthMoney
 				int isDel=res.getInt("IsDel");
 				Tactics tactics=new Tactics();
 				tactics.setId(id);
@@ -220,10 +220,10 @@ public class TacticsImp implements TacticsDao {
 				String imageUrl=res.getString("Imagesurl");  //Imagesurl
 				int teacherId=res.getInt("TeacherId");  //TeacherId
 				String insertDate=res.getString("InsertDate");  //InsertDate
-				double halfYearsMoney=res.getDouble("halfYearsMoney"); //halfYearsMoney
-				double threeMonthmoney=res.getDouble("threeMonthmoney");  //threeMonthmoney
-				double yearMoney=res.getDouble("YearsMoney");  //YearsMoney
-				double mothMoney=res.getDouble("MonthMoney");  //MonthMoney
+				int halfYearsMoney=res.getInt("halfYearsMoney"); //halfYearsMoney
+				int threeMonthmoney=res.getInt("threeMonthmoney");  //threeMonthmoney
+				int yearMoney=res.getInt("YearsMoney");  //YearsMoney
+				int mothMoney=res.getInt("MonthMoney");  //MonthMoney
 				int isDel=res.getInt("IsDel");
 				Tactics tactics=new Tactics();
 				tactics.setId(id);

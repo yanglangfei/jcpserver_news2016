@@ -1,5 +1,7 @@
 package com.jucaipen.service;
 
+import java.util.List;
+
 import com.jucaipen.dao.TacticsDetailsDao;
 import com.jucaipen.daoimp.TacticsDetailsImp;
 import com.jucaipen.model.TacticsDetails;
@@ -23,7 +25,7 @@ public class TacticsDetailSer  {
 	 * @param fkId
 	 * @return 根据战法id获取战法详细信息
 	 */
-	public static TacticsDetails findDetailsByFkId(int fkId) {
+	public static List<TacticsDetails> findDetailsByFkId(int fkId) {
 		TacticsDetailsDao dao=new TacticsDetailsImp();
 		return dao.findDetailsByFkId(fkId);
 	}

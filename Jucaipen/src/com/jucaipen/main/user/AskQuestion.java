@@ -42,7 +42,6 @@ public class AskQuestion extends HttpServlet {
 		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
 		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
 		if(isDevice==HeaderUtil.PHONE_APP){
-			String isFree=request.getParameter("isFree");
 			String askType = request.getParameter("questionType");
 			String userId = request.getParameter("userId");
 			String askBodys = request.getParameter("askBodys");

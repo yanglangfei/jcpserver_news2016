@@ -36,6 +36,8 @@ public interface TacticsSaleDao {
 	 */
 	public int delSale(int id);
 	
+	public TacticsSale findTacticsIsSale(int uId,int tacticsId);
+	
 	
 	
 	

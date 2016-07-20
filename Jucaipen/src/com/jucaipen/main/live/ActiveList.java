@@ -1,10 +1,8 @@
 package com.jucaipen.main.live;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -14,18 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.push.model.PushPayload;
-import com.jucaipen.model.Guardian;
-import com.jucaipen.model.User;
-import com.jucaipen.model.VideoLive;
-import com.jucaipen.service.GuardianSer;
-import com.jucaipen.service.UserServer;
-import com.jucaipen.service.VideoLiveServer;
-import com.jucaipen.utils.BaseData;
 import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
-import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
  *
@@ -57,30 +47,6 @@ public class ActiveList extends HttpServlet {
 		out.println(result);
 		out.flush();
 		out.close();
-	}
-	
-	private String initActiveList(int lId) {
-		//初始化活跃信息
-		VideoLive live=VideoLiveServer.getRoomInfo(lId);
-		int teacherId=live.getTeacherId();
-		List<Guardian> guardianArray=new ArrayList<Guardian>();
-		List<Guardian> guardians = GuardianSer.findGuradianByTeacherId(teacherId);
-		for(Guardian guardian : guardians){
-			String endDate=guardian.getEndDate();
-			if(TimeUtils.isDateBefore(endDate)){
-				int uId=guardian.getUserId();
-				User user=UserServer.findUserById(uId);
-				if(user==null){
-					user=new User();
-				}
-				guardian.setUserName(user.getNickName());
-				guardian.setUserLeavel(user.getUserLeval());
-				guardian.setUserFace(user.getFaceImage());
-				guardian.setLeavelStr(BaseData.getLeavelStr(user.getUserLeval()));
-				guardianArray.add(guardian);
-			}
-		}
-		return JsonUtil.getGuardianList(guardianArray);
 	}
 	
 	public  void initBangList(int tId){

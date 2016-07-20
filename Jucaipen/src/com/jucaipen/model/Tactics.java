@@ -31,6 +31,11 @@ public class Tactics implements Serializable{
 	 *  封面图片
 	 */
 	private String imageUrl;
+	
+	/**
+	 *  是否订阅   0     是        1  否        2  过期
+	 */
+	private int isOrder;
 	/**
 	 *  讲师id
 	 */
@@ -46,43 +51,23 @@ public class Tactics implements Serializable{
 	/**
 	 * 半年价格
 	 */
-	private double halfYearsMoney;
+	private int halfYearsMoney;
 	/**
 	 *  三个月价格
 	 */
-	private double threeMonthmoney;
+	private int threeMonthmoney;
 	/**
 	 *  一年价格
 	 */
-	public double YearsMoney;
+	public int YearsMoney;
 	/**
 	 *  每月费用
 	 */
-	private double mothMoney;
+	private int mothMoney;
 	/**
 	 *  是否删除 0正常 1删除
 	 */
 	private int isDel;
-	
-	
-	public double getHalfYearsMoney() {
-		return halfYearsMoney;
-	}
-	public void setHalfYearsMoney(double halfYearsMoney) {
-		this.halfYearsMoney = halfYearsMoney;
-	}
-	public double getThreeMonthmoney() {
-		return threeMonthmoney;
-	}
-	public void setThreeMonthmoney(double threeMonthmoney) {
-		this.threeMonthmoney = threeMonthmoney;
-	}
-	public double getYearsMoney() {
-		return YearsMoney;
-	}
-	public void setYearsMoney(double yearsMoney) {
-		YearsMoney = yearsMoney;
-	}
 	public int getPage() {
 		return page;
 	}
@@ -125,6 +110,13 @@ public class Tactics implements Serializable{
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
+	
+	public int getIsOrder() {
+		return isOrder;
+	}
+	public void setIsOrder(int isOrder) {
+		this.isOrder = isOrder;
+	}
 	public int getTeacherId() {
 		return teacherId;
 	}
@@ -143,10 +135,28 @@ public class Tactics implements Serializable{
 	public void setIsYear(int isYear) {
 		this.isYear = isYear;
 	}
-	public double getMothMoney() {
+	public int getHalfYearsMoney() {
+		return halfYearsMoney;
+	}
+	public void setHalfYearsMoney(int halfYearsMoney) {
+		this.halfYearsMoney = halfYearsMoney;
+	}
+	public int getThreeMonthmoney() {
+		return threeMonthmoney;
+	}
+	public void setThreeMonthmoney(int threeMonthmoney) {
+		this.threeMonthmoney = threeMonthmoney;
+	}
+	public int getYearsMoney() {
+		return YearsMoney;
+	}
+	public void setYearsMoney(int yearsMoney) {
+		YearsMoney = yearsMoney;
+	}
+	public int getMothMoney() {
 		return mothMoney;
 	}
-	public void setMothMoney(double mothMoney) {
+	public void setMothMoney(int mothMoney) {
 		this.mothMoney = mothMoney;
 	}
 	public int getIsDel() {

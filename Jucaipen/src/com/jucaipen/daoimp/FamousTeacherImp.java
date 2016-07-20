@@ -56,7 +56,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT  Fans,HuiDaCount,ArticleCount from JCP_Tearcher");
+					.executeQuery("SELECT  Fans,HuiDaCount,ArticleCount from JCP_Tearcher WHERE State=0");
 			while (res.next()) {
 				int fans=res.getInt(1);
 				int answerCount=res.getInt(2);
@@ -88,7 +88,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 			dbConn=JdbcUtil.connSqlServer();
 			sta=dbConn.createStatement();
 			res=sta.executeQuery("SELECT TOP 15 * FROM "
-					+ "(SELECT ROW_NUMBER() OVER (ORDER BY LiveRenQi ASC) AS RowNumber,* FROM JCP_Tearcher) A "
+					+ "(SELECT ROW_NUMBER() OVER (ORDER BY LiveRenQi ASC) AS RowNumber,* FROM JCP_Tearcher  WHERE State=0) A "
 					+ "WHERE RowNumber > " + 15 * (page - 1));
 			teachers=getTeacher(res,page,totlePage);
 			return teachers;
@@ -116,7 +116,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		try {
 			dbConn=JdbcUtil.connSqlServer();
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT TOP "+count+" * FROM JCP_Tearcher ORDER BY Fans DESC");
+			res=sta.executeQuery("SELECT TOP "+count+" * FROM JCP_Tearcher  WHERE State=0 ORDER BY Fans DESC");
 			while (res.next()) {
 				int id=res.getInt("Id");
 				int isV=res.getInt("IsV");
@@ -158,11 +158,10 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		try {
 			dbConn=JdbcUtil.connSqlServer();
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_Tearcher WHERE Id="+id);
+			res=sta.executeQuery("SELECT * FROM JCP_Tearcher WHERE Id="+id+" AND State=0");
 			teachers=getTeacher(res,0,0);
 			if(teachers.size()>0){
 				return teachers.get(0);
-				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -207,6 +206,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				int dayPrice=result.getInt("DayPrice");
 				int renQi=result.getInt("LiveRenQi");
 				int askNum=result.getInt("AskNum");
+				int answerPrice=result.getInt("AnswerPrice");
 				String videoUrl=result.getString("VideoLiveUrl");
 				FamousTeacher teacher=new FamousTeacher();
 				teacher.setPage(page);
@@ -222,6 +222,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				teacher.setLevel(touxian);
 				teacher.setIntroduce(introduce);
 				teacher.setIsV(isV);
+				teacher.setAnswerPrice(answerPrice);
 				teacher.setYaerPrice(yearPrice);
 				teacher.setMothPrice(motnPrice);
 				teacher.setQulaterPrice(quarterPrice);
@@ -260,7 +261,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT AskNum FROM JCP_Tearcher WHERE Id="+id);
+			res=sta.executeQuery("SELECT AskNum FROM JCP_Tearcher WHERE Id="+id+"  AND State=0");
 			while (res.next()) {
 				return res.getInt(1);
 			}
@@ -277,7 +278,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT Id,NickName FROM JCP_Tearcher");
+			res=sta.executeQuery("SELECT Id,NickName FROM JCP_Tearcher  WHERE State=0");
 			while (res.next()) {
 				int id=res.getInt(1);
 				String nickName=res.getString(2);
@@ -298,7 +299,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT Fans,AskNum,NickName,QianYUeCount,ReturnRate FROM JCP_Tearcher WHERE Id="+tId);
+			res=sta.executeQuery("SELECT Fans,AskNum,NickName,QianYUeCount,ReturnRate FROM JCP_Tearcher WHERE Id="+tId+"  AND  State=0");
 			while (res.next()) {
 				int fans=res.getInt(1);
 				int askNum=res.getInt(2);
@@ -325,7 +326,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			return sta.executeUpdate("UPDATE JCP_Tearcher SET Fans="+fans+" WHERE Id="+id);
+			return sta.executeUpdate("UPDATE JCP_Tearcher SET Fans="+fans+" WHERE Id="+id+"  AND State=0");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -349,7 +350,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT NickName,DayPrice,QuarterPrice,MonthPrice,YearPrice FROM JCP_Tearcher WHERE Id="+tId);
+			res=sta.executeQuery("SELECT NickName,DayPrice,QuarterPrice,MonthPrice,YearPrice FROM JCP_Tearcher WHERE Id="+tId+"  AND State=0");
 		    while (res.next()) {
 				String nickName=res.getString(1);
 				int dayPrice=res.getInt(2);

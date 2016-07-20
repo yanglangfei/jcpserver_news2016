@@ -12,6 +12,8 @@ import com.jucaipen.model.Account;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.Guardian;
 import com.jucaipen.model.Special;
+import com.jucaipen.model.Tactics;
+import com.jucaipen.model.TacticsSale;
 import com.jucaipen.model.User;
 import com.jucaipen.model.Video;
 import com.jucaipen.service.AccountSer;
@@ -20,17 +22,20 @@ import com.jucaipen.service.GuardianSer;
 import com.jucaipen.service.MySpecialSer;
 import com.jucaipen.service.MyVideoSer;
 import com.jucaipen.service.SpecialSer;
+import com.jucaipen.service.TacticsSaleSer;
+import com.jucaipen.service.TacticsSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
+import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator
  * 
  *         获取支付信息
  * 
- *         typeId 0 视频 1 专辑 2 守护
+ *         typeId 0 视频 1 专辑 2 守护   3  战法
  */
 @SuppressWarnings("serial")
 public class QuerryPurchInfo extends HttpServlet {
@@ -97,6 +102,22 @@ public class QuerryPurchInfo extends HttpServlet {
 			FamousTeacher teacher = FamousTeacherSer.findPurchInfo(fId);
 			Guardian guardian=GuardianSer.findIsGuardian(fId, uId);
 			return JsonUtil.getGuardianPurchInfo(user, teacher,ownJucaiBills,guardian);
+		}else if(type==3){
+			//战法信息
+			Tactics tactics=TacticsSer.findTacticsById(fId);
+			TacticsSale sale=TacticsSaleSer.findTacticsIsSale(uId, fId);
+			//// 0     订购期        1  未购买        2  过期
+			if(sale!=null){
+				if(TimeUtils.isLive(sale.getStartDate(), sale.getEndDate())){
+					tactics.setIsOrder(0);
+				}else{
+					tactics.setIsOrder(2);
+				}
+			}else{
+				tactics.setIsOrder(1);
+			}
+			
+			return JsonUtil.getTacticsPurchInfo(tactics,sale,ownJucaiBills);
 		}
 		return null;    
 	}

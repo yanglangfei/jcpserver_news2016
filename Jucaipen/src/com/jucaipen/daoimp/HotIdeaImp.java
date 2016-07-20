@@ -50,13 +50,13 @@ public class HotIdeaImp implements HotIdeaDao {
 
 	}
 
-	public int addHit(int ideaId, int hits) {
+	public int addHit(int ideaId, int hits,int xnHits) {
 		// Ìí¼ÓµãÔÞÊý
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta.executeUpdate("UPDATE JCP_Tearch_Log SET Hits="
-					+ hits + " WHERE Id=" + ideaId);
+					+ hits + ",VirtualNum="+xnHits+" WHERE Id=" + ideaId);
 			return isSuccess;
 		} catch (Exception e) {
 		} finally {
@@ -146,7 +146,7 @@ public class HotIdeaImp implements HotIdeaDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 15 Id,InsertDate,Title,Bodys,Hits,FK_TearchId,Goods,CommCount FROM "
+					.executeQuery("SELECT TOP 15 Id,InsertDate,Title,Bodys,VirtualNum,FK_TearchId,Goods,CommCount FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Tearch_Log) A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
@@ -154,7 +154,7 @@ public class HotIdeaImp implements HotIdeaDao {
 				String insertDate = res.getString(2);
 				String title = res.getString(3);
 				String body = res.getString(4);
-				int hits = res.getInt(5);
+				int xnHits = res.getInt(5);
 				int teacherId = res.getInt(6);
 				int goods = res.getInt(7);
 				int commCount=res.getInt(8);
@@ -165,7 +165,7 @@ public class HotIdeaImp implements HotIdeaDao {
 				idea.setPage(page);
 				idea.setInsertDate(insertDate);
 				idea.setBodys(body);
-				idea.setHits(hits);
+				idea.setXnHits(xnHits);
 				idea.setTitle(title);
 				idea.setGoods(goods);
 				idea.setTeacherId(teacherId);
@@ -270,7 +270,7 @@ public class HotIdeaImp implements HotIdeaDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT Title,Bodys,InsertDate,Goods,FK_TearchId,ImagesUrl,Hits FROM JCP_Tearch_Log WHERE Id="
+					.executeQuery("SELECT Title,Bodys,InsertDate,Goods,FK_TearchId,ImagesUrl,Hits,VirtualNum FROM JCP_Tearch_Log WHERE Id="
 							+ id + " ORDER BY InsertDate DESC");
 			while (res.next()) {
 				String title = res.getString(1);
@@ -280,9 +280,11 @@ public class HotIdeaImp implements HotIdeaDao {
 				int teacherId = res.getInt(5);
 				String logImage = res.getString(6);
 				int hits=res.getInt(7);
+				int xnHits=res.getInt(8);
 				HotIdea idea = new HotIdea();
 				idea.setId(id);
 				idea.setBodys(body);
+				idea.setXnHits(xnHits);
 				idea.setLogImage(logImage);
 				idea.setTitle(title);
 				idea.setInsertDate(insertDate);
@@ -358,7 +360,7 @@ public class HotIdeaImp implements HotIdeaDao {
 			res = sta
 					.executeQuery("SELECT TOP "
 							+ count
-							+ " * FROM JCP_Tearch_Log WHERE IsJingXuan=1 AND IsIndex=1 ORDER BY InsertDate DESC");
+							+ " * FROM JCP_Tearch_Log WHERE IsTuiJian=1 AND IsIndex=1 AND ImagesUrl IS NOT NULL ORDER BY InsertDate DESC");
 			while (res.next()) {
 				int id = res.getInt("Id");
 				String title = res.getString("Title");

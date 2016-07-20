@@ -445,6 +445,11 @@
     <servlet-name>PurchAsk</servlet-name>
     <servlet-class>com.jucaipen.main.purch.PurchAsk</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>PurchVideo</servlet-name>
+    <servlet-class>com.jucaipen.main.purch.PurchVideo</servlet-class>
+  </servlet>
+
 
 
 
@@ -892,5 +897,9 @@
   <servlet-mapping>
     <servlet-name>PurchAsk</servlet-name>
     <url-pattern>/jucaipen/purchask</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PurchVideo</servlet-name>
+    <url-pattern>/jucaipen/purchvideo</url-pattern>
   </servlet-mapping>
 </web-app>

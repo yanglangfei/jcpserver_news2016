@@ -2,18 +2,25 @@ package com.jucaipen.main.index;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.HotIdea;
 import com.jucaipen.model.News;
+import com.jucaipen.model.SiteConfig;
+import com.jucaipen.model.TacticsDetails;
 import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.HotIdeaServ;
 import com.jucaipen.service.NewServer;
 import com.jucaipen.service.ResourceFromServer;
+import com.jucaipen.service.SiteConfigSer;
+import com.jucaipen.service.TacticsDetailSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
@@ -21,7 +28,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取新闻详细信息       type    (0   新闻详细信息)    （1   观点详细信息）
+ *         获取新闻详细信息       type    (0  新闻详细信息)    （1   观点详细信息）  (2  战法详细信息)
  */
 @SuppressWarnings("serial")
 public class NewsDetail extends HttpServlet {
@@ -38,12 +45,13 @@ public class NewsDetail extends HttpServlet {
 		if (isDevice == HeaderUtil.PHONE_APP) {
 			String typeId=request.getParameter("typeId");
 			String newsId = request.getParameter("newsId");
+			String page=request.getParameter("page");
 			if (StringUtil.isNotNull(newsId)) {
 				if (StringUtil.isInteger(newsId)) {
 					int id = Integer.parseInt(newsId);
 					if(StringUtil.isNotNull(typeId)&&StringUtil.isInteger(typeId)){
 						int type=Integer.parseInt(typeId);
-						result=initNewsDetail(id,type);
+						result=initNewsDetail(id,type,page);
 					}else{
 						result=JsonUtil.getRetMsg(3,"typeId 参数异常");
 					}
@@ -61,7 +69,7 @@ public class NewsDetail extends HttpServlet {
 		out.close();
 	}
 
-	private String initNewsDetail(int id, int type) {
+	private String initNewsDetail(int id, int type, String page) {
 		// 初始化新闻详细信息
 		if(type==0){
 			//新闻详细信息
@@ -70,7 +78,7 @@ public class NewsDetail extends HttpServlet {
 			String from=ResourceFromServer.getRSources(fromId);
 			news.setFrom(from);
 			return JsonUtil.getNewsDetails(news);
-		}else {
+		}else if(type==1){
 			//观点详细信息
 			HotIdea idea = HotIdeaServ.findIdeaById(id);
 			int tId=idea.getTeacherId();
@@ -78,8 +86,16 @@ public class NewsDetail extends HttpServlet {
 			if(teacher==null){
 				teacher=new FamousTeacher();
 			}
-			initIdeaHits(id,idea.getHits()+1);
+			initIdeaHits(id,idea.getHits(),idea.getXnHits());
 			return JsonUtil.getIdeaDetails(idea,teacher);
+		}else{
+			if(StringUtil.isNotNull(page)&&StringUtil.isInteger(page)){
+				List<TacticsDetails> detailsArray=TacticsDetailSer.findDetailsByFkId(id);
+				return JsonUtil.getTacticsDetailInfo(detailsArray);
+			}else{
+				return JsonUtil.getRetMsg(7,"page 参数异常");
+			}
+			
 		}
 		
 	}
@@ -89,8 +105,9 @@ public class NewsDetail extends HttpServlet {
 	 *   更新观点点击数
 	 * @param hits 
 	 */
-	private void initIdeaHits(int id, int hits) {
-		HotIdeaServ.addHit(id, hits);
+	private void initIdeaHits(int id, int hits,int xnHits) {
+		SiteConfig config = SiteConfigSer.findSiteConfig();
+		HotIdeaServ.addHit(id, hits+1,xnHits+config.getNewsMom());
 	}
 
 }

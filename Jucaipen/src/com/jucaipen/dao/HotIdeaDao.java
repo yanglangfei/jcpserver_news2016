@@ -10,7 +10,7 @@ public interface HotIdeaDao {
 	 * @param hits
 	 * @return  Ìí¼Óµã»÷Êı
 	 */
-	public int addHit(int ideaId,int hits);
+	public int addHit(int ideaId,int hits,int xnHits);
 	
 	/**
 	 * @param ideaId

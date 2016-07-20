@@ -90,6 +90,18 @@ public class HotIdea implements Serializable{
 	 * 
 	 */
 	private String freeBody;
+	
+	/**
+	 *   ĞéÄâÔÄ¶ÁÊı
+	 */
+	private int xnHits;
+	
+	public int getXnHits() {
+		return xnHits;
+	}
+	public void setXnHits(int xnHits) {
+		this.xnHits = xnHits;
+	}
 	public int getPage() {
 		return page;
 	}

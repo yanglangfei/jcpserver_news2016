@@ -202,18 +202,6 @@ public class OpenGurdian extends HttpServlet {
 		int isSuccess = RollBackUtil.synchrGuardian(guardian, rebate, account,
 				b, detailJ, detailIntegeral, uId, user, account2,
 				detailAccount, contribute, teacher, sysRebate,gurdianId);
-
-		// 开通守护 JCP_ShouHuZhe
-		// int isSuccess=GuardianSer.addGuardian(guardian);
-		// if(isSuccess==1){
-		// 1 返利 积分 JCP_Rebate
-		// 2、总账户 聚财币减少 JCP_Account
-		// 3、账户详细 积分 聚财币变化 JCP_Account_Detail
-		// 4、用户表 积分 JCP_User
-		// 5 JCP_SysAccount
-		// 6 JCP_SysAccountDateil
-		// 7 JCP_Contribute
-		// }
 		return isSuccess == 1 ? JsonUtil.getOpenGurdianSuccess(guardian)
 				: JsonUtil.getRetMsg(1, "开通守护失败");
 	}

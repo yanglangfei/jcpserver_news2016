@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.jucaipen.dao.TacticsDetailsDao;
 import com.jucaipen.model.TacticsDetails;
 import com.jucaipen.utils.JdbcUtil;
@@ -17,6 +20,7 @@ public class TacticsDetailsImp implements TacticsDetailsDao {
 	private Connection dbConn;
 	private Statement sta;
 	private ResultSet res;
+	private List<TacticsDetails> detailsArray=new ArrayList<TacticsDetails>();
 
 	@Override
 	public TacticsDetails findDetailsById(int id) {
@@ -52,14 +56,15 @@ public class TacticsDetailsImp implements TacticsDetailsDao {
 	}
 
 	@Override
-	public TacticsDetails findDetailsByFkId(int fkId) {
+	public List<TacticsDetails> findDetailsByFkId(int fkId) {
 		// 根据战法id获取战法详细信息
+		detailsArray.clear();
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT * FROM JCP_Tacticsdetails WHERE TacticsId="
-							+ fkId);
+							+ fkId+" AND IsDel=0");
 			while (res.next()) {
 				int id = res.getInt("Id");
 				String title = res.getString("title"); // title
@@ -73,8 +78,9 @@ public class TacticsDetailsImp implements TacticsDetailsDao {
 				details.setFkId(fkId);
 				details.setInsertDate(insertDate);
 				details.setIsDel(isDel);
-				return details;
+				detailsArray.add(details);
 			}
+			return detailsArray;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{

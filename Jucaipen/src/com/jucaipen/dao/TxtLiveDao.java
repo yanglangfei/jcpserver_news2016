@@ -66,5 +66,5 @@ public interface TxtLiveDao {
 	 * @param id
 	 * @return  更新点击数
 	 */
-	public int addHits(int hits,int id);
+	public int addHits(int hits,int id,int xnHits);
 }

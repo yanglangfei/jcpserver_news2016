@@ -8,8 +8,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.jucaipen.model.SiteConfig;
 import com.jucaipen.model.TextLive;
 import com.jucaipen.model.TxtLiveDetails;
+import com.jucaipen.service.SiteConfigSer;
 import com.jucaipen.service.TxtLiveDetaileSer;
 import com.jucaipen.service.TxtLiveSer;
 import com.jucaipen.utils.JsonUtil;
@@ -53,13 +56,14 @@ public class TxtDetails extends HttpServlet {
 		}
 		List<TxtLiveDetails> txtDetails = TxtLiveDetaileSer
 				.findTextDetaileByLiveId(tId,0);
-		initTxtHits(tId,live.getHits()+1);
+		initTxtHits(tId,live.getHits(),live.getXnHits());
 		return JsonUtil.getTxtDetails(txtDetails);
 	}
 
 	
-	private void initTxtHits(int tId, int hits) {
-		TxtLiveSer.addHits(hits, tId);
+	private void initTxtHits(int tId, int hits,int xnHits) {
+		SiteConfig config = SiteConfigSer.findSiteConfig();
+		TxtLiveSer.addHits(hits+1, tId,xnHits+config.getNewsMom());
 		
 	}
 

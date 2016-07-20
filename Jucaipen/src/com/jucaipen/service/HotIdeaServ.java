@@ -53,9 +53,9 @@ public class HotIdeaServ{
 	 * @param hits
 	 * @return  根据id添加点赞数
 	 */
-	public static int addHit(int ideaId, int hits) {
+	public static int addHit(int ideaId, int hits,int xnHits) {
 		HotIdeaDao dao=new HotIdeaImp();
-		return dao.addHit(ideaId, hits);
+		return dao.addHit(ideaId, hits,xnHits);
 	}
 
 	/**

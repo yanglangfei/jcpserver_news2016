@@ -95,9 +95,9 @@ public class TxtLiveSer{
 	 * @param id
 	 * @return  更新点击数
 	 */
-	public static int addHits(int hits,int id){
+	public static int addHits(int hits,int id,int xnHits){
 		TxtLiveDao dao=new TextLiveImp();
-		return dao.addHits(hits, id);
+		return dao.addHits(hits, id,xnHits);
 	}
 
 }

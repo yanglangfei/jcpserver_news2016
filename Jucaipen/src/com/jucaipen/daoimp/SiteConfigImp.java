@@ -24,6 +24,8 @@ public class SiteConfigImp implements SiteConfigDao {
 			res.next();
 			int askNum = res.getInt("AskNum");
 			int commType = res.getInt("CommType");
+			int newsMom=res.getInt("NewsMoM");
+			int videoMom=res.getInt("VideoMoM");
 			int recommIntegeral = res.getInt("RecommendIntegral");
 			int commIntegeral = res.getInt("UserCommIntegral");
 			int signIntegeral = res.getInt("QianDaoIntegral");
@@ -36,6 +38,8 @@ public class SiteConfigImp implements SiteConfigDao {
 			config = new SiteConfig();
 			config.setAskNum(askNum);
 			config.setCommType(commType);
+			config.setNewsMom(newsMom);
+			config.setVideoMom(videoMom);
 			config.setRecommIntegeral(recommIntegeral);
 			config.setSignIntegeral(signIntegeral);
 			config.setCommIntegeral(commIntegeral);

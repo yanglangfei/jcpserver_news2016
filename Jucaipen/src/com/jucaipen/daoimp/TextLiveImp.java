@@ -33,7 +33,7 @@ public class TextLiveImp implements TxtLiveDao {
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -65,7 +65,7 @@ public class TextLiveImp implements TxtLiveDao {
 							+ textLive.getIsEnd() + ")");
 			return isSuccess;
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -97,7 +97,7 @@ public class TextLiveImp implements TxtLiveDao {
 			return textLives;
 		} catch (Exception e) {
 
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -111,15 +111,14 @@ public class TextLiveImp implements TxtLiveDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCP_TxtLive WHERE Id="
-					+ id);
+			res = sta.executeQuery("SELECT * FROM JCP_TxtLive WHERE Id=" + id);
 			textLives = getTxtLive(res, 0, 0);
 			if (textLives.size() > 0) {
 				return textLives.get(0);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -158,7 +157,7 @@ public class TextLiveImp implements TxtLiveDao {
 			return textLives;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -167,7 +166,6 @@ public class TextLiveImp implements TxtLiveDao {
 		}
 		return null;
 	}
-
 
 	public List<TextLive> findNewLiveByLastId(int lastId) {
 		// 根据上次的id 获取最新的直播id
@@ -179,7 +177,7 @@ public class TextLiveImp implements TxtLiveDao {
 			textLives = getTxtLive(res, 1, 1);
 			return textLives;
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -213,7 +211,7 @@ public class TextLiveImp implements TxtLiveDao {
 			}
 			return textLives;
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -234,7 +232,7 @@ public class TextLiveImp implements TxtLiveDao {
 			return textLives;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -244,22 +242,26 @@ public class TextLiveImp implements TxtLiveDao {
 		return null;
 	}
 
-	public List<TextLive> findTextLiveByTeacherId(int teacherId,int page) {
+	public List<TextLive> findTextLiveByTeacherId(int teacherId, int page) {
 		textLives.clear();
-		int totlePage=findTotlePage("WHERE FK_TearchId="+teacherId);
+		int totlePage = findTotlePage("WHERE FK_TearchId=" + teacherId);
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 Id,Title,StartDate,Hits,FK_TearchId,IsEnd FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY StartDate desc) AS RowNumber,"
-							+ "* FROM JCP_TxtLive WHERE FK_TearchId="+teacherId+") A "
-							+ "WHERE RowNumber > " + 15 * (page - 1));
+							+ "* FROM JCP_TxtLive WHERE FK_TearchId="
+							+ teacherId
+							+ ") A "
+							+ "WHERE RowNumber > "
+							+ 15
+							* (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id");
-				String title=res.getString("Title");
+				String title = res.getString("Title");
 				String startDate = res.getString("StartDate");
-				int hits=res.getInt("Hits");
+				int hits = res.getInt("Hits");
 				int isEnd = res.getInt("IsEnd");
 				TextLive textLive = new TextLive();
 				textLive.setId(id);
@@ -274,7 +276,7 @@ public class TextLiveImp implements TxtLiveDao {
 			return textLives;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -288,14 +290,13 @@ public class TextLiveImp implements TxtLiveDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta
-					.executeQuery("SELECT * FROM JCP_TxtLive WHERE IsEnd="
-							+ isEnd + " ORDER BY StartDate DESC");
+			res = sta.executeQuery("SELECT * FROM JCP_TxtLive WHERE IsEnd="
+					+ isEnd + " ORDER BY StartDate DESC");
 			textLives = getTxtLive(res, 0, 0);
 			return textLives;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -314,16 +315,18 @@ public class TextLiveImp implements TxtLiveDao {
 				String startDate = result.getString("StartDate");
 				String endDate = result.getString("EndDate");
 				int goods = result.getInt("Goods");
-				int hits = result.getInt("Hits");
+				int xnHits = result.getInt("VirtualNum");
 				int teacherId = result.getInt("FK_TearchId");
 				int isEnd = result.getInt("IsEnd");
+				int hits = result.getInt("Hits");
 				TextLive textLive = new TextLive();
 				textLive.setId(id);
+				textLive.setHits(hits);
 				textLive.setTitle(title);
 				textLive.setStartDate(startDate);
 				textLive.setEndDate(endDate);
 				textLive.setGoods(goods);
-				textLive.setHits(hits);
+				textLive.setXnHits(xnHits);
 				textLive.setIsEnd(isEnd);
 				textLive.setTeacherId(teacherId);
 				textLive.setPage(page);
@@ -332,7 +335,7 @@ public class TextLiveImp implements TxtLiveDao {
 			}
 			return textLives;
 		} catch (Exception e) {
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -343,11 +346,12 @@ public class TextLiveImp implements TxtLiveDao {
 	}
 
 	@Override
-	public int addHits(int hits, int id) {
+	public int addHits(int hits, int id, int xnHits) {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			return sta.executeUpdate("UPDATE JCP_TxtLive SET Hits="+hits+" WHERE Id="+id);
+			return sta.executeUpdate("UPDATE JCP_TxtLive SET Hits=" + hits
+					+ ",VirtualNum=" + xnHits + " WHERE Id=" + id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
