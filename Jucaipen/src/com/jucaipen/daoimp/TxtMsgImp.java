@@ -84,7 +84,7 @@ public class TxtMsgImp implements TxtMsgDao {
 			if (isCheck) {
 				res = sta
 						.executeQuery("SELECT * FROM JCP_TxtLive_Msg WHERE Fk_TxtLiveId="
-								+ liveId + " AND shenhe>0 shenhe>" + maxId+" AND MsgType="+msgType+" ORDER BY InsertDate ASC");
+								+ liveId + " AND shenhe>0  AND shenhe>" + maxId+" AND MsgType="+msgType+" ORDER BY InsertDate ASC");
 			} else {
 				res = sta
 						.executeQuery("SELECT * FROM JCP_TxtLive_Msg WHERE Fk_TxtLiveId="

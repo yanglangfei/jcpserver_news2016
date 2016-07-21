@@ -87,6 +87,41 @@ public class TimeUtils {
 		return 0;
 
 	}
+	
+	
+	/**
+	 * @param startDate
+	 * @param endDate
+	 * @return   判断当前时间是否在设定时间内    时分秒
+	 */
+	public static boolean isHourLive(String startDate,String endDate){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			Date start=sdf.parse(startDate);
+			Date end=sdf.parse(endDate);
+			Date now=new Date();
+			start.setYear(now.getYear());
+			start.setMonth(now.getMonth());
+			start.setDate(now.getDate());
+			
+			end.setYear(now.getYear());
+			end.setMonth(now.getMonth());
+			end.setDate(now.getDate());
+			
+			long s=start.getTime();
+			long e=end.getTime();
+			long n=now.getTime();
+			if(n>s&&n<e){
+				return true;
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	
+	
 
 	/**
 	 * @param startDate

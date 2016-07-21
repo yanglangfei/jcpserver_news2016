@@ -871,7 +871,7 @@ public class VideoImp implements VideoDao {
 			res = sta
 					.executeQuery("select TOP "
 							+ count
-							+ " FK_Pecial,FK_ClassId,Id,Title,Description,ImagesUrl,PlayCount,VideoDate,VideoUrl,VideoType,PlayXNCount from JCP_Video"
+							+ " FK_Pecial,FK_ClassId,Id,Title,Description,ImagesUrl,PlayCount,VideoDate,VideoUrl,VideoType,PlayXNCount,VideoPageUrl from JCP_Video"
 							+ " WHERE FK_ClassId=" + classId
 							+ " ORDER BY InsertDate ASC");
 
@@ -887,12 +887,14 @@ public class VideoImp implements VideoDao {
 				int specialId = res.getInt("FK_Pecial");
 				int videoType = res.getInt("VideoType");
 				int xnHits=res.getInt("PlayXNCount");
+				String pageUrl=res.getString("VideoPageUrl");
 				Video video = new Video(id, title);
 				video.setDescript(descript);
 				video.setImages(images);
 				video.setVideoType(videoType);
 				video.setVideoUrl(VideoUrl);
 				video.setXnHitCount(xnHits);
+				video.setHtmlUrl(pageUrl);
 				video.setHitCount(playCount);
 				video.setVideoDate(videoDate);
 				video.setPecialId(specialId);
