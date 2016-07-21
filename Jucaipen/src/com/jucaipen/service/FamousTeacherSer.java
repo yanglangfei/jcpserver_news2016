@@ -33,6 +33,11 @@ public class FamousTeacherSer {
 		return dao.findPurchInfo(tId);
 	}
 	
+	public static int updateIdeaReadNum(int id,int readNum,int xnNum){
+		FamousTeacherDao dao=new FamousTeacherImp();
+		return dao.updateIdeaReadNum(id, readNum, xnNum);
+	}
+	
 	
 
 	/**

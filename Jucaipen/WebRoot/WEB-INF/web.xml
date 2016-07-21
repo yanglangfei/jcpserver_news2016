@@ -370,10 +370,6 @@
     <servlet-class>com.jucaipen.main.my.QuerryMySale</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>SolutionDish</servlet-name>
-    <servlet-class>com.jucaipen.main.index.famous.SolutionDish</servlet-class>
-  </servlet>
-  <servlet>
     <servlet-name>LastPlay</servlet-name>
     <servlet-class>com.jucaipen.main.play.LastPlay</servlet-class>
   </servlet>
@@ -821,10 +817,6 @@
   <servlet-mapping>
     <servlet-name>QuerryMySale</servlet-name>
     <url-pattern>/jucaipen/getmysale</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>SolutionDish</servlet-name>
-    <url-pattern>/jucaipen/solutiondish</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>LastPlay</servlet-name>

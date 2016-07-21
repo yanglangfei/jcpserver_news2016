@@ -25,7 +25,8 @@ import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
  * 
- *         文字直播互动
+ *         文字直播互动     悄悄话    0      
+ *                     互动      1
  */
 @SuppressWarnings("serial")
 public class TxtChat extends HttpServlet {
@@ -39,6 +40,7 @@ public class TxtChat extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
+		ip=request.getRemoteAddr();
 		String msgObject = request.getParameter("msgObject");
 		if (StringUtil.isNotNull(msgObject)) {
 			ChatMsgObject chatMsg = JsonUtil.parseChatMsg(msgObject);
@@ -138,8 +140,8 @@ public class TxtChat extends HttpServlet {
 					tu = new User();
 				}
 				m.setReceiverFace(tu.getFaceImage());
-				m.setUserName(fu.getUserName());
-				m.setReceiverName(fu.getUserName());
+				m.setUserName(fu.getNickName());
+				m.setReceiverName(fu.getNickName());
 				m.setUserLeavel(fu.getUserLeval());
 			}
 		}
@@ -149,7 +151,6 @@ public class TxtChat extends HttpServlet {
 		PushPayload msgObj = JPushUtils.createMsg("msg", "txtMsg", pushMsg,
 				null);
 		JPushUtils.pushMsg(client, msgObj);
-		System.out.println(pushMsg);
 		if (msgs != null && msgs.size() > 0) {
 			if (isManager) {
 				return msgs.get(msgs.size() - 1).getId();

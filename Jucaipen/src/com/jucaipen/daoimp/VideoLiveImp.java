@@ -310,7 +310,7 @@ public class VideoLiveImp implements VideoLiveDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			sta.executeUpdate("UPDATE JCP_VideoLive SET ");
+			return sta.executeUpdate("UPDATE JCP_VideoLive SET ");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

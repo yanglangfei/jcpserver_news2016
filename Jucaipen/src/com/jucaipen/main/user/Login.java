@@ -75,7 +75,6 @@ public class Login extends HttpServlet {
 		// 处理登录
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
-		System.out.println(""+userName+"   "+password);
 		if (!StringUtil.isNotNull(userName)) {
 			return JsonUtil.getRetMsg(4, "用户名不能为空");
 		}
@@ -98,21 +97,14 @@ public class Login extends HttpServlet {
 		if (res) {
 			// 登录成功处理
 			User user = UserServer.findBaseInfoById(userId);
-			//handleLoginLog(userName, 0, userId, password, "登录成功", os);
-			// initLoginCount(user.getLoginNum()+1,userId);
 			return JsonUtil.getLoginResult(user);
 		} else {
 			// 登录失败处理
-			//handleLoginLog(userName, 1, 0, password, "登录失败:" + msg, os);
 			return JsonUtil.getRetMsg(1, msg);
 		}
 	}
 
-	/*
-	 * private void initLoginCount(int num,int uId) {
-	 * //UserServer.updateLoginNum(num, uId,loginIp); }
-	 */
-
+   
 	public void handleLoginLog(String userName, int logResult, int userId,
 			String password, String remark, ClientOsInfo os) {
 		LoginLog log = new LoginLog();

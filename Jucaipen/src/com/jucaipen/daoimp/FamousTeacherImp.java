@@ -212,6 +212,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				int isLiveFree=result.getInt("VideoLiveIsFree");
 				int livePrice=result.getInt("VideoLivePrice");
 				int xnLive=result.getInt("LiveRenQiXuLi");
+				int xnReadIdeaNum=result.getInt("ArticleReadCountXuLi");
 				FamousTeacher teacher=new FamousTeacher();
 				teacher.setPage(page);
 				teacher.setTotlePage(totlePage);
@@ -222,6 +223,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				teacher.setArticleCount(articleCount);
 				teacher.setTrueName(trueName);
 				teacher.setTelPhone(telPhone);
+				teacher.setXnArticleReadNum(xnReadIdeaNum);
 				teacher.setIsUserLiveUrl(isUserLive);
 				teacher.setLivePrice(livePrice);
 				teacher.setLiveFree(isLiveFree);
@@ -286,7 +288,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT Id,NickName FROM JCP_Tearcher  WHERE State=0");
+			res=sta.executeQuery("SELECT Id,NickName FROM JCP_Tearcher WHERE State=0");
 			while (res.next()) {
 				int id=res.getInt(1);
 				String nickName=res.getString(2);
@@ -307,16 +309,18 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT Fans,AskNum,NickName,QianYUeCount,ReturnRate FROM JCP_Tearcher WHERE Id="+tId+"  AND  State=0");
+			res=sta.executeQuery("SELECT Fans,AskNum,NickName,QianYUeCount,ReturnRate,HeadFace FROM JCP_Tearcher WHERE Id="+tId+"  AND  State=0");
 			while (res.next()) {
 				int fans=res.getInt(1);
 				int askNum=res.getInt(2);
 				String nickName=res.getString(3);
 				int qianYueCount=res.getInt(4);
 				double returnRate=res.getDouble(5);
+				String headFace=res.getString("HeadFace");
 				FamousTeacher teacher=new FamousTeacher();
 				teacher.setFans(fans);
 				teacher.setId(tId);
+				teacher.setHeadFace(headFace);
 				teacher.setReturnRate(returnRate);
 				teacher.setSignCount(qianYueCount);
 				teacher.setAskNum(askNum);
@@ -377,6 +381,19 @@ public class FamousTeacherImp implements FamousTeacherDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public int updateIdeaReadNum(int id, int readNum, int xnNum) {
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_Tearcher SET ArticleReadCount="+readNum+",ArticleReadCountXuLi="+xnNum+" WHERE Id="+id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
 	}
 
 

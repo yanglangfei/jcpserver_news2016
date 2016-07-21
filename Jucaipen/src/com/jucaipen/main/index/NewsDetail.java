@@ -86,16 +86,16 @@ public class NewsDetail extends HttpServlet {
 			if(teacher==null){
 				teacher=new FamousTeacher();
 			}
-			initIdeaHits(id,idea.getHits(),idea.getXnHits());
+			initIdeaHits(tId,id,idea.getHits(),idea.getXnHits(),teacher.getArticleReadCount(),teacher.getXnArticleReadNum());
 			return JsonUtil.getIdeaDetails(idea,teacher);
 		}else{
 			if(StringUtil.isNotNull(page)&&StringUtil.isInteger(page)){
-				List<TacticsDetails> detailsArray=TacticsDetailSer.findDetailsByFkId(id);
+				int p=Integer.parseInt(page);
+				List<TacticsDetails> detailsArray=TacticsDetailSer.findDetailsByFkId(id,p);
 				return JsonUtil.getTacticsDetailInfo(detailsArray);
 			}else{
 				return JsonUtil.getRetMsg(7,"page 参数异常");
 			}
-			
 		}
 		
 	}
@@ -105,9 +105,10 @@ public class NewsDetail extends HttpServlet {
 	 *   更新观点点击数
 	 * @param hits 
 	 */
-	private void initIdeaHits(int id, int hits,int xnHits) {
+	private void initIdeaHits(int tId,int id, int hits,int xnHits,int ideaReadNum,int xnIdeaReadNum) {
 		SiteConfig config = SiteConfigSer.findSiteConfig();
 		HotIdeaServ.addHit(id, hits+1,xnHits+config.getNewsMom());
+		FamousTeacherSer.updateIdeaReadNum(tId,ideaReadNum+1, xnIdeaReadNum+config.getNewsMom());
 	}
 
 }

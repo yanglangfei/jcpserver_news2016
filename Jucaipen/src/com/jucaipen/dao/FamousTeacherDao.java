@@ -71,5 +71,7 @@ public interface FamousTeacherDao {
 	 */
 	public FamousTeacher findPurchInfo(int tId);
 	
+	public int updateIdeaReadNum(int id,int readNum,int xnNum);
+	
 
 }

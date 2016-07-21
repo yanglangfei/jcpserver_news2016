@@ -95,10 +95,10 @@ public class TxtMsgImp implements TxtMsgDao {
 				int userId = res.getInt(2);
 				String msgBody = res.getString(3);
 				int shenhe = res.getInt(4);
-				String insertDate = res.getString(5);
-				int receiverId = res.getInt(6);
-				int isSysAdmin = res.getInt(7);
-				int isRoomAdmin = res.getInt(8);
+				String insertDate = res.getString(6);
+				int receiverId = res.getInt(7);
+				int isSysAdmin = res.getInt(8);
+				int isRoomAdmin = res.getInt(9);
 				TxtLiveMsg msg = new TxtLiveMsg();
 				msg.setId(id);
 				msg.setUserId(userId);
@@ -129,13 +129,15 @@ public class TxtMsgImp implements TxtMsgDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			return sta.executeUpdate("INSERT INTO Fk_TxtLiveId"
+			return sta.executeUpdate("INSERT INTO JCP_TxtLive_Msg"
 					+ "(UserId,MessBody,shenhe,Fk_TxtLiveId,InsertDate,"
 					+ "ReceiverId,IsSysAdmin,IsRoomAdmin,IP,MsgType) VALUES ("
 					+ msg.getUserId() + ",'" + msg.getMessBody() + "',"
 					+ msg.getShenhe() + "," + msg.getTxtLiveId() + ",'"
 					+ msg.getInsertDate() + "'," + msg.getReceiverId() + ","
-					+ msg.getIsSysAdmin() + "," + msg.getIsSysAdmin() +","+msg.getMsgType()+ ")");
+					+ msg.getIsSysAdmin() + "," + msg.getIsSysAdmin() 
+					+",'"+msg.getIp()
+					+"',"+msg.getMsgType()+ ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{

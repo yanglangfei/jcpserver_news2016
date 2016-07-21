@@ -21,7 +21,7 @@ public interface TacticsDetailsDao {
 	 * @param fkId
 	 * @return  根据战法id获取详细信息
 	 */
-	public List<TacticsDetails> findDetailsByFkId(int fkId);
+	public List<TacticsDetails> findDetailsByFkId(int fkId,int page);
 	
 	
 
