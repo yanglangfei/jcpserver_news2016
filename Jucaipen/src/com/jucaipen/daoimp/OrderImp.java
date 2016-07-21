@@ -53,14 +53,14 @@ public class OrderImp implements OrderDao {
 
 	public List<Order> findAllPayOrderList(int page) {
 		// 获取全部的订单信息
-		int totlePage = findTotlePager("");
+		int totlePage = findTotlePager(" WHERE IsDelete=0");
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCP_Order"
-							+ " ) A " + "WHERE RowNumber > " + 15 * (page - 1));
+							+ " WHERE IsDelete=0) A " + "WHERE RowNumber > " + 15 * (page - 1));
 			payOrders = getPayOrder(res, page, totlePage);
 			return payOrders;
 		} catch (Exception e) {
@@ -76,14 +76,14 @@ public class OrderImp implements OrderDao {
 
 	public List<Order> findPayOrderByUid(int uId, int page) {
 		// 根据用户ID获取订单信息
-		int totlePage = findTotlePager("WHERE UserId=" + uId);
+		int totlePage = findTotlePager("WHERE UserId=" + uId+" AND IsDelete=0");
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCP_Order WHERE UserId="
-							+ uId + " ) A " + "WHERE RowNumber > " + 15
+							+ uId + " AND IsDelete=0) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			payOrders = getPayOrder(res, page, totlePage);
 			return payOrders;
@@ -100,14 +100,14 @@ public class OrderImp implements OrderDao {
 
 	public List<Order> findPayOrderByPayState(int payState, int page) {
 		// 根据支付状态获取订单信息
-		int totlePage = findTotlePager("WHERE PayType=" + payState);
+		int totlePage = findTotlePager("WHERE PayType=" + payState+" AND IsDelete=0");
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCP_Order WHERE PayType="
-							+ payState + " ) A " + "WHERE RowNumber > " + 15
+							+ payState + " AND IsDelete=0) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			payOrders = getPayOrder(res, page, totlePage);
 			return payOrders;
@@ -124,14 +124,14 @@ public class OrderImp implements OrderDao {
 
 	public List<Order> findPayOrderByOrderState(int orderState, int page) {
 		// 根据订单状态获取订单信息
-		int totlePage = findTotlePager("WHERE OrderType=" + orderState);
+		int totlePage = findTotlePager("WHERE OrderType=" + orderState+" AND IsDelete=0");
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCP_Order WHERE OrderType="
-							+ orderState + " ) A " + "WHERE RowNumber > " + 15
+							+ orderState + " AND IsDelete=0) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			payOrders = getPayOrder(res, page, totlePage);
 			return payOrders;
@@ -148,14 +148,14 @@ public class OrderImp implements OrderDao {
 
 	public List<Order> findPayOrderByTeacherId(int teacherId, int page) {
 		// 根据讲师ID获取订单信息
-		int totlePage = findTotlePager("WHERE FromTearchId=" + teacherId);
+		int totlePage = findTotlePager("WHERE FromTearchId=" + teacherId+" AND IsDelete=0");
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCP_Order WHERE FromTearchId="
-							+ teacherId + " ) A " + "WHERE RowNumber > " + 15
+							+ teacherId + " AND IsDelete=0) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			payOrders = getPayOrder(res, page, totlePage);
 			return payOrders;
@@ -172,14 +172,14 @@ public class OrderImp implements OrderDao {
 
 	public List<Order> findPayOrderByProductState(int productState, int page) {
 		// 根据商品信息获取订单信息
-		int totlePage = findTotlePager("WHERE IsDelete=" + productState);
+		int totlePage = findTotlePager("WHERE IsDelete=" + productState+" AND IsDelete=0");
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCP_Order WHERE IsDelete="
-							+ productState + " ) A " + "WHERE RowNumber > "
+							+ productState + " AND IsDelete=0) A " + "WHERE RowNumber > "
 							+ 15 * (page - 1));
 			payOrders = getPayOrder(res, page, totlePage);
 			return payOrders;
@@ -200,7 +200,7 @@ public class OrderImp implements OrderDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT TOP " + lastCount
-					+ " * FROM JCP_Order ORDER BY InsertDate DESC");
+					+ " * FROM JCP_Order WHERE IsDelete=0 ORDER BY InsertDate DESC");
 			payOrders = getPayOrder(res, 1, 1);
 			return payOrders;
 		} catch (Exception e) {
@@ -220,7 +220,7 @@ public class OrderImp implements OrderDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT  * FROM JCP_Order WHERE Id=" + id);
+			res = sta.executeQuery("SELECT  * FROM JCP_Order WHERE Id=" + id+" AND IsDelete=0");
 			payOrders = getPayOrder(res, 1, 1);
 			if (payOrders.size() > 0) {
 				order = payOrders.get(0);

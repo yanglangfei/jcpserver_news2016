@@ -321,11 +321,13 @@ public class HotIdeaImp implements HotIdeaDao {
 				int teacherId = result.getInt("FK_TearchId");
 				String logImage = result.getString("ImagesUrl");
 				int isFree = result.getInt("IsFree");
+				int xnHits=result.getInt("VirtualNum");
 				HotIdea idea = new HotIdea();
 				idea.setPage(page);
 				idea.setTotlePgae(totlePage);
 				idea.setId(id);
 				idea.setBodys(bodys);
+				idea.setXnHits(xnHits);
 				idea.setTitle(title);
 				idea.setGoods(goods);
 				idea.setHits(hits);

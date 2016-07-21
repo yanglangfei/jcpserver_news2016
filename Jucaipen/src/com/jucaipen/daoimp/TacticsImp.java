@@ -57,7 +57,7 @@ public class TacticsImp implements TacticsDao {
 			sta=dbConn.createStatement();
 			res=sta.executeQuery("SELECT TOP 15 * FROM "
 					+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Tactics"
-					+ ") A " + "WHERE RowNumber > " + 15
+					+ " WHERE IsDel=0) A " + "WHERE RowNumber > " + 15
 					* (page - 1));
 			while (res.next()) {
 				int id=res.getInt("Id");
@@ -108,7 +108,7 @@ public class TacticsImp implements TacticsDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_Tactics WHERE Id="+id);
+			res=sta.executeQuery("SELECT * FROM JCP_Tactics WHERE Id="+id+" AND IsDel=0");
 			while (res.next()) {
 				String title=res.getString("Title");  //Title
 				String desc=res.getString("description");  //description
@@ -152,13 +152,13 @@ public class TacticsImp implements TacticsDao {
 	public List<Tactics> findTacticsByTeacherId(int tId, int page) {
 		//根据讲师获取战法信息
 		tacticsArray.clear();
-		int totlePage=getTotlePage("WHERE TeacherId="+tId);
+		int totlePage=getTotlePage("WHERE TeacherId="+tId+" AND IsDel=0");
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
 			res=sta.executeQuery("SELECT TOP 15 * FROM "
 					+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Tactics"
-					+ " WHERE TeacherId="+tId+") A " + "WHERE RowNumber > " + 15
+					+ " WHERE TeacherId="+tId+" AND IsDel=0) A " + "WHERE RowNumber > " + 15
 					* (page - 1));
 			while (res.next()) {
 				int id=res.getInt("Id");
@@ -211,7 +211,7 @@ public class TacticsImp implements TacticsDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_Tactics WHERE TeacherId="+tId);
+			res=sta.executeQuery("SELECT * FROM JCP_Tactics WHERE TeacherId="+tId+" AND IsDel=0");
 			while (res.next()) {
 				int id=res.getInt("Id");
 				String title=res.getString("Title");  //Title

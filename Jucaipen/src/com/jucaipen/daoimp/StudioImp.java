@@ -58,7 +58,7 @@ public class StudioImp implements StudioDao {
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY Id desc) AS RowNumber,* FROM JCP_Studio"
-							+ ") A " + "WHERE RowNumber > " + 15 * (page - 1));
+							+ " AND IsDel=0) A " + "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
 				int id=res.getInt("Id");
 				String title=res.getString("Title");  //Title
@@ -120,7 +120,7 @@ public class StudioImp implements StudioDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_Studio WHERE Id="+id);
+			res=sta.executeQuery("SELECT * FROM JCP_Studio WHERE Id="+id+" AND IsDel=0");
 			while (res.next()) {
 				String title=res.getString(2);  //Title
 				String keyWord=res.getString(3);  //keyword
@@ -181,7 +181,7 @@ public class StudioImp implements StudioDao {
 			sta=dbConn.createStatement();
 			res=sta.executeQuery("SELECT Id,Title,RenQi,StratDate,EndDate,"
 					+ "StudioUrl,ImageUrl FROM JCP_Studio "
-					+ "WHERE BeginShowDate LIKE ('%"+week+"%') ORDER BY SortId ASC");
+					+ "WHERE BeginShowDate LIKE ('%"+week+"%') AND IsDel=0 ORDER BY SortId ASC");
 			while (res.next()) {
 				int id=res.getInt("Id");
 				String title=res.getString("Title");
@@ -220,7 +220,7 @@ public class StudioImp implements StudioDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT Id,Title,RenQi,ImageUrl FROM JCP_Studio WHERE BeginShowDate LIKE ('%"+week+"%') ORDER BY RenQi DESC");
+			res=sta.executeQuery("SELECT Id,Title,RenQi,ImageUrl FROM JCP_Studio WHERE BeginShowDate LIKE ('%"+week+"%') AND IsDel=0 ORDER BY RenQi DESC");
 			while (res.next()) {
 				int id=res.getInt("Id");
 				String title=res.getString("Title");
@@ -251,14 +251,14 @@ public class StudioImp implements StudioDao {
 	public List<Studio> findStudioByColumnId(int columnId, int page) {
 		// 获取栏目下的演播室信息
 		studios.clear();
-		int totlePage = getTotlePage("WHERE VideoColumnId="+columnId);
+		int totlePage = getTotlePage("WHERE VideoColumnId="+columnId+" AND IsDel=0");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY Id desc) AS RowNumber,* FROM JCP_Studio WHERE VideoColumnId="
-							+columnId+ ") A " + "WHERE RowNumber > " + 15 * (page - 1));
+							+columnId+ " AND IsDel=0) A " + "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
 				int id=res.getInt("Id");
 				String title=res.getString("Title");  //Title
@@ -318,7 +318,7 @@ public class StudioImp implements StudioDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT RenQi FROM JCP_Studio WHERE Id="+id);
+			res=sta.executeQuery("SELECT RenQi FROM JCP_Studio WHERE Id="+id+" AND IsDel=0");
 			res.next();
 			return res.getInt(1);
 		} catch (SQLException e) {

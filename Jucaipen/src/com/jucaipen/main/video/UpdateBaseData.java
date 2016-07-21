@@ -8,7 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jucaipen.model.SiteConfig;
 import com.jucaipen.model.Video;
+import com.jucaipen.model.VideoLive;
+import com.jucaipen.service.SiteConfigSer;
+import com.jucaipen.service.VideoLiveServer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.StringUtil;
 /**
@@ -41,7 +45,13 @@ public class UpdateBaseData extends HttpServlet {
 		if(type==0){
 			// ”∆µ
 			Video vide=VideoServer.findVideoResourceById(fkId);
-			VideoServer.updateHits(vide.getHitCount()+1, vide.getXnHitCount()+1, fkId);
+			SiteConfig config = SiteConfigSer.findSiteConfig();
+			VideoServer.updateHits(vide.getHitCount()+1, vide.getXnHitCount()+config.getVideoMom(), fkId);
+		}else if(type==1){
+			// ”∆µ÷±≤•
+			VideoLive live=VideoLiveServer.getRoomInfo(fkId);
+			SiteConfig config = SiteConfigSer.findSiteConfig();
+			
 		}
 		
 	}

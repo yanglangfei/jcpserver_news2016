@@ -34,5 +34,7 @@ public interface KnowledgeDao {
 	 */
 	public Knowledge findTitleById(int id,int classId);
 	
+	public int addHits(int id,int hits,int xnHits);
+	
 
 }

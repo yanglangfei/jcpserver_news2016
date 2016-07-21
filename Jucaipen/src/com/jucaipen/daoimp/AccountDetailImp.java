@@ -47,14 +47,14 @@ public class AccountDetailImp implements AccountDetailDao {
 	public List<AccountDetail> findAccountDetailByuId(int userId, int page) {
 		// 根据用户id获取账户详细信息
 		accountDetails.clear();
-		int totlePage = getTotlePage("WHERE UserId=" + userId);
+		int totlePage = getTotlePage("WHERE UserId=" + userId+" AND IsDel=0");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Account_Detail WHERE UserId="
-							+ userId + ") A " + "WHERE RowNumber > " + 15
+							+ userId + " AND IsDel=0) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id");
@@ -91,7 +91,7 @@ public class AccountDetailImp implements AccountDetailDao {
 		// 根据用户id和状态
 		accountDetails.clear();
 		int totlePage = getTotlePage("WHERE UserId=" + uId + " AND State="
-				+ state);
+				+ state+" AND IsDel=0");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
@@ -141,7 +141,7 @@ public class AccountDetailImp implements AccountDetailDao {
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Account_Detail WHERE UserId="
-							+ uId + " AND DetailType=" + type + ") A "
+							+ uId + " AND DetailType=" + type + " AND IsDel=0) A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id");

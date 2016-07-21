@@ -55,7 +55,7 @@ public class MyVideoImp implements MyVideoDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_MyVideo WHERE Id="+id);
+			res=sta.executeQuery("SELECT * FROM JCP_MyVideo WHERE Id="+id+" AND IsDel=0");
 			while (res.next()) {
 				int userId=res.getInt(2);  //FK_UserId
 				int videoId=res.getInt(3);  //FK_VideoId
@@ -92,7 +92,7 @@ public class MyVideoImp implements MyVideoDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_MyVideo WHERE FK_UserId="+uId+" AND FK_VideoId="+vId);
+			res=sta.executeQuery("SELECT * FROM JCP_MyVideo WHERE FK_UserId="+uId+" AND FK_VideoId="+vId+" AND IsDel=0");
 			while (res.next()) {
 				int userId=res.getInt(2);  //FK_UserId
 				int videoId=res.getInt(3);  //FK_VideoId
@@ -121,13 +121,13 @@ public class MyVideoImp implements MyVideoDao {
 	public List<MyVideo> findMyVideoByUserId(int userId, int page) {
 		//根据用户id获取我的视频
 		myVideos.clear();
-		int totlePage=getTotlePage("WHERE FK_UserId="+userId);
+		int totlePage=getTotlePage("WHERE FK_UserId="+userId+" AND IsDel=0");
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
 			res=sta.executeQuery("SELECT TOP 15 * FROM "
 					+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_MyVideo WHERE FK_UserId="
-					+ userId + ") A " + "WHERE RowNumber > " + 15
+					+ userId + " AND IsDel=0) A " + "WHERE RowNumber > " + 15
 					* (page - 1));
 			while (res.next()) {
 				int id=res.getInt("Id");  //FK_UserId

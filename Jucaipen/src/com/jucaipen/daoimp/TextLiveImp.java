@@ -249,7 +249,7 @@ public class TextLiveImp implements TxtLiveDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 15 Id,Title,StartDate,Hits,FK_TearchId,IsEnd FROM "
+					.executeQuery("SELECT TOP 15 Id,Title,StartDate,Hits,FK_TearchId,IsEnd,VirtualNum FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY StartDate desc) AS RowNumber,"
 							+ "* FROM JCP_TxtLive WHERE FK_TearchId="
 							+ teacherId
@@ -263,11 +263,13 @@ public class TextLiveImp implements TxtLiveDao {
 				String startDate = res.getString("StartDate");
 				int hits = res.getInt("Hits");
 				int isEnd = res.getInt("IsEnd");
+				int xnHits=res.getInt("VirtualNum");
 				TextLive textLive = new TextLive();
 				textLive.setId(id);
 				textLive.setPage(page);
 				textLive.setTitle(title);
 				textLive.setHits(hits);
+				textLive.setXnHits(xnHits);
 				textLive.setTotlePage(totlePage);
 				textLive.setIsEnd(isEnd);
 				textLive.setStartDate(startDate);

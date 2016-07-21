@@ -58,7 +58,8 @@ public class GiftsImp implements GiftsDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY Id desc) AS RowNumber,* FROM JCP_LiPin) A "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY Id desc) AS RowNumber,* FROM JCP_LiPin"
+							+ " WHERE SaleType=1 AND IsDel=0) A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id");
@@ -91,14 +92,14 @@ public class GiftsImp implements GiftsDao {
 	public List<Gifts> findGiftByClassId(int page, int classId) {
 		// 根据分类获取礼品
 		gifts.clear();
-		int totlePage = getTotlePage("WHERE ClassId="+classId);
+		int totlePage = getTotlePage("WHERE ClassId="+classId+" AND  SaleType=1 AND IsDel=0");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY Id desc) AS RowNumber,* FROM JCP_LiPin WHERE  ClassId="
-							+ classId + ") A " + "WHERE RowNumber > " + 15
+							+ classId + " AND SaleType=1 AND IsDel=0) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id");
@@ -134,7 +135,7 @@ public class GiftsImp implements GiftsDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCP_LiPin WHERE Id="+id);
+					.executeQuery("SELECT * FROM JCP_LiPin WHERE Id="+id+" AND SaleType=1 AND IsDel=0");
 			while (res.next()) {
 				String title = res.getString("Title");
 				double price = res.getDouble("Price");

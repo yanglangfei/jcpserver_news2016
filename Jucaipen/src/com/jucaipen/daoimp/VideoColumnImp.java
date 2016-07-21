@@ -62,7 +62,7 @@ public class VideoColumnImp implements VideoColnumnDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCP_VideoColumn");
+			res = sta.executeQuery("SELECT * FROM JCP_VideoColumn WHERE IsDel=0");
 			while (res.next()) {
 				int id = res.getInt(1);
 				String name = res.getString(2); // VideoColumnName

@@ -55,7 +55,7 @@ public class MySpecialImp implements MySpecialDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCP_MySpecial WHERE Id=" + id);
+					.executeQuery("SELECT * FROM JCP_MySpecial WHERE Id=" + id+" AND IsDel=0");
 			while (res.next()) {
 				int userId = res.getInt(2); // FK_UserId
 				int specialId = res.getInt(3); // FK_SpecialId
@@ -96,7 +96,7 @@ public class MySpecialImp implements MySpecialDao {
 							+ uId
 							+ " AND FK_SpecialId="
 							+ sId
-							+ " AND IsStop=0");
+							+ " AND IsStop=0 AND IsDel=0");
 			while (res.next()) {
 				String insertDate = res.getString(4); // InsertDate
 				String remark = res.getString(5); // Remark
@@ -128,14 +128,14 @@ public class MySpecialImp implements MySpecialDao {
 	public List<MySpecial> findSpecialByUid(int userId, int page) {
 		// 根据用户id获取有用的专辑信息
 		mySpecials.clear();
-		int totlePage = getTotlePage("WHERE FK_UserId=" + userId);
+		int totlePage = getTotlePage("WHERE FK_UserId=" + userId+" AND IsDel=0");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_MySpecial WHERE FK_UserId="
-							+ userId + ") A " + "WHERE RowNumber > " + 15
+							+ userId + " AND IsDel=0) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id");

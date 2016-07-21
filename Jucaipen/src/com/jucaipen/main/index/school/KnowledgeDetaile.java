@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.model.Knowledge;
+import com.jucaipen.model.SiteConfig;
 import com.jucaipen.service.KnowledgetSer;
 import com.jucaipen.service.ResourceFromServer;
+import com.jucaipen.service.SiteConfigSer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 /**
@@ -58,6 +60,13 @@ public class KnowledgeDetaile extends HttpServlet {
 			String from = ResourceFromServer.getRSources(fromId);
 			knowledge.setFrom(from);
 		}
+		initHits(kId,knowledge.getHits(),knowledge.getXnHits());
 		return JsonUtil.getKnowDetails(knowledge);
+	}
+
+	private void initHits(int kId, int hits, int xnHits) {
+		SiteConfig config = SiteConfigSer.findSiteConfig();
+		KnowledgetSer.addHits(kId, hits+1, xnHits+config.getNewsMom());
+		
 	}
 }

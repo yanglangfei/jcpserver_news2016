@@ -54,7 +54,7 @@ public class SpecialImp implements SpecialDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_Special WHERE Id="+id);
+			res=sta.executeQuery("SELECT * FROM JCP_Special WHERE Id="+id+" AND IsDel=0");
 			while (res.next()) {
 				String name=res.getString(2);  //SpecialName
 				String insertDate=res.getString(3);  //InsertDate
@@ -98,7 +98,7 @@ public class SpecialImp implements SpecialDao {
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Special"
-							+") A " + "WHERE RowNumber > " + 15
+							+" AND IsDel=0) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
 				int id=res.getInt("Id");

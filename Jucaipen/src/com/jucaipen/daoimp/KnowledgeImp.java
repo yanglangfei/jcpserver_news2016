@@ -237,7 +237,7 @@ public class KnowledgeImp implements KnowledgeDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -245,6 +245,19 @@ public class KnowledgeImp implements KnowledgeDao {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int addHits(int id, int hits, int xnHits) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_BasicKnowledge SET HitCount="
+					+ hits + ",HitXNCount=" + xnHits + " WHERE Id=" + id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }

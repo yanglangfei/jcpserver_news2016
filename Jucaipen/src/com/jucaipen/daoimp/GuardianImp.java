@@ -56,7 +56,7 @@ public class GuardianImp implements GuardianDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCP_ShouHuZhe WHERE Id=" + id);
+					.executeQuery("SELECT * FROM JCP_ShouHuZhe WHERE Id=" + id+" AND State=0");
 			while (res.next()) {
 				int userId = res.getInt(2); // FK_UserId
 				int teacherId = res.getInt(3); // FK_TearchId
@@ -89,14 +89,14 @@ public class GuardianImp implements GuardianDao {
 	public List<Guardian> findGurdianByUid(int userId, int page) {
 		// 根据用户id获取我守护的
 		guardians.clear();
-		int totlePage = getTotlePage("WHERE FK_UserId=" + userId);
+		int totlePage = getTotlePage("WHERE FK_UserId=" + userId+" AND State=0");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_ShouHuZhe WHERE FK_UserId="
-							+ userId + ") A " + "WHERE RowNumber > " + 15
+							+ userId + " AND State=0) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id");
@@ -135,14 +135,14 @@ public class GuardianImp implements GuardianDao {
 	public List<Guardian> findGuradianByTeacherId(int teacherId, int page) {
 		// 根据讲师id获取守护我的
 		guardians.clear();
-		int totlePage = getTotlePage("WHERE FK_TearchId=" + teacherId);
+		int totlePage = getTotlePage("WHERE FK_TearchId=" + teacherId+" AND State=0");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_ShouHuZhe WHERE FK_TearchId="
-							+ teacherId + ") A " + "WHERE RowNumber > " + 15
+							+ teacherId + " AND State=0) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id");
@@ -217,7 +217,7 @@ public class GuardianImp implements GuardianDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_ShouHuZhe WHERE FK_TearchId="+teacherId);
+			res=sta.executeQuery("SELECT * FROM JCP_ShouHuZhe WHERE FK_TearchId="+teacherId+" AND State=0");
 			while (res.next()) {
 				int id = res.getInt("Id");
 				int userId = res.getInt("FK_UserId");

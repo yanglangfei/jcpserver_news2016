@@ -189,16 +189,6 @@ public class ChargeOrderImp implements ChargeOrderDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			System.out.println("INSERT INTO JCP_AddOrder(UserId,"
-					+ "OrderCode,Pay_money,InsertDate,PaymentDate,"
-					+ "IsDel,IP,PaymentMethod,AlipayAccount,BankChannel,"
-					+ "OrderState) VALUES(" + order.getUserId() + ",'"
-					+ order.getOrderCode() + "','" + order.getChargeMoney()
-					+ "','" + order.getInsertDate() + "','"
-					+ order.getPayDate() + "'," + order.getIsDel() + ","
-					+ order.getPayType() + ",'" + order.getAlipayAccount()
-					+ "','" + order.getBankChannel() + "',"
-					+ order.getOrderState() + ")");
 			return sta.executeUpdate("INSERT INTO JCP_AddOrder(UserId,"
 					+ "OrderCode,Pay_money,InsertDate,PaymentDate,"
 					+ "IsDel,IP,PaymentMethod,AlipayAccount,BankChannel,"

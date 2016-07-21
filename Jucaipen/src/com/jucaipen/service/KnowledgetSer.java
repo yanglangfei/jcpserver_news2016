@@ -26,6 +26,11 @@ public class KnowledgetSer {
 		KnowledgeDao dao=new KnowledgeImp();
 		return dao.findKnowledgeByClassId(classId, page);
 	}
+	
+	public static int addHits(int id,int hits,int xnHits){
+		KnowledgeDao dao=new KnowledgeImp();
+		return dao.addHits(id, hits, xnHits);
+	}
 
 	/**
 	 * @param page

@@ -21,7 +21,7 @@ public class AnswerImp implements AnswerDao {
 	
 
 	/**
-	 * @return 查询新闻评论总页数
+	 * @return 查询回答总页数
 	 */
 	public int findTotlePager(String condition) {
 		try {

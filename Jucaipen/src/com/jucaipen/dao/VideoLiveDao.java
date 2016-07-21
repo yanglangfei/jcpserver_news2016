@@ -15,6 +15,13 @@ public interface VideoLiveDao {
 	 * @return   获取所有房间名称
 	 */
 	public List<VideoLive> getRoomList();
+	
+	/**
+	 * @param id
+	 * @param renQi
+	 * @return  更新人气信息
+	 */
+	public int updateRenQi(int id,int renQi);
 	/**
 	 * @param id
 	 * @return  根据id 获取房间详细信息

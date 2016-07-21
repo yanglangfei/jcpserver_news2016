@@ -76,13 +76,13 @@ public class VideoList extends HttpServlet {
 		// 初始化全部数据
 		List<Video> videos = VideoServer.findAll(p);
 		for (Video video : videos) {
-			int specialId=video.getPecialId();
-			int videoType=video.getVideoType();
-			video.setCharge(videoType==1);
-			
-			if(specialId>0){
+			int specialId = video.getPecialId();
+			int videoType = video.getVideoType();
+			video.setCharge(videoType == 1);
+
+			if (specialId > 0) {
 				Special special = SpecialSer.findSpecialById(specialId);
-				video.setCharge(special.getIsFree()==2);
+				video.setCharge(special.getIsFree() == 2);
 			}
 		}
 		return JsonUtil.getVideoList(videos);
@@ -91,13 +91,15 @@ public class VideoList extends HttpServlet {
 	private String initIndexData() {
 		// 初始化首页数据
 		List<Video> videos = VideoServer.findVideoByLast(4);
-		for (Video video : videos) {
-			int specialId=video.getPecialId();
-			int videoType=video.getVideoType();
-			video.setCharge(videoType==1);
-			if(specialId>0){
-				Special special = SpecialSer.findSpecialById(specialId);
-				video.setCharge(special.getIsFree()==2);
+		if (videos != null) {
+			for (Video video : videos) {
+				int specialId = video.getPecialId();
+				int videoType = video.getVideoType();
+				video.setCharge(videoType == 1);
+				if (specialId > 0) {
+					Special special = SpecialSer.findSpecialById(specialId);
+					video.setCharge(special.getIsFree() == 2);
+				}
 			}
 		}
 		return JsonUtil.getVideoList(videos);

@@ -49,7 +49,7 @@ public class WithdrawImp implements WithdrawDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCP_TiXian WHERE Id=" + id);
+			res = sta.executeQuery("SELECT * FROM JCP_TiXian WHERE Id=" + id+" AND IsDel=0");
 			while (res.next()) {
 				String orderCode = res.getString(2); // OrderCode
 				int userId = res.getInt(3); // UserId
@@ -95,14 +95,14 @@ public class WithdrawImp implements WithdrawDao {
 	public List<Withdraw> findWithDrawByUserId(int userId, int page) {
 		// 根据用户id获取所有的提现信息
 		withdraws.clear();
-		int totlePage = getTotlePage(" WHERE UserId=" + userId);
+		int totlePage = getTotlePage(" WHERE UserId=" + userId+" AND IsDel=0");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_TiXian WHERE UserId="
-							+ userId + ") A " + "WHERE RowNumber > " + 15
+							+ userId + " AND IsDel=0) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id");

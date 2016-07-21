@@ -81,7 +81,7 @@ public class OrderDetailImp implements OrderDetailDao {
 
 	public List<OrderDetail> findPayProductByUid(int uId, int page) {
 		// 根据用户ID获取订单详细信息
-		int totlePage = findTotlePager("WHERE UserId=" + uId);
+		int totlePage = findTotlePager("WHERE UserId=" + uId+" AND IsDelete=0");
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
@@ -105,7 +105,7 @@ public class OrderDetailImp implements OrderDetailDao {
 
 	public List<OrderDetail> findPayProductByProductId(int fk_OrderId, int page) {
 		// 根据商品信息获取订单信息
-		int totlePage = findTotlePager("WHERE FK_OrderId=" + fk_OrderId);
+		int totlePage = findTotlePager("WHERE FK_OrderId=" + fk_OrderId+" AND IsDelete=0");
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
@@ -134,7 +134,7 @@ public class OrderDetailImp implements OrderDetailDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT * FROM JCP_Order_Detail WHERE OrderCode='"
-							+ orderId + "'");
+							+ orderId + "' AND IsDelete=0");
 			payProducts = getOrderDetails(res, 1, 1);
 			if (payProducts.size() > 0) {
 				return payProducts.get(0);
@@ -177,7 +177,7 @@ public class OrderDetailImp implements OrderDetailDao {
 	public List<OrderDetail> findPayProductByProductType(int productType,
 			int page) {
 		// 根据商品类型获取订单详细信息
-		int totlePage = findTotlePager("WHERE ProductType=" + productType);
+		int totlePage = findTotlePager("WHERE ProductType=" + productType+" AND IsDelete=0");
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
@@ -204,7 +204,7 @@ public class OrderDetailImp implements OrderDetailDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT * FROM JCP_Order_Detail WHERE Id="
-					+ id);
+					+ id+" AND IsDelete=0");
 			payProducts = getOrderDetails(res, 1, 1);
 			if (payProducts.size() > 0) {
 				return payProducts.get(0);

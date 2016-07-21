@@ -28,7 +28,7 @@ public class TacticsDetailsImp implements TacticsDetailsDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FRM JCP_Tacticsdetails");
+			res = sta.executeQuery("SELECT * FRM JCP_Tacticsdetails WHERE IsDel=0");
 			while (res.next()) {
 				String title = res.getString("title"); // title
 				String body = res.getString("Bodys"); // Bodys

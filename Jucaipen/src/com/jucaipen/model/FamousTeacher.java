@@ -171,6 +171,73 @@ public class FamousTeacher implements Serializable{
 	 *  返现率
 	 */
 	private double returnRate;
+	/**
+	 *  文字直播收费价格
+	 */
+	private int txtLivePrice;
+	
+	/**
+	 *   直播收费价格
+	 */
+	private int livePrice;
+	
+    /**
+     *  文字直播是否收费
+     */
+    private int txtLiveFree;
+    
+    /**
+     *   直播是否收费
+     */
+    private int liveFree;
+    
+    /**
+     *   虚拟直播人气
+     */
+    private int xnLiveRenQi;
+    
+    /**
+     *  虚拟文章阅读数
+     */
+    private int xnArticleReadNum;
+    
+    
+	public int getTxtLivePrice() {
+		return txtLivePrice;
+	}
+	public void setTxtLivePrice(int txtLivePrice) {
+		this.txtLivePrice = txtLivePrice;
+	}
+	public int getLivePrice() {
+		return livePrice;
+	}
+	public void setLivePrice(int livePrice) {
+		this.livePrice = livePrice;
+	}
+	public int getTxtLiveFree() {
+		return txtLiveFree;
+	}
+	public void setTxtLiveFree(int txtLiveFree) {
+		this.txtLiveFree = txtLiveFree;
+	}
+	public int getLiveFree() {
+		return liveFree;
+	}
+	public void setLiveFree(int liveFree) {
+		this.liveFree = liveFree;
+	}
+	public int getXnLiveRenQi() {
+		return xnLiveRenQi;
+	}
+	public void setXnLiveRenQi(int xnLiveRenQi) {
+		this.xnLiveRenQi = xnLiveRenQi;
+	}
+	public int getXnArticleReadNum() {
+		return xnArticleReadNum;
+	}
+	public void setXnArticleReadNum(int xnArticleReadNum) {
+		this.xnArticleReadNum = xnArticleReadNum;
+	}
 	public int getPage() {
 		return page;
 	}
