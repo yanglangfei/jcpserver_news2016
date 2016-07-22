@@ -35,9 +35,9 @@ import com.jucaipen.utils.StringUtil;
  * @author Administrator
  *         发送手机验证码
  * 
- *         msgId 1 其他短信验证 3 修改密码 验证手机号
+ *         msgId   1 其他短信验证  
  *         
- *         typeId   0    注册    1    绑定手机号   2  修改手机号
+ *         typeId   0    注册    1   修改手机号   2  修改密码   3  忘记密码
  */
 @SuppressWarnings("serial")
 public class SendMobileCode extends HttpServlet {

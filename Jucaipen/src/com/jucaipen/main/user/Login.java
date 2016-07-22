@@ -47,7 +47,6 @@ public class Login extends HttpServlet {
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
 			String userId = request.getParameter("userId");
-			System.out.println("userId:"+userId);
 			loginIp = request.getRemoteAddr();
 			if (StringUtil.isNotNull(userId)) {
 				if (StringUtil.isInteger(userId)) {

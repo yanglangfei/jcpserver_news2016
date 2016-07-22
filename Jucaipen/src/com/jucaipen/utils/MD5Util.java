@@ -33,5 +33,18 @@ public class MD5Util {
             e.printStackTrace();
             return null;
         }
+    }       
+    
+    public static String parseMd5(String md5){
+		return md5;  
+    	
+    	
     }
+    
+    public static void main(String[] args) {
+		
+    	
+	}
+    
+    
 }

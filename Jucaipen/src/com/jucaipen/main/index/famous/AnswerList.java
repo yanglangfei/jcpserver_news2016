@@ -173,9 +173,7 @@ public class AnswerList extends HttpServlet {
 						recleAnswer(ans);
 					}
 				}
-
 			}
-
 		}
 
 	}
