@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 /**
  * @author Administrator
  * 
- *   MD5º”√‹
+ *   MD5º”√‹   32Œª
  *
  */
 public class MD5Util {
@@ -34,17 +34,5 @@ public class MD5Util {
             return null;
         }
     }       
-    
-    public static String parseMd5(String md5){
-		return md5;  
-    	
-    	
-    }
-    
-    public static void main(String[] args) {
-		
-    	
-	}
-    
     
 }

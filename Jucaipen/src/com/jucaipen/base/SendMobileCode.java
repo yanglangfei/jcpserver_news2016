@@ -103,7 +103,7 @@ public class SendMobileCode extends HttpServlet {
 									//String mId = tempStr.substring(1, tempStr.length());
 									if(Integer.parseInt(ret_code)==0){
 										result = JsonUtil.getRetMsg(0, "短信发送成功");
-										insertMobileMessage(tel, code, res,remark);
+										insertMobileMessage(tel, code, res,remark,type);
 									}else{
 										result=JsonUtil.getRetMsg(7, "短信发送异常");
 									}
@@ -147,7 +147,7 @@ public class SendMobileCode extends HttpServlet {
 	}
 
 	private void insertMobileMessage(String mobileNum, String code,
-			String results,String mark) {
+			String results,String mark, int type) {
 		// 添加短信记录
 		String resptime = results.split(",")[0];
 		String tempStr = results.split(",")[1];
@@ -164,7 +164,16 @@ public class SendMobileCode extends HttpServlet {
 		message.setMessageContent(newMsg);
 		message.setMsgType(1);
 		message.setSendDev(3);
-		message.setRemark("聚财盆手机用户注册");
+		// 0    注册    1   修改手机号   2  修改密码   3  忘记密码
+		if(type==0){
+			message.setRemark("APP用户注册");
+		}else if(type==1){
+			message.setRemark("APP用户修改手机号");
+		}else if(type==2){
+			message.setRemark("APP用户修改密码");
+		}else if(type==3){
+			message.setRemark("APP用户找回密码");
+		}
 		message.setRemark(mark);
 		isSuccess = MobileMessageSer.insertMessage(message);
 		if (isSuccess == 1) {

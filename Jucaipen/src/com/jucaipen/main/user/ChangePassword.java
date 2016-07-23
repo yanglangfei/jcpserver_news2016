@@ -143,7 +143,7 @@ public class ChangePassword extends HttpServlet {
 				if ((actionCode.equals(checkCode))
 						&& ((currrentTime - sendTime) <= (3 * 60 * 1000))) {
 					isPassed = true;
-					insertCheckInfo(mobile, sdf.format(new Date()), "修改手机号",
+					insertCheckInfo(mobile, sdf.format(new Date()), 
 							msgId);
 				} else {
 					isPassed = false;
@@ -154,14 +154,12 @@ public class ChangePassword extends HttpServlet {
 		}
 	}
 
-	private void insertCheckInfo(String mobileNum, String checkDate,
-			String qsName, String msgId) {
+	private void insertCheckInfo(String mobileNum, String checkDate, String msgId) {
 		// 修改短信激活状态
 		MobileMessage mobileMessage = new MobileMessage();
 		if (isPassed) {
 			mobileMessage.setMsgType(2);
 			mobileMessage.setCheckDate(checkDate);
-			mobileMessage.setRemark(qsName);
 		} else {
 			mobileMessage.setMsgType(3);
 		}

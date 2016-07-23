@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,10 +125,12 @@ public class UpdatePhone extends HttpServlet {
 			if (mobileList.size() > 0&&messages.size()>0) {
 				String oldCode = mobileList.get(0).getActionCode();
 				String oldSendDate = mobileList.get(0).getSendDate();
+				String oldMId=mobileList.get(0).getMsgid();
 				
 				
 				String newCode=messages.get(0).getActionCode();
 				String newSendDate=messages.get(0).getSendDate();
+				String newMId=messages.get(0).getMsgid();
 				
 				long oldSendTime = sdf.parse(oldSendDate).getTime();
 				long newSendTime=sdf.parse(newSendDate).getTime();
@@ -137,8 +140,12 @@ public class UpdatePhone extends HttpServlet {
 						&& ((currrentTime - newSendTime) <= (3 * 60 * 1000))&&((currrentTime - oldSendTime) <= (3 * 60 * 1000))) {
 					//验证新手机号是否已被使用
 					User user=UserServer.findUserByTelPhone(newPhone);
+					insertCheckInfo(newPhone,sdf.format(new Date()),newMId,true);
+					insertCheckInfo(oldPhone, sdf.format(new Date()), oldMId, true);
 					return user==null ? true : false;
 				} else {
+					insertCheckInfo(newPhone,sdf.format(new Date()),newMId,false);
+					insertCheckInfo(oldPhone, sdf.format(new Date()), oldMId, false);
 					return  false;
 				}
 			}
@@ -149,14 +156,17 @@ public class UpdatePhone extends HttpServlet {
 
 	}
 
-	/*
-	 * private void insertCheckInfo(String mobileNum, String checkDate,String
-	 * qsName) { //修改短信激活状态 MobileMessage mobileMessage=new MobileMessage();
-	 * if(isPassed){ mobileMessage.setMsgType(2);
-	 * mobileMessage.setCheckDate(checkDate); mobileMessage.setRemark(qsName);
-	 * }else { mobileMessage.setMsgType(3); }
-	 * MobileMessageSer.upDateMessageType(msgId, mobileMessage);
-	 * 
-	 * }
-	 */
+	private void insertCheckInfo(String mobileNum, String checkDate,
+			String msgId, boolean isPassed) {
+		// 修改短信激活状态
+		MobileMessage mobileMessage = new MobileMessage();
+		if (isPassed) {
+			mobileMessage.setMsgType(2);
+			mobileMessage.setCheckDate(checkDate);
+		} else {
+			mobileMessage.setMsgType(3);
+		}
+		MobileMessageSer.upDateMessageType(msgId, mobileMessage);
+
+	}
 }

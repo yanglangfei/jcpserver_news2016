@@ -31,7 +31,7 @@ public class LevLiveUrl extends HttpServlet {
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html");
+		response.setContentType("text/html");   
 		PrintWriter out = response.getWriter();
 		String videoId=request.getParameter("videoId");
 		if(StringUtil.isNotNull(videoId)&&StringUtil.isInteger(videoId)){

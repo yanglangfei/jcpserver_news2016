@@ -218,10 +218,6 @@
     <servlet-class>com.jucaipen.main.my.QuerryAccountDetail</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>ChangePhone</servlet-name>
-    <servlet-class>com.jucaipen.main.user.ChangePhone</servlet-class>
-  </servlet>
-  <servlet>
     <servlet-name>QuerryMyOrder</servlet-name>
     <servlet-class>com.jucaipen.main.my.QuerryMyOrder</servlet-class>
   </servlet>
@@ -445,6 +441,11 @@
     <servlet-name>PurchVideo</servlet-name>
     <servlet-class>com.jucaipen.main.purch.PurchVideo</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ForgetPassword</servlet-name>
+    <servlet-class>com.jucaipen.main.user.ForgetPassword</servlet-class>
+  </servlet>
+
 
 
 
@@ -665,10 +666,6 @@
   <servlet-mapping>
     <servlet-name>QuerryAccountDetail</servlet-name>
     <url-pattern>/jucaipen/getaccountdetail</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>ChangePhone</servlet-name>
-    <url-pattern>/jucaipen/changephone</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>QuerryMyOrder</servlet-name>
@@ -893,5 +890,9 @@
   <servlet-mapping>
     <servlet-name>PurchVideo</servlet-name>
     <url-pattern>/jucaipen/purchvideo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ForgetPassword</servlet-name>
+    <url-pattern>/jucaipen/forgetpassword</url-pattern>
   </servlet-mapping>
 </web-app>
