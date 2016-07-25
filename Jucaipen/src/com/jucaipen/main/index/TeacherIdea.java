@@ -18,7 +18,6 @@ import com.jucaipen.service.HotIdeaServ;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  * 
@@ -34,7 +33,6 @@ public class TeacherIdea extends HttpServlet {
 	private String result;
 	private List<HotIdea> hotIdeas;
 	private List<FamousTeacher> teachers = new ArrayList<FamousTeacher>();
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

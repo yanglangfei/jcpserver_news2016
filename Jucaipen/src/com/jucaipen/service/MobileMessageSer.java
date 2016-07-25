@@ -1,11 +1,9 @@
 package com.jucaipen.service;
-
 import java.util.List;
 
 import com.jucaipen.dao.MobileMessageDao;
 import com.jucaipen.daoimp.MobileMessageImp;
 import com.jucaipen.model.MobileMessage;
-
 public class MobileMessageSer{
 
 	/**
@@ -15,6 +13,11 @@ public class MobileMessageSer{
 	public static int insertMessage(MobileMessage message) {
 		MobileMessageDao dao=new MobileMessageImp();
 		return dao.insertMessage(message);
+	}
+	
+	public static MobileMessage findIsRegin(String tel,String code){
+		MobileMessageDao dao=new MobileMessageImp();
+		return dao.findIsRegin(tel, code);
 	}
 
 	/**

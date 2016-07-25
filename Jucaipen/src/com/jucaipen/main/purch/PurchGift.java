@@ -5,6 +5,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.jucaipen.main.datautils.RollBackUtil;
+import com.jucaipen.model.Account;
+import com.jucaipen.model.AccountDetail;
+import com.jucaipen.model.Contribute;
+import com.jucaipen.model.MyPresent;
+import com.jucaipen.model.SysAccount;
+import com.jucaipen.model.SysDetailAccount;
+import com.jucaipen.model.User;
+import com.jucaipen.service.AccountSer;
+import com.jucaipen.service.SysAccountSer;
+import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 /**
@@ -24,6 +35,7 @@ public class PurchGift extends HttpServlet {
 		String userId=request.getParameter("userId");
 		String presentId=request.getParameter("presentId");
 		String giftNum=request.getParameter("giftNum");
+		String bills=request.getParameter("bills");
 		if(StringUtil.isNotNull(userId)){
 			if(StringUtil.isInteger(userId)){
 				int uId=Integer.parseInt(userId);
@@ -32,7 +44,10 @@ public class PurchGift extends HttpServlet {
 						int pId=Integer.parseInt(presentId);
 						if(StringUtil.isNotNull(giftNum)&&StringUtil.isInteger(giftNum)){
 							int num=Integer.parseInt(giftNum);
-							result=purchGifts(pId,num,uId);
+							if(StringUtil.isNotNull(bills)&&StringUtil.isInteger(bills)){
+								int b=Integer.parseInt(bills);
+								result=purchGifts(pId,num,uId,b);
+							}
 						}else{
 							result=JsonUtil.getRetMsg(5,"giftNum 参数异常");
 						}
@@ -52,17 +67,33 @@ public class PurchGift extends HttpServlet {
 		out.flush();
 		out.close();
 	}
-	private String purchGifts(int pId, int num, int uId) {
+	private String purchGifts(int pId, int num, int uId, int b) {
 		//购买礼品
 		
 		//1、查看聚财币是否足够
-		//2、增加个人礼品信息
-		//3、减少个人聚财币信息
-		//4、积分处理
+		User user=UserServer.findBaseInfoById(uId);
+		Account a=AccountSer.findAccountByUserId(uId);
+		if(a==null||a.getJucaiBills()<b){
+			return JsonUtil.getRetMsg(1, "聚财币余额不足");
+		}
+		
+		MyPresent present=new MyPresent();
+		
+		AccountDetail detail=new AccountDetail();
+		
+		AccountDetail detailInteger=new AccountDetail();
+		
+		Contribute contribute=new Contribute();
+		
+		SysAccount sysAccount=SysAccountSer.findAccountInfo();
+		
+		SysDetailAccount sysDetailAccount=new SysDetailAccount();
 		
 		
 		
-		return null;
+		int isSuccess = RollBackUtil.purchGifts(present,a,b,uId,detail,detailInteger,contribute,user,sysAccount,sysDetailAccount);
+		
+		return isSuccess==1 ? JsonUtil.getRetMsg(0, "礼品购买成功") : JsonUtil.getRetMsg(1,"礼品购买失败");
 	}
 
 }

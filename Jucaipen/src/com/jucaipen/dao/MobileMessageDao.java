@@ -19,6 +19,13 @@ public interface MobileMessageDao {
 	public int insertMessage(MobileMessage message);
 	
 	/**
+	 * @param tel
+	 * @param code
+	 * @return  获取手机号发送的对应最近一条验证码       
+	 */
+	public MobileMessage findIsRegin(String tel,String code);
+	
+	/**
 	 * @param type
 	 * @return  根据id改变短信状态  --成功
 	 */

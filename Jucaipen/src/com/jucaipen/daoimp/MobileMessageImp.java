@@ -132,8 +132,8 @@ public class MobileMessageImp implements MobileMessageDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT  TOP " + count
-					+ " * FROM JCP_MobileMess WHERE MobileNum=" + mobile
-					+ " ORDER BY SendDate DESC");
+					+ " * FROM JCP_MobileMess WHERE MobileNum='" + mobile
+					+ "' ORDER BY SendDate DESC");
 			mobList = getMobileMessage(res);
 			return mobList;
 		} catch (Exception e) {
@@ -191,6 +191,48 @@ public class MobileMessageImp implements MobileMessageDao {
 		}
 		return null;
 
+	}
+
+	@Override
+	public MobileMessage findIsRegin(String tel, String code) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM  JCP_MobileMess WHERE MobileNum='"+tel+"' AND ActionCode='"+code+"' ORDER BY SendDate DESC");
+			while (res.next()) {
+				int id = res.getInt("Id");
+				String mobileNum = res.getString("MobileNum");
+				String actionCode = res.getString("ActionCode");
+				String messageContent = res.getString("MessContent");
+				String sendDate = res.getString("SendDate");
+				int sendDev = res.getInt("SendDev");
+				int msgType = res.getInt("MessType");
+				String checkDate = res.getString("CheckDate");
+				String resptime = res.getString("Return_resptime");
+				int respstatus = res.getInt("Return_respstatus");
+				String msgid = res.getString("Return_msgid");
+				String sendIp = res.getString("SendIp");
+				String remark = res.getString("Remark");
+				MobileMessage message = new MobileMessage();
+				message.setId(id);
+				message.setTelPhone(mobileNum);
+				message.setActionCode(actionCode);
+				message.setMessageContent(messageContent);
+				message.setSendDate(sendDate);
+				message.setSendDev(sendDev);
+				message.setMsgType(msgType);
+				message.setCheckDate(checkDate);
+				message.setResptime(resptime);
+				message.setRespstatus(respstatus);
+				message.setMsgid(msgid);
+				message.setRemark(remark);
+				message.setSendIp(sendIp);
+				return message;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

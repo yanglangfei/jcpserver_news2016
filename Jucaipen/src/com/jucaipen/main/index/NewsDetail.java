@@ -77,6 +77,7 @@ public class NewsDetail extends HttpServlet {
 			int fromId=news.getFromId();
 			String from=ResourceFromServer.getRSources(fromId);
 			news.setFrom(from);
+			initNewsHits(id,news.getHits(),news.getXnHits());
 			return JsonUtil.getNewsDetails(news);
 		}else if(type==1){
 			//观点详细信息
@@ -97,6 +98,17 @@ public class NewsDetail extends HttpServlet {
 				return JsonUtil.getRetMsg(7,"page 参数异常");
 			}
 		}
+		
+	}
+
+	/**
+	 * @param id
+	 * @param hits
+	 * @param xnHits  更新新闻点击数
+	 */
+	private void initNewsHits(int id, int hits, int xnHits) {
+		SiteConfig config=SiteConfigSer.findSiteConfig();
+		NewServer.upDateHits(xnHits+config.getNewsMom(),hits+1,id);
 		
 	}
 

@@ -1,14 +1,11 @@
 package com.jucaipen.main.video;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.Special;
 import com.jucaipen.model.Video;
 import com.jucaipen.model.VideoClass;
@@ -19,8 +16,7 @@ import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
- * 
- *         获取视频列表信息
+ *       获取视频列表信息
  */
 @SuppressWarnings("serial")
 public class QuerryVideoList extends HttpServlet {
@@ -64,8 +60,9 @@ public class QuerryVideoList extends HttpServlet {
 		out.flush();
 		out.close();
 	}
+	
 
-	private String initVideoList(int type, int tId, int cId, int p) {
+	private  String initVideoList(int type, int tId, int cId, int p) {
 		// cId 查询时必须存在 大于0
 		//List<VideoClass> las;
 		if (cId < 0) {
@@ -74,7 +71,7 @@ public class QuerryVideoList extends HttpServlet {
 		if (type >= 0 && tId >= 0 && cId >= 0) {
 			// 各种分类 非全部
 			cIdArray=new StringBuffer();
-			List<VideoClass> vcs = VideoClassSer.findClassByPid(0);
+			List<VideoClass> vcs = VideoClassSer.findClassByPid(cId);
 			StringBuffer vs = getVideoClass(vcs);  
 			if(vs!=null&&vs.toString().endsWith(",")){
 				vs.replace(vs.length()-1, vs.length(),"");
@@ -96,10 +93,9 @@ public class QuerryVideoList extends HttpServlet {
 			return JsonUtil.getVideoList(videos);
 		}
 		// cId>0
-
 		if (cId >= 0 && type < 0 && tId < 0) {
 			cIdArray=new StringBuffer();
-			List<VideoClass> vcs = VideoClassSer.findClassByPid(0);
+			List<VideoClass> vcs = VideoClassSer.findClassByPid(cId);
 			StringBuffer vs = getVideoClass(vcs);
 			if(vs!=null&&vs.toString().endsWith(",")){
 				vs.replace(vs.length()-1, vs.length(),"");
@@ -111,7 +107,6 @@ public class QuerryVideoList extends HttpServlet {
 					int specialId=video.getPecialId();
 					int videoType=video.getVideoType();
 					video.setCharge(videoType==1);
-					
 					if(specialId>0){
 						Special special = SpecialSer.findSpecialById(specialId);
 						video.setCharge(special.getIsFree()==2);
@@ -124,7 +119,7 @@ public class QuerryVideoList extends HttpServlet {
 		
 		if (cId >= 0 && type >= 0 && tId < 0) {
 			cIdArray=new StringBuffer();
-			List<VideoClass> vcs = VideoClassSer.findClassByPid(0);
+			List<VideoClass> vcs = VideoClassSer.findClassByPid(cId);
 			StringBuffer vs = getVideoClass(vcs);
 			if(vs!=null&&vs.toString().endsWith(",")){
 				vs.replace(vs.length()-1, vs.length(),"");
@@ -151,7 +146,7 @@ public class QuerryVideoList extends HttpServlet {
 		
 		if (cId >= 0 && type < 0 && tId >= 0) {
 			cIdArray=new StringBuffer();
-			List<VideoClass> vcs = VideoClassSer.findClassByPid(0);
+			List<VideoClass> vcs = VideoClassSer.findClassByPid(cId);
 			StringBuffer vs = getVideoClass(vcs);
 			if(vs!=null&&vs.toString().endsWith(",")){
 				vs.replace(vs.length()-1, vs.length(),"");
@@ -172,7 +167,6 @@ public class QuerryVideoList extends HttpServlet {
 					
 				}
 			}
-			
 			return JsonUtil.getVideoList(videos);
 		}
 		return null;

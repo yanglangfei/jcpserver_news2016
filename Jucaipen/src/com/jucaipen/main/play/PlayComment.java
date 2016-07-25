@@ -1,15 +1,12 @@
 package com.jucaipen.main.play;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.User;
 import com.jucaipen.model.UserComm;
@@ -18,11 +15,10 @@ import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  * 
- *         获取视频 证券知识 评论回复信息 commType 评论类型 0 视频评论 1 知识评论
+ *  获取视频 证券知识 评论回复信息 commType 评论类型 0 视频评论 1 知识评论
  */
 @SuppressWarnings("serial")
 public class PlayComment extends HttpServlet {

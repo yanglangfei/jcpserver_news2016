@@ -23,8 +23,6 @@ import com.jucaipen.utils.StringUtil;
  */
 @SuppressWarnings("serial")
 public class QuerryAskType extends HttpServlet {
-
-	private List<NewsClass> askTypes;
 	private String result;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -37,8 +35,7 @@ public class QuerryAskType extends HttpServlet {
 		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
-			initAskClass();
-			result = JsonUtil.getAskClassList(askTypes);
+			result=initAskClass();
 		} else {
 			result = StringUtil.isVaild;
 		}
@@ -50,8 +47,9 @@ public class QuerryAskType extends HttpServlet {
 	/**
 	 * 初始化提问分类列表
 	 */
-	private void initAskClass() {
-		askTypes = NewsClassSer.getClassByPId(0);
+	private String initAskClass() {
+		List<NewsClass> askTypes = NewsClassSer.getClassByPId(0);
+		return JsonUtil.getAskClassList(askTypes);
 	}
 
 }

@@ -236,13 +236,13 @@ public class NewsImp implements NewsDao {
 		return null;
 	}
 
-	public int upDateHits(int hits, int id) {
+	public int upDateHits(int xnHits,int hits, int id) {
 		// ÐÞ¸Äµã»÷Êý
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta.executeUpdate("UPDATE JCP_News SET HitCount=" + hits
-					+ " WHERE Id=" + id);
+					+ ",HitXNCount="+xnHits+" WHERE Id=" + id);
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -380,6 +380,7 @@ public class NewsImp implements NewsDao {
 				String date = res.getString(SqlUtil.NEWS_INSERT);
 				String htmlPath = res.getString(SqlUtil.NEWS_HTMLPATH);
 				int hits=res.getInt("HitCount");
+				int xnHits=res.getInt("HitXNCount");
 				int goods=res.getInt("Zan");
 				News n = new News(id);
 				n.setImageUrl(imageUrl);
@@ -387,6 +388,7 @@ public class NewsImp implements NewsDao {
 				n.setTitle(title);
 				n.setGoods(goods);
 				n.setHits(hits);
+				n.setXnHits(xnHits);
 				n.setFromId(comeFrom);
 				n.setSummary(descript);
 				n.setReporter(reporter);
@@ -417,7 +419,7 @@ public class NewsImp implements NewsDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT Title FROM JCP_News WHERE Id=" + id);
+			res = sta.executeQuery("SELECT Title FROM JCPNews WHERE Id=" + id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{
@@ -439,7 +441,7 @@ public class NewsImp implements NewsDao {
 			res = sta
 					.executeQuery("SELECT TOP "
 							+ count
-							+ " Id,Title,ImageUrl,InsertDate,CommonCount,FK_FromId FROM JCP_News ORDER BY InsertDate DESC,Id DESC");
+							+ " Id,Title,ImageUrl,InsertDate,CommonCount,FK_FromId FROM JCPNews ORDER BY InsertDate DESC,Id DESC");
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				String title = res.getString(SqlUtil.NEWS_TITLE);

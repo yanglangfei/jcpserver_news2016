@@ -66,7 +66,7 @@ public interface NewsDao {
 	 * @param hits
 	 * @return   修改新闻点击数
 	 */
-	public int upDateHits(int hits,int id);
+	public int upDateHits(int xnHits,int hits,int id);
 	/**
 	 * @param Commens
 	 * @return   修改评论数

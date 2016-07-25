@@ -6,14 +6,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.MobileMessage;
 import com.jucaipen.service.MobileMessageSer;
@@ -33,7 +30,6 @@ import com.jucaipen.utils.StringUtil;
 public class ChangePassword extends HttpServlet {
 	private String result;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	private boolean isPassed;
 	private String encrypePath = "http://user.jucaipen.com/ashx/AndroidUser.ashx?action=GetEncryptMobileNum";
 	private Map<String, String> map = new HashMap<String, String>();
 
@@ -80,7 +76,6 @@ public class ChangePassword extends HttpServlet {
 			String actionCode, String newPwd, String reptPwd) {
 		// 修改密码
 		// 1 、判断参数合法性 2、验证旧密码正确性 3、验证手机验证码是否正确 4、加密密码并修改密码
-
 		// 解密手机号
 		map.put("mobilenum", telPhone);
 		String resJson = LoginUtil.sendHttpPost(encrypePath, map);
@@ -88,40 +83,45 @@ public class ChangePassword extends HttpServlet {
 		boolean isRes = object.getBoolean("Result");
 		if (isRes) {
 			String tel = object.getString("MobileNum");
-			checkMobileCode(tel, actionCode);
-			if (!isPassed) {
-				return JsonUtil.getRetMsg(5, "手机验证码错误");
-			}
-			if (StringUtil.isNotNull(telPhone)
-					&& StringUtil.isMobileNumber(telPhone)) {
-				if (StringUtil.isNotNull(actionCode)) {
-					if (StringUtil.isNotNull(oldPwd)
-							&& StringUtil.isNotNull(newPwd)
-							&& StringUtil.isNotNull(reptPwd)) {
-						String oldMd5Pwd = MD5Util.MD5(oldPwd);
-						if (newPwd.equals(reptPwd)) {
-							String password = UserServer.findPasswordById(uId);
-							if (oldMd5Pwd.equals(password)) {
-								// 用户密码验证通过
-								String newMd5Pwd = MD5Util.MD5(newPwd);
-								int isSuccess = UserServer.updatePassword(uId,
-										newMd5Pwd);
-								return isSuccess == 1 ? JsonUtil.getRetMsg(0,
-										"密码修改成功") : JsonUtil.getRetMsg(1, "密码修改失败");
+			int isPassed = checkMobileCode(tel, actionCode);
+			if (isPassed == 1) {
+				return JsonUtil.getRetMsg(5, "手机验证码超时");
+			} else if (isPassed == 2) {
+				return JsonUtil.getRetMsg(6, "手机验证码错误");
+			} else {
+				if (StringUtil.isNotNull(telPhone)
+						&& StringUtil.isMobileNumber(telPhone)) {
+					if (StringUtil.isNotNull(actionCode)) {
+						if (StringUtil.isNotNull(oldPwd)
+								&& StringUtil.isNotNull(newPwd)
+								&& StringUtil.isNotNull(reptPwd)) {
+							String oldMd5Pwd = MD5Util.MD5(oldPwd);
+							if (newPwd.equals(reptPwd)) {
+								String password = UserServer
+										.findPasswordById(uId);
+								if (oldMd5Pwd.equals(password)) {
+									// 用户密码验证通过
+									String newMd5Pwd = MD5Util.MD5(newPwd);
+									int isSuccess = UserServer.updatePassword(
+											uId, newMd5Pwd);
+									return isSuccess == 1 ? JsonUtil.getRetMsg(
+											0, "密码修改成功") : JsonUtil.getRetMsg(
+											1, "密码修改失败");
+								} else {
+									return JsonUtil.getRetMsg(6, "原始密码错误");
+								}
 							} else {
-								return JsonUtil.getRetMsg(6, "原始密码错误");
+								return JsonUtil.getRetMsg(5, "两次密码不一致");
 							}
 						} else {
-							return JsonUtil.getRetMsg(5, "两次密码不一致");
+							return JsonUtil.getRetMsg(4, "密码不能为空");
 						}
 					} else {
-						return JsonUtil.getRetMsg(4, "密码不能为空");
+						return JsonUtil.getRetMsg(3, "验证码不能为空");
 					}
 				} else {
-					return JsonUtil.getRetMsg(3, "验证码不能为空");
+					return JsonUtil.getRetMsg(2, "手机号不合法");
 				}
-			} else {
-				return JsonUtil.getRetMsg(2, "手机号不合法");
 			}
 		} else {
 			String msg = object.getString("Msg");
@@ -129,32 +129,37 @@ public class ChangePassword extends HttpServlet {
 		}
 	}
 
-	private void checkMobileCode(String mobile, String actionCode) {
+	private int checkMobileCode(String mobile, String actionCode) {
 		try {
 			// 验证手机验证码是否合法
-			List<MobileMessage> mobileList = MobileMessageSer
-					.findMobileMessageByMobileNumLast(1, mobile);
-			if (mobileList != null && mobileList.size() > 0) {
-				String checkCode = mobileList.get(0).getActionCode();
-				String sendDate = mobileList.get(0).getSendDate();
-				String msgId = mobileList.get(0).getMsgid();
+			MobileMessage mobileList = MobileMessageSer.findIsRegin(mobile,
+					actionCode);
+			if (mobileList != null) {
+				String checkCode = mobileList.getActionCode();
+				String sendDate = mobileList.getSendDate();
+				String msgId = mobileList.getMsgid();
 				long sendTime = sdf.parse(sendDate).getTime();
 				long currrentTime = System.currentTimeMillis();
-				if ((actionCode.equals(checkCode))
-						&& ((currrentTime - sendTime) <= (3 * 60 * 1000))) {
-					isPassed = true;
-					insertCheckInfo(mobile, sdf.format(new Date()), 
-							msgId);
+				if ((actionCode.equals(checkCode))) {
+					if ((currrentTime - sendTime) <= (3 * 60 * 1000)) {
+						insertCheckInfo(mobile, sdf.format(new Date()), msgId,
+								true);
+						return 0;
+					} else {
+						return 1;
+					}
 				} else {
-					isPassed = false;
+					return 2;
 				}
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		return 2;
 	}
 
-	private void insertCheckInfo(String mobileNum, String checkDate, String msgId) {
+	private void insertCheckInfo(String mobileNum, String checkDate,
+			String msgId, boolean isPassed) {
 		// 修改短信激活状态
 		MobileMessage mobileMessage = new MobileMessage();
 		if (isPassed) {

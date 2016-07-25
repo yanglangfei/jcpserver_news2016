@@ -91,6 +91,7 @@ public class VideoImp implements VideoDao {
 
 	public List<Video> findVideoByClassId(String classId, int page) {
 		// 根据分类获取视频列表 FK_Pecial 所属专辑
+		System.out.println("classId:"+classId);
 		int totlePage = getTotlePage(" WHERE FK_ClassId IN (" + classId + ")");
 		videos.clear();
 		try {

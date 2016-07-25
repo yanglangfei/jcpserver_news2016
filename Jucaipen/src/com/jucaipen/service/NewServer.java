@@ -70,9 +70,9 @@ public class NewServer {
 	 * @param id
 	 * @return   ÐÞ¸Äµã»÷Êý
 	 */
-	public static int upDateHits(int hits,int id){
+	public static int upDateHits(int xnHits,int hits,int id){
 		NewsDao dao=new NewsImp();
-		return dao.upDateHits(hits, id);
+		return dao.upDateHits(xnHits,hits, id);
 	}
 	
 	/**

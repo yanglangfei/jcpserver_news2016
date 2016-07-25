@@ -125,7 +125,7 @@ public class AddRemark extends HttpServlet {
 			uc.setNovId(nId);
 			uc.setParentId(pId);
 			uc.setReplyCount(0);
-			uc.setUserId(uId);
+			uc.setUserId(uId);  
 			int isSuccess = UserCommSer.insertComm(uc);
 			if (isSuccess == 1) {
 				if (pId <= 0) {

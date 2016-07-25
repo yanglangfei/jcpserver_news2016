@@ -59,7 +59,7 @@ public class TestModth extends JFrame {
 	 * public static void main(String[] args) { String ss =
 	 * "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe www.baidu.com"
 	 * ; try { Process p = Runtime.getRuntime().exec(ss); } catch (IOException
-	 * e) { // TODO Auto-generated catch block e.printStackTrace(); }
+	 * e) { 
 	 * 
 	 * }
 	 */
@@ -70,7 +70,6 @@ public class TestModth extends JFrame {
 			robot = new Robot();
 			robot.mouseMove(190, 10);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

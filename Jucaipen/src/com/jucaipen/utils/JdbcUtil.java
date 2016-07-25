@@ -82,7 +82,6 @@ public class JdbcUtil {
 	private static final String DERBY_URL = "jdbc:derby://121.40.227.121:1521/APP;create=true";
 	private static final String DERBY_UNAME = "jucaipen168";
 	private static final String DERBY_PWD = "jucaipen168";
-
 	/**
 	 * @return 连接sqlServer 正式数据库
 	 */

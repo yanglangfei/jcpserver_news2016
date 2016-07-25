@@ -14,12 +14,11 @@ import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  *
  *  获取用户中心基本信息
- */
+ **/
 @SuppressWarnings("serial")
 public class UserBaseInfo extends HttpServlet {
 	private String result;
