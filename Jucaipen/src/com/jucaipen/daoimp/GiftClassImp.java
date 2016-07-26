@@ -52,6 +52,48 @@ public class GiftClassImp implements GiftClassDao {
 	@Override
 	public GiftClass findIdByClass(int id) {
 		//根据id获取分类信息
+		try {
+			dbConn=JdbcUtil.connSqlServer();
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM JCP_LiPin_Class WHERE Id="+id);
+			while (res.next()) {
+				String name=res.getString("ClassName");
+				int sortId=res.getInt("sortId");
+				GiftClass gc=new GiftClass();
+				gc.setId(id);
+				gc.setClassName(name);
+				gc.setSortId(sortId);
+				return gc;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return null;
+	}
+
+	@Override
+	public List<GiftClass> findTopClass(int top) {
+		try {
+			giftClasses.clear();
+			dbConn=JdbcUtil.connSqlServer();
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT TOP "+top+" * FROM JCP_LiPin_Class");
+			while (res.next()) {
+				int id=res.getInt("Id");
+				String name=res.getString("ClassName");
+				int sortId=res.getInt("sortId");
+				GiftClass gc=new GiftClass();
+				gc.setId(id);
+				gc.setClassName(name);
+				gc.setSortId(sortId);
+				giftClasses.add(gc);
+			}
+			return giftClasses;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.GiftClass;
+import com.jucaipen.model.Gifts;
 import com.jucaipen.service.GiftClassSer;
+import com.jucaipen.service.GiftsSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
@@ -24,7 +26,6 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class QuerryGiftType extends HttpServlet {
 	private String result;
-	private List<GiftClass> gcs;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -61,10 +62,14 @@ public class QuerryGiftType extends HttpServlet {
 		out.close();
 	}
 
-	private String initClassData() {
-		//初始化礼品分类信息
-		gcs=GiftClassSer.findAllClass();
-		return JsonUtil.getGiftClass(gcs);
+	private  String initClassData() {
+		//初始化礼品分类信息  left
+		 List<GiftClass> leftClass = GiftClassSer.findTopClass(4);
+		// middle
+		GiftClass middleGiftClass = GiftClassSer.findIdByClass(5);
+		//right
+		 List<Gifts> rightClass=GiftsSer.findIsTuijian(1);
+		return JsonUtil.getGiftClass(leftClass,middleGiftClass,rightClass);
 	}
 
 }

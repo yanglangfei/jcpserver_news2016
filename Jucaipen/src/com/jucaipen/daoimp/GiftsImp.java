@@ -64,7 +64,7 @@ public class GiftsImp implements GiftsDao {
 			while (res.next()) {
 				int id = res.getInt("Id");
 				String title = res.getString("Title");
-				double price = res.getDouble("Price");
+				int price = res.getInt("Price");
 				String thumbnail = res.getString("Thumbnail");
 				Gifts gift = new Gifts();
 				gift.setId(id);
@@ -104,7 +104,7 @@ public class GiftsImp implements GiftsDao {
 			while (res.next()) {
 				int id = res.getInt("Id");
 				String title = res.getString("Title");
-				double price = res.getDouble("Price");
+				int price = res.getInt("Price");
 				String thumbnail = res.getString("Thumbnail");
 				Gifts gift = new Gifts();
 				gift.setId(id);
@@ -138,7 +138,7 @@ public class GiftsImp implements GiftsDao {
 					.executeQuery("SELECT * FROM JCP_LiPin WHERE Id="+id+" AND SaleType=1 AND IsDel=0");
 			while (res.next()) {
 				String title = res.getString("Title");
-				double price = res.getDouble("Price");
+				int price = res.getInt("Price");
 				String thumbnail = res.getString("Thumbnail");
 				Gifts gift = new Gifts();
 				gift.setId(id);
@@ -155,6 +155,31 @@ public class GiftsImp implements GiftsDao {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<Gifts> findIsTuijian(int IsTuiJian) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM JCP_LiPin WHERE IsTuiJian="+IsTuiJian);
+			while (res.next()) {
+				int id = res.getInt("Id");
+				String title = res.getString("Title");
+				int price = res.getInt("Price");
+				String thumbnail = res.getString("Thumbnail");
+				Gifts gift = new Gifts();
+				gift.setId(id);
+				gift.setTitle(title);
+				gift.setPrice(price);
+				gift.setThumbnail(thumbnail);
+				gifts.add(gift);
+			}
+			return gifts;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

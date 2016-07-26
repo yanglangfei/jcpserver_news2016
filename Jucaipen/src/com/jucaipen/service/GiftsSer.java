@@ -35,4 +35,9 @@ public class GiftsSer{
 		GiftsDao dao=new GiftsImp();
 		return dao.findGiftById(id);
 	}
+	
+	public static List<Gifts> findIsTuijian(int IsTuiJian){
+		GiftsDao dao=new GiftsImp();
+		return dao.findIsTuijian(IsTuiJian);
+	}
 }

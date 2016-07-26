@@ -24,5 +24,10 @@ public class GiftClassSer{
 		GiftClassDao dao=new GiftClassImp();
 		return dao.findIdByClass(id);
 	}
+	
+	public static List<GiftClass> findTopClass(int top) {
+		GiftClassDao dao=new GiftClassImp();
+		return dao.findTopClass(top);
+	}
 
 }

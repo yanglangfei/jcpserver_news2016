@@ -102,7 +102,6 @@ public class PurchGift extends HttpServlet {
 		
 		
 		AccountDetail detailInteger=new AccountDetail();
-		//购买【玫瑰】礼品【1】个，账户积分+1
 		detailInteger.setDetailMoney(b);
 		detailInteger.setDetailType(0);
 		detailInteger.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));

@@ -32,7 +32,7 @@ public class Gifts implements Serializable{
 	/**
 	 *  礼品价格  Price
 	 */
-	private double price;
+	private int price;
 	/**
 	 *  单位  Company
 	 */
@@ -87,10 +87,11 @@ public class Gifts implements Serializable{
 	public void setClassId(int classId) {
 		this.classId = classId;
 	}
-	public double getPrice() {
+	
+	public int getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 	public String getCompany() {

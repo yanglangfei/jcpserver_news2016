@@ -33,7 +33,6 @@ public class QuerryVideoList extends HttpServlet {
 		String typeId = request.getParameter("typeId");
 		String teacherId = request.getParameter("teacherId");
 		String page = request.getParameter("page");
-		System.out.println("classId>>:"+classId+"  tId:"+typeId+"   t:"+teacherId);
 		if (StringUtil.isNotNull(classId) && StringUtil.isInteger(classId)) {
 			int cId = Integer.parseInt(classId);
 			if (StringUtil.isNotNull(typeId) && StringUtil.isInteger(typeId)) {
@@ -181,7 +180,6 @@ public class QuerryVideoList extends HttpServlet {
 				getVideoClass(vs);
 			}
 		}
-		System.out.println("cIdArray:"+cIdArray);
 		return cIdArray;
 	}
 

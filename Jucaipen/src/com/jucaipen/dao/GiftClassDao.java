@@ -14,5 +14,7 @@ public interface GiftClassDao {
 	 * @return 根据id获取分类信息
 	 */
 	public GiftClass findIdByClass(int id);
+	
+	public List<GiftClass>  findTopClass(int top);
 
 }
