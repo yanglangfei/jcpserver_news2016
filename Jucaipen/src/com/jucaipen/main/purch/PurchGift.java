@@ -1,6 +1,7 @@
 package com.jucaipen.main.purch;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -8,16 +9,18 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
-import com.jucaipen.model.Contribute;
+import com.jucaipen.model.Gifts;
 import com.jucaipen.model.MyPresent;
 import com.jucaipen.model.SysAccount;
 import com.jucaipen.model.SysDetailAccount;
 import com.jucaipen.model.User;
 import com.jucaipen.service.AccountSer;
+import com.jucaipen.service.GiftsSer;
 import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
+import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
  *
@@ -26,12 +29,14 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class PurchGift extends HttpServlet {
 	private String result;
+	private String ip;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
+		ip=request.getRemoteAddr();
 		String userId=request.getParameter("userId");
 		String presentId=request.getParameter("presentId");
 		String giftNum=request.getParameter("giftNum");
@@ -77,21 +82,53 @@ public class PurchGift extends HttpServlet {
 			return JsonUtil.getRetMsg(1, "聚财币余额不足");
 		}
 		
+		Gifts gift=GiftsSer.findGiftById(pId);
+		
 		MyPresent present=new MyPresent();
+		present.setPresentId(pId);
+		present.setPresentNum(num);
+		present.setUserId(uId);
 		
 		AccountDetail detail=new AccountDetail();
+		detail.setDetailMoney(b);
+		detail.setDetailType(1);
+		detail.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		detail.setIsDel(0);
+		detail.setOrderCode("");
+		detail.setRemark("购买【"+gift.getTitle()+"】礼品【"+num+"】个");
+		detail.setState(2);
+		detail.setUserId(uId);
+		
+		
 		
 		AccountDetail detailInteger=new AccountDetail();
+		//购买【玫瑰】礼品【1】个，账户积分+1
+		detailInteger.setDetailMoney(b);
+		detailInteger.setDetailType(0);
+		detailInteger.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		detailInteger.setIsDel(0);
+		detailInteger.setOrderCode("");
+		detailInteger.setRemark("购买【"+gift.getTitle()+"】礼品【"+num+"】个，账户积分+"+b);
+		detailInteger.setState(1);
+		detailInteger.setUserId(uId);
 		
-		Contribute contribute=new Contribute();
+		
 		
 		SysAccount sysAccount=SysAccountSer.findAccountInfo();
 		
 		SysDetailAccount sysDetailAccount=new SysDetailAccount();
+		sysDetailAccount.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		sysDetailAccount.setIsDel(0);
+		sysDetailAccount.setIp(ip);
+		sysDetailAccount.setOrderId(0);
+		sysDetailAccount.setPrice(b);
+		sysDetailAccount.setRecoderType(2);
+		sysDetailAccount.setRemark("购买【"+gift.getTitle()+"】礼品【"+num+"】个");
+		sysDetailAccount.setUserId(uId);
+		sysDetailAccount.setType(4);
 		
 		
-		
-		int isSuccess = RollBackUtil.purchGifts(present,a,b,uId,detail,detailInteger,contribute,user,sysAccount,sysDetailAccount);
+		int isSuccess = RollBackUtil.purchGifts(present,a,b,uId,detail,detailInteger,user,sysAccount,sysDetailAccount);
 		
 		return isSuccess==1 ? JsonUtil.getRetMsg(0, "礼品购买成功") : JsonUtil.getRetMsg(1,"礼品购买失败");
 	}

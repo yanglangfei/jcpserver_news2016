@@ -335,6 +335,9 @@ public class VideoImp implements VideoDao {
 	@Override
 	public List<Video> findVideoByTeacherIdAndClassId(int teacherId,
 			String classId, int page) {
+		if(classId.length()<=0){
+			return null;
+		}
 		int totlePage = getTotlePage("WHERE FK_ClassId  IN (" + classId
 				+ ") AND TearcherId=" + teacherId);
 		videos.clear();

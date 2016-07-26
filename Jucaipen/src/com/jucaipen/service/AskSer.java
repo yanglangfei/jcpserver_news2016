@@ -25,6 +25,11 @@ public class AskSer{
 		return dao.findLstAsk(count);
 	}
 	
+	public static int updateHits(int id, int hits, int xnHits){
+		AskDao dao=new AskImp();
+		return dao.updateHits(id, hits, xnHits);
+	}
+	
 	public static List<Ask> findAskByParentId(int pId){
 		AskDao dao=new AskImp();
 		return dao.findAskByParentId(pId);

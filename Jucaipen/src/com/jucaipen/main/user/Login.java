@@ -31,7 +31,7 @@ import com.jucaipen.utils.TimeUtils;
  */
 @SuppressWarnings("serial")
 public class Login extends HttpServlet {
-	private String loginUrl = "http://www.jcplicai.com/ashx/AndroidUser.ashx?action=login";
+	private String loginUrl = "http://www.jucaipen.com/ashx/AndroidUser.ashx?action=login";
 	private String result;
 	private String loginIp;
 	private Map<String, String> param = new HashMap<String, String>();

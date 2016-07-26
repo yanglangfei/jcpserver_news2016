@@ -13,9 +13,11 @@ import com.google.gson.JsonArray;
 import com.jucaipen.model.Answer;
 import com.jucaipen.model.Ask;
 import com.jucaipen.model.FamousTeacher;
+import com.jucaipen.model.SiteConfig;
 import com.jucaipen.service.AnswerSer;
 import com.jucaipen.service.AskSer;
 import com.jucaipen.service.FamousTeacherSer;
+import com.jucaipen.service.SiteConfigSer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 /**
@@ -67,8 +69,15 @@ public class AnswerDetails extends HttpServlet {
 					ans.setTeacherLeavel(teacher.getLevel());
 				}
 			}
+			initHits(id,ask.getHits(),ask.getXnHits());
 			return JsonUtil.getAnswerDetails( answer);
 		}
 		return new JsonArray().toString();
+	}
+
+	private void initHits(int id, int hits, int xnHits) {
+		SiteConfig config=SiteConfigSer.findSiteConfig();
+		AskSer.updateHits(id, hits+1, xnHits+config.getNewsMom());
+		
 	}
 }

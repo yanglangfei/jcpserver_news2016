@@ -359,6 +359,7 @@ public class AskImp implements AskDao {
 				String ip = result.getString("IP");
 				int replyCount = result.getInt("ReplyCount");
 				int teacherId = result.getInt("FK_TearchId");
+				int xnHits = result.getInt("VirtualNum");
 				Ask ask = new Ask();
 				ask.setTotlePage(totlePage);
 				ask.setPage(page);
@@ -367,6 +368,7 @@ public class AskImp implements AskDao {
 				ask.setUserId(userId);
 				ask.setParentId(parentId);
 				ask.setAskBody(bodys);
+				ask.setXnHits(xnHits);
 				ask.setClassId(classId);
 				ask.setAskDate(askDate);
 				ask.setTeacherId(teacherId);
@@ -393,19 +395,21 @@ public class AskImp implements AskDao {
 	public List<Ask> findAskByParentId(int pId) {
 		asks.clear();
 		try {
-			dbConn=JdbcUtil.connSqlServer();
-			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT FK_UserId,AskBodys,AskDate,IsReply,FK_TearchId,IsPay,ReplyCount,Id FROM JCP_Ask WHERE ParentId="+pId);
-		    while (res.next()) {
-				int uId=res.getInt(1);
-				String askBody=res.getString(2);
-				String askDate=res.getString(3);
-				int isReply=res.getInt(4);
-				int tId=res.getInt(5);
-				int isPay=res.getInt(6);
-				int replyCount=res.getInt(7);
-				int id=res.getInt(8);
-				Ask ask=new Ask();
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT FK_UserId,AskBodys,AskDate,IsReply,FK_TearchId,IsPay,ReplyCount,Id FROM JCP_Ask WHERE ParentId="
+							+ pId);
+			while (res.next()) {
+				int uId = res.getInt(1);
+				String askBody = res.getString(2);
+				String askDate = res.getString(3);
+				int isReply = res.getInt(4);
+				int tId = res.getInt(5);
+				int isPay = res.getInt(6);
+				int replyCount = res.getInt(7);
+				int id = res.getInt(8);
+				Ask ask = new Ask();
 				ask.setId(id);
 				ask.setUserId(uId);
 				ask.setAskBody(askBody);
@@ -416,10 +420,10 @@ public class AskImp implements AskDao {
 				ask.setReplyCount(replyCount);
 				asks.add(ask);
 			}
-		    return asks;
+			return asks;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -427,6 +431,19 @@ public class AskImp implements AskDao {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int updateHits(int id, int hits, int xnHits) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_Ask SET Hits=" + hits
+					+ ",VirtualNum=" + xnHits + " WHERE Id=" + id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }

@@ -33,6 +33,7 @@ public class QuerryVideoList extends HttpServlet {
 		String typeId = request.getParameter("typeId");
 		String teacherId = request.getParameter("teacherId");
 		String page = request.getParameter("page");
+		System.out.println("classId>>:"+classId+"  tId:"+typeId+"   t:"+teacherId);
 		if (StringUtil.isNotNull(classId) && StringUtil.isInteger(classId)) {
 			int cId = Integer.parseInt(classId);
 			if (StringUtil.isNotNull(typeId) && StringUtil.isInteger(typeId)) {
@@ -132,7 +133,6 @@ public class QuerryVideoList extends HttpServlet {
 					int specialId=video.getPecialId();
 					int videoType=video.getVideoType();
 					video.setCharge(videoType==1);
-					
 					if(specialId>0){
 						Special special = SpecialSer.findSpecialById(specialId);
 						video.setCharge(special.getIsFree()==2);
@@ -181,6 +181,7 @@ public class QuerryVideoList extends HttpServlet {
 				getVideoClass(vs);
 			}
 		}
+		System.out.println("cIdArray:"+cIdArray);
 		return cIdArray;
 	}
 

@@ -97,7 +97,17 @@ public class Ask implements Serializable{
 	 */
 	private int replyCount;
 	
+	private int xnHits;
 	
+	
+	
+	
+	public int getXnHits() {
+		return xnHits;
+	}
+	public void setXnHits(int xnHits) {
+		this.xnHits = xnHits;
+	}
 	public String getTeacherName() {
 		return teacherName;
 	}

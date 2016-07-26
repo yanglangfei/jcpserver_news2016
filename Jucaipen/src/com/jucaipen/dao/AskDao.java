@@ -90,5 +90,13 @@ public interface AskDao {
 	 * @return    根据用户id获取当前提问数
 	 */
 	public int findAskNumByUId(int uId);
+	
+	/**
+	 * @param id
+	 * @param hits
+	 * @param xnHits
+	 * @return  更新点击数
+	 */
+	public int updateHits(int id,int hits,int xnHits);
 
 }
