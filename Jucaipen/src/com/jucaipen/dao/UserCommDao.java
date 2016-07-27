@@ -23,6 +23,12 @@ public interface UserCommDao {
 	 * @return 删除评论  回复
 	 */
 	public int cancelComm(int id);
+	
+	/**
+	 * @param uId
+	 * @return 查询当前用户下所有的证券视频 评论
+	 */
+	public List<UserComm> findComment(int uId, int type, int page);
 
 	/**
 	 * @param uId

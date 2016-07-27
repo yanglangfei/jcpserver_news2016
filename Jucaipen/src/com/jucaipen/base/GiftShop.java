@@ -19,7 +19,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取商店礼品信息
+ *         获取商店礼品信息   0  全部     10  推荐
  */
 @SuppressWarnings("serial")
 public class GiftShop extends HttpServlet {
@@ -81,7 +81,13 @@ public class GiftShop extends HttpServlet {
 
 	private String initGiftByClassId(int t, int p) {
 		//根据分类获取礼品信息
-		List<Gifts> gifts=GiftsSer.findGiftByClassId(p, t);
+		List<Gifts> gifts;
+		if(t==10){
+			//按推荐查询
+			 gifts=GiftsSer.findIsTuijian(1);
+		}else{
+			 gifts=GiftsSer.findGiftByClassId(p, t);
+		}
 		return JsonUtil.getGiftList(gifts);
 	}
 

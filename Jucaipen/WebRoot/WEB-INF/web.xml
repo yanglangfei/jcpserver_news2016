@@ -445,6 +445,16 @@
     <servlet-name>ForgetPassword</servlet-name>
     <servlet-class>com.jucaipen.main.user.ForgetPassword</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>MyComment</servlet-name>
+    <servlet-class>com.jucaipen.main.my.MyComment</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>MyMessage</servlet-name>
+    <servlet-class>com.jucaipen.main.my.MyMessage</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -894,5 +904,13 @@
   <servlet-mapping>
     <servlet-name>ForgetPassword</servlet-name>
     <url-pattern>/jucaipen/forgetpassword</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MyComment</servlet-name>
+    <url-pattern>/jucaipen/getmycomment</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MyMessage</servlet-name>
+    <url-pattern>/jucaipen/getmymessage</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -28,6 +28,12 @@ public interface CommentDao {
 	 * @return 查询当前用户下所有的观点、文字直播 评论评论、回复
 	 */
 	public List<Comment> findComment(int uId, int type, int pager,int parentId);
+	
+	/**
+	 * @param uId
+	 * @return 查询当前用户下所有的观点、文字直播 评论评论、回复
+	 */
+	public List<Comment> findComment(int uId, int type, int page);
 
 	/**
 	 * @param nId

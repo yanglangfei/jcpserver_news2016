@@ -269,4 +269,51 @@ public class UserCommImp implements UserCommDao {
 		return 0;
 	}
 
+	@Override
+	public List<UserComm> findComment(int uId, int type, int page) {
+		// 根据用户id获取分类下的评论信息
+		comments.clear();
+		int totlePage = getTotlePage("WHERE UserId=" + uId + " AND Type="
+				+ type );
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP 15 * FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_User_Comm WHERE UserId="
+							+ uId + " AND Type=" + type + " ) A " + "WHERE RowNumber > " + 15
+							* (page - 1));
+			while (res.next()) {
+				int id = res.getInt("Id");
+				String body = res.getString("Bodys");
+				int fkId = res.getInt("NorVId");
+				String insertDate = res.getString("InsertDate");
+				int goods = res.getInt("Goods");
+				int isShow = res.getInt("IsShow");
+				int replyCount = res.getInt("RepCount");
+				UserComm comm = new UserComm();
+				comm.setId(id);
+				comm.setBodys(body);
+				comm.setTotlePage(totlePage);
+				comm.setPage(page);
+				comm.setNovId(fkId);
+				comm.setInsertDate(insertDate);
+				comm.setGoods(goods);
+				comm.setIsShow(isShow);
+				comm.setReplyCount(replyCount);
+				comments.add(comm);
+			}
+			return comments;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
 }

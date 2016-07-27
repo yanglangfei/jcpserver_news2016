@@ -1,4 +1,4 @@
-package com.jucaipen.base;
+   package com.jucaipen.base;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,7 +26,6 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class QuerryGiftType extends HttpServlet {
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -49,24 +48,22 @@ public class QuerryGiftType extends HttpServlet {
 				}else{
 					result=JsonUtil.getRetMsg(2, "userId 参数数字格式化异常");
 				}
-				
 			}else{
 				result=JsonUtil.getRetMsg(1, "userId 参数不能为空");
 			}
 		}else{
 			result=StringUtil.isVaild;
 		}
-		
 		out.println(result);
 		out.flush();
 		out.close();
 	}
 
 	private  String initClassData() {
-		//初始化礼品分类信息  left
+		 //初始化礼品分类信息  left
 		 List<GiftClass> leftClass = GiftClassSer.findTopClass(4);
-		// middle
-		GiftClass middleGiftClass = GiftClassSer.findIdByClass(5);
+		 // middle
+		 GiftClass middleGiftClass = GiftClassSer.findIdByClass(5);
 		//right
 		 List<Gifts> rightClass=GiftsSer.findIsTuijian(1);
 		return JsonUtil.getGiftClass(leftClass,middleGiftClass,rightClass);

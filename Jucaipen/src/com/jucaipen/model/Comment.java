@@ -54,10 +54,20 @@ public class Comment implements Serializable {
 	 *  观点或文字直播id
 	 */
 	private int logOrLiveId;
+	
+	private String fkName;
 	/**
 	 *   回复评论的id
 	 */
 	private int parentId;
+	
+	
+	public String getFkName() {
+		return fkName;
+	}
+	public void setFkName(String fkName) {
+		this.fkName = fkName;
+	}
 	public int getTotlePager() {
 		return totlePager;
 	}

@@ -52,27 +52,27 @@ public class GiftsImp implements GiftsDao {
 	public List<Gifts> findAllGift(int page) {
 		// 获取所有礼品
 		gifts.clear();
-		int totlePage = getTotlePage("");
+		int totlePage = getTotlePage(" WHERE SaleType=1 AND IsDel=1");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY Id desc) AS RowNumber,* FROM JCP_LiPin"
-							+ " WHERE SaleType=1 AND IsDel=0) A "
+							+ " WHERE SaleType=1 AND IsDel=1) A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id");
 				String title = res.getString("Title");
 				int price = res.getInt("Price");
-				String thumbnail = res.getString("Thumbnail");
+				String image = res.getString("ImagesUrl");
 				Gifts gift = new Gifts();
 				gift.setId(id);
 				gift.setTitle(title);
 				gift.setPrice(price);
 				gift.setTotlePage(totlePage);
 				gift.setPage(page);
-				gift.setThumbnail(thumbnail);
+				gift.setImageUrl(image);
 				gifts.add(gift);
 			}
 			return gifts;
@@ -92,27 +92,27 @@ public class GiftsImp implements GiftsDao {
 	public List<Gifts> findGiftByClassId(int page, int classId) {
 		// 根据分类获取礼品
 		gifts.clear();
-		int totlePage = getTotlePage("WHERE ClassId="+classId+" AND  SaleType=1 AND IsDel=0");
+		int totlePage = getTotlePage("WHERE ClassId="+classId+" AND  SaleType=1 AND IsDel=1");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY Id desc) AS RowNumber,* FROM JCP_LiPin WHERE  ClassId="
-							+ classId + " AND SaleType=1 AND IsDel=0) A " + "WHERE RowNumber > " + 15
+							+ classId + " AND SaleType=1 AND IsDel=1) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id");
 				String title = res.getString("Title");
 				int price = res.getInt("Price");
-				String thumbnail = res.getString("Thumbnail");
+				String image = res.getString("ImagesUrl");
 				Gifts gift = new Gifts();
 				gift.setId(id);
 				gift.setTitle(title);
 				gift.setPrice(price);
 				gift.setTotlePage(totlePage);
 				gift.setPage(page);
-				gift.setThumbnail(thumbnail);
+				gift.setImageUrl(image);
 				gifts.add(gift);
 			}
 			return gifts;
@@ -135,16 +135,16 @@ public class GiftsImp implements GiftsDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT * FROM JCP_LiPin WHERE Id="+id+" AND SaleType=1 AND IsDel=0");
+					.executeQuery("SELECT * FROM JCP_LiPin WHERE Id="+id+" AND SaleType=1 AND IsDel=1");
 			while (res.next()) {
 				String title = res.getString("Title");
 				int price = res.getInt("Price");
-				String thumbnail = res.getString("Thumbnail");
+				String image = res.getString("ImagesUrl");
 				Gifts gift = new Gifts();
 				gift.setId(id);
 				gift.setTitle(title);
 				gift.setPrice(price);
-				gift.setThumbnail(thumbnail);
+				gift.setImageUrl(image);
 				return gift;
 			}
 		} catch (SQLException e) {
@@ -161,20 +161,21 @@ public class GiftsImp implements GiftsDao {
 
 	@Override
 	public List<Gifts> findIsTuijian(int IsTuiJian) {
+		gifts.clear();
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_LiPin WHERE IsTuiJian="+IsTuiJian);
+			res=sta.executeQuery("SELECT * FROM JCP_LiPin WHERE IsTuiJian="+IsTuiJian+" AND  SaleType=1 AND IsDel=1");
 			while (res.next()) {
 				int id = res.getInt("Id");
 				String title = res.getString("Title");
 				int price = res.getInt("Price");
-				String thumbnail = res.getString("Thumbnail");
+				String image = res.getString("ImagesUrl");
 				Gifts gift = new Gifts();
 				gift.setId(id);
 				gift.setTitle(title);
 				gift.setPrice(price);
-				gift.setThumbnail(thumbnail);
+				gift.setImageUrl(image);
 				gifts.add(gift);
 			}
 			return gifts;

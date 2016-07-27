@@ -42,6 +42,19 @@ public class CommentSer {
 		CommentDao dao=new CommentsImp();
 		return dao.findComment(uId, type, pager, parentId);
 	}
+	
+
+	/**
+	 * @param uId
+	 * @param type
+	 * @param pager
+	 * @param parentId
+	 * @return  获取用户下的分类  评论  回复信息
+	 */
+	public static List<Comment> findComment(int uId, int type, int page) {
+		CommentDao dao=new CommentsImp();
+		return dao.findComment(uId, type, page);
+	}
 
 	/**
 	 * @param fkId

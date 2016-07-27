@@ -36,6 +36,8 @@ public class UserComm implements Serializable {
      * 视频或证券知识ID
      */
     private int novId;
+    
+    private String fkName;
     /**
      *  点赞数量
      */
@@ -54,6 +56,13 @@ public class UserComm implements Serializable {
     private int isShow;
     
     
+    
+	public String getFkName() {
+		return fkName;
+	}
+	public void setFkName(String fkName) {
+		this.fkName = fkName;
+	}
 	public int getPage() {
 		return page;
 	}

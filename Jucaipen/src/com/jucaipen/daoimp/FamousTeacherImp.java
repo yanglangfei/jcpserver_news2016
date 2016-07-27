@@ -88,7 +88,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 			dbConn=JdbcUtil.connSqlServer();
 			sta=dbConn.createStatement();
 			res=sta.executeQuery("SELECT TOP 15 * FROM "
-					+ "(SELECT ROW_NUMBER() OVER (ORDER BY LiveRenQi ASC) AS RowNumber,* FROM JCP_Tearcher  WHERE State=0) A "
+					+ "(SELECT ROW_NUMBER() OVER (ORDER BY IsUserLiveUrl DESC,LiveRenQi ASC) AS RowNumber,* FROM JCP_Tearcher  WHERE State=0) A "
 					+ "WHERE RowNumber > " + 15 * (page - 1));
 			teachers=getTeacher(res,page,totlePage);
 			return teachers;
@@ -116,7 +116,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		try {
 			dbConn=JdbcUtil.connSqlServer();
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT TOP "+count+" * FROM JCP_Tearcher  WHERE State=0 ORDER BY Fans DESC");
+			res=sta.executeQuery("SELECT TOP "+count+" * FROM JCP_Tearcher  WHERE State=0 ORDER BY IsUserLiveUrl DESC,Fans DESC");
 			while (res.next()) {
 				int id=res.getInt("Id");
 				int isV=res.getInt("IsV");

@@ -42,6 +42,19 @@ public class UserCommSer {
 		return dao.findComment(uId, type, pager, parentId);
 	}
 
+	
+	/**
+	 * @param uId
+	 * @param type
+	 * @param pager
+	 * @param parentId
+	 * @return 获取用户下的分类评论信息
+	 */
+	public static List<UserComm> findComment(int uId, int type, int page) {
+		UserCommDao dao = new UserCommImp();
+		return dao.findComment(uId, type, page);
+	}
+
 	/**
 	 * @param fkId
 	 * @param pager

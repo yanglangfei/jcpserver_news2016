@@ -276,4 +276,51 @@ public class CommentsImp implements CommentDao {
 		return 0;
 	}
 
+	@Override
+	public List<Comment> findComment(int uId, int type, int page) {
+		// 根据用户id获取相应类型下的评论 回复信息
+		comments.clear();
+		int totlePage = getTotlePage("WHERE FK_UserId=" + uId
+				+ " AND CommType=" + type);
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP 15 * FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_LogOrLive_Comm WHERE FK_UserId="
+							+ uId + " AND CommType=" + type + ") A " + "WHERE RowNumber > " + 15
+							* (page - 1));
+			while (res.next()) {
+				int id = res.getInt("Id"); // Id
+				String bodys = res.getString("Bodys"); // Bodys
+				String insertDate = res.getString("InsertDate"); // InsertDate
+				int isShow = res.getInt("IsShow"); // IsShow
+				int goods = res.getInt("Goods"); // Goods
+				int repNum = res.getInt("RepCount"); // RepCount
+				int fkId = res.getInt("FK_LogOrLiveId"); // FK_LogOrLiveId
+				Comment comment = new Comment();
+				comment.setId(id);
+				comment.setBodys(bodys);
+				comment.setInsertDate(insertDate);
+				comment.setIsShow(isShow);
+				comment.setGoods(goods);
+				comment.setTotlePager(totlePage);
+				comment.setPager(page);
+				comment.setRepCount(repNum);
+				comment.setLogOrLiveId(fkId);
+				comments.add(comment);
+			}
+			return comments;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
 }

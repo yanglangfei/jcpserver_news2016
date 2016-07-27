@@ -927,7 +927,7 @@ public class VideoImp implements VideoDao {
 					.executeQuery("select TOP "
 							+ count
 							+ " FK_Pecial,FK_ClassId,Id,Title,Description,ImagesUrl,PlayCount,VideoDate,VideoPageUrl,PlayXNCount from JCP_Video"
-							+ " ORDER BY InsertDate DESC");
+							+ " WHERE IsIndex=1 AND IsTuiJian=1 ORDER BY InsertDate DESC");
 
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
