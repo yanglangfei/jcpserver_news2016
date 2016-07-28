@@ -37,7 +37,7 @@ public class MyGiftsImp implements MyGiftsDao {
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -51,40 +51,27 @@ public class MyGiftsImp implements MyGiftsDao {
 	@Override
 	public List<MyGifts> findMyGiftBySenderId(int senderId, int page) {
 		// 获取我送出的礼品
+		// select FK_LiPinId,sum(LiPinNum) from JCP_MyLiPin WHERE
+		// FK_SendUserId=6750 GROUP BY FK_LiPinId
 		gifts.clear();
-		int totlePage = getTotlePage("WHERE FK_SendUserId=" + senderId);
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_MyLiPin WHERE FK_SendUserId="
-							+ senderId + ") A " + "WHERE RowNumber > " + 15
-							* (page - 1));
+					.executeQuery("SELECT FK_LiPinId,SUM(LiPinNum) from JCP_MyLiPin WHERE FK_SendUserId="
+							+ senderId + "  GROUP BY FK_LiPinId");
 			while (res.next()) {
-				int id = res.getInt("Id");
-				int receiverId = res.getInt("FK_ReceiveUserId"); // FK_ReceiveUserId
-				int giftId = res.getInt("FK_LiPinId"); // FK_LiPinId
-				String insertDate = res.getString("InsertDate"); // InsertDate
-				int sortId = res.getInt("SortId");
-				int giftNum = res.getInt("LiPinNum");
-				String remark = res.getString("ReMark");
+				int giftId = res.getInt(1); // FK_LiPinId
+				int giftNum = res.getInt(2);
 				MyGifts g = new MyGifts();
-				g.setId(id);
-				g.setReceiverId(receiverId);
 				g.setGiftId(giftId);
-				g.setInsertDate(insertDate);
-				g.setSortId(sortId);
 				g.setGiftNum(giftNum);
-				g.setRemark(remark);
-				g.setPage(page);
-				g.setTotlePage(totlePage);
 				gifts.add(g);
 			}
 			return gifts;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -98,40 +85,26 @@ public class MyGiftsImp implements MyGiftsDao {
 	public List<MyGifts> findMyGiftByReceiverId(int receiverId, int page) {
 		// 获取我收到的礼品
 		gifts.clear();
-		int totlePage = getTotlePage("WHERE FK_ReceiveUserId=" + receiverId);
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_MyLiPin WHERE FK_ReceiveUserId="
-							+ receiverId + ") A " + "WHERE RowNumber > " + 15
-							* (page - 1));
+					.executeQuery("SELECT FK_LiPinId,SUM(LiPinNum) from JCP_MyLiPin WHERE FK_ReceiveUserId="
+							+ receiverId + "  GROUP BY FK_LiPinId");
 			while (res.next()) {
-				int id = res.getInt("Id");
-				int sendId = res.getInt("FK_SendUserId"); // FK_SendUserId
-				int giftId = res.getInt("FK_LiPinId"); // FK_LiPinId
-				String insertDate = res.getString("InsertDate"); // InsertDate
-				int sortId = res.getInt("SortId");
-				int giftNum = res.getInt("LiPinNum");
-				String remark = res.getString("ReMark");
+				int giftId = res.getInt(1); // FK_LiPinId
+				int giftNum = res.getInt(2);
 				MyGifts g = new MyGifts();
-				g.setId(id);
 				g.setReceiverId(receiverId);
 				g.setGiftId(giftId);
-				g.setSenderId(sendId);
-				g.setInsertDate(insertDate);
-				g.setSortId(sortId);
 				g.setGiftNum(giftNum);
-				g.setRemark(remark);
 				g.setPage(page);
-				g.setTotlePage(totlePage);
 				gifts.add(g);
 			}
 			return gifts;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -165,7 +138,7 @@ public class MyGiftsImp implements MyGiftsDao {
 							+ gifts.getRemark() + "')");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -173,6 +146,81 @@ public class MyGiftsImp implements MyGiftsDao {
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public List<MyGifts> findMyGiftDetailBySenderId(int senderId, int giftId,
+			int page) {
+		gifts.clear();
+		int totlePage = getTotlePage(" WHERE FK_SendUserId=" + senderId
+				+ " AND FK_LiPinId=" + giftId);
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP 15 * FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCP_MyLiPin  WHERE FK_SendUserId="
+							+ senderId + " AND FK_LiPinId=" + giftId + ") A "
+							+ "WHERE RowNumber > " + 15 * (page - 1));
+			while (res.next()) {
+				String insertDate = res.getString("InsertDate");
+				int giftNum = res.getInt("LiPinNum");
+				String remark = res.getString("ReMark");
+				int receiverId = res.getInt("FK_ReceiveUserId");
+				MyGifts gift = new MyGifts();
+				gift.setPage(page);
+				gift.setTotlePage(totlePage);
+				gift.setInsertDate(insertDate);
+				gift.setGiftNum(giftNum);
+				gift.setRemark(remark);
+				gift.setReceiverId(receiverId);
+				gift.setGiftId(giftId);
+				gifts.add(gift);
+			}
+			return gifts;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	@Override
+	public List<MyGifts> findMyGiftDetailByReceiverId(int receiverId,
+			int giftId, int page) {
+		gifts.clear();
+		int totlePage = getTotlePage(" WHERE FK_ReceiveUserId=" + receiverId
+				+ " AND FK_LiPinId=" + giftId);
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP 15 * FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCP_MyLiPin WHERE FK_ReceiveUserId="
+							+ receiverId + " AND FK_LiPinId=" + giftId + ") A "
+							+ "WHERE RowNumber > " + 15 * (page - 1));
+			while (res.next()) {
+				String insertDate = res.getString("InsertDate");
+				int giftNum = res.getInt("LiPinNum");
+				String remark = res.getString("ReMark");
+				int sendId = res.getInt("FK_SendUserId");
+				MyGifts gift = new MyGifts();
+				gift.setPage(page);
+				gift.setTotlePage(totlePage);
+				gift.setInsertDate(insertDate);
+				gift.setGiftNum(giftNum);
+				gift.setRemark(remark);
+				gift.setSenderId(sendId);
+				gift.setReceiverId(receiverId);
+				gift.setGiftId(giftId);
+				gifts.add(gift);
+			}
+			return gifts;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 }

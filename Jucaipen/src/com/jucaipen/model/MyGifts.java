@@ -19,14 +19,22 @@ public class MyGifts implements Serializable{
 	 *  FK_SendUserId
 	 */
 	private int senderId;
+	
+	private String sendName;
 	/**
 	 *  FK_ReceiveUserId
 	 */
 	private int receiverId;
+	
+	private String receiverName;
 	/**
 	 *  FK_LiPinId
 	 */
 	private int giftId;
+	
+	private String giftName;
+	
+	private String giftImage;
 	/**
 	 *  InsertDate
 	 */
@@ -44,6 +52,31 @@ public class MyGifts implements Serializable{
 	 */
 	private String remark;
 	
+	
+	public String getSendName() {
+		return sendName;
+	}
+	public void setSendName(String sendName) {
+		this.sendName = sendName;
+	}
+	public String getReceiverName() {
+		return receiverName;
+	}
+	public void setReceiverName(String receiverName) {
+		this.receiverName = receiverName;
+	}
+	public String getGiftName() {
+		return giftName;
+	}
+	public void setGiftName(String giftName) {
+		this.giftName = giftName;
+	}
+	public String getGiftImage() {
+		return giftImage;
+	}
+	public void setGiftImage(String giftImage) {
+		this.giftImage = giftImage;
+	}
 	public int getPage() {
 		return page;
 	}

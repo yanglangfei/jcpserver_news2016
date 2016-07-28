@@ -132,6 +132,13 @@ public interface VideoDao {
 	public List<Video> findVideoByClassIdLast(int count,int classId);
 	
 	/**
+	 * @param count
+	 * @param classId
+	 * @return    获取精选最近几条视频直播
+	 */
+	public List<Video> findVideoByIsBestLast(int count,int isBest);
+	
+	/**
 	 * @param classId
 	 * @return  根据classId获取视频信息   无分页信息
 	 */

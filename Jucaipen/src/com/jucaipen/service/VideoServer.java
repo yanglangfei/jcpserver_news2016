@@ -161,7 +161,11 @@ public class VideoServer {
 	public static List<Video> findVideoByClassIdLast(int count,int classId){
 		VideoDao dao=new VideoImp();
 		return dao.findVideoByClassIdLast(count, classId);
-
+	}
+	
+	public static List<Video> findVideoByIsBestLast(int count, int isBest){
+		VideoDao dao=new VideoImp();
+		return dao.findVideoByIsBestLast(count, isBest);
 	}
 	
 	

@@ -3,15 +3,13 @@ package com.jucaipen.main.index;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.ClientOsInfo;
-import com.jucaipen.model.News;
-import com.jucaipen.service.NewServer;
+import com.jucaipen.model.JcpNews;
+import com.jucaipen.service.JcpNewsSer;
 import com.jucaipen.service.ResourceFromServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
@@ -32,7 +30,7 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class HotNews extends HttpServlet {
 	private String result;
-	private List<News> news;
+	private List<JcpNews> news;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -78,9 +76,10 @@ public class HotNews extends HttpServlet {
 
 	private String initAllData(int page) {
 		// 获取全部今日热点信息
-		news = NewServer.queryNews(page);
-		for (News n : news) {
-			int fromId = n.getFromId();
+		
+		news = JcpNewsSer.findAll(page);
+		for (JcpNews n : news) {
+			int fromId = n.getComeFrom();
 			String from = ResourceFromServer.getRSources(fromId);
 			n.setFrom(from);
 		}
@@ -90,9 +89,9 @@ public class HotNews extends HttpServlet {
 
 	private String initIndexData() {
 		// 获取首页今日热点信息
-		news = NewServer.findLastNews(3);
-		for (News n : news) {
-			int fromId = n.getFromId();
+		news = JcpNewsSer.findLastNewsByNewsNum(3);
+		for (JcpNews n : news) {
+			int fromId = n.getComeFrom();
 			String from = ResourceFromServer.getRSources(fromId);
 			n.setFrom(from);
 		}

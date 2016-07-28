@@ -2,9 +2,7 @@ package com.jucaipen.main.my;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +24,6 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class MyGiftRecoder extends HttpServlet {
 	private String result;
-	private List<Gifts> gList = new ArrayList<Gifts>();
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -92,12 +88,15 @@ public class MyGiftRecoder extends HttpServlet {
 			// 我收到的礼品
 			gifts = MyGiftsSer.findMyGiftByReceiverId(uId, p);
 		}
-		for (MyGifts g : gifts) {
-			int gId = g.getGiftId();
-			Gifts gs = GiftsSer.findGiftById(gId);
-			gList.add(gs);
+		if(gifts!=null){
+			for (MyGifts g : gifts) {
+				int gId = g.getGiftId();
+				Gifts gs = GiftsSer.findGiftById(gId);
+				g.setGiftName(gs.getTitle());
+				g.setGiftImage(gs.getImageUrl());
+			}
 		}
-		return JsonUtil.getGiftRecoder(gifts, gList);
+		return JsonUtil.getGiftRecoder(gifts);
 	}
 
 }

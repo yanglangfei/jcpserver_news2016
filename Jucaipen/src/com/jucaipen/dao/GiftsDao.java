@@ -28,6 +28,9 @@ public interface GiftsDao {
 	 */
 	public Gifts findGiftById(int id);
 	
+	public List<Gifts> findIsTuijian(int IsTuiJian,int page);
+
+	
 	public List<Gifts> findIsTuijian(int IsTuiJian);
 	
 

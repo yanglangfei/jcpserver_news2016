@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jucaipen.model.Account;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.Gifts;
+import com.jucaipen.service.AccountSer;
 import com.jucaipen.service.GiftsSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
@@ -19,7 +21,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取商店礼品信息   0  全部     10  推荐
+ *         获取商店礼品信息   0  全部        10  推荐   20   视频
  */
 @SuppressWarnings("serial")
 public class GiftShop extends HttpServlet {
@@ -44,18 +46,14 @@ public class GiftShop extends HttpServlet {
 						if (StringUtil.isNotNull(page)
 								&& StringUtil.isInteger(page)) {
 							int p = Integer.parseInt(page);
-							if (StringUtil.isNotNull(type)) {
-								if (StringUtil.isInteger(type)) {
+							if (StringUtil.isNotNull(type)&&StringUtil.isInteger(type)) {
 									// 根据分类获取礼品信息
 									int t = Integer.parseInt(type);
-									result = initGiftByClassId(t, p);
-								} else {
-									result = JsonUtil
-											.getRetMsg(4, "type 参数数字格式化异常");
-								}
+									result = initGiftByClassId(t, p,uId);
 							} else {
 								// 获取所有礼品信息
-								result = initAllGifts(p);
+								result = JsonUtil
+										.getRetMsg(4, "type 参数异常");
 							}
 						} else {
 							result = JsonUtil.getRetMsg(5, "page 参数异常");
@@ -79,22 +77,32 @@ public class GiftShop extends HttpServlet {
 		out.close();
 	}
 
-	private String initGiftByClassId(int t, int p) {
+	private String initGiftByClassId(int t, int p, int uId) {
 		//根据分类获取礼品信息
+		int ownJucaiBills;
+		Account account=AccountSer.findAccountByUserId(uId);
+		if(account!=null){
+			ownJucaiBills=account.getJucaiBills();
+		}else{
+			ownJucaiBills=0;
+		}
 		List<Gifts> gifts;
 		if(t==10){
 			//按推荐查询
-			 gifts=GiftsSer.findIsTuijian(1);
+			 gifts=GiftsSer.findIsTuijian(1,p);
+		}else if(t==0){
+			//所有礼品
+			 gifts = GiftsSer.findAllGift(p);
+		}else if(t==20){
+			  //视频直播
+			gifts=GiftsSer.findGiftByClassId(p, 5);
 		}else{
+			//按分类获取
 			 gifts=GiftsSer.findGiftByClassId(p, t);
 		}
-		return JsonUtil.getGiftList(gifts);
+		return JsonUtil.getGiftList(gifts,ownJucaiBills);
 	}
 
-	private String initAllGifts(int page) {
-		// 初始化所有礼品信息
-		List<Gifts> gifts = GiftsSer.findAllGift(page);
-		return JsonUtil.getGiftList(gifts);
-	}
+
 
 }

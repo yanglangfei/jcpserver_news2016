@@ -27,6 +27,27 @@ public class MyPresent implements Serializable {
 	 * FK_LiPinId
 	 */
 	private int presentId;
+	private String prentName;
+	
+	private String prentImage;
+	
+	
+
+	public String getPrentName() {
+		return prentName;
+	}
+
+	public void setPrentName(String prentName) {
+		this.prentName = prentName;
+	}
+
+	public String getPrentImage() {
+		return prentImage;
+	}
+
+	public void setPrentImage(String prentImage) {
+		this.prentImage = prentImage;
+	}
 
 	public int getId() {
 		return id;

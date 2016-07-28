@@ -1,5 +1,4 @@
 package com.jucaipen.main.user;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -8,13 +7,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.jucaipen.main.datautils.RollBackUtil;
+import com.jucaipen.model.Contribute;
+import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.Gifts;
 import com.jucaipen.model.MyGifts;
 import com.jucaipen.model.MyPresent;
+import com.jucaipen.model.Rebate;
+import com.jucaipen.model.SysAccount;
+import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.GiftsSer;
-import com.jucaipen.service.MyGiftsSer;
 import com.jucaipen.service.MyPresentSer;
+import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
@@ -34,9 +38,10 @@ public class SendPresent extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String userId=request.getParameter("userId");
-		String teacherId=request.getParameter("teacherId");
+		String teacherId=request.getParameter("receiverId");
 		String parentId=request.getParameter("parentId");
 		String sendNum=request.getParameter("sendNum");
+		String bills=request.getParameter("bills");
 		if(StringUtil.isNotNull(userId)){
 			if(StringUtil.isInteger(userId)){
 				int uId=Integer.parseInt(userId);
@@ -47,7 +52,13 @@ public class SendPresent extends HttpServlet {
 							int pId=Integer.parseInt(parentId);
 							if(StringUtil.isNotNull(sendNum)&&StringUtil.isInteger(sendNum)){
 								int num=Integer.parseInt(sendNum);
-								result=sendTeacherParents(tId,uId,pId,num);
+								if(StringUtil.isNotNull(bills)&&StringUtil.isInteger(bills)){
+									int b=Integer.parseInt(bills);
+									result=sendTeacherParents(tId,uId,pId,num,b);
+								}else{
+									result=JsonUtil.getRetMsg(7,"bills 参数异常");
+								}
+								
 							}else{
 								result=JsonUtil.getRetMsg(6,"sendNum 参数异常");
 							}
@@ -70,41 +81,61 @@ public class SendPresent extends HttpServlet {
 		out.flush();
 		out.close();
 	}
-	private String sendTeacherParents(int tId, int uId, int pId, int num) {
+	private String sendTeacherParents(int tId, int uId, int pId, int num, int bill) {
 		//送礼品信息
 		//1、检测礼品数量是否足够
 		MyPresent present=MyPresentSer.findParentByUid(uId, pId);
 		int count=present.getPresentNum();
-		int id=present.getId();
 		if(count<num){
 			return JsonUtil.getRetMsg(1,"您的礼品数量不足");
 		}
 		
-		//赠送礼品
-		//1、更新礼品记录表 
 		Gifts g=GiftsSer.findGiftById(pId);
 		
-		MyPresentSer.sendPresent(id, count-num);
+		FamousTeacher teacher=FamousTeacherSer.findTeacherBaseInfo(tId);
+		
+		SysAccount sysAccount=SysAccountSer.findAccountInfo();
+		
+		Rebate rebate=new Rebate();
+		//讲师返利
+		rebate.setTeacherId(tId);
+		rebate.setType(0);
+		rebate.setRebateMoney(bill*teacher.getReturnRate());
+		rebate.setFromId(uId);
+		rebate.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		rebate.setRemark("用户赠送礼品");
+		
+		Rebate sysRebate=new Rebate();
+		//讲师返利
+		sysRebate.setTeacherId(tId);
+		sysRebate.setType(1);
+		sysRebate.setRebateMoney(bill*(1-teacher.getReturnRate()));
+		sysRebate.setFromId(uId);
+		sysRebate.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		sysRebate.setRemark("用户赠送礼品");
+		
+		Contribute contribute=new Contribute();
+		contribute.setFk_id(present.getId());
+		contribute.setAllJucaiBills(bill);
+		contribute.setComType(1);
+		contribute.setUserId(uId);
+		contribute.setTeacherId(tId);
+		contribute.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 		
 		MyGifts gifts=new MyGifts();
-		gifts.setGiftNum(num);
 		gifts.setGiftId(pId);
+		gifts.setGiftNum(num);
 		gifts.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 		gifts.setReceiverId(tId);
 		gifts.setSenderId(uId);
 		gifts.setRemark("赠送【"+g.getTitle()+"】礼品【"+num+"】个，背包用去【"+num+"】");
-		MyGiftsSer.addGifts(gifts);
-		
-		//2、返利数据更新
-		//账户总表积分数据更新
-		
-		
-		//用户表积分数据更新
+		gifts.setSortId(0);
 		
 		
 		
+		int isSuccess=RollBackUtil.sendGifts(present,num,bill,uId,sysAccount,sysRebate,rebate,contribute,gifts);
 		
-		return null;
+		return isSuccess==1 ? JsonUtil.getRetMsg(0, "礼品赠送成功") : JsonUtil.getRetMsg(1, "礼品赠送失败");
 	}
 
 }

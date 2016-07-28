@@ -368,10 +368,10 @@ public class HotIdeaImp implements HotIdeaDao {
 				String title = res.getString("Title");
 				String logImage = res.getString("ImagesUrl");
 				String insertDate = res.getString("InsertDate");
-				int comms = res.getInt("CommCount");
+				int xnHits = res.getInt("VirtualNum");
 				HotIdea idea = new HotIdea();
 				idea.setId(id);
-				idea.setCommens(comms);
+				idea.setXnHits(xnHits);
 				idea.setLogImage(logImage);
 				idea.setInsertDate(insertDate);
 				idea.setTitle(title);

@@ -69,12 +69,15 @@ public class QuerryMyGift extends HttpServlet {
 		// 初始化我的礼品
 		gifts.clear();
 		List<MyPresent> presents = MyPresentSer.findPresentByUserId(uId, page);
-		for (MyPresent present : presents) {
-			int presentId = present.getPresentId();
-			Gifts g = GiftsSer.findGiftById(presentId);
-			gifts.add(g);
+		if(presents!=null){
+			for (MyPresent present : presents) {
+				int presentId = present.getPresentId();
+				Gifts g = GiftsSer.findGiftById(presentId);
+				present.setPrentName(g.getTitle());
+				present.setPrentImage(g.getImageUrl());
+			}
 		}
-		return JsonUtil.getMyPresentList(presents, gifts);
+		return JsonUtil.getMyPresentList(presents);
 
 	}
 

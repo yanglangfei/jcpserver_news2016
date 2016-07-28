@@ -453,6 +453,11 @@
     <servlet-name>MyMessage</servlet-name>
     <servlet-class>com.jucaipen.main.my.MyMessage</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>GiftRecoderDetail</servlet-name>
+    <servlet-class>com.jucaipen.main.my.GiftRecoderDetail</servlet-class>
+  </servlet>
+
 
 
 
@@ -912,5 +917,9 @@
   <servlet-mapping>
     <servlet-name>MyMessage</servlet-name>
     <url-pattern>/jucaipen/getmymessage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GiftRecoderDetail</servlet-name>
+    <url-pattern>/jucaipen/getsenddetail</url-pattern>
   </servlet-mapping>
 </web-app>

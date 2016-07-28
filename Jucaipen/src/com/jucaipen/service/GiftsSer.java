@@ -40,4 +40,9 @@ public class GiftsSer{
 		GiftsDao dao=new GiftsImp();
 		return dao.findIsTuijian(IsTuiJian);
 	}
+	
+	public static List<Gifts> findIsTuijian(int IsTuiJian,int page){
+		GiftsDao dao=new GiftsImp();
+		return dao.findIsTuijian(IsTuiJian,page);
+	}
 }

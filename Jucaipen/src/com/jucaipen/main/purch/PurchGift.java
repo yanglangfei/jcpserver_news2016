@@ -2,10 +2,12 @@ package com.jucaipen.main.purch;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
@@ -16,6 +18,7 @@ import com.jucaipen.model.SysDetailAccount;
 import com.jucaipen.model.User;
 import com.jucaipen.service.AccountSer;
 import com.jucaipen.service.GiftsSer;
+import com.jucaipen.service.MyPresentSer;
 import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;
@@ -83,6 +86,7 @@ public class PurchGift extends HttpServlet {
 		}
 		
 		Gifts gift=GiftsSer.findGiftById(pId);
+		MyPresent presentExit=MyPresentSer.findPresentById(pId);
 		
 		MyPresent present=new MyPresent();
 		present.setPresentId(pId);
@@ -127,7 +131,7 @@ public class PurchGift extends HttpServlet {
 		sysDetailAccount.setType(4);
 		
 		
-		int isSuccess = RollBackUtil.purchGifts(present,a,b,uId,detail,detailInteger,user,sysAccount,sysDetailAccount);
+		int isSuccess = RollBackUtil.purchGifts(presentExit,present,a,b,uId,detail,detailInteger,user,sysAccount,sysDetailAccount);
 		
 		return isSuccess==1 ? JsonUtil.getRetMsg(0, "¿Ò∆∑π∫¬Ú≥…π¶") : JsonUtil.getRetMsg(1,"¿Ò∆∑π∫¬Ú ß∞‹");
 	}

@@ -171,6 +171,18 @@ public class TimeUtils {
 			return false;
 		}
 	}
+	
+	
+	public static boolean isBetwent(String start,String end){
+		try {
+			Date date1 = new Date();
+			DateFormat df = DateFormat.getDateTimeInstance();
+			return (date1.before(df.parse(end)))&&(date1.after(df.parse(start)));
+		} catch (ParseException e) {
+			return false;
+		}
+	}
+	
 
 	/**
 	 * @param birth

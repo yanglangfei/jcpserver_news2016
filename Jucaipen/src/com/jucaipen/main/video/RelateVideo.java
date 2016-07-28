@@ -59,24 +59,17 @@ public class RelateVideo extends HttpServlet {
 	private String initVideoList(int cId, int type, int index) {
 		List<Video> videos;
 		if(type==0){
-			//相关视频        ----classId       isTop
+			//相关视频        ----classId  
 			//videos=VideoServer.findVideoByIsTopId(1, cId);
 			videos=VideoServer.findVideoByClassIdLast(4, cId);
 		}else if(type==1){
 			//选集               -----specialId
 			videos=VideoServer.findVideoBySpecialId(cId);
 		}else{
-			//推荐视频     --------classId     isTuijian
+			//推荐视频     -------- isJingXuan
 			//videos=VideoServer.findVideoByIsRecommId(1, cId);
-			videos=VideoServer.findVideoByClassIdLast(4, cId);
+			videos=VideoServer.findVideoByIsBestLast(4, 1);
 		}
-		
-		/*if(index==0){
-			//首页
-			 videos = VideoServer.findVideoByClassIdLast(6, cId);
-		}else{
-			 videos = VideoServer.findVideoByClassId(cId);
-		}*/
 		if(videos!=null){
 			for(Video video : videos){
 				//是否为付费视频  0为免费视频，1为付费视频

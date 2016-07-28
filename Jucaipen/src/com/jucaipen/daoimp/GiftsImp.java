@@ -58,7 +58,7 @@ public class GiftsImp implements GiftsDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY Id desc) AS RowNumber,* FROM JCP_LiPin"
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY Id) AS RowNumber,* FROM JCP_LiPin"
 							+ " WHERE SaleType=1 AND IsDel=1) A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
@@ -98,7 +98,7 @@ public class GiftsImp implements GiftsDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY Id desc) AS RowNumber,* FROM JCP_LiPin WHERE  ClassId="
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY Id) AS RowNumber,* FROM JCP_LiPin WHERE  ClassId="
 							+ classId + " AND SaleType=1 AND IsDel=1) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
@@ -172,6 +172,38 @@ public class GiftsImp implements GiftsDao {
 				int price = res.getInt("Price");
 				String image = res.getString("ImagesUrl");
 				Gifts gift = new Gifts();
+				gift.setId(id);
+				gift.setTitle(title);
+				gift.setPrice(price);
+				gift.setImageUrl(image);
+				gifts.add(gift);
+			}
+			return gifts;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Gifts> findIsTuijian(int IsTuiJian, int page) {
+		gifts.clear();
+		int totlePage = getTotlePage("WHERE IsTuiJian="+IsTuiJian+" AND  SaleType=1 AND IsDel=1");
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res=sta.executeQuery("SELECT TOP 15 * FROM "
+					+ "(SELECT ROW_NUMBER() OVER (ORDER BY Id) AS RowNumber,* FROM JCP_LiPin WHERE  IsTuiJian="
+					+ IsTuiJian + " AND SaleType=1 AND IsDel=1) A " + "WHERE RowNumber > " + 15
+					* (page - 1));
+			while (res.next()) {
+				int id = res.getInt("Id");
+				String title = res.getString("Title");
+				int price = res.getInt("Price");
+				String image = res.getString("ImagesUrl");
+				Gifts gift = new Gifts();
+				gift.setPage(page);
+				gift.setTotlePage(totlePage);
 				gift.setId(id);
 				gift.setTitle(title);
 				gift.setPrice(price);

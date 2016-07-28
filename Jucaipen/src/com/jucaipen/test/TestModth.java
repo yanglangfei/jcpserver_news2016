@@ -2,10 +2,9 @@ package com.jucaipen.test;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-
 import javax.swing.*;
 
+@SuppressWarnings("serial")
 public class TestModth extends JFrame {
 	private JButton btn1 = new JButton("Button 1");
 	private JButton btn2 = new JButton("Button 2");

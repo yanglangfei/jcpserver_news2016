@@ -36,5 +36,17 @@ public class MyGiftsSer{
 		MyGiftsDao dao=new MyGiftsImp();
 		return dao.addGifts(gifts);
 	}
+	
+	public static List<MyGifts> findMyGiftDetailBySenderId(int senderId, int giftId,
+			int page){
+		MyGiftsDao dao=new MyGiftsImp();
+		return dao.findMyGiftDetailBySenderId(senderId, giftId, page);
+	}
+	
+	public static List<MyGifts> findMyGiftDetailByReceiverId(int receiverId,
+			int giftId, int page) {
+		MyGiftsDao dao=new MyGiftsImp();
+		return dao.findMyGiftDetailByReceiverId(receiverId, giftId, page);
+	}
 
 }
