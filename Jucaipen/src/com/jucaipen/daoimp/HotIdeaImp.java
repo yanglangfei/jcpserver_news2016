@@ -270,7 +270,7 @@ public class HotIdeaImp implements HotIdeaDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT Title,Bodys,InsertDate,Goods,FK_TearchId,ImagesUrl,Hits,VirtualNum FROM JCP_Tearch_Log WHERE Id="
+					.executeQuery("SELECT Title,Bodys,InsertDate,Goods,FK_TearchId,ImagesUrl,Hits,VirtualNum,IsFree,PayJucaibi,FreeBody FROM JCP_Tearch_Log WHERE Id="
 							+ id + " ORDER BY InsertDate DESC");
 			while (res.next()) {
 				String title = res.getString(1);
@@ -281,6 +281,9 @@ public class HotIdeaImp implements HotIdeaDao {
 				String logImage = res.getString(6);
 				int hits=res.getInt(7);
 				int xnHits=res.getInt(8);
+				int isFree=res.getInt(9);
+				int jucaiBills=res.getInt(10);
+				String freeBody=res.getString(11);
 				HotIdea idea = new HotIdea();
 				idea.setId(id);
 				idea.setBodys(body);
@@ -290,6 +293,9 @@ public class HotIdeaImp implements HotIdeaDao {
 				idea.setInsertDate(insertDate);
 				idea.setGoods(goods);
 				idea.setHits(hits);
+				idea.setIsFree(isFree);
+				idea.setJucaiBills(jucaiBills);
+				idea.setFreeBody(freeBody);
 				idea.setTeacherId(teacherId);
 				return idea;
 			}

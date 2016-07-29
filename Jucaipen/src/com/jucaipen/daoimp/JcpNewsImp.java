@@ -440,7 +440,7 @@ public class JcpNewsImp implements JcpNewsDao {
 			res = sta
 					.executeQuery("SELECT TOP "
 							+ count
-							+ " Id,Title,ImageUrl,InsertDate,XnHits,ComeFrom FROM JCPNews ORDER BY InsertDate DESC,Id DESC");
+							+ " Id,Title,ImageUrl,InsertDate,XnHits,ComeFrom FROM JCPNews WHERE IsImage=1 ORDER BY InsertDate DESC,Id DESC");
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				String title = res.getString(SqlUtil.NEWS_TITLE);

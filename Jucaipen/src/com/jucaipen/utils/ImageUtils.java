@@ -71,9 +71,9 @@ public class ImageUtils {
 
         // 5-给图片添加文字水印：
         // 方法一：
-        ImageUtils.pressText("我是水印文字","d:/user.jpg","d:/abc_pressText.jpg","宋体",Font.BOLD,Color.white,80, 0, 0, 0.5f);//测试OK
+        ImageUtils.pressText("我是水印文字","d:/user.jpg","d:/abc_pressText.jpg","宋体",Font.BOLD,Color.white,40, 0, 0, 0.5f);//测试OK
         // 方法二：
-        ImageUtils.pressText2("我也是水印文字", "d:/user.jpg","d:/abc_pressText2.jpg", "黑体", 36, Color.white, 80, 0, 0, 0.5f);//测试OK
+        ImageUtils.pressText2("我也是水印文字", "d:/user.jpg","d:/abc_pressText2.jpg", "黑体", 36, Color.white, 40, 0, 0, 0.5f);//测试OK
          System.out.println("   测试ok.....");
         // 6-给图片添加图片水印：
         //ImageUtils.pressImage("c:/user.jpg", "e:/abc.jpg","e:/abc_pressImage.jpg", 0, 0, 0.5f);//测试OK

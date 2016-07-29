@@ -16,11 +16,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+import cn.jpush.api.JPushClient;
+
 import com.jucaipen.model.ApkInfo;
 import com.jucaipen.service.ApkInfoServer;
+import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.StringUtil;
 
 /**
@@ -112,6 +117,8 @@ public class UploadApk extends HttpServlet {
 	}
 
 	private void pushUpdateInfo() {
+		JPushClient client = JPushUtils.getJPush();
+		
 		//XinGeUtil.getInstance(false).pushAllUpdateDevice(0, "apk版本更新提醒", "可更新到最新版本"+versionName);
 	}
 

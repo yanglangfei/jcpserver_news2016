@@ -31,6 +31,7 @@ public class MyAttention extends HttpServlet {
 	private String result;
 	private List<FamousTeacher> teachers = new ArrayList<FamousTeacher>();
 	private List<User> users = new ArrayList<User>();
+
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -42,33 +43,43 @@ public class MyAttention extends HttpServlet {
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
 			String userId = request.getParameter("userId");
-			String page = request.getParameter("page");
-			String type = request.getParameter("type");
-			if (StringUtil.isNotNull(userId)) {
-				if (StringUtil.isInteger(userId)) {
-					int uId = Integer.parseInt(userId);
-					if (uId > 0) {
-						if (StringUtil.isNotNull(page)
-								&& StringUtil.isInteger(page)) {
-							int p = Integer.parseInt(page);
-							if (StringUtil.isNotNull(type)
-									&& StringUtil.isInteger(type)) {
-								int t = Integer.parseInt(type);
-								result = initAttention(uId, t, p);
-							} else {
-								result = JsonUtil.getRetMsg(5, "type 参数异常");
-							}
+			String hasPage = request.getParameter("hasPage");
+			if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
+				int uId = Integer.parseInt(userId);
+				if (uId > 0) {
+					if (StringUtil.isNotNull(hasPage)
+							&& StringUtil.isInteger(hasPage)) {
+						int isPage = Integer.parseInt(hasPage);
+						if (isPage == 0) {
+							// 无分页
+							result = initNoPageAttention(uId);
 						} else {
-							result = JsonUtil.getRetMsg(4, "page 参数异常");
+							// 分页
+							String page = request.getParameter("page");
+							String type = request.getParameter("type");
+							if (StringUtil.isNotNull(page)
+									&& StringUtil.isInteger(page)) {
+								int p = Integer.parseInt(page);
+								if (StringUtil.isNotNull(type)
+										&& StringUtil.isInteger(type)) {
+									int t = Integer.parseInt(type);
+									result = initAttention(uId, t, p);
+								} else {
+									result = JsonUtil.getRetMsg(5, "type 参数异常");
+								}
+							} else {
+								result = JsonUtil.getRetMsg(4, "page 参数异常");
+							}
 						}
 					} else {
-						result = JsonUtil.getRetMsg(3, "该用户还没登录");
+						result = JsonUtil.getRetMsg(3, "hasPage 参数异常");
 					}
 				} else {
-					result = JsonUtil.getRetMsg(2, "userId 数字格式化异常");
+					result = JsonUtil.getRetMsg(2, "用户还没登录");
 				}
+
 			} else {
-				result = JsonUtil.getRetMsg(1, "userId 参数不能为空");
+				result = JsonUtil.getRetMsg(1, "userId 参数异常");
 			}
 		} else {
 			result = StringUtil.isVaild;
@@ -76,6 +87,20 @@ public class MyAttention extends HttpServlet {
 		out.println(result);
 		out.flush();
 		out.close();
+	}
+
+	private String initNoPageAttention(int uId) {
+		teachers.clear();
+		List<Fans> fans = FansSer.findFansByUid(uId);
+		if (fans != null) {
+			for (Fans f : fans) {
+				int tid = f.getTeacherId();
+				FamousTeacher teacher = FamousTeacherSer
+						.findFamousTeacherById(tid);
+				teachers.add(teacher);
+			}
+		}
+		return JsonUtil.getAttentioner(teachers);
 	}
 
 	/**
@@ -95,16 +120,18 @@ public class MyAttention extends HttpServlet {
 			// 关注我的（针对讲师）
 			fans = FansSer.findFansByTeacherId(uId, p);
 		}
-		for (Fans f : fans) {
-			int uid = f.getUserId();
-			int tid = f.getTeacherId();
-			if (t == 0) {
-				FamousTeacher teacher = FamousTeacherSer
-						.findFamousTeacherById(tid);
-				teachers.add(teacher);
-			} else {
-				User u = UserServer.findUserById(uid);
-				users.add(u);
+		if (fans != null) {
+			for (Fans f : fans) {
+				int uid = f.getUserId();
+				int tid = f.getTeacherId();
+				if (t == 0) {
+					FamousTeacher teacher = FamousTeacherSer
+							.findFamousTeacherById(tid);
+					teachers.add(teacher);
+				} else {
+					User u = UserServer.findUserById(uid);
+					users.add(u);
+				}
 			}
 		}
 		if (t == 0) {

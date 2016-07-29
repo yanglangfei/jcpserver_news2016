@@ -22,6 +22,17 @@ public class FansSer {
 		FansDao dao=new FansImp();
 		return dao.findFansByUid(userId, page);
 	}
+	
+	/**
+	 * @param userId
+	 * @param page
+	 * @return 根据用户id获取粉丝信息
+	 */
+	public static List<Fans> findFansByUid(int userId) {
+		FansDao dao=new FansImp();
+		return dao.findFansByUid(userId);
+	}
+
 
 	/**
 	 * @param teacherId

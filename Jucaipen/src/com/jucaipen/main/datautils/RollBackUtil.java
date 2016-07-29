@@ -702,12 +702,11 @@ public class RollBackUtil {
 						+ present.getPresentNum()
 						+ "," + present.getPresentId() + ")");
 			} else {
-				sta.executeUpdate("UPDATE JCP_MyPresent SET PresentNum="
-						+ (present.getPresentNum() + present.getPresentNum()
+				 sta.executeUpdate("UPDATE JCP_MyPresent SET PresentNum="
+						+ (presentExit.getPresentNum() + present.getPresentNum())
 								+ " WHERE FK_LiPinId=" + presentExit
-									.getPresentId()));
+									.getPresentId());
 			}
-
 			// 2、总账户信息 积分聚财币 JCP_Account
 			sta.executeUpdate("UPDATE JCP_Account SET Integral="
 					+ (a.getIntegeral() + b) + ",JucaiBi="

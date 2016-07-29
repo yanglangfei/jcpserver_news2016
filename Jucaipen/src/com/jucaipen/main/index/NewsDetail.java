@@ -90,6 +90,7 @@ public class NewsDetail extends HttpServlet {
 			initIdeaHits(tId,id,idea.getHits(),idea.getXnHits(),teacher.getArticleReadCount(),teacher.getXnArticleReadNum());
 			return JsonUtil.getIdeaDetails(idea,teacher);
 		}else{
+			//获取战法列表
 			if(StringUtil.isNotNull(page)&&StringUtil.isInteger(page)){
 				int p=Integer.parseInt(page);
 				List<TacticsDetails> detailsArray=TacticsDetailSer.findDetailsByFkId(id,p);

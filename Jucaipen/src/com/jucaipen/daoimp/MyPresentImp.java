@@ -171,13 +171,15 @@ public class MyPresentImp implements MyPresentDao {
 		try {
 			sta=dbConn.createStatement();
 			res=sta.executeQuery("SELECT * FROM JCP_MyPresent WHERE FK_UserId="+uId+" AND FK_LiPinId="+pId);
-			res.next();
-			int presentNum=res.getInt("PresentNum");
-			int id=res.getInt("Id");
-			MyPresent parent=new MyPresent();
-			parent.setId(id);
-			parent.setPresentNum(presentNum);
-			return parent;
+			while (res.next()) {
+				int presentNum=res.getInt("PresentNum");
+				int id=res.getInt("Id");
+				MyPresent parent=new MyPresent();
+				parent.setId(id);
+				parent.setPresentId(pId);
+				parent.setPresentNum(presentNum);
+				return parent;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{

@@ -24,7 +24,6 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class GiftRecoderDetail extends HttpServlet {
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -51,15 +50,12 @@ public class GiftRecoderDetail extends HttpServlet {
 						}else{
 							result=JsonUtil.getRetMsg(5,"typeId 参数异常");
 						}
-
 					}else{
 						result=JsonUtil.getRetMsg(4, "page 参数异常");
 					}
-
 				}else{
 					result=JsonUtil.getRetMsg(3, "giftId 参数异常");
 				}
-
 			}else{
 				result=JsonUtil.getRetMsg(2, "用户没有登录");
 			}

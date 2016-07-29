@@ -126,7 +126,7 @@ public class SendPresent extends HttpServlet {
 		gifts.setGiftId(pId);
 		gifts.setGiftNum(num);
 		gifts.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
-		gifts.setReceiverId(tId);
+		gifts.setReceiverId(teacher.getFk_UserId());
 		gifts.setSenderId(uId);
 		gifts.setRemark("赠送【"+g.getTitle()+"】礼品【"+num+"】个，背包用去【"+num+"】");
 		gifts.setSortId(0);

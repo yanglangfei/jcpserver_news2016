@@ -55,6 +55,8 @@ public class PurchGift extends HttpServlet {
 							if(StringUtil.isNotNull(bills)&&StringUtil.isInteger(bills)){
 								int b=Integer.parseInt(bills);
 								result=purchGifts(pId,num,uId,b);
+							}else{
+								result=JsonUtil.getRetMsg(6, "bills 参数异常");
 							}
 						}else{
 							result=JsonUtil.getRetMsg(5,"giftNum 参数异常");
@@ -86,13 +88,12 @@ public class PurchGift extends HttpServlet {
 		}
 		
 		Gifts gift=GiftsSer.findGiftById(pId);
-		MyPresent presentExit=MyPresentSer.findPresentById(pId);
+		MyPresent presentExit=MyPresentSer.findParentByUid(uId, pId);
 		
 		MyPresent present=new MyPresent();
 		present.setPresentId(pId);
 		present.setPresentNum(num);
 		present.setUserId(uId);
-		
 		AccountDetail detail=new AccountDetail();
 		detail.setDetailMoney(b);
 		detail.setDetailType(1);

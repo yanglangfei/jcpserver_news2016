@@ -14,11 +14,9 @@ import com.jucaipen.service.FansSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
- * 
- *         查询是否关注
+ *   查询是否关注
  */
 @SuppressWarnings("serial")
 public class QuerryAttention extends HttpServlet {

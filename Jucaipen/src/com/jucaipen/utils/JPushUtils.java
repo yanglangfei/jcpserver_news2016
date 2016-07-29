@@ -1,6 +1,7 @@
 package com.jucaipen.utils;
 
 import java.util.Map;
+
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
@@ -9,6 +10,7 @@ import cn.jpush.api.push.model.Message;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
+import cn.jpush.api.push.model.notification.Notification;
 
 public class JPushUtils {
 
@@ -22,17 +24,35 @@ public class JPushUtils {
 		}
 		return client;
 	}
+	
+	
+	/**
+	 * @param msg
+	 * @return  创建通知  目标 ： android iOS
+	 */
+	public static PushPayload createNptify(String msg){
+		return PushPayload.newBuilder().setPlatform(Platform.android_ios())
+				.setNotification(Notification.alert(msg))
+				.setAudience(Audience.all())
+				.build();
+	}
 
+	/**
+	 * @param alert
+	 * @param title
+	 * @param content
+	 * @param extras
+	 * @return   创建透传消息  目标 ： android iOS
+	 */
 	public static PushPayload createMsg(String alert, String title,
 			String content, Map<String, String> extras) {
-		PushPayload payload = PushPayload
+		return PushPayload
 				.newBuilder()
 				.setPlatform(Platform.android_ios())
 				.setMessage(
 						Message.newBuilder().setMsgContent(content)
 								.setTitle(title).build())
 				.setAudience(Audience.all()).build();
-		return payload;
 	}
 
 	public static PushResult pushMsg(JPushClient client, PushPayload payLoad) {

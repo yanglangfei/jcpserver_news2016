@@ -18,6 +18,8 @@ public interface FansDao {
 	 */
 	public List<Fans> findFansByUid(int userId,int page);
 	
+	public List<Fans> findFansByUid(int userId);
+	
 	/**
 	 * @param teacherId
 	 * @return  根据讲师id获取粉丝信息
