@@ -31,10 +31,20 @@ public class SysMessage implements Serializable{
 	 *    发件人  FK_SendUserId
 	 */
 	private int senderId;
+	
+	/**
+	 *   发送消息人昵称
+	 */
+	private String sendName;
 	/**
 	 *  收件人  FK_ReceiveUserId
 	 */
 	private int receiverId;
+	
+	/**
+	 *  接受消息人昵称
+	 */
+	private String receiverName;
 	/**
 	 *  SendDate
 	 */
@@ -48,6 +58,18 @@ public class SysMessage implements Serializable{
 	 */
 	private int isRead;
 	
+	public String getSendName() {
+		return sendName;
+	}
+	public void setSendName(String sendName) {
+		this.sendName = sendName;
+	}
+	public String getReceiverName() {
+		return receiverName;
+	}
+	public void setReceiverName(String receiverName) {
+		this.receiverName = receiverName;
+	}
 	public int getPage() {
 		return page;
 	}

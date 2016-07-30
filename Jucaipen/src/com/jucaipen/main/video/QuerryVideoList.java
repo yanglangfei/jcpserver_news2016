@@ -1,4 +1,5 @@
 package com.jucaipen.main.video;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -14,9 +15,9 @@ import com.jucaipen.service.VideoClassSer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
+
 /**
- * @author Administrator
- *       获取视频列表信息
+ * @author Administrator 获取视频列表信息
  */
 @SuppressWarnings("serial")
 public class QuerryVideoList extends HttpServlet {
@@ -56,128 +57,153 @@ public class QuerryVideoList extends HttpServlet {
 		} else {
 			result = JsonUtil.getRetMsg(1, "classId 参数异常");
 		}
+		System.out.println(result);
 		out.println(result);
 		out.flush();
 		out.close();
 	}
-	
 
-	private  String initVideoList(int type, int tId, int cId, int p) {
+	private String initVideoList(int type, int tId, int cId, int p) {
 		// cId 查询时必须存在 大于0
-		//List<VideoClass> las;
+		List<Video> videos;
 		if (cId < 0) {
 			return JsonUtil.getRetMsg(1, "分类id必须大于0");
 		}
-		if (type >= 0 && tId >= 0 && cId >= 0) {
+		if (type > 0 && tId > 0 && cId >= 0) {
 			// 各种分类 非全部
-			cIdArray=new StringBuffer();
+			cIdArray = new StringBuffer();
 			List<VideoClass> vcs = VideoClassSer.findClassByPid(cId);
-			StringBuffer vs = getVideoClass(vcs);  
-			if(vs!=null&&vs.toString().endsWith(",")){
-				vs.replace(vs.length()-1, vs.length(),"");
+			StringBuffer vs = getVideoClass(vcs);
+			if (vs != null && vs.length() > 0) {
+				if (vs.toString().endsWith(",")) {
+					vs.replace(vs.length() - 1, vs.length(), "");
+				}
+				videos = VideoServer.findVideoByTypeAndClassIdAndTeacherId(
+						type, vs.toString(), tId, p);
+			} else {
+				videos = VideoServer.findVideoByTypeAndClassIdAndTeacherId(
+						type, cId, tId, p);
 			}
-			List<Video> videos = VideoServer.findVideoByTypeAndClassIdAndTeacherId(type, vs.toString(), tId, p);
-			if(videos!=null){
-				for(Video video : videos){
-					//是否为付费视频  0为免费视频，1为付费视频
-					int specialId=video.getPecialId();
-					int videoType=video.getVideoType();
-					video.setCharge(videoType==1);
-					
-					if(specialId>0){
+			if (videos != null) {
+				for (Video video : videos) {
+					// 是否为付费视频 0为免费视频，1为付费视频
+					int specialId = video.getPecialId();
+					int videoType = video.getVideoType();
+					video.setCharge(videoType == 1);
+
+					if (specialId > 0) {
 						Special special = SpecialSer.findSpecialById(specialId);
-						video.setCharge(special.getIsFree()==2);
+						video.setCharge(special.getIsFree() == 2);
 					}
 				}
 			}
 			return JsonUtil.getVideoList(videos);
 		}
 		// cId>0
-		if (cId >= 0 && type < 0 && tId < 0) {
-			cIdArray=new StringBuffer();
+		if (cId >= 0 && type <= 0 && tId <= 0) {
+			cIdArray = new StringBuffer();
 			List<VideoClass> vcs = VideoClassSer.findClassByPid(cId);
 			StringBuffer vs = getVideoClass(vcs);
-			if(vs!=null&&vs.toString().endsWith(",")){
-				vs.replace(vs.length()-1, vs.length(),"");
+			if (vs != null && vs.length() > 0) {
+				if (vs.toString().endsWith(",")) {
+					vs.replace(vs.length() - 1, vs.length(), "");
+				}
+				videos = VideoServer.findVideoByClassId(vs.toString(), p);
+			} else {
+				videos = VideoServer.findVideoByClassId(cId, p);
 			}
-			List<Video> videos = VideoServer.findVideoByClassId(vs.toString(), p);
-			if(videos!=null){
-				for(Video video : videos){
-					//是否为付费视频  0为免费视频，1为付费视频
-					int specialId=video.getPecialId();
-					int videoType=video.getVideoType();
-					video.setCharge(videoType==1);
-					if(specialId>0){
+
+			if (videos != null) {
+				for (Video video : videos) {
+					// 是否为付费视频 0为免费视频，1为付费视频
+					int specialId = video.getPecialId();
+					int videoType = video.getVideoType();
+					video.setCharge(videoType == 1);
+					if (specialId > 0) {
 						Special special = SpecialSer.findSpecialById(specialId);
-						video.setCharge(special.getIsFree()==2);
+						video.setCharge(special.getIsFree() == 2);
 					}
 				}
 			}
-			
-			return JsonUtil.getVideoList(videos);
-		}
-		
-		if (cId >= 0 && type >= 0 && tId < 0) {
-			cIdArray=new StringBuffer();
-			List<VideoClass> vcs = VideoClassSer.findClassByPid(cId);
-			StringBuffer vs = getVideoClass(vcs);
-			if(vs!=null&&vs.toString().endsWith(",")){
-				vs.replace(vs.length()-1, vs.length(),"");
-			}
-			List<Video> videos = VideoServer.findVideoByTypeAndClassId(type,
-					vs.toString(), p);
-			if(videos!=null){
-				for(Video video : videos){
-					//是否为付费视频  0为免费视频，1为付费视频
-					int specialId=video.getPecialId();
-					int videoType=video.getVideoType();
-					video.setCharge(videoType==1);
-					if(specialId>0){
-						Special special = SpecialSer.findSpecialById(specialId);
-						video.setCharge(special.getIsFree()==2);
-					}
-				}
-			}
-			
+
 			return JsonUtil.getVideoList(videos);
 		}
 
-		
-		if (cId >= 0 && type < 0 && tId >= 0) {
-			cIdArray=new StringBuffer();
+		if (cId >= 0 && type > 0 && tId <= 0) {
+			cIdArray = new StringBuffer();
 			List<VideoClass> vcs = VideoClassSer.findClassByPid(cId);
 			StringBuffer vs = getVideoClass(vcs);
-			if(vs!=null&&vs.toString().endsWith(",")){
-				vs.replace(vs.length()-1, vs.length(),"");
+			if (vs != null && vs.length() > 0) {
+				if (vs.toString().endsWith(",")) {
+					vs.replace(vs.length() - 1, vs.length(), "");
+				}
+				videos = VideoServer.findVideoByTypeAndClassId(type,
+						vs.toString(), p);
+			} else {
+				videos = VideoServer.findVideoByTypeAndClassId(type, cId, p);
 			}
-			List<Video> videos = VideoServer.findVideoByTeacherIdAndClassId(
-					tId, vs.toString(), p);
-			if(videos!=null){
-				for(Video video : videos){
-					//是否为付费视频  0为免费视频，1为付费视频
-					int specialId=video.getPecialId();
-					int videoType=video.getVideoType();
-					video.setCharge(videoType==1);
-					
-					if(specialId>0){
+			if (videos != null) {
+				for (Video video : videos) {
+					// 是否为付费视频 0为免费视频，1为付费视频
+					int specialId = video.getPecialId();
+					int videoType = video.getVideoType();
+					video.setCharge(videoType == 1);
+					if (specialId > 0) {
 						Special special = SpecialSer.findSpecialById(specialId);
-						video.setCharge(special.getIsFree()==2);
+						video.setCharge(special.getIsFree() == 2);
 					}
-					
+				}
+			}
+
+			return JsonUtil.getVideoList(videos);
+		}
+
+		if (cId >= 0 && type <= 0 && tId > 0) {
+			cIdArray = new StringBuffer();
+			List<VideoClass> vcs = VideoClassSer.findClassByPid(cId);
+			StringBuffer vs = getVideoClass(vcs);
+			if (vs != null && vs.length() > 0) {
+				if (vs.toString().endsWith(",")) {
+					vs.replace(vs.length() - 1, vs.length(), "");
+				}
+				videos = VideoServer.findVideoByTeacherIdAndClassId(tId,
+						vs.toString(), p);
+			} else {
+				videos = VideoServer
+						.findVideoByTeacherIdAndClassId(tId, cId, p);
+			}
+
+			if (videos != null) {
+				for (Video video : videos) {
+					// 是否为付费视频 0为免费视频，1为付费视频
+					int specialId = video.getPecialId();
+					int videoType = video.getVideoType();
+					video.setCharge(videoType == 1);
+
+					if (specialId > 0) {
+						Special special = SpecialSer.findSpecialById(specialId);
+						video.setCharge(special.getIsFree() == 2);
+					}
+
 				}
 			}
 			return JsonUtil.getVideoList(videos);
 		}
 		return null;
 	}
-	
-	public  StringBuffer getVideoClass(List<VideoClass> vcs){
-		for(VideoClass vc : vcs){
-			cIdArray.append(vc.getId());
-			cIdArray.append(",");
-			List<VideoClass> vs = VideoClassSer.findClassByPid(vc.getId());
-			if(vs!=null){
-				getVideoClass(vs);
+
+	public StringBuffer getVideoClass(List<VideoClass> vcs) {
+		// {1.8.9}
+		if (vcs != null) {
+			for (VideoClass vc : vcs) {
+				if (!cIdArray.toString().contains("," + vc.getId() + ",")) {
+					cIdArray.append(vc.getId());
+					cIdArray.append(",");
+				}
+				List<VideoClass> vs = VideoClassSer.findClassByPid(vc.getId());
+				if (vs != null) {
+					getVideoClass(vs);
+				}
 			}
 		}
 		return cIdArray;

@@ -22,12 +22,12 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.model.PushPayload;
 
 import com.jucaipen.model.ApkInfo;
 import com.jucaipen.service.ApkInfoServer;
 import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author YLF
  * 
@@ -118,6 +118,8 @@ public class UploadApk extends HttpServlet {
 
 	private void pushUpdateInfo() {
 		JPushClient client = JPushUtils.getJPush();
+		PushPayload notifyMsgh = JPushUtils.createNptify("APK可更新到最新版本"+versionName,"action",1);
+		//JPushUtils.pushMsg(client, notifyMsgh);
 		
 		//XinGeUtil.getInstance(false).pushAllUpdateDevice(0, "apk版本更新提醒", "可更新到最新版本"+versionName);
 	}

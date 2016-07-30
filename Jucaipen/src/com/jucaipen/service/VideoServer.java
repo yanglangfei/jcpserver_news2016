@@ -29,6 +29,15 @@ public class VideoServer {
 		return dao.findVideoByClassId(classId,page);
 	}
 	
+	/**
+	 * @param classId
+	 * @return 根据分类id 查询相应视频
+	 */
+	public static List<Video> findVideoByClassId(int classId,int page) {
+		VideoDao dao = new VideoImp();
+		return dao.findVideoByClassId(classId,page);
+	}
+	
 	public static List<Video> findVideoByIsRecommId(int isRecomm,int classId){
 		VideoDao dao = new VideoImp();
 		return dao.findVideoByIsRecommId(isRecomm, classId);
@@ -94,6 +103,18 @@ public class VideoServer {
 	}
 	
 	/**
+	 * @param teacherId
+	 * @param classId
+	 * @param page
+	 * @return
+	 */
+	public static List<Video> findVideoByTeacherIdAndClassId(int teacherId,
+			int classId, int page) {
+		VideoDao dao=new VideoImp();
+		return dao.findVideoByTeacherIdAndClassId(teacherId, classId, page);
+	}
+	
+	/**
 	 * @param type
 	 * @param classId
 	 * @param page
@@ -107,12 +128,36 @@ public class VideoServer {
 	/**
 	 * @param type
 	 * @param classId
+	 * @param page
+	 * @return
+	 */
+	public static List<Video> findVideoByTypeAndClassId(int type, int classId, int page) {
+		VideoDao dao=new VideoImp();
+		return dao.findVideoByTypeAndClassId(type, classId, page);
+	}
+	
+	/**
+	 * @param type
+	 * @param classId
 	 * @param teacherId
 	 * @param page
 	 * @return
 	 */
 	public static List<Video> findVideoByTypeAndClassIdAndTeacherId(int type,
 			String classId, int teacherId, int page) {
+		VideoDao dao=new VideoImp();
+		return dao.findVideoByTypeAndClassIdAndTeacherId(type, classId, teacherId, page);
+	}
+	
+	/**
+	 * @param type
+	 * @param classId
+	 * @param teacherId
+	 * @param page
+	 * @return
+	 */
+	public static List<Video> findVideoByTypeAndClassIdAndTeacherId(int type,
+			int classId, int teacherId, int page) {
 		VideoDao dao=new VideoImp();
 		return dao.findVideoByTypeAndClassIdAndTeacherId(type, classId, teacherId, page);
 	}

@@ -97,6 +97,13 @@ public class VideoImp implements VideoDao {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
+			System.out.println("SELECT TOP 15 FK_ClassId,Id,Title,ImagesUrl,Description,IsMySite,VideoPageUrl,FK_Pecial,VideoType,PlayCount,VideoUrl,VideoDate,PlayXNCount FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Video WHERE FK_ClassId IN ("
+							+ classId
+							+ ")  ) A "
+							+ "WHERE RowNumber > "
+							+ 15
+							* (page - 1));
 			res = sta
 					.executeQuery("SELECT TOP 15 FK_ClassId,Id,Title,ImagesUrl,Description,IsMySite,VideoPageUrl,FK_Pecial,VideoType,PlayCount,VideoUrl,VideoDate,PlayXNCount FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Video WHERE FK_ClassId IN ("
@@ -1117,6 +1124,229 @@ public class VideoImp implements VideoDao {
 			}
 			return videos;
 		} catch (Exception e) {
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<Video> findVideoByClassId(int classId, int page) {
+		// 根据分类获取视频列表 FK_Pecial 所属专辑
+		int totlePage = getTotlePage(" WHERE FK_ClassId=" + classId );
+		videos.clear();
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP 15 FK_ClassId,Id,Title,ImagesUrl,Description,IsMySite,VideoPageUrl,FK_Pecial,VideoType,PlayCount,VideoUrl,VideoDate,PlayXNCount FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Video WHERE FK_ClassId="
+							+ classId
+							+ " ) A "
+							+ "WHERE RowNumber > "
+							+ 15
+							* (page - 1));
+			while (res.next()) {
+				int id = res.getInt(SqlUtil.NEWS_ID);
+				String title = res.getString(SqlUtil.VIDEO_TITLE);
+				String Images = res.getString(SqlUtil.VIDEO_IMAGES);
+				String desc = res.getString("Description");
+				int isMySiteVideo = res.getInt("IsMySite");
+				String pageUrl = res.getString("VideoPageUrl");
+				int cId = res.getInt("FK_ClassId");
+				int pecialId = res.getInt("FK_Pecial");
+				int hits = res.getInt("PlayCount");
+				int videoType = res.getInt("VideoType");
+				String VideoUrl = res.getString("VideoUrl");
+				String VideoDate = res.getString("VideoDate");
+				int xnHits=res.getInt("PlayXNCount");
+				Video video = new Video(id, title);
+				video.setImages(Images);
+				video.setDescript(desc);
+				video.setClassId(cId);
+				video.setVideoDate(VideoDate);
+				video.setVideoUrl(VideoUrl);
+				video.setVideoType(videoType);
+				video.setHitCount(hits);
+				video.setXnHitCount(xnHits);
+				video.setPecialId(pecialId);
+				video.setHtmlUrl(pageUrl);
+				video.setTotlePage(totlePage);
+				video.setPage(page);
+				video.setIsMySiteVideo(isMySiteVideo);
+				videos.add(video);
+			}
+			return videos;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<Video> findVideoByTypeAndClassIdAndTeacherId(int type,
+			int classId, int teacherId, int page) {
+		int totlePage = getTotlePage("WHERE FK_ClassId=" + classId
+				+ " AND FK_TypeId=" + type + " AND TearcherId=" + teacherId);
+		videos.clear();
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP 15 FK_ClassId,Id,Title,ImagesUrl,VideoPageUrl,PlayCount,FK_Pecial,VideoType,VideoDate,PlayXNCount FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Video WHERE FK_ClassId="
+							+ classId
+							+ " AND FK_TypeId="
+							+ type
+							+ " AND TearcherId="
+							+ teacherId
+							+ ") A "
+							+ "WHERE RowNumber > " + 15 * (page - 1));
+			while (res.next()) {
+				int id = res.getInt(SqlUtil.NEWS_ID);
+				String title = res.getString(SqlUtil.VIDEO_TITLE);
+				String Images = res.getString(SqlUtil.VIDEO_IMAGES);
+				String pageUrl = res.getString("VideoPageUrl");
+				int cId = res.getInt("FK_ClassId");
+				int videoType = res.getInt("VideoType");
+				int hits = res.getInt("PlayCount");
+				String videoDate = res.getString("VideoDate");
+				int specialId = res.getInt("FK_Pecial");
+				int xnHits=res.getInt("PlayXNCount");
+				Video video = new Video(id, title);
+				video.setImages(Images);
+				video.setHtmlUrl(pageUrl);
+				video.setHitCount(hits);
+				video.setXnHitCount(xnHits);
+				video.setVideoDate(videoDate);
+				video.setPecialId(specialId);
+				video.setVideoType(videoType);
+				video.setTotlePage(totlePage);
+				video.setClassId(cId);
+				video.setPage(page);
+				videos.add(video);
+			}
+			return videos;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<Video> findVideoByTypeAndClassId(int type, int classId, int page) {
+		int totlePage = getTotlePage("WHERE FK_ClassId=" + classId
+				+ " AND FK_TypeId=" + type);
+		videos.clear();
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP 15 FK_ClassId,Id,Title,ImagesUrl,VideoPageUrl,FK_Pecial,VideoType,PlayCount,VideoDate,PlayXNCount FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Video WHERE FK_ClassId ="
+							+ classId
+							+ " AND FK_TypeId="
+							+ type
+							+ ") A "
+							+ "WHERE RowNumber > " + 15 * (page - 1));
+			while (res.next()) {
+				int id = res.getInt(SqlUtil.NEWS_ID);
+				String title = res.getString(SqlUtil.VIDEO_TITLE);
+				String Images = res.getString(SqlUtil.VIDEO_IMAGES);
+				String pageUrl = res.getString("VideoPageUrl");
+				int cId = res.getInt("FK_ClassId");
+				int specialId = res.getInt("FK_Pecial");
+				int videoType = res.getInt("VideoType");
+				int hits = res.getInt("PlayCount");
+				String videoDate = res.getString("VideoDate");
+				int xnHits=res.getInt("PlayXNCount");
+				Video video = new Video(id, title);
+				video.setImages(Images);
+				video.setVideoDate(videoDate);
+				video.setTotlePage(totlePage);
+				video.setHtmlUrl(pageUrl);
+				video.setClassId(cId);
+				video.setXnHitCount(xnHits);
+				video.setHitCount(hits);
+				video.setVideoType(videoType);
+				video.setPecialId(specialId);
+				video.setPage(page);
+				videos.add(video);
+			}
+			return videos;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<Video> findVideoByTeacherIdAndClassId(int teacherId,
+			int classId, int page) {
+		int totlePage = getTotlePage("WHERE FK_ClassId  =" + classId
+				+ " AND TearcherId=" + teacherId);
+		videos.clear();
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP 15 FK_ClassId,Id,Title,ImagesUrl,Description,VideoPageUrl,FK_Pecial,VideoType,PlayCount,VideoDate,PlayXNCount FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Video WHERE FK_ClassId ="
+							+ classId
+							+ " AND TearcherId="
+							+ teacherId
+							+ ") A " + "WHERE RowNumber > " + 15 * (page - 1));
+			while (res.next()) {
+				int id = res.getInt(SqlUtil.NEWS_ID);
+				String title = res.getString(SqlUtil.VIDEO_TITLE);
+				String Images = res.getString(SqlUtil.VIDEO_IMAGES);
+				String desc = res.getString("Description");
+				String pageUrl = res.getString("VideoPageUrl");
+				int cId = res.getInt("FK_ClassId");
+				int specialId = res.getInt("FK_Pecial");
+				int videoType = res.getInt("VideoType");
+				int hits = res.getInt("PlayCount");
+				String videoDate = res.getString("VideoDate");
+				int xnHits=res.getInt("PlayXNCount");
+				Video video = new Video(id, title);
+				video.setImages(Images);
+				video.setDescript(desc);
+				video.setVideoDate(videoDate);
+				video.setHitCount(hits);
+				video.setVideoType(videoType);
+				video.setPecialId(specialId);
+				video.setTotlePage(totlePage);
+				video.setClassId(cId);
+				video.setXnHitCount(xnHits);
+				video.setHtmlUrl(pageUrl);
+				video.setPage(page);
+				videos.add(video);
+			}
+			return videos;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);

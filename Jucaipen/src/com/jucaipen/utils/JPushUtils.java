@@ -30,9 +30,10 @@ public class JPushUtils {
 	 * @param msg
 	 * @return  创建通知  目标 ： android iOS
 	 */
-	public static PushPayload createNptify(String msg){
+	public static PushPayload createNptify(String msg,String key,Number value){
 		return PushPayload.newBuilder().setPlatform(Platform.android_ios())
 				.setNotification(Notification.alert(msg))
+				.setMessage(Message.newBuilder().addExtra(key, value).build())
 				.setAudience(Audience.all())
 				.build();
 	}

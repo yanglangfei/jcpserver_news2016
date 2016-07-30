@@ -89,6 +89,10 @@ public class MyAttention extends HttpServlet {
 		out.close();
 	}
 
+	/**
+	 * @param uId
+	 * @return
+	 */
 	private String initNoPageAttention(int uId) {
 		teachers.clear();
 		List<Fans> fans = FansSer.findFansByUid(uId);
@@ -107,7 +111,7 @@ public class MyAttention extends HttpServlet {
 	 * @param uId
 	 * @param t
 	 * @param p
-	 * @return 初始化关注信息
+	 * @return 初始化关注信息 有分页
 	 */
 	private String initAttention(int uId, int t, int p) {
 		teachers.clear();

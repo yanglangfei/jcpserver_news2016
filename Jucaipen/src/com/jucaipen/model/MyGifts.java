@@ -20,12 +20,18 @@ public class MyGifts implements Serializable{
 	 */
 	private int senderId;
 	
+	/**
+	 *    赠送礼品人昵称
+	 */
 	private String sendName;
 	/**
 	 *  FK_ReceiveUserId
 	 */
 	private int receiverId;
 	
+	/**
+	 *   接受礼品人昵称
+	 */
 	private String receiverName;
 	/**
 	 *  FK_LiPinId
