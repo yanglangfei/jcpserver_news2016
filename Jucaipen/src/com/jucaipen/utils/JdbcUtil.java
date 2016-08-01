@@ -21,6 +21,8 @@ public class JdbcUtil {
 	private static final String SQLSERVER_UNAME_TEST = "sa";
 	private static final String SQLSERVER_UPWD_TEST = "111111";
 	
+	private static boolean isTest=false;
+	
 	
 	
 	/**
@@ -87,13 +89,25 @@ public class JdbcUtil {
 	 */
 	public static Connection connSqlServer() {
 		try {
-			Class.forName(SQLSERVER_DRIVER_N);
-			/*
-			 * dbConn = DriverManager.getConnection(SQLSERVER_URL,
-			 * SQLSERVER_UNAME, SQLSERVER_UPWD);
-			 */
-			dbConn = DriverManager.getConnection(SQLSERVER_URL_N,
-					SQLSERVER_UNAME_N, SQLSERVER_UPWD_N);
+			
+			if(isTest){
+				Class.forName(SQLSERVER_DRIVER_TEST);
+				/*
+				 * dbConn = DriverManager.getConnection(SQLSERVER_URL,
+				 * SQLSERVER_UNAME, SQLSERVER_UPWD);
+				 */
+				dbConn = DriverManager.getConnection(SQLSERVER_URL_TEST,
+						SQLSERVER_UNAME_TEST, SQLSERVER_UPWD_TEST);
+			}else{
+				Class.forName(SQLSERVER_DRIVER_N);
+				/*
+				 * dbConn = DriverManager.getConnection(SQLSERVER_URL,
+				 * SQLSERVER_UNAME, SQLSERVER_UPWD);
+				 */
+				dbConn = DriverManager.getConnection(SQLSERVER_URL_N,
+						SQLSERVER_UNAME_N, SQLSERVER_UPWD_N);
+			}
+			
 			return dbConn;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

@@ -53,6 +53,6 @@ public class QuerryVideClass extends HttpServlet {
 	private String initVideoList(int pId) {
 		// 获取视频分类列表   不是类型列表    也不是讲师列表
 		List<VideoClass> types = VideoClassSer.findClassByPid(pId);
-		return JsonUtil.getVideoClassList(types);
+		return JsonUtil.getVideoClassList(types,pId);
 	}
 }

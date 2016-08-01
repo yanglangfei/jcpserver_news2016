@@ -16,6 +16,7 @@ import com.jucaipen.model.SysDetailAccount;
 import com.jucaipen.model.User;
 import com.jucaipen.model.Video;
 import com.jucaipen.service.AccountSer;
+import com.jucaipen.service.MyVideoSer;
 import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.service.VideoServer;
@@ -26,7 +27,7 @@ import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
  * 
- *         购买视频 专辑
+ *         购买视频 
  */
 @SuppressWarnings("serial")
 public class PurchVideo extends HttpServlet {
@@ -43,6 +44,7 @@ public class PurchVideo extends HttpServlet {
 		String userId = request.getParameter("userId");
 		String videoId = request.getParameter("videoId");
 		String bills = request.getParameter("bills");
+		String days = request.getParameter("days");
 		if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
 			int uId = Integer.parseInt(userId);
 			if (uId > 0) {
@@ -52,24 +54,52 @@ public class PurchVideo extends HttpServlet {
 					if (StringUtil.isNotNull(bills)
 							&& StringUtil.isInteger(bills)) {
 						int b = Integer.parseInt(bills);
-
-						result = purchVideo(uId, vId, b);
+						if (StringUtil.isNotNull(days)
+								&& StringUtil.isInteger(days)) {
+							int d = Integer.parseInt(days);
+							result = purchVideo(uId, vId, b, d);
+						}else{
+							result=JsonUtil.getRetMsg(5,"days 参数异常");
+						}
+					}else{
+						result=JsonUtil.getRetMsg(4,"bills 参数异常");
 					}
+				}else{
+					result=JsonUtil.getRetMsg(3,"videoId 参数异常");
 				}
+			}else{
+				result=JsonUtil.getRetMsg(2,"用户还没登录");
 			}
 
+		}else{
+			result=JsonUtil.getRetMsg(1,"userId 参数异常");
 		}
 		out.println(result);
 		out.flush();
 		out.close();
 	}
 
-	private String purchVideo(int uId, int vId, int b) {
+	private String purchVideo(int uId, int vId, int b, int days) {
 		// 1、查看聚财币是否足够
+		String startDate;
+		String endDate = null;
 		User user = UserServer.findBaseInfoById(uId);
 		Account a = AccountSer.findAccountByUserId(uId);
 		if (a == null || a.getJucaiBills() < b) {
 			return JsonUtil.getRetMsg(1, "聚财币余额不足");
+		}
+
+		// 是否已经购买
+		MyVideo mVideo =MyVideoSer.findIsMyVideo(uId, vId);
+		if (mVideo != null
+				&& TimeUtils.isLive(mVideo.getStartDate(),
+						mVideo.getEndDate())) {
+			// 续费
+			return JsonUtil.getRetMsg(5, "当前用户在订阅时间段，不能继续订阅");
+		} else {
+			startDate = TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
+			endDate = TimeUtils.format(TimeUtils.addBaseDay(new Date(), days),
+					"yyyy-MM-dd HH:mm:ss");
 		}
 
 		Video video = VideoServer.findVideoById(vId);
@@ -81,6 +111,8 @@ public class PurchVideo extends HttpServlet {
 		myVideo.setIsStop(0);
 		myVideo.setVideoId(vId);
 		myVideo.setUserId(uId);
+		myVideo.setEndDate(endDate);
+		myVideo.setStartDate(startDate);
 		myVideo.setRemark("购买视频【" + video.getTitle() + "】");
 
 		AccountDetail detail = new AccountDetail();
@@ -118,7 +150,6 @@ public class PurchVideo extends HttpServlet {
 		sysDetailAccount.setType(10);
 		sysDetailAccount.setUserId(uId);
 		sysDetailAccount.setRemark("购买视频【" + video.getTitle() + "】");
-
 
 		int isSuccess = RollBackUtil.purchVideo(myVideo, a, uId, b, detail,
 				detailInteger, sysAccount, sysDetailAccount, user);

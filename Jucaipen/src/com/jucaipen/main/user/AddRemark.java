@@ -30,6 +30,7 @@ import com.jucaipen.service.TxtLiveSer;
 import com.jucaipen.service.UserCommSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.service.VideoServer;
+import com.jucaipen.utils.BaseData;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
@@ -146,6 +147,8 @@ public class AddRemark extends HttpServlet {
 							// 更新用户积分信息
 							UserServer.updateIntegeral(uId,
 									commIntegeral);
+							int leavel=BaseData.getLeavel(commIntegeral);
+							UserServer.updateUserLeavel(uId, leavel);
 						}else{
 							// 更新总账户积分信息
 							AccountSer.updateIntegeral(uId,
@@ -153,6 +156,9 @@ public class AddRemark extends HttpServlet {
 							// 更新用户积分信息
 							UserServer.updateIntegeral(uId,
 									commIntegeral + a.getIntegeral());
+							int integeral=commIntegeral + a.getIntegeral();
+							int leavel=BaseData.getLeavel(integeral);
+							UserServer.updateUserLeavel(uId, leavel);
 						}
 						// 更新返现表
 						RebateIntegeralDetail inDetail = new RebateIntegeralDetail();
@@ -201,13 +207,18 @@ public class AddRemark extends HttpServlet {
 							// 更新用户积分信息
 							UserServer.updateIntegeral(uId,
 									commIntegeral + a.getIntegeral());
+							int integeral=commIntegeral + a.getIntegeral();
+							int leavel=BaseData.getLeavel(integeral);
+							UserServer.updateUserLeavel(uId, leavel);
 						}else{
 							Account account=new Account();
 							account.setUserId(uId);
 							account.setIntegeral(commIntegeral);
 							account.setJucaiBills(0);
 							AccountSer.addAccount(account);
-							UserServer.updateIntegeral(0, commIntegeral);
+							UserServer.updateIntegeral(uId, commIntegeral);
+							int leavel=BaseData.getLeavel(commIntegeral);
+							UserServer.updateUserLeavel(uId, leavel);
 						}
 						// 更新返现表
 						RebateIntegeralDetail inDetail = new RebateIntegeralDetail();
@@ -251,11 +262,25 @@ public class AddRemark extends HttpServlet {
 						int commIntegeral = config.getCommIntegeral();
 						Account a = AccountSer.findAccountByUserId(uId);
 						// 更新总账户积分信息
-						AccountSer.updateIntegeral(uId,
-								commIntegeral + a.getIntegeral());
-						// 更新用户积分信息
-						UserServer.updateIntegeral(uId,
-								commIntegeral + a.getIntegeral());
+						if(a!=null){
+							AccountSer.updateIntegeral(uId,
+									commIntegeral + a.getIntegeral());
+							// 更新用户积分信息
+							UserServer.updateIntegeral(uId,
+									commIntegeral + a.getIntegeral());
+							int integeral=commIntegeral + a.getIntegeral();
+							int leavel=BaseData.getLeavel(integeral);
+							UserServer.updateUserLeavel(uId, leavel);
+						}else{
+							Account account=new Account();
+							account.setUserId(uId);
+							account.setIntegeral(commIntegeral);
+							account.setJucaiBills(0);
+							AccountSer.addAccount(account);
+							UserServer.updateIntegeral(uId, commIntegeral);
+							int leavel=BaseData.getLeavel(commIntegeral);
+							UserServer.updateUserLeavel(uId, leavel);
+						}
 						// 更新返现表
 						RebateIntegeralDetail inDetail = new RebateIntegeralDetail();
 						inDetail.setUserId(uId);
@@ -297,11 +322,26 @@ public class AddRemark extends HttpServlet {
 						int commIntegeral = config.getCommIntegeral();
 						Account a = AccountSer.findAccountByUserId(uId);
 						// 更新总账户积分信息
-						AccountSer.updateIntegeral(uId,
-								commIntegeral + a.getIntegeral());
-						// 更新用户积分信息
-						UserServer.updateIntegeral(uId,
-								commIntegeral + a.getIntegeral());
+						if(a!=null){
+							AccountSer.updateIntegeral(uId,
+									commIntegeral + a.getIntegeral());
+							// 更新用户积分信息
+							UserServer.updateIntegeral(uId,
+									commIntegeral + a.getIntegeral());
+							int integeral=commIntegeral + a.getIntegeral();
+							int leavel=BaseData.getLeavel(integeral);
+							UserServer.updateUserLeavel(uId, leavel);
+						}else{
+							Account account=new Account();
+							account.setUserId(uId);
+							account.setIntegeral(commIntegeral);
+							account.setJucaiBills(0);
+							AccountSer.addAccount(account);
+							UserServer.updateIntegeral(uId, commIntegeral);
+							int leavel=BaseData.getLeavel(commIntegeral);
+							UserServer.updateUserLeavel(uId, leavel);
+						}
+						
 						// 更新返现表
 						RebateIntegeralDetail inDetail = new RebateIntegeralDetail();
 						inDetail.setUserId(uId);

@@ -11,34 +11,29 @@ import com.jucaipen.service.VideoClassSer;
  *  µ›πÈ≤‚ ‘
  */
 public class RecycleQuerry {
+	static StringBuffer  cIdArray=new StringBuffer();
 	
 	public static void main(String[] args) {
-		StringBuffer buffer=new StringBuffer();
-		List<VideoClass> vcs = VideoClassSer.findClassByPid(0);
-		List<List<VideoClass>> vs = getVideoClass(vcs);
-			for(List<VideoClass> c : vs){
-				for(VideoClass s : c){
-					buffer.append(s.getId());
-					buffer.append(",");
-				}
-		}
-			buffer.delete(buffer.length()-1,buffer.length());
-			System.out.println(buffer.toString());
+		List<VideoClass> vcs = VideoClassSer.findClassByPid(2);
+		StringBuffer vs = getVideoClass(vcs);
+		System.out.println(vs.toString());
 		
 	}
 	
 	
 	
-	public static List<List<VideoClass>> getVideoClass(List<VideoClass> vcs){
-		List<List<VideoClass>> vArray=new ArrayList<List<VideoClass>>();
-		for(VideoClass vc : vcs){
-			List<VideoClass> vs = VideoClassSer.findClassByPid(vc.getId());
-			if(vs!=null){
-				getVideoClass(vs);
+	public static StringBuffer getVideoClass(List<VideoClass> vcs){
+		if (vcs != null) {
+			for (VideoClass vc : vcs) {
+				cIdArray.append(vc.getId());
+				cIdArray.append(",");
+				List<VideoClass> vs = VideoClassSer.findClassByPid(vc.getId());
+				if (vs != null) {
+					getVideoClass(vs);
+				}
 			}
-			vArray.add(vs);
 		}
-		return vArray;
+		return cIdArray;
 	}
 
 }

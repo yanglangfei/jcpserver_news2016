@@ -115,7 +115,9 @@ public class GuardianImp implements GuardianDao {
 				guardian.setStartDate(startDate);
 				guardian.setEndDate(endDate);
 				guardian.setState(state);
-				guardians.add(guardian);
+				if(TimeUtils.isLive(startDate, endDate)){
+					guardians.add(guardian);
+				}
 			}
 			return guardians;
 		} catch (SQLException e) {
@@ -161,7 +163,9 @@ public class GuardianImp implements GuardianDao {
 				guardian.setStartDate(startDate);
 				guardian.setEndDate(endDate);
 				guardian.setState(state);
-				guardians.add(guardian);
+				if(TimeUtils.isLive(startDate, endDate)){
+					guardians.add(guardian);
+				}
 			}
 			return guardians;
 		} catch (SQLException e) {

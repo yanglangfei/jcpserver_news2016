@@ -91,19 +91,11 @@ public class VideoImp implements VideoDao {
 
 	public List<Video> findVideoByClassId(String classId, int page) {
 		// 根据分类获取视频列表 FK_Pecial 所属专辑
-		System.out.println("classId:"+classId);
 		int totlePage = getTotlePage(" WHERE FK_ClassId IN (" + classId + ")");
 		videos.clear();
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			System.out.println("SELECT TOP 15 FK_ClassId,Id,Title,ImagesUrl,Description,IsMySite,VideoPageUrl,FK_Pecial,VideoType,PlayCount,VideoUrl,VideoDate,PlayXNCount FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Video WHERE FK_ClassId IN ("
-							+ classId
-							+ ")  ) A "
-							+ "WHERE RowNumber > "
-							+ 15
-							* (page - 1));
 			res = sta
 					.executeQuery("SELECT TOP 15 FK_ClassId,Id,Title,ImagesUrl,Description,IsMySite,VideoPageUrl,FK_Pecial,VideoType,PlayCount,VideoUrl,VideoDate,PlayXNCount FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Video WHERE FK_ClassId IN ("

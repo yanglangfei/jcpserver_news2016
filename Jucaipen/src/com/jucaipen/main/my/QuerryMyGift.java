@@ -53,7 +53,6 @@ public class QuerryMyGift extends HttpServlet {
 				} else {
 					result = JsonUtil.getRetMsg(2, "userId 参数数字格式化异常");
 				}
-
 			} else {
 				result = JsonUtil.getRetMsg(1, "userId 参数不能为空");
 			}

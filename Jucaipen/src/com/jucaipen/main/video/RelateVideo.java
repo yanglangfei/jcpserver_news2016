@@ -60,14 +60,12 @@ public class RelateVideo extends HttpServlet {
 		List<Video> videos;
 		if(type==0){
 			//相关视频        ----classId  
-			//videos=VideoServer.findVideoByIsTopId(1, cId);
 			videos=VideoServer.findVideoByClassIdLast(4, cId);
 		}else if(type==1){
 			//选集               -----specialId
 			videos=VideoServer.findVideoBySpecialId(cId);
 		}else{
 			//推荐视频     -------- isJingXuan
-			//videos=VideoServer.findVideoByIsRecommId(1, cId);
 			videos=VideoServer.findVideoByIsBestLast(4, 1);
 		}
 		if(videos!=null){
