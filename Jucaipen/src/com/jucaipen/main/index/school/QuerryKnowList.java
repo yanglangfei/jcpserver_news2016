@@ -15,7 +15,6 @@ import com.jucaipen.service.KnowledgeClassSer;
 import com.jucaipen.service.KnowledgetSer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  *
@@ -47,7 +46,6 @@ public class QuerryKnowList extends HttpServlet {
 		}else{
 			result=JsonUtil.getRetMsg(1,"typeId 参数不能为空");
 		}
-		
 		out.println(result);
 		out.flush();
 		out.close();
