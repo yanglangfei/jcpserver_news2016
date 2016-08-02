@@ -155,8 +155,8 @@ public class AddReward extends HttpServlet {
 		// 0¾Û²Æ±Ò£¬1»ý·Ö
 		detail.setState(0);
 		detailIntegeral.setState(1);
-		detail.setInsertDate(TimeUtils.format(new Date()));
-		detailIntegeral.setInsertDate(TimeUtils.format(new Date()));
+		detail.setInsertDate(TimeUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+		detailIntegeral.setInsertDate(TimeUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
 		detail.setIsDel(0);
 		detailIntegeral.setIsDel(0);
 		detail.setUserId(uId);

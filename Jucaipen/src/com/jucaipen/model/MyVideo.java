@@ -34,6 +34,14 @@ public class MyVideo implements Serializable{
 	 */
 	private String videoImag;
 	
+	private String videoUrl;
+	
+	private int fk_specialId;
+	
+	private int xnHits;
+	
+	private int classId;
+	
 	/**
 	 *  InsertDate
 	 */
@@ -60,6 +68,34 @@ public class MyVideo implements Serializable{
     private String endDate;
     
     
+    
+    
+    
+    
+	public int getXnHits() {
+		return xnHits;
+	}
+	public void setXnHits(int xnHits) {
+		this.xnHits = xnHits;
+	}
+	public String getVideoUrl() {
+		return videoUrl;
+	}
+	public void setVideoUrl(String videoUrl) {
+		this.videoUrl = videoUrl;
+	}
+	public int getFk_specialId() {
+		return fk_specialId;
+	}
+	public void setFk_specialId(int fk_specialId) {
+		this.fk_specialId = fk_specialId;
+	}
+	public int getClassId() {
+		return classId;
+	}
+	public void setClassId(int classId) {
+		this.classId = classId;
+	}
 	public String getVideoTitle() {
 		return videoTitle;
 	}

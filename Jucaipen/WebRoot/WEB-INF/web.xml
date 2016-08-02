@@ -461,6 +461,11 @@
     <servlet-name>PurchSpecial</servlet-name>
     <servlet-class>com.jucaipen.main.purch.PurchSpecial</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>SpecialVide</servlet-name>
+    <servlet-class>com.jucaipen.main.video.SpecialVide</servlet-class>
+  </servlet>
+
 
 
 
@@ -931,5 +936,9 @@
   <servlet-mapping>
     <servlet-name>PurchSpecial</servlet-name>
     <url-pattern>/jucaipen/purchspecial</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SpecialVide</servlet-name>
+    <url-pattern>/jucaipen/getspecialvideo</url-pattern>
   </servlet-mapping>
 </web-app>

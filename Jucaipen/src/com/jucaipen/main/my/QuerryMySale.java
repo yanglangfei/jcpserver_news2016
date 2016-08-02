@@ -81,11 +81,9 @@ public class QuerryMySale extends HttpServlet {
 			}else{
 				result=JsonUtil.getRetMsg(1,"userId 数字格式异常");
 			}
-
 		}else{
 			result=JsonUtil.getRetMsg(1,"userId 参数不能为空");
 		}
-
 		out.println(result);
 		out.flush();
 		out.close();
@@ -101,6 +99,10 @@ public class QuerryMySale extends HttpServlet {
 				if(video==null){
 					video=new Video();
 				}
+				vd.setXnHits(video.getXnHitCount());
+				vd.setFk_specialId(video.getPecialId());
+				vd.setClassId(video.getClassId());
+				vd.setVideoUrl(video.getHtmlUrl());
 				vd.setVideoImag(video.getImages());
 				vd.setVideoTitle(video.getTitle());
 			}
@@ -114,6 +116,14 @@ public class QuerryMySale extends HttpServlet {
 				if(special==null){
 					special=new Special();
 				}
+				List<Video> video=VideoServer.findSpecialByLast(1, sId);
+				if(video!=null&&video.size()>0){
+					FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(video.get(0).getTeacherId());
+					if(teacher!=null){
+						  mySpecial.setTeacherName(teacher.getNickName());
+					}
+				}
+				mySpecial.setSpecialDesc(special.getDescription());
 				mySpecial.setSpecialTitle(special.getName());
 			}
 			return JsonUtil.getMySpecialList(mySpecials);
@@ -162,14 +172,16 @@ public class QuerryMySale extends HttpServlet {
 		} else {
 			// 5 战法
 			List<TacticsSale> tacticsSales = TacticsSaleSer.findSaleByUserId(uId, p);
-			for(TacticsSale tacticsSale : tacticsSales){
-				int tacticeId=tacticsSale.getTacticsId();
-				Tactics tactics=TacticsSer.findTacticsById(tacticeId);
-				int tId=tactics.getTeacherId();
-				FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(tId);
-				tacticsSale.setTacticeImage(tactics.getImageUrl());
-				tacticsSale.setTacticsTitle(tactics.getTitle());
-				tacticsSale.setTeacherName(teacher.getNickName());
+			if(tacticsSales!=null){
+				for(TacticsSale tacticsSale : tacticsSales){
+					int tacticeId=tacticsSale.getTacticsId();
+					Tactics tactics=TacticsSer.findTacticsById(tacticeId);
+					int tId=tactics.getTeacherId();
+					FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(tId);
+					tacticsSale.setTacticeImage(tactics.getImageUrl());
+					tacticsSale.setTacticsTitle(tactics.getTitle());
+					tacticsSale.setTeacherName(teacher.getNickName());
+				}
 			}
 			return JsonUtil.getMyTacticsList(tacticsSales);
 		}

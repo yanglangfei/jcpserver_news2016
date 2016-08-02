@@ -23,9 +23,7 @@ import com.jucaipen.utils.StringUtil;
  */
 @SuppressWarnings("serial")
 public class QuerryAdvise extends HttpServlet {
-	private List<Advertive> advertives;
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -40,8 +38,7 @@ public class QuerryAdvise extends HttpServlet {
 			if (StringUtil.isNotNull(typeId)) {
 				if (StringUtil.isInteger(typeId)) {
 					int type = Integer.parseInt(typeId);
-					initIndexPageData(type);
-					result = JsonUtil.getObject(advertives);
+					result=initIndexPageData(type);
 				} else {
 					result = JsonUtil.getRetMsg(1, "广告类型参数数字格式化异常");
 				}
@@ -56,9 +53,10 @@ public class QuerryAdvise extends HttpServlet {
 		out.close();
 	}
 
-	private void initIndexPageData(int type) {
+	private String  initIndexPageData(int type) {
 		// 加载首页广告
-		advertives = AdverSer.findAdverByPid(type);
+		List<Advertive> advertives = AdverSer.findAdverByPid(type);
+		return JsonUtil.getObject(advertives);
 	}
 
 }

@@ -18,11 +18,14 @@ import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
+
 /**
  * @author Administrator
  * 
  * 
- *         payState 1 未支付 2 已支付 3 支付失败
+ *         payState 1 未支付 2 已支付 3 支付失败 
+ *         payType 1网上银行（通联） 2支付宝 3微信支付4：余额支付
+ *         5网上银行(汇付宝)
  */
 @SuppressWarnings("serial")
 public class Recharge extends HttpServlet {
@@ -39,6 +42,7 @@ public class Recharge extends HttpServlet {
 		String orderCode = request.getParameter("orderCode");
 		String payState = request.getParameter("payState");
 		String payDate = request.getParameter("payDate");
+		String payType = request.getParameter("payType");
 		String ip = request.getRemoteAddr();
 		if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
 			int uId = Integer.parseInt(userId);
@@ -50,16 +54,24 @@ public class Recharge extends HttpServlet {
 						if (StringUtil.isNotNull(payState)
 								&& StringUtil.isInteger(payState)) {
 							int pState = Integer.parseInt(payState);
-							if (pState == 2) {
-								if (StringUtil.isNotNull(payDate)) {
-									result = initRecharge(uId, bills, ip,
-											orderCode, payDate, pState);
+							if (StringUtil.isNotNull(payType)
+									&& StringUtil.isInteger(payType)) {
+								int type = Integer.parseInt(payType);
+								if (pState == 2) {
+									if (StringUtil.isNotNull(payDate)) {
+										result = initRecharge(uId, bills, ip,
+												orderCode, payDate, pState,
+												type);
+									} else {
+										result = JsonUtil.getRetMsg(5,
+												"支付时间不能为空");
+									}
 								} else {
-									result = JsonUtil.getRetMsg(5, "支付时间不能为空");
+									result = initRecharge(uId, bills, ip,
+											orderCode, payDate, pState, type);
 								}
 							} else {
-								result = initRecharge(uId, bills, ip,
-										orderCode, payDate, pState);
+								result = JsonUtil.getRetMsg(1, "payType 参数异常");
 							}
 						} else {
 							result = JsonUtil.getRetMsg(6, "支付状态异常");
@@ -84,10 +96,10 @@ public class Recharge extends HttpServlet {
 	}
 
 	private String initRecharge(int uId, int bills, String ip,
-			String orderCode, String payDate, int pState) {
+			String orderCode, String payDate, int pState, int type) {
 		Account a = AccountSer.findAccountByUserId(uId);
 		AccountDetail detail = new AccountDetail();
-		SysAccount account=SysAccountSer.findAccountInfo();
+		SysAccount account = SysAccountSer.findAccountInfo();
 		detail.setDetailMoney(bills);
 		detail.setDetailType(0);
 		detail.setInsertDate(TimeUtils
@@ -97,19 +109,31 @@ public class Recharge extends HttpServlet {
 		detail.setRemark("充值聚财币");
 		detail.setState(0);
 		detail.setUserId(uId);
-		
-		SysDetailAccount detailAccount=new SysDetailAccount();
-		detailAccount.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+
+		SysDetailAccount detailAccount = new SysDetailAccount();
+		detailAccount.setInsertDate(TimeUtils.format(new Date(),
+				"yyyy-MM-dd HH:mm:ss"));
 		detailAccount.setIsDel(0);
 		detailAccount.setOrderId(0);
 		detailAccount.setPrice(bills);
 		detailAccount.setRecoderType(1);
 		detailAccount.setType(1);
 		detailAccount.setIp(ip);
-		detailAccount.setRemark("用户通联充值聚财币");
+		// 1网上银行（通联） 2支付宝 3微信支付4：余额支付 5网上银行(汇付宝)
+		if (type == 1) {
+			detailAccount.setRemark("用户通联充值聚财币");
+		} else if (type == 2) {
+			detailAccount.setRemark("用户支付宝充值聚财币");
+		} else if (type == 3) {
+			detailAccount.setRemark("用户微信充值聚财币");
+		} else if (type == 4) {
+			detailAccount.setRemark("用户余额充值聚财币");
+		} else {
+			detailAccount.setRemark("用户汇付宝充值聚财币");
+		}
 		detailAccount.setUserId(uId);
 		int isSuccess = RollBackUtil.recharge(orderCode, pState, payDate, ip,
-				bills, a, uId, detail,account,detailAccount);
+				bills, a, uId, detail, account, detailAccount);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "账单更新成功") : JsonUtil
 				.getRetMsg(1, "账单更新失败");
 	}

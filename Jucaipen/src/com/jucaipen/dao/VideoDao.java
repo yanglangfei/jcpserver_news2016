@@ -80,6 +80,18 @@ public interface VideoDao {
 	 * @return  获取最近几条视频
 	 */
 	public List<Video> findVideoByLast(int count);
+	
+	/**
+	 * @param count
+	 * @return  获取最近几条视频
+	 */
+	public List<Video> findSpecialByLast(int count,int specialId);
+	
+	/**
+	 * @param count
+	 * @return  获取最近几条视频
+	 */
+	public List<Video> findSpecialVideo(int page,int specialId);
 	/**
 	 * @param type
 	 * @param classId

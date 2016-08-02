@@ -29,6 +29,11 @@ public class VideoServer {
 		return dao.findVideoByClassId(classId,page);
 	}
 	
+	public static List<Video> findSpecialByLast(int count, int specialId) {
+		VideoDao dao = new VideoImp();
+		return dao.findSpecialByLast(count,specialId);
+	}
+	
 	/**
 	 * @param classId
 	 * @return 根据分类id 查询相应视频
@@ -51,6 +56,11 @@ public class VideoServer {
 	public static List<Video> findVideoByTeacherId(int teacherId,int page){
 		VideoDao dao=new VideoImp();
 		return dao.findVideoByTeacherId(teacherId, page);
+	}
+	
+	public static List<Video> findSpecialVideo(int page, int specialId) {
+		VideoDao dao=new VideoImp();
+		return dao.findSpecialVideo(page, specialId);
 	}
 	
 	public static List<Video> findAllVideoByCommId(int commId,int page){

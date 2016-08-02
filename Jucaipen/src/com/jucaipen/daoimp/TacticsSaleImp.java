@@ -94,13 +94,13 @@ public class TacticsSaleImp implements TacticsSaleDao {
 	public List<TacticsSale> findSaleByUserId(int uId, int page) {
 		// 根据用户id获取战法购买信息
 		sales.clear();
-		int totlePage = getTotlePage("WHERE UserId=" + uId);
+		int totlePage = getTotlePage(" WHERE UserId=" + uId);
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_AnswerSale WHERE UserId="
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsetDate desc) AS RowNumber,* FROM JCP_TacticsSale WHERE UserId="
 							+ uId + ") A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {

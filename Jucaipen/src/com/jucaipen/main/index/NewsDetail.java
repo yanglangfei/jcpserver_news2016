@@ -12,12 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.HotIdea;
-import com.jucaipen.model.News;
+import com.jucaipen.model.JcpNews;
 import com.jucaipen.model.SiteConfig;
 import com.jucaipen.model.TacticsDetails;
 import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.HotIdeaServ;
-import com.jucaipen.service.NewServer;
+import com.jucaipen.service.JcpNewsSer;
 import com.jucaipen.service.ResourceFromServer;
 import com.jucaipen.service.SiteConfigSer;
 import com.jucaipen.service.TacticsDetailSer;
@@ -73,8 +73,8 @@ public class NewsDetail extends HttpServlet {
 		// 初始化新闻详细信息
 		if(type==0){
 			//新闻详细信息
-			News news = NewServer.findNewsById(id);
-			int fromId=news.getFromId();
+			JcpNews news = JcpNewsSer.findNews(id);
+			int fromId=news.getComeFrom();
 			String from=ResourceFromServer.getRSources(fromId);
 			news.setFrom(from);
 			initNewsHits(id,news.getHits(),news.getXnHits());
@@ -109,8 +109,7 @@ public class NewsDetail extends HttpServlet {
 	 */
 	private void initNewsHits(int id, int hits, int xnHits) {
 		SiteConfig config=SiteConfigSer.findSiteConfig();
-		NewServer.upDateHits(xnHits+config.getNewsMom(),hits+1,id);
-		
+		JcpNewsSer.upDateHits(xnHits+config.getNewsMom(),hits+1,id);
 	}
 
 	/**

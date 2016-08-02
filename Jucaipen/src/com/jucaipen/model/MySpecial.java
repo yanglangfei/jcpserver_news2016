@@ -34,10 +34,14 @@ public class MySpecial implements Serializable{
 	 */
 	private String specialImage;
 	
+	private String specialDesc;
+	
 	/**
 	 *  ×¨¼­½²Ê¦ 
 	 */
 	private int specialTeacher;
+	
+	private String teacherName;
 	
 	/**
 	 *  InsertDate
@@ -65,6 +69,22 @@ public class MySpecial implements Serializable{
 	private String endDate;
 	
 	
+	
+	
+	
+	
+	public String getTeacherName() {
+		return teacherName;
+	}
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
+	public String getSpecialDesc() {
+		return specialDesc;
+	}
+	public void setSpecialDesc(String specialDesc) {
+		this.specialDesc = specialDesc;
+	}
 	public String getSpecialTitle() {
 		return specialTitle;
 	}
