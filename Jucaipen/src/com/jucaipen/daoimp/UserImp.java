@@ -812,7 +812,7 @@ public class UserImp implements UserDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT NickName,UserLevel,UserFace,UserName,MobileNum,LoginTime FROM JCP_User WHERE Id="
+					.executeQuery("SELECT NickName,UserLevel,UserFace,UserName,MobileNum,LoginTime,AllIntegral FROM JCP_User WHERE Id="
 							+ id);
 			while (res.next()) {
 				String nickName = res.getString(1);
@@ -821,6 +821,7 @@ public class UserImp implements UserDao {
 				String userName = res.getString(4);
 				String telPhone = res.getString(5);
 				int loginNum = res.getInt(6);
+				int integeral = res.getInt(7);
 				User user = new User();
 				user.setId(id);
 				user.setLoginNum(loginNum);
@@ -829,6 +830,7 @@ public class UserImp implements UserDao {
 				user.setNickName(nickName);
 				user.setUserName(userName);
 				user.setMobileNum(telPhone);
+				user.setAllIntegral(integeral);
 				return user;
 			}
 		} catch (SQLException e) {
@@ -885,12 +887,12 @@ public class UserImp implements UserDao {
 	}
 
 	@Override
-	public int updateLoginNum(int num, int uId,String ip) {
+	public int updateLoginNum(int num, int uId, String ip) {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			return sta.executeUpdate("UPDATE JCP_User SET LoginTime=" + num
-					+ ",LastLoginIp='"+ip+"' WHERE Id=" + uId);
+					+ ",LastLoginIp='" + ip + "' WHERE Id=" + uId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -2,6 +2,7 @@ package com.jucaipen.main.video;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Time;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,13 +11,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.model.ClientOsInfo;
+import com.jucaipen.model.MySpecial;
+import com.jucaipen.model.MyVideo;
 import com.jucaipen.model.Special;
 import com.jucaipen.model.Video;
+import com.jucaipen.service.MySpecialSer;
+import com.jucaipen.service.MyVideoSer;
 import com.jucaipen.service.SpecialSer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
+import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
  * 
@@ -25,6 +31,7 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class SchoolVideoList extends HttpServlet {
 	private String result;
+	private int isPurch;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -36,14 +43,8 @@ public class SchoolVideoList extends HttpServlet {
 		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
-			String page=request.getParameter("page");
-			if(StringUtil.isNotNull(page)&&StringUtil.isInteger(page)){
-				int p=Integer.parseInt(page);
-				result=initTeachList(p);
-			}else{
-				result=JsonUtil.getRetMsg(1,"page 参数异常");
-			}
-			
+			String userId=request.getParameter("userId");
+			result=initTeachList(userId);
 		} else {
 			result = StringUtil.isVaild;
 		}
@@ -52,23 +53,68 @@ public class SchoolVideoList extends HttpServlet {
 		out.close();
 	}
 	
-	private String initTeachList(int p) {
+	private String initTeachList(String userId) {
+		int uId=0;
+		if(!StringUtil.isNotNull(userId)||!StringUtil.isInteger(userId)){
+			isPurch=1;
+		}else{
+			uId=Integer.parseInt(userId);
+			if(uId<=0){
+				isPurch=1;
+			}
+		}
+		
+		
 		// 初始化视频教程
 		List<Video> videos=VideoServer.findVideoByClassIdLast(4, 9);
 		if(videos!=null){
 			for(Video video : videos){
 				//是否为付费视频  0为免费视频，1为付费视频
-				int specialId=video.getPecialId();
-				int videoType=video.getVideoType();
-				video.setCharge(videoType==1);
-				
-				if(specialId>0){
-					Special special = SpecialSer.findSpecialById(specialId);
-					video.setCharge(special.getIsFree()==2);
-				}
+				createVideo(video, uId);
 			}
 		}
 		return JsonUtil.getTeachVideList(videos);
+	}
+	
+	public void createVideo(Video video,int uId){
+		int specialId=video.getPecialId();
+		int videoType=video.getVideoType();
+		video.setCharge(videoType==1);
+		
+		if(specialId>0){
+			Special special = SpecialSer.findSpecialById(specialId);
+			video.setCharge(special.getIsFree()==2);
+		}
+		//0  有购买     1    未购买      2  已过期
+		if(uId>0&&specialId>0){
+			MySpecial mySpecial=MySpecialSer.getIsMySpecial(uId, specialId);
+			if(mySpecial!=null){
+				if(TimeUtils.isLive(mySpecial.getStartDate(), mySpecial.getEndDate())){
+					isPurch=0;
+				}else{
+					isPurch=2;
+				}
+			}else{
+				isPurch=1;
+			}
+		}
+		
+		
+		if(uId>0&&specialId<=0){
+			MyVideo myVideo=MyVideoSer.findIsMyVideo(uId, video.getId());
+			if(myVideo!=null){
+				if(TimeUtils.isLive(myVideo.getStartDate(), myVideo.getEndDate())){
+					isPurch=0;
+				}else{
+					isPurch=2;
+				}
+			}else{
+				isPurch=1;
+			}
+		}
+		
+		video.setIsPurch(isPurch);
+		
 	}
 
 }

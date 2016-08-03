@@ -37,7 +37,6 @@ public class ActiveList extends HttpServlet {
 			if(StringUtil.isInteger(teacherId)){
 				int lId=Integer.parseInt(teacherId);
 			    initBangList(lId);
-				//result=initActiveList(lId);
 			}else{
 				result=JsonUtil.getRetMsg(2,"liveId 参数数字格式化异常");
 			}
@@ -67,6 +66,7 @@ public class ActiveList extends HttpServlet {
 			param.clear();
 			param.put("tId", tId+"");
 			String res = LoginUtil.sendHttpPost(GETUser, param);
+			System.out.println(res);
 			JPushClient client = JPushUtils.getJPush();
 			PushPayload msgObj = JPushUtils.createMsg("msg", "onLine",res , null);
 			JPushUtils.pushMsg(client, msgObj);

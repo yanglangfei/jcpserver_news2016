@@ -25,6 +25,7 @@ public class Video implements Serializable{
 	 *  是否收费
 	 */
 	private boolean isCharge;
+	
 	/**
 	 * 视频标题
 	 */

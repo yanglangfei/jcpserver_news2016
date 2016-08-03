@@ -3,18 +3,25 @@ package com.jucaipen.main.video;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.jucaipen.model.MySpecial;
+import com.jucaipen.model.MyVideo;
 import com.jucaipen.model.Special;
 import com.jucaipen.model.Video;
 import com.jucaipen.model.VideoClass;
+import com.jucaipen.service.MySpecialSer;
+import com.jucaipen.service.MyVideoSer;
 import com.jucaipen.service.SpecialSer;
 import com.jucaipen.service.VideoClassSer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
+import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator 获取视频列表信息
@@ -23,6 +30,7 @@ import com.jucaipen.utils.StringUtil;
 public class QuerryVideoList extends HttpServlet {
 	private String result;
 	private StringBuffer cIdArray;
+	private int isPurch;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -34,6 +42,7 @@ public class QuerryVideoList extends HttpServlet {
 		String typeId = request.getParameter("typeId");
 		String teacherId = request.getParameter("teacherId");
 		String page = request.getParameter("page");
+		String userId=request.getParameter("userId");
 		if (StringUtil.isNotNull(classId) && StringUtil.isInteger(classId)) {
 			int cId = Integer.parseInt(classId);
 			if (StringUtil.isNotNull(typeId) && StringUtil.isInteger(typeId)) {
@@ -44,7 +53,7 @@ public class QuerryVideoList extends HttpServlet {
 					if (StringUtil.isNotNull(page)
 							&& StringUtil.isInteger(page)) {
 						int p = Integer.parseInt(page);
-						result = initVideoList(type, tId, cId, p);
+						result = initVideoList(type, tId, cId, p,userId);
 					} else {
 						result = JsonUtil.getRetMsg(4, "page 参数异常");
 					}
@@ -62,16 +71,26 @@ public class QuerryVideoList extends HttpServlet {
 		out.close();
 	}
 
-	public static void main(String[] args) {
-	}
 
-	private String initVideoList(int type, int tId, int cId, int p) {
+	private String initVideoList(int type, int tId, int cId, int p,String userId) {
 		// cId 查询时必须存在 大于0
-		
+		isPurch=1;     //0 已购买 1 未购买 2 已过期
+		int uId = 0;
 		//cId >= 0&&type > 0 && tId > 0 
 		//cId >= 0 && type <= 0 && tId <= 0
 		//cId >= 0 && type > 0 && tId <= 0
 		//cId >= 0 && type <= 0 && tId > 0
+		if(!StringUtil.isNotNull(userId)||!StringUtil.isInteger(userId)){
+			isPurch=1;
+		}else{
+			uId=Integer.parseInt(userId);
+			if(uId<=0){
+				isPurch=1;
+			}
+		}
+		
+		
+		
 		List<Video> videos;
 		if (cId < 0) {
 			return JsonUtil.getRetMsg(1, "分类id必须大于0");
@@ -94,14 +113,7 @@ public class QuerryVideoList extends HttpServlet {
 			if (videos != null) {
 				for (Video video : videos) {
 					// 是否为付费视频 0为免费视频，1为付费视频
-					int specialId = video.getPecialId();
-					int videoType = video.getVideoType();
-					video.setCharge(videoType == 1);
-
-					if (specialId > 0) {
-						Special special = SpecialSer.findSpecialById(specialId);
-						video.setCharge(special.getIsFree() == 2);
-					}
+					createVideo(video, uId);
 				}
 			}
 			return JsonUtil.getVideoList(videos);
@@ -122,13 +134,7 @@ public class QuerryVideoList extends HttpServlet {
 			if (videos != null) {
 				for (Video video : videos) {
 					// 是否为付费视频 0为免费视频，1为付费视频
-					int specialId = video.getPecialId();
-					int videoType = video.getVideoType();
-					video.setCharge(videoType == 1);
-					if (specialId > 0) {
-						Special special = SpecialSer.findSpecialById(specialId);
-						video.setCharge(special.getIsFree() == 2);
-					}
+					createVideo(video, uId);
 				}
 			}
 
@@ -150,13 +156,7 @@ public class QuerryVideoList extends HttpServlet {
 			if (videos != null) {
 				for (Video video : videos) {
 					// 是否为付费视频 0为免费视频，1为付费视频
-					int specialId = video.getPecialId();
-					int videoType = video.getVideoType();
-					video.setCharge(videoType == 1);
-					if (specialId > 0) {
-						Special special = SpecialSer.findSpecialById(specialId);
-						video.setCharge(special.getIsFree() == 2);
-					}
+					createVideo(video, uId);
 				}
 			}
 
@@ -179,20 +179,54 @@ public class QuerryVideoList extends HttpServlet {
 
 			if (videos != null) {
 				for (Video video : videos) {
-					// 是否为付费视频 0为免费视频，1为付费视频
-					int specialId = video.getPecialId();
-					int videoType = video.getVideoType();
-					video.setCharge(videoType == 1);
-					if (specialId > 0) {
-						Special special = SpecialSer.findSpecialById(specialId);
-						video.setCharge(special.getIsFree() == 2);
-					}
+					createVideo(video, uId);
 				}
 			}
 			return JsonUtil.getVideoList(videos);
 		}
 		
 		return null;
+	}
+	
+	
+	
+	public void createVideo(Video video,int uId){
+		// 是否为付费视频 0为免费视频，1为付费视频
+		int specialId = video.getPecialId();
+		int videoType = video.getVideoType();
+		video.setCharge(videoType == 1);
+		//0 已购买 1 未购买 2 已过期
+		if(uId>0&&specialId>0){
+			MySpecial mySpecial=MySpecialSer.getIsMySpecial(uId, specialId);
+			if(mySpecial!=null){
+				if(TimeUtils.isLive(mySpecial.getStartDate(), mySpecial.getEndDate())){
+					isPurch=0;
+				}else{
+					isPurch=2;
+				}
+			}else{
+				isPurch=1;
+			}
+			
+		}
+		
+		if(uId>0&&specialId<=0){
+			MyVideo myVideo=MyVideoSer.findIsMyVideo(uId, video.getId());
+			if(myVideo!=null){
+				if(TimeUtils.isLive(myVideo.getStartDate(), myVideo.getEndDate())){
+					isPurch=0;
+				}else{
+					isPurch=2;
+				}
+			}else{
+				isPurch=1;
+			}
+		}
+		if (specialId > 0) {
+			Special special = SpecialSer.findSpecialById(specialId);
+			video.setCharge(special.getIsFree() == 2);
+		}
+		video.setIsPurch(isPurch);
 	}
 
 	public StringBuffer getVideoClass(List<VideoClass> vcs) {
