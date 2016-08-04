@@ -234,7 +234,7 @@ public class RebateImp implements RebateDao {
 			return rebates;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -273,7 +273,7 @@ public class RebateImp implements RebateDao {
 			return rebates;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -295,7 +295,7 @@ public class RebateImp implements RebateDao {
 			return res.getInt(1);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -303,6 +303,68 @@ public class RebateImp implements RebateDao {
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public List<Rebate> findDayRebateByTeacher(int teacherId) {
+		// 获取讲师下的榜单信息
+		rebates.clear();
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT SUM(RebateMoney),FK_FromUserId from JCP_Rebate WHERE FK_TearchId="+teacherId+"  AND   DATEDIFF(day, InsertDate, GETDATE())=0   GROUP BY FK_FromUserId");
+			while (res.next()) {
+				int rebateMoney = res.getInt(1); // RebateMoney
+				int fromId = res.getInt(2); // FK_FromUserId
+				Rebate rebate = new Rebate();
+				rebate.setFromId(fromId);
+				rebate.setRebateMoney(rebateMoney);
+				rebate.setTeacherId(teacherId);
+				rebates.add(rebate);
+			}
+			return rebates;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<Rebate> findMothRebateByTeacher(int teacherId) {
+		// 获取讲师下的榜单信息
+		rebates.clear();
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT SUM(RebateMoney),FK_FromUserId from JCP_Rebate WHERE FK_TearchId="+teacherId+"  AND   DATEDIFF(month, InsertDate, GETDATE())=0   GROUP BY FK_FromUserId");
+			while (res.next()) {
+				int rebateMoney = res.getInt(1); // RebateMoney
+				int fromId = res.getInt(2); // FK_FromUserId
+				Rebate rebate = new Rebate();
+				rebate.setFromId(fromId);
+				rebate.setRebateMoney(rebateMoney);
+				rebate.setTeacherId(teacherId);
+				rebates.add(rebate);
+			}
+			return rebates;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
 	}
 
 }

@@ -70,6 +70,9 @@ public class AnswerList extends HttpServlet {
 	}
 
 	private String initQuestion(int uId, int fId, int askUid, int type) {
+		
+		
+		
 		if (type == 1) {
 			// ÌáÎÊ ×·ÎÊ
 			List<Ask> asks;

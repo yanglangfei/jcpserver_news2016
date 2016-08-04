@@ -53,7 +53,6 @@ public class StudioChat extends HttpServlet {
 				if(opType==1){
 					//上线   --推送历史记录
 					int maxId=requestMsg(userId, liveId);
-					//int maxId=requestChatMsg(userId,liveId);
 					timer = new Timer();
 					StudioMsgTask task=new StudioMsgTask(maxId,userId,liveId,isManager);
 					timer.scheduleAtFixedRate(task, new Date(), 2000);
@@ -62,7 +61,6 @@ public class StudioChat extends HttpServlet {
 					String msg=chatMsg.getMsg();
 					int toId=chatMsg.getToId();
 					String result=sendMsg(userId, liveId, msg, toId);
-					//String result = sendChatMsg(userId, liveId,msg,toId);
 					out.print(result);
 				}else{
 					//下线
@@ -76,114 +74,6 @@ public class StudioChat extends HttpServlet {
 		out.close();
 	}
 
-	/*private String sendChatMsg(int userId, int studioId, String msg, int toId) {
-		Studio studio=StudioSer.findStudioById(studioId);
-		int liveId=studio.getVideoLiveId();
-		if(liveId<=0){
-			return null;
-		}
-		User fromUser;
-		User toUser;
-		if(userId>0){
-			fromUser=UserServer.findUserChatInfo(userId);
-			toUser=UserServer.findBaseInfoById(toId);
-			if(toUser==null){
-				toUser=new User();
-			}
-		}else{
-			fromUser=new User();
-			toUser=new User();
-		}
-		int isRoomAdmin=fromUser.getIsRoomAdmin();
-		int isRoomManager=fromUser.getIsRoomManager();
-		int isSysAdmin=fromUser.getIsSysAdmin();
-		String nickName=fromUser.getNickName();
-		int leavel=fromUser.getUserLeval();
-		int isTeacher=fromUser.getIsTeacher();
-		VideoLiveMsg msgObj=new VideoLiveMsg();
-		msgObj.setIp(ip);
-		msgObj.setIsChatAdmin(isRoomManager);
-		msgObj.setBuyProductId(fromUser.getBuyProductId());
-		msgObj.setIsRoomAdmin(isRoomAdmin);
-		msgObj.setIsServer(fromUser.getServerId());
-		msgObj.setIsShouhu(0);
-		msgObj.setIsSysAdmin(isSysAdmin);
-		msgObj.setIsTeacher(isTeacher);
-		msgObj.setMsg(msg);
-		msgObj.setReceiverId(toId);
-		msgObj.setSendDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
-		msgObj.setSendName(nickName);
-		msgObj.setSendUserId(userId);
-		msgObj.setShenhe(0);
-		msgObj.setUserLeavel(leavel);
-		msgObj.setVideoLiveId(liveId);
-		int isSuccess = VideoLiveMsgSer.addMsg(msgObj);
-		return isSuccess==1 ?JsonUtil.getRetMsg(0, "消息发送成功") : JsonUtil.getRetMsg(1,"消息发送失败");
-		
-	}
-
-	*//**
-	 * @param userId
-	 * @param liveId
-	 * @return  上线请求数据
-	 *//*
-	private int requestChatMsg(int userId, int studioId) {
-		Studio studio = StudioSer.findStudioById(studioId);
-		if(studio==null){
-			return -1;
-		}
-		int liveId=studio.getVideoLiveId();
-		List<VideoLiveMsg> msgs;
-		User user;
-		if(userId>0){
-			user=UserServer.findUserChatInfo(userId);
-		}else{
-			user=new User();
-		}
-		int isRoomAdmin=user.getIsRoomAdmin();
-		int isRoomManager=user.getIsRoomManager();
-		int isSysAdmin=user.getIsSysAdmin();
-		int isTeacher=user.getIsTeacher();
-		
-		if(isSysAdmin==1||isRoomAdmin==1||isRoomManager==1||isTeacher==1){
-			isManager=true;
-			 msgs = VideoLiveMsgSer.findLastLiveMsg(10, liveId, false);
-		}else{
-			isManager=false;
-			msgs = VideoLiveMsgSer.findLastLiveMsg(10, liveId, true);
-		}
-		if(msgs!=null){
-			for(VideoLiveMsg m : msgs){
-				int senId=m.getSendUserId();
-				int toId=m.getReceiverId();
-				User fu=UserServer.findBaseInfoById(senId);
-				if(fu==null){
-					fu=new User();
-				}
-				m.setSendFace(fu.getFaceImage());
-				User tu=UserServer.findBaseInfoById(toId);
-				if(tu==null){
-					tu=new User();
-				}
-				m.setReceiverFace(tu.getFaceImage());
-			}
-		}
-		
-		String pushMsg = JsonUtil.createLiveMsgArray(msgs);
-		JPushClient client = JPushUtils.getJPush();
-		PushPayload msgObj = JPushUtils.createMsg("msg", "studioMsg", pushMsg, null);
-		JPushUtils.pushMsg(client, msgObj);
-		if(msgs!=null&&msgs.size()>0){
-			if(isManager){
-				return msgs.get(msgs.size()-1).getId();
-			}else{
-				return msgs.get(msgs.size()-1).getShenhe();
-			}
-			
-		}else{
-			return -1;
-		}
-	}*/
 	
 	
 	/**
@@ -208,8 +98,7 @@ public class StudioChat extends HttpServlet {
 				toUser=new User();
 			}
 		}else{
-			fromUser=new User();
-			toUser=new User();
+			return JsonUtil.getRetMsg(3,"请先登录");
 		}
 		params.clear();
 		params.put("lid", liveId+"");
@@ -263,7 +152,7 @@ public class StudioChat extends HttpServlet {
 			isManager=false;
 		}
 		params.put("lid", liveId+"");
-		params.put("topid", 0+"");
+		params.put("Topid", 0+"");
 		params.put("IsServerId", user.getServerId()+"");
 		String result=LoginUtil.sendHttpPost(GET_LIVE_MSG, params);
 		List<VideoLiveMsg>  msgObjs =JsonUtil.repCompleMsgObj(result);

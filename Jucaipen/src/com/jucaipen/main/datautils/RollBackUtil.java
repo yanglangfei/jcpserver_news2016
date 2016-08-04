@@ -3,7 +3,6 @@ package com.jucaipen.main.datautils;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
 import com.jucaipen.model.Contribute;
@@ -15,6 +14,9 @@ import com.jucaipen.model.MyPresent;
 import com.jucaipen.model.MySpecial;
 import com.jucaipen.model.MyVideo;
 import com.jucaipen.model.Rebate;
+import com.jucaipen.model.RebateIntegeralDetail;
+import com.jucaipen.model.Sign;
+import com.jucaipen.model.SignDetail;
 import com.jucaipen.model.SysAccount;
 import com.jucaipen.model.SysDetailAccount;
 import com.jucaipen.model.TacticsSale;
@@ -209,14 +211,14 @@ public class RollBackUtil {
 			dbConn.setAutoCommit(false);
 			sta = dbConn.createStatement();
 			// 1 充值 JCP_AddOrder
-			if(pState==2){
-				sta.executeUpdate("UPDATE JCP_AddOrder SET OrderState=" + pState
-						+ ",PaymentDate='" + payDate + "',IP='" + ip
+			if (pState == 2) {
+				sta.executeUpdate("UPDATE JCP_AddOrder SET OrderState="
+						+ pState + ",PaymentDate='" + payDate + "',IP='" + ip
 						+ "' WHERE OrderCode='" + orderCode + "'");
-			}else{
-				sta.executeUpdate("UPDATE JCP_AddOrder SET OrderState=" + pState
-						+ ",IP='" + ip
-						+ "' WHERE OrderCode='" + orderCode + "'");
+			} else {
+				sta.executeUpdate("UPDATE JCP_AddOrder SET OrderState="
+						+ pState + ",IP='" + ip + "' WHERE OrderCode='"
+						+ orderCode + "'");
 			}
 			if (pState == 2) {
 				// 2 、总账户 聚财币减少 JCP_Account
@@ -1067,6 +1069,115 @@ public class RollBackUtil {
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
 			int newLeavel = BaseData.getLeavel(a.getIntegeral() + b);
+			if (currentLeavel != newLeavel) {
+				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
+						+ " WHERE Id=" + uId);
+			}
+			dbConn.commit();
+			return 1;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				dbConn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} finally {
+			try {
+				dbConn.setAutoCommit(true);
+				dbConn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
+	}
+
+	/**
+	 * @param sign
+	 * @param detail
+	 * @param inDetail
+	 * @param accountDetail
+	 * @param a
+	 * @param signIntegeral
+	 * @param uId
+	 * @param user
+	 * @return 签到
+	 */
+	public static int signIn(SignDetail detail, Sign sign,
+			RebateIntegeralDetail inDetail, AccountDetail accountDetail,
+			Account a, int uId, int signIntegeral, User user) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			dbConn.setAutoCommit(false);
+			sta = dbConn.createStatement();
+			// 1、添加添加签到详细表 JCP_QianDao_Detail
+			sta.executeUpdate("INSERT INTO JCP_QianDao_Detail(UserId,InsertDate,Ip,Remark) VALUES("
+					+ detail.getUserId()
+					+ ",'"
+					+ detail.getInsertDate()
+					+ "','"
+					+ detail.getIp()
+					+ "','"
+					+ detail.getRemark()
+					+ "')");
+
+			// 2、更新签到总表 JCP_QianDao
+			sta.executeUpdate("UPDATE JCP_QianDao SET LastDate='"
+					+ sign.getLastDate() + "',Ip='" + sign.getIp()
+					+ "',QDCount=" + sign.getSignNum() + " WHERE UserId="
+					+ sign.getUserId());
+			// 3、返利积分 JCP_RebateIntegral_Detail
+			sta.executeUpdate("INSERT INTO JCP_RebateIntegral_Detail(FK_UserId,IntegralNum,InsertDate,ReMark,Type,FK_FromId) VALUES("
+					+ inDetail.getUserId()
+					+ ","
+					+ inDetail.getIntegralNum()
+					+ ",'"
+					+ inDetail.getInsertDate()
+					+ "','"
+					+ inDetail.getRemark()
+					+ "',"
+					+ inDetail.getType()
+					+ ","
+					+ inDetail.getFromId() + ")");
+			// 更新账户明细表 JCP_Account_Detail
+			sta.executeUpdate("INSERT INTO JCP_Account_Detail"
+					+ "(OrderCode,DetailMoney,DetailType,State,Remark,"
+					+ "InsertDate,IsDel,UserId) VALUES ('"
+					+ accountDetail.getOrderCode() + "','"
+					+ accountDetail.getDetailMoney() + "',"
+					+ accountDetail.getDetailType() + ","
+					+ accountDetail.getState() + ",'"
+					+ accountDetail.getRemark() + "','"
+					+ accountDetail.getInsertDate() + "'," + 0 + ","
+					+ accountDetail.getUserId() + ")");
+
+			// 4、账户总表 JCP_Account
+			if (a != null) {
+				int newIntegeral = signIntegeral + a.getIntegeral();
+				sta.executeUpdate("UPDATE JCP_Account SET Integral="
+						+ newIntegeral + " WHERE UserId=" + uId);
+			} else {
+				a = new Account();
+				a.setIntegeral(signIntegeral);
+				a.setJucaiBills(0);
+				a.setUserId(uId);
+				sta.executeUpdate("INSERT INTO JCP_Account(UserId,Integral,JucaiBi) VALUES("
+						+ a.getUserId()
+						+ ","
+						+ a.getIntegeral()
+						+ ","
+						+ a.getJucaiBills() + ")");
+			}
+
+			// 5、用户表积分 JCP_User
+			int newIntegeral = user.getAllIntegral() + signIntegeral;
+			sta.executeUpdate("UPDATE JCP_User SET AllIntegral=" + newIntegeral
+					+ " WHERE Id=" + uId);
+
+			// 更新用户等级
+			int currentLeavel = user.getUserLeval();
+			int newLeavel = BaseData.getLeavel(newIntegeral);
 			if (currentLeavel != newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);

@@ -66,7 +66,6 @@ public class ActiveList extends HttpServlet {
 			param.clear();
 			param.put("tId", tId+"");
 			String res = LoginUtil.sendHttpPost(GETUser, param);
-			System.out.println(res);
 			JPushClient client = JPushUtils.getJPush();
 			PushPayload msgObj = JPushUtils.createMsg("msg", "onLine",res , null);
 			JPushUtils.pushMsg(client, msgObj);

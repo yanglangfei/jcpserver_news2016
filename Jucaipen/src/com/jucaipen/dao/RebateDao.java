@@ -48,5 +48,18 @@ public interface RebateDao {
 	 * @return  获取用户贡献讲师聚财币信息
 	 */
 	public List<Rebate> findRebate(int uId,int tId);
+	
+	/**
+	 * @param teacherId
+	 * @return  获取日榜单
+	 */
+	public List<Rebate>   findDayRebateByTeacher(int teacherId);
+	
+	
+	/**
+	 * @param teacherId
+	 * @return  获取月榜单
+	 */
+	public List<Rebate>   findMothRebateByTeacher(int teacherId);
 
 }

@@ -21,6 +21,24 @@ public class RebateSer {
 		RebateDao dao=new RebateImp();
 		return dao.findRebateById(id);
 	}
+	
+	/**
+	 * @param teacherId
+	 * @return  获取日榜单
+	 */
+	public static List<Rebate> findDayRebateByTeacher(int teacherId) {
+		RebateDao dao=new RebateImp();
+		return dao.findDayRebateByTeacher(teacherId);
+	}
+	
+	/**
+	 * @param teacherId
+	 * @return  获取月榜单
+	 */
+	public static List<Rebate> findMothRebateByTeacher(int teacherId){
+		RebateDao dao=new RebateImp();
+		return dao.findMothRebateByTeacher(teacherId);
+	}
 
 	/**
 	 * @param teacherId

@@ -16,7 +16,6 @@ import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 
 public class StudioMsgTask extends TimerTask{
-
 	private int maxId;
 	private int userId;
 	private int liveId;
@@ -33,7 +32,6 @@ public class StudioMsgTask extends TimerTask{
 
 	@Override
 	public void run() {
-		//checkLiveMsg(maxId, liveId, userId,isManager);
 		checkMsg(maxId, liveId, userId, isManager);
 	}
 	
@@ -63,7 +61,7 @@ public class StudioMsgTask extends TimerTask{
 		}
 		params.clear();
 		params.put("lid", liveId+"");
-		params.put("topid", mId+"");
+		params.put("Topid", mId+"");
 		params.put("IsServerId", user.getServerId()+"");
 		String result=LoginUtil.sendHttpPost(GET_LIVE_MSG, params);
 		List<VideoLiveMsg>  msgObjs =JsonUtil.repCompleMsgObj(result);
@@ -99,66 +97,4 @@ public class StudioMsgTask extends TimerTask{
 		}
 	}
 	
-
-	/*private void checkLiveMsg(int mId, int sId, int uId,boolean isM) {
-		Studio studio=StudioSer.findStudioById(sId);
-		if(studio==null){
-			return ;
-		}
-		int lId=studio.getVideoLiveId();
-		if(lId<=0){
-			return ;
-		}
-		List<VideoLiveMsg> msgs;
-		User user;
-		if(uId>0){
-			user=UserServer.findUserChatInfo(uId);
-		}else{
-			user=new User();
-		}
-		
-		int isRoomAdmin=user.getIsRoomAdmin();
-		int isRoomManager=user.getIsRoomManager();
-		int isSysAdmin=user.getIsSysAdmin();
-		int isTeacher=user.getIsTeacher();
-		if(isSysAdmin==1||isRoomAdmin==1||isRoomManager==1||isTeacher==1){
-			isM=true;
-			 msgs = VideoLiveMsgSer.findVideoMsgByMaxId(mId, lId, false);
-		}else{
-			isM=false;
-			msgs = VideoLiveMsgSer.findVideoMsgByMaxId(mId, lId, true);
-		}
-		
-		if(msgs!=null){
-			for(VideoLiveMsg m : msgs){
-				int senId=m.getSendUserId();
-				int toId=m.getReceiverId();
-				User fu=UserServer.findBaseInfoById(senId);
-				if(fu==null){
-					fu=new User();
-				}
-				m.setSendFace(fu.getFaceImage());
-				User tu=UserServer.findBaseInfoById(toId);
-				if(tu==null){
-					tu=new User();
-				}
-				m.setReceiverFace(tu.getFaceImage());
-			}
-		}
-		
-		if(msgs!=null&&msgs.size()>0){
-			String pushMsg = JsonUtil.createLiveMsgArray(msgs);
-			JPushClient client = JPushUtils.getJPush();
-			PushPayload msgObj = JPushUtils.createMsg("msg", "studioMsg", pushMsg, null);
-			PushResult res = JPushUtils.pushMsg(client, msgObj);
-			System.out.println("res:"+res.toString());
-			if(isM){
-				maxId= msgs.get(msgs.size()-1).getId();
-			}else{
-				maxId=msgs.get(msgs.size()-1).getShenhe();
-			}
-			
-		}
-	}
-*/
 }

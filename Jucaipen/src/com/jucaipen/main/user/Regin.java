@@ -2,31 +2,18 @@ package com.jucaipen.main.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.json.JSONObject;
-
-import com.jucaipen.model.Account;
 import com.jucaipen.model.ClientOsInfo;
-import com.jucaipen.model.RebateIntegeralDetail;
-import com.jucaipen.model.SiteConfig;
-import com.jucaipen.model.User;
-import com.jucaipen.service.AccountSer;
-import com.jucaipen.service.RebateIntegeralDetailSer;
-import com.jucaipen.service.SiteConfigSer;
-import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
-import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator
@@ -112,7 +99,7 @@ public class Regin extends HttpServlet {
 		if (res) {
 			// 注册成功处理
 			int userId=object.getInt("ActionId");
-			handleIntegeral(investCode, userId, telPhone);
+		//	handleIntegeral(investCode, userId, telPhone);
 			return JsonUtil.getRetMsg(0, msg);
 		} else {
 			// 注册失败处理
@@ -120,7 +107,7 @@ public class Regin extends HttpServlet {
 		}
 	}
 
-	public void handleIntegeral(String investCode,int userId,String telPhone) {
+/*	public void handleIntegeral(String investCode,int userId,String telPhone) {
 		SiteConfig config = SiteConfigSer.findSiteConfig();
 		if (StringUtil.isNotNull(investCode)) {
 			// 更新邀请人积分信息
@@ -151,6 +138,6 @@ public class Regin extends HttpServlet {
 		inDetail.setFromId(userId);
 		// 更新返利信息
 		RebateIntegeralDetailSer.addRebateIntegeral(inDetail);
-	}
+	}*/
 
 }

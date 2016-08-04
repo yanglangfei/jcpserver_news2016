@@ -22,8 +22,8 @@ public class LoginUtil {
 			conn.setRequestMethod("POST");
 			conn.setRequestProperty("Proxy-Connection", "Keep-Alive");
 			conn.setRequestProperty("accept", "*/");
-			conn.setReadTimeout(1000 * 5);
-			conn.setConnectTimeout(1000 * 5);
+			conn.setReadTimeout(1000 * 10);
+			conn.setConnectTimeout(1000 * 10);
 			conn.setDoInput(true);
 			conn.setDoOutput(true);
 			PrintWriter out = new PrintWriter(conn.getOutputStream());
@@ -77,6 +77,8 @@ public class LoginUtil {
 			HttpURLConnection conn = (HttpURLConnection) path.openConnection();
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Proxy-Connection", "Keep-Alive");
+			conn.setReadTimeout(1000 * 10);
+			conn.setConnectTimeout(1000 * 10);
 			conn.setDoInput(true);
 			conn.setDoOutput(true);
 			int responseCode = conn.getResponseCode();
