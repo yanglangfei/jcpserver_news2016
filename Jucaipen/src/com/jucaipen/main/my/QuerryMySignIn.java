@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.SignDetail;
 import com.jucaipen.service.SignDetailSer;
 import com.jucaipen.utils.JsonUtil;
@@ -37,7 +36,6 @@ public class QuerryMySignIn extends HttpServlet {
 				}else{
 					result=JsonUtil.getRetMsg(3,"用户还没登录");
 				}
-				
 			}else{
 				result=JsonUtil.getRetMsg(2,"userId 参数数字格式化异常");
 			}
@@ -51,6 +49,7 @@ public class QuerryMySignIn extends HttpServlet {
 	private String initMySignInData(int uId) {
 		//初始化我的签到信息
 		 List<SignDetail> details = SignDetailSer.findMothSignDetailByUserId(uId);
+		// User user=UserServer.findBaseInfoById(uId);
 		return JsonUtil.getSignDetails(details);
 	}
 

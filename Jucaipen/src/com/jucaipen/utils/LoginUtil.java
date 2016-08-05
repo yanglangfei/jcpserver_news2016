@@ -6,14 +6,11 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
-
 public class LoginUtil {
 	private static StringBuilder builder;
-
 	/**
 	 * @param param
 	 * @return post«Î«Û ˝æ›
-	 * 
 	 */
 	public static String sendHttpPost(String path, Map<String, String> param) {
 		try {
@@ -43,7 +40,7 @@ public class LoginUtil {
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				InputStream is = conn.getInputStream();
 				DataInputStream dis = new DataInputStream(is);
-				byte bs[] = new byte[dis.available()];
+				byte bs[] = new byte[dis.available()];   
 				dis.read(bs);
 				String data = new String(bs, "UTF-8");
 				return data;

@@ -201,11 +201,12 @@ public class RollBackUtil {
 	 * @param detail
 	 * @param account2
 	 * @param detailAccount
+	 * @param type 
 	 * @return ≥‰÷µ --------------------NO
 	 */
 	public static int recharge(String orderCode, int pState, String payDate,
 			String ip, int bills, Account a, int uId, AccountDetail detail,
-			SysAccount account2, SysDetailAccount detailAccount) {
+			SysAccount account2, SysDetailAccount detailAccount, int type) {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			dbConn.setAutoCommit(false);
@@ -214,10 +215,10 @@ public class RollBackUtil {
 			if (pState == 2) {
 				sta.executeUpdate("UPDATE JCP_AddOrder SET OrderState="
 						+ pState + ",PaymentDate='" + payDate + "',IP='" + ip
-						+ "' WHERE OrderCode='" + orderCode + "'");
+						+ "',PaymentMethod="+type+"  WHERE OrderCode='" + orderCode + "'");
 			} else {
 				sta.executeUpdate("UPDATE JCP_AddOrder SET OrderState="
-						+ pState + ",IP='" + ip + "' WHERE OrderCode='"
+						+ pState + ",IP='" + ip + "',PaymentMethod="+type+" WHERE OrderCode='"
 						+ orderCode + "'");
 			}
 			if (pState == 2) {

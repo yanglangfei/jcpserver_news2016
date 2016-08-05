@@ -133,7 +133,7 @@ public class Recharge extends HttpServlet {
 		}
 		detailAccount.setUserId(uId);
 		int isSuccess = RollBackUtil.recharge(orderCode, pState, payDate, ip,
-				bills, a, uId, detail, account, detailAccount);
+				bills, a, uId, detail, account, detailAccount,type);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "账单更新成功") : JsonUtil
 				.getRetMsg(1, "账单更新失败");
 	}

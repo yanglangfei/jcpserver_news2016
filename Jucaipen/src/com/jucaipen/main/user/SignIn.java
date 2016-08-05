@@ -64,7 +64,6 @@ public class SignIn extends HttpServlet {
 
 	private String initSignInData(int uId) {
 		// 初始化签到信息
-		int newIntegeral = 0;
 		List<SignDetail> dets = SignDetailSer.findMothSignDetailByUserId(uId);
 		for (SignDetail detail : dets) {
 			String insertDate = detail.getInsertDate();
