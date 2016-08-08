@@ -9,7 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.model.Answer;
+import com.jucaipen.model.AnswerSale;
 import com.jucaipen.model.Ask;
 import com.jucaipen.model.HotIdea;
 import com.jucaipen.model.Special;
@@ -17,6 +19,7 @@ import com.jucaipen.model.TextLive;
 import com.jucaipen.model.User;
 import com.jucaipen.model.Video;
 import com.jucaipen.model.VideoLive;
+import com.jucaipen.service.AnswerSaleSer;
 import com.jucaipen.service.AnswerSer;
 import com.jucaipen.service.AskSer;
 import com.jucaipen.service.HotIdeaServ;
@@ -45,6 +48,7 @@ public class QuerryTeacherIdea extends HttpServlet {
 		String teacherId = request.getParameter("teacherId");
 		String typeId = request.getParameter("typeId");
 		String page = request.getParameter("page");
+		String userId=request.getParameter("userId");
 		if (StringUtil.isNotNull(teacherId)) {
 			if (StringUtil.isInteger(teacherId)) {
 				int tId = Integer.parseInt(teacherId);
@@ -57,7 +61,13 @@ public class QuerryTeacherIdea extends HttpServlet {
 						if (StringUtil.isNotNull(isIndex)
 								&& StringUtil.isInteger(isIndex)) {
 							int index = Integer.parseInt(isIndex);
-							result = initTeacherIdeaData(tId, type, p, index);
+							if(StringUtil.isNotNull(userId)&&StringUtil.isInteger(userId)){
+								int uId=Integer.parseInt(userId);
+								result = initTeacherIdeaData(tId, type, p, index,uId);
+							}else{
+								result = JsonUtil.getRetMsg(6, "userId 参数异常");
+							}
+							
 						} else {
 							result = JsonUtil.getRetMsg(5, "isIndex 参数异常");
 						}
@@ -78,8 +88,12 @@ public class QuerryTeacherIdea extends HttpServlet {
 		out.close();
 	}
 
-	private String initTeacherIdeaData(int tId, int type, int p, int isIndex) {
+	private String initTeacherIdeaData(int tId, int type, int p, int isIndex, int usId) {
 		// 初始化讲师热门观点 问答 文字直播 直播信息
+		int isPurch=1;
+		if(usId<=0){
+			isPurch=1;
+		}
 		if (type == 0) {
 			// 热门观点
 			List<HotIdea> ideas;
@@ -111,6 +125,23 @@ public class QuerryTeacherIdea extends HttpServlet {
 				if (user == null) {
 					user = new User();
 				}
+				int isPay=ask.getIsPay();
+				if(isPay==1){
+					AnswerSale sale=AnswerSaleSer.findSaleByUserIdAndAskId(usId, ask.getId());
+					if(sale!=null||usId==uId){
+						isPurch=0;
+					}else{
+						isPurch=1;
+					}
+					
+				}else{
+					if(usId==uId){
+						isPurch=0;
+					}else{
+						isPurch=1;
+					}
+				}
+				ask.setIsPurch(isPurch);
 				users.add(user);
 			}
 			return JsonUtil.getAskList(asks, users,0);

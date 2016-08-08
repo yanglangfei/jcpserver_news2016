@@ -37,6 +37,7 @@ public class Answer implements Serializable{
 	private String teacherLeavel;
 	
 	private int isReplay;
+	
 	/**
 	 * 回答问题的id
 	 */

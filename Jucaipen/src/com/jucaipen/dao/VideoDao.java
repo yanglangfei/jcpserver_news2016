@@ -198,6 +198,19 @@ public interface VideoDao {
 	 */
 	public int updateHits(int hits,int xnHits,int id);
 	
+	/**
+	 * @param id
+	 * @return  获取点赞数
+	 */
+	public Video findHitsAndGoods(int id);
+	
+	/**
+	 * @param id
+	 * @param goods
+	 * @return  更新点赞数
+	 */
+	public int updateGoods(int id,int goods);
+	
 	
 
 }

@@ -16,6 +16,11 @@ public class KnowledgetSer {
 		KnowledgeDao dao=new KnowledgeImp();
 		return dao.findKnowledgeById(id);
 	}
+	
+	public static Knowledge findHitAndGoods(int id){
+		KnowledgeDao dao=new KnowledgeImp();
+		return dao.findHitAndGoods(id);
+	}
 
 	/**
 	 * @param classId
@@ -30,6 +35,11 @@ public class KnowledgetSer {
 	public static int addHits(int id,int hits,int xnHits){
 		KnowledgeDao dao=new KnowledgeImp();
 		return dao.addHits(id, hits, xnHits);
+	}
+	
+	public static int addGoods(int id,int goods){
+		KnowledgeDao dao=new KnowledgeImp();
+		return dao.addGoods(id, goods);
 	}
 
 	/**

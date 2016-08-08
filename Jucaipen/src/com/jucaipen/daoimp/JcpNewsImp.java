@@ -470,5 +470,40 @@ public class JcpNewsImp implements JcpNewsDao {
 		return null;
 	}
 
+	@Override
+	public JcpNews findHitsAndGoods(int id) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res=sta.executeQuery("SELECT Zan,Hits,XnHits FROM JCPNews WHERE Id="+id);
+			while (res.next()) {
+				int goods=res.getInt(1);
+				int hits=res.getInt(2);
+				int xnHits=res.getInt(3);
+				JcpNews news=new JcpNews();
+				news.setZan(goods);
+				news.setHits(hits);
+				news.setXnHits(xnHits);
+				return news;
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public int addGoods(int id, int goods) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCPNews SET Zan="+goods+" WHERE Id="+id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 
 }

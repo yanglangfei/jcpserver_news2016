@@ -17,6 +17,16 @@ public class JcpNewsSer{
 		JcpNewsDao dao=new JcpNewsImp();
 		return dao.findNewsBybigId(bigId, smallId, pager);
 	}
+	
+	public static JcpNews findHitsAndGoods(int id) {
+		JcpNewsDao dao=new JcpNewsImp();
+		return dao.findHitsAndGoods(id);
+	}
+	
+	public static int addGoods(int id, int goods){
+		JcpNewsDao dao=new JcpNewsImp();
+		return dao.addGoods(id, goods);
+	}
 
 	public static List<JcpNews> findNewsByIndex(int isIndex, int pager) {
 		JcpNewsDao dao=new JcpNewsImp();

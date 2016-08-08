@@ -17,6 +17,16 @@ public class TxtLiveSer{
 		return dao.insertTxtLive(textLive);
 	}
 	
+	public static TextLive findHitsAndGoods(int id){
+		TxtLiveDao dao=new TextLiveImp();
+		return dao.findHitsAndGoods(id);
+	}
+	
+	public static int addGoods(int id, int goods){
+		TxtLiveDao dao=new TextLiveImp();
+		return dao.addGoods(id, goods);
+	}
+	
 	/**
 	 * @param lastId
 	 * @param page

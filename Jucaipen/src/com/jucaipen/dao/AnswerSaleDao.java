@@ -40,6 +40,6 @@ public interface AnswerSaleDao {
 	 * @param askId
 	 * @return 根据用户id和提问id获取销售信息
 	 */
-	public List<AnswerSale> findSaleByUserIdAndAskId(int uId,int askId);
+	public AnswerSale findSaleByUserIdAndAskId(int uId,int askId);
 
 }

@@ -1428,4 +1428,39 @@ public class VideoImp implements VideoDao {
 		return null;
 	}
 
+	@Override
+	public Video findHitsAndGoods(int id) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res=sta.executeQuery("SELECT PlayCount,PlayXNCount,Zan FROM JCP_Video WHERE Id="+id);
+			while (res.next()) {
+				int hits=res.getInt(1);
+				int xnHits=res.getInt(2);
+				int goods=res.getInt(3);
+				Video video=new Video();
+				video.setGoods(goods);
+				video.setHitCount(hits);
+				video.setXnHitCount(xnHits);
+				return video;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public int updateGoods(int id, int goods) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_Video SET Zan="+goods+" WHERE Id="+id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+
 }

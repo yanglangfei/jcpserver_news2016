@@ -465,6 +465,11 @@
     <servlet-name>SpecialVide</servlet-name>
     <servlet-class>com.jucaipen.main.video.SpecialVide</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>AddGoods</servlet-name>
+    <servlet-class>com.jucaipen.main.user.AddGoods</servlet-class>
+  </servlet>
+
 
 
 
@@ -940,5 +945,9 @@
   <servlet-mapping>
     <servlet-name>SpecialVide</servlet-name>
     <url-pattern>/jucaipen/getspecialvideo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AddGoods</servlet-name>
+    <url-pattern>/jucaipen/addgoods</url-pattern>
   </servlet-mapping>
 </web-app>

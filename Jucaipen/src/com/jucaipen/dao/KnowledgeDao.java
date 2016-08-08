@@ -17,6 +17,8 @@ public interface KnowledgeDao {
 	 */
 	public Knowledge findKnowledgeById(int id);
 	
+	public Knowledge findHitAndGoods(int id);
+	
 	/**
 	 * @param classId
 	 * @param page
@@ -35,6 +37,8 @@ public interface KnowledgeDao {
 	public Knowledge findTitleById(int id,int classId);
 	
 	public int addHits(int id,int hits,int xnHits);
+	
+	public int addGoods(int id,int goods);
 	
 
 }

@@ -19,6 +19,16 @@ public class VideoServer {
 		VideoDao dao = new VideoImp();
 		return dao.findVideoBySpecialId(specialId);
 	}
+	
+	public static  Video findHitsAndGoods(int id) {
+		VideoDao dao = new VideoImp();
+		return dao.findHitsAndGoods(id);
+	}
+	
+	public static int updateGoods(int id, int goods){
+		VideoDao dao = new VideoImp();
+		return dao.updateGoods(id, goods);
+	}
 
 	/**
 	 * @param classId

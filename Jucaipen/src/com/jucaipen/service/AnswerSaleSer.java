@@ -44,7 +44,7 @@ public class AnswerSaleSer {
 		return dao.findSaleByTeacherAndUid(teacherId, userId);
 	}
 
-	public static List<AnswerSale> findSaleByUserIdAndAskId(int uId, int askId) {
+	public static AnswerSale findSaleByUserIdAndAskId(int uId, int askId) {
 		AnswerSaleDao dao = new AnswerSaleImp();
 		return dao.findSaleByUserIdAndAskId(uId, askId);
 	}

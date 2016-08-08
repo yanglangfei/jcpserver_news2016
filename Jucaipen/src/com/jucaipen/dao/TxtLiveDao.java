@@ -61,6 +61,10 @@ public interface TxtLiveDao {
 	 */
 	public List<TextLive> findLastPushLive(int count);
 	
+	public TextLive findHitsAndGoods(int id);
+	
+	public int addGoods(int id,int goods);
+	
 	/**
 	 * @param hits
 	 * @param id

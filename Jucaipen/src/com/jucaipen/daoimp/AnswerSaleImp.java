@@ -169,8 +169,21 @@ public class AnswerSaleImp implements AnswerSaleDao {
 	}
 
 	@Override
-	public List<AnswerSale> findSaleByUserIdAndAskId(int uId, int askId) {
+	public AnswerSale findSaleByUserIdAndAskId(int uId, int askId) {
 		// 获取用户购买回复信息
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res=sta.executeQuery("SELECT Id FROM   JCP_AnswerSale   WHERE FK_AskId="+askId+" AND FK_UserId="+uId);
+		    while (res.next()) {
+				int id=res.getInt(1);
+				AnswerSale sale=new AnswerSale();
+				sale.setId(id);
+				return sale;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

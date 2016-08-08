@@ -150,14 +150,14 @@ public class HotIdeaImp implements HotIdeaDao {
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Tearch_Log) A "
 							+ "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
-				int id = res.getInt(1);
-				String insertDate = res.getString(2);
-				String title = res.getString(3);
-				String body = res.getString(4);
-				int xnHits = res.getInt(5);
-				int teacherId = res.getInt(6);
-				int goods = res.getInt(7);
-				int commCount=res.getInt(8);
+				int id = res.getInt("Id");
+				String insertDate = res.getString("InsertDate");
+				String title = res.getString("Title");
+				String body = res.getString("Bodys");
+				int xnHits = res.getInt("VirtualNum");
+				int teacherId = res.getInt("FK_TearchId");
+				int goods = res.getInt("Goods");
+				int commCount=res.getInt("CommCount");
 				HotIdea idea = new HotIdea();
 				idea.setId(id);
 				idea.setCommens(commCount);

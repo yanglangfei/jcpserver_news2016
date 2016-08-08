@@ -360,4 +360,39 @@ public class TextLiveImp implements TxtLiveDao {
 		return 0;
 	}
 
+	@Override
+	public TextLive findHitsAndGoods(int id) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT Goods,Hits,VirtualNum FROM JCP_TxtLive WHERE Id="+id);
+			while (res.next()) {
+				int goods=res.getInt(1);
+				int hits=res.getInt(2);
+				int xnHits=res.getInt(3);
+				TextLive live=new TextLive();
+				live.setGoods(goods);
+				live.setHits(hits);
+				live.setXnHits(xnHits);
+				return live;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public int addGoods(int id, int goods) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_TxtLive SET Goods=" + goods
+					+ " WHERE Id=" + id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

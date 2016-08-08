@@ -260,4 +260,39 @@ public class KnowledgeImp implements KnowledgeDao {
 		return 0;
 	}
 
+	@Override
+	public Knowledge findHitAndGoods(int id) {
+		dbConn=JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT Zan,HitCount,HitXNCount FROM JCP_BasicKnowledge WHERE Id="+id);
+		    while (res.next()) {
+				int goods=res.getInt(1);
+				int hits=res.getInt(2);
+				int xnHits=res.getInt(3);
+				Knowledge knowledge=new Knowledge();
+				knowledge.setGoods(goods);
+				knowledge.setHits(hits);
+				knowledge.setXnHits(xnHits);
+				return knowledge;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public int addGoods(int id, int goods) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_BasicKnowledge SET Zan="
+					+ goods +" WHERE Id=" + id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
 }

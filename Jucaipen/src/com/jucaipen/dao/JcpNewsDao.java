@@ -57,6 +57,10 @@ public interface JcpNewsDao {
 	 */
 	public List<JcpNews> findLastNewsByNewsNum(int count);
 	
+	public JcpNews findHitsAndGoods(int id);
+	
+	public int addGoods(int id,int goods);
+	
 	/**
 	 * @param hits
 	 * @return   修改新闻点击数

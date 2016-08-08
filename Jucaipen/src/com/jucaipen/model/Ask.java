@@ -35,6 +35,11 @@ public class Ask implements Serializable{
 	private int userLeavel;
 	
 	/**
+	 *   是否购买
+	 */
+	private int isPurch;
+	
+	/**
 	 *  追提问id 追问有效
 	 */
 	private int parentId;
@@ -102,6 +107,12 @@ public class Ask implements Serializable{
 	
 	
 	
+	public int getIsPurch() {
+		return isPurch;
+	}
+	public void setIsPurch(int isPurch) {
+		this.isPurch = isPurch;
+	}
 	public int getXnHits() {
 		return xnHits;
 	}

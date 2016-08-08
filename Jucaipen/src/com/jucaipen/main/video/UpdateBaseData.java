@@ -19,7 +19,8 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         更新点击数 点赞数
+ *         更新点击数     typeId    0   视频点击数
+ *                             1   直播点击数
  */
 @SuppressWarnings("serial")
 public class UpdateBaseData extends HttpServlet {
