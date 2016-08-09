@@ -18,6 +18,11 @@ public class TextLive implements Serializable{
 	 *  文字直播总页数
 	 */
 	private int totlePage;
+	private boolean isCharge;
+	
+	private int txtPrice;
+	
+	private int isPurch;
 	/**
 	 * 直播id
 	 */
@@ -55,6 +60,26 @@ public class TextLive implements Serializable{
 	 */
 	private int isEnd;
 	
+	
+	
+	public boolean isCharge() {
+		return isCharge;
+	}
+	public void setCharge(boolean isCharge) {
+		this.isCharge = isCharge;
+	}
+	public int getTxtPrice() {
+		return txtPrice;
+	}
+	public void setTxtPrice(int txtPrice) {
+		this.txtPrice = txtPrice;
+	}
+	public int getIsPurch() {
+		return isPurch;
+	}
+	public void setIsPurch(int isPurch) {
+		this.isPurch = isPurch;
+	}
 	public int getXnHits() {
 		return xnHits;
 	}

@@ -43,7 +43,7 @@ public interface VideoLiveDao {
 	 * @param tId
 	 * @return  获取讲师下的视频直播
 	 */
-	public List<VideoLive>  findLiveBytId(int tId);
+	public VideoLive  findLiveBytId(int tId);
 	
 	
 	/**

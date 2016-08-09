@@ -39,6 +39,9 @@ public class TxtLiveDetails implements Serializable{
 	 * 上传时间
 	 */
 	private String insertDate;
+	
+	private int isPurch;
+	
 	/**
 	 * 是否收费     1   否     2  是
 	 */
@@ -46,12 +49,20 @@ public class TxtLiveDetails implements Serializable{
 	/**
 	 * 收费价格
 	 */
-	private double livePrice;
+	private int livePrice;
 	/**
 	 *  内容分类id
 	 */
 	private int fk_contentId;
 	
+	
+	
+	public int getIsPurch() {
+		return isPurch;
+	}
+	public void setIsPurch(int isPurch) {
+		this.isPurch = isPurch;
+	}
 	public int getId() {
 		return id;
 	}
@@ -100,10 +111,11 @@ public class TxtLiveDetails implements Serializable{
 	public void setIsFree(int isFree) {
 		this.isFree = isFree;
 	}
-	public double getLivePrice() {
+	
+	public int getLivePrice() {
 		return livePrice;
 	}
-	public void setLivePrice(double livePrice) {
+	public void setLivePrice(int livePrice) {
 		this.livePrice = livePrice;
 	}
 	public int getFk_contentId() {

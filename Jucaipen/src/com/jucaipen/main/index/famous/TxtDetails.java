@@ -9,9 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jucaipen.daoimp.LiveDetailSaleImp;
+import com.jucaipen.model.FamousTeacher;
+import com.jucaipen.model.LiveDetailSale;
 import com.jucaipen.model.SiteConfig;
 import com.jucaipen.model.TextLive;
 import com.jucaipen.model.TxtLiveDetails;
+import com.jucaipen.service.FamousTeacherSer;
+import com.jucaipen.service.LiveDetailSaleSer;
 import com.jucaipen.service.SiteConfigSer;
 import com.jucaipen.service.TxtLiveDetaileSer;
 import com.jucaipen.service.TxtLiveSer;
@@ -33,10 +38,16 @@ public class TxtDetails extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String txtId = request.getParameter("txtId");
+		String userId=request.getParameter("userId");
 		if (StringUtil.isNotNull(txtId)) {
 			if (StringUtil.isInteger(txtId)) {
 				int tId = Integer.parseInt(txtId);
-				result = initTxtDetails(tId);
+				if(StringUtil.isNotNull(userId)&&StringUtil.isInteger(userId)){
+					int uId=Integer.parseInt(userId);
+					result = initTxtDetails(tId,uId);
+				}else{
+					result = JsonUtil.getRetMsg(3, "userId 参数数字格式化异常");
+				}
 			} else {
 				result = JsonUtil.getRetMsg(2, "txtId 参数数字格式化异常");
 			}
@@ -48,14 +59,35 @@ public class TxtDetails extends HttpServlet {
 		out.close();
 	}
 
-	private String initTxtDetails(int tId) {
+	private String initTxtDetails(int tId,int uId) {
 		// 初始化文字直播详细信息
+		int isPurch=1;
+		if(uId<=0){
+			isPurch=1;
+		}
+		
 		TextLive live = TxtLiveSer.findTextLiveById(tId);
 		if(live==null){
 			return JsonUtil.getRetMsg(6,"直播信息不存在");
 		}
+		int teacherId=live.getTeacherId();
+		FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(teacherId);
 		List<TxtLiveDetails> txtDetails = TxtLiveDetaileSer
 				.findTextDetaileByLiveId(tId,0);
+		if(txtDetails!=null){
+			for(TxtLiveDetails detail : txtDetails){
+				if(uId>0&&teacher.getTxtLiveFree()!=0){
+					LiveDetailSale sale = LiveDetailSaleSer.findSaleByUserIdAndTxtIdAndDetailId(uId, detail.getId());
+				    if(sale!=null){
+				    	isPurch=0;
+				    }else{
+				    	isPurch=1;
+				    }
+				}
+				detail.setIsPurch(isPurch);
+				
+			}
+		}
 		initTxtHits(tId,live.getHits(),live.getXnHits());
 		return JsonUtil.getTxtDetails(txtDetails);
 	}

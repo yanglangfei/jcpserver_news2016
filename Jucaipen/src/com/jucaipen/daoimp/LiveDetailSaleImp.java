@@ -152,4 +152,23 @@ public class LiveDetailSaleImp implements LiveDetailSaleDao {
 		return 0;
 	}
 
+	@Override
+	public LiveDetailSale findSaleByUserIdAndTxtIdAndDetailId(int uId, int detailId) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta.executeQuery("SELECT Id FROM JCP_LiveDetailSale WHERE FK_UserId="
+					+ uId+" AND FK_LiveDetailId="+detailId);
+			while (res.next()) {
+				int id = res.getInt(1); 
+				LiveDetailSale sale = new LiveDetailSale();
+				sale.setId(id);
+				return sale;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

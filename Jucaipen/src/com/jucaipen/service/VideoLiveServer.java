@@ -50,7 +50,7 @@ public class VideoLiveServer {
 	 * @param tId
 	 * @return  获取讲师下的直播信息
 	 */
-	public static List<VideoLive> findLiveBytId(int tId){
+	public static VideoLive findLiveBytId(int tId){
 		VideoLiveDao dao=new VideoLiveImp();
 		return dao.findLiveBytId(tId);
 	}

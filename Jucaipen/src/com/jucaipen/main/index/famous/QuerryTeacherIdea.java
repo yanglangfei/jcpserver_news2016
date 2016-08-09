@@ -13,23 +13,32 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.model.Answer;
 import com.jucaipen.model.AnswerSale;
 import com.jucaipen.model.Ask;
+import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.HotIdea;
-import com.jucaipen.model.Special;
+import com.jucaipen.model.MySpecial;
+import com.jucaipen.model.MyVideo;
 import com.jucaipen.model.TextLive;
+import com.jucaipen.model.TxtLiveSale;
 import com.jucaipen.model.User;
 import com.jucaipen.model.Video;
 import com.jucaipen.model.VideoLive;
+import com.jucaipen.model.VideoLiveSale;
 import com.jucaipen.service.AnswerSaleSer;
 import com.jucaipen.service.AnswerSer;
 import com.jucaipen.service.AskSer;
+import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.HotIdeaServ;
-import com.jucaipen.service.SpecialSer;
+import com.jucaipen.service.MySpecialSer;
+import com.jucaipen.service.MyVideoSer;
+import com.jucaipen.service.TxtLiveSaleSer;
 import com.jucaipen.service.TxtLiveSer;
 import com.jucaipen.service.UserServer;
+import com.jucaipen.service.VideoLiveSaleSer;
 import com.jucaipen.service.VideoLiveServer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
+import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator type (0 观点) (1 问答) (2 文字直播) (3 视频直播)
@@ -90,6 +99,7 @@ public class QuerryTeacherIdea extends HttpServlet {
 
 	private String initTeacherIdeaData(int tId, int type, int p, int isIndex, int usId) {
 		// 初始化讲师热门观点 问答 文字直播 直播信息
+		FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(tId);
 		int isPurch=1;
 		if(usId<=0){
 			isPurch=1;
@@ -147,6 +157,7 @@ public class QuerryTeacherIdea extends HttpServlet {
 			return JsonUtil.getAskList(asks, users,0);
 		} else if (type == 2) {
 			// 文字直播
+			TextLive txt=null;
 			List<TextLive> txts = TxtLiveSer.findTxtLiveByTeacherIdAndLast(tId,
 					1);
 			List<TextLive> allTxts;
@@ -156,22 +167,95 @@ public class QuerryTeacherIdea extends HttpServlet {
 			} else {
 				allTxts = TxtLiveSer.findTextLiveByTeacherId(tId, p);
 			}
-			return JsonUtil.getTxtLiveByTeacherId(txts, allTxts);
+			if(txts!=null&&txts.size()>0){
+				txt=txts.get(0);
+				txt.setCharge(teacher.getTxtLiveFree()==1);
+				txt.setTxtPrice(teacher.getTxtLivePrice());
+				if(usId>0&&txt.isCharge()){
+					TxtLiveSale sale=TxtLiveSaleSer.findSaleByUidAndTxtId(usId, txt.getId());
+					if(sale!=null){
+						txt.setIsPurch(0);
+					}else{
+						txt.setIsPurch(1);
+					}
+				}else{
+					txt.setIsPurch(1);
+				}
+			}
+			
+			if(allTxts!=null){
+				for(TextLive tx : allTxts){
+					tx.setCharge(teacher.getTxtLiveFree()==1);
+					tx.setTxtPrice(teacher.getTxtLivePrice());
+					if(usId>0&&txt.isCharge()){
+						TxtLiveSale sale=TxtLiveSaleSer.findSaleByUidAndTxtId(usId, txt.getId());
+						if(sale!=null){
+							tx.setIsPurch(0);
+						}else{
+							tx.setIsPurch(1);
+						}
+					}else{
+						tx.setIsPurch(1);
+					}
+				}
+			}
+			return JsonUtil.getTxtLiveByTeacherId(txt, allTxts);
 		} else {
 			// 直播
-			List<VideoLive> lives = VideoLiveServer.findLiveBytId(tId);
+		    VideoLive live = VideoLiveServer.findLiveBytId(tId);
+			if(live!=null){
+				live.setLiveVideo(teacher.getIsUserLiveUrl()==1);
+				live.setCharge(teacher.getLiveFree()==1);
+				live.setLivePrice(teacher.getLivePrice());
+				live.setVideoUrl(teacher.getVideoLiveUrl());
+				if(usId>0&&live.isCharge()){
+					VideoLiveSale sale=VideoLiveSaleSer.findSaleByUidAndLiveId(usId, live.getId());
+					if(sale!=null){
+						live.setIsPurch(0);
+					}else{
+						live.setIsPurch(1);
+					}
+				}else{
+					live.setIsPurch(1);
+				}
+			}
 			List<Video> videos = VideoServer.findVideoByTeacherId(tId, p);
 			if (videos != null) {
 				for (Video video : videos) {
 					// 是否为付费视频 0为免费视频，1为付费视频
 					int videoType = video.getVideoType();
-					int specialId = video.getPecialId();
+					int specialId=video.getPecialId();
 					video.setCharge(videoType == 1);
-					Special special = SpecialSer.findSpecialById(specialId);
-					video.setSpecial(special != null);
+					if(video.isCharge()){
+						if(specialId>0){
+							MySpecial mSpecial=MySpecialSer.getIsMySpecial(usId, specialId);
+							if(mSpecial!=null){
+								if(TimeUtils.isLive(mSpecial.getStartDate(), mSpecial.getEndDate())){
+									video.setIsPurch(0);
+								}else{
+									video.setIsPurch(1);
+								}
+							}else{
+								video.setIsPurch(1);
+							}
+							
+						}else{
+							MyVideo mVideo=MyVideoSer.findIsMyVideo(usId, video.getId());
+							if(mVideo!=null){
+								if(TimeUtils.isLive(mVideo.getStartDate(), mVideo.getEndDate())){
+									video.setIsPurch(0);
+								}else{
+									video.setIsPurch(1);
+								}
+							}else{
+								video.setIsPurch(1);
+							}
+						}
+					  
+					}
 				}
 			}
-			return JsonUtil.getLive(lives, videos);
+			return JsonUtil.getLive(live, videos);
 		}
 	}
 

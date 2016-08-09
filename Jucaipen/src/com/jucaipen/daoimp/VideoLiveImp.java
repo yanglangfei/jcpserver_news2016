@@ -209,7 +209,7 @@ public class VideoLiveImp implements VideoLiveDao {
 
 
 	@Override
-	public List<VideoLive> findLiveBytId(int tId) {
+	public VideoLive findLiveBytId(int tId) {
 		// 获取讲师下的直播视频信息
 		chatRooms.clear();
 		dbConn=JdbcUtil.connSqlServer();
@@ -241,9 +241,8 @@ public class VideoLiveImp implements VideoLiveDao {
 				live.setStartDate(startDate);
 				live.setEndDate(endDate);
 				live.setRenQi(renQi);
-				chatRooms.add(live);
+				return live;
 			}
-			return chatRooms;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{

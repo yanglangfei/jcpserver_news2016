@@ -25,7 +25,6 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class LatestList extends HttpServlet {
 	private String result;
-	private int currentId;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -58,7 +57,6 @@ public class LatestList extends HttpServlet {
 		} else {
 			result = StringUtil.isVaild;
 		}
-		System.out.println(result);
 		out.println(result);
 		out.flush();
 		out.close();

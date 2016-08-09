@@ -5,15 +5,19 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.model.Ask;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.FamousTeacher;
+import com.jucaipen.model.SiteConfig;
 import com.jucaipen.service.AskSer;
 import com.jucaipen.service.FamousTeacherSer;
+import com.jucaipen.service.SiteConfigSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
@@ -22,7 +26,8 @@ import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
  * 
- *         咨询名师    同一个问题只能问三次，之后需要聚财币购买   
+ *         咨询名师 同一个问题只能问三次，之后需要聚财币购买
+ * 
  */
 @SuppressWarnings("serial")
 public class AskQuestion extends HttpServlet {
@@ -30,7 +35,6 @@ public class AskQuestion extends HttpServlet {
 	private String result;
 	private String ip;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
- 
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -38,22 +42,23 @@ public class AskQuestion extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String userAgent=request.getParameter("User-Agent");
-		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
-		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
-		if(isDevice==HeaderUtil.PHONE_APP){
+		String userAgent = request.getParameter("User-Agent");
+		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
+		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
+		if (isDevice == HeaderUtil.PHONE_APP) {
 			String askType = request.getParameter("questionType");
 			String userId = request.getParameter("userId");
 			String askBodys = request.getParameter("askBodys");
 			String teacherId = request.getParameter("teacherId");
 			ip = request.getRemoteAddr();
 			if (StringUtil.isInteger(userId)) {
-				// 用户id格式正确    
+				// 用户id格式正确
 				int uId = Integer.parseInt(userId);
-				if(uId>0){
+				if (uId > 0) {
 					if (StringUtil.isInteger(teacherId)) {
 						// 讲师id数字格式化正确
 						int tId = Integer.parseInt(teacherId);
+
 						// 判断提问数量是否超出限制的提问数
 						if (initMaxAskNum(uId, tId)) {
 							if (tId > 0) {
@@ -62,17 +67,20 @@ public class AskQuestion extends HttpServlet {
 									if (StringUtil.isNotNull(askBodys)) {
 										int type = Integer.parseInt(askType);
 										if (type > 0) {
-											result=createAskModel(uId, tId, type, askBodys);
+											result = createAskModel(uId, tId,
+													type, askBodys);
 										} else {
-											result = JsonUtil.getRetMsg(6, "分类id找不到");
+											result = JsonUtil.getRetMsg(6,
+													"分类id找不到");
 										}
 									} else {
-										result = JsonUtil.getRetMsg(5, "咨询内容不能为空");
+										result = JsonUtil.getRetMsg(5,
+												"咨询内容不能为空");
 									}
-
 								} else {
 									// 提问类型数字格式化异常
-									result = JsonUtil.getRetMsg(2, "咨询分类参数数字格式化异常");
+									result = JsonUtil.getRetMsg(2,
+											"咨询分类参数数字格式化异常");
 								}
 
 							} else {
@@ -82,20 +90,21 @@ public class AskQuestion extends HttpServlet {
 						} else {
 							result = JsonUtil.getRetMsg(8, "您的提问数已经超出限制");
 						}
+
 					} else {
 						// 讲师id数字格式化异常
 						result = JsonUtil.getRetMsg(3, "讲师id数字格式化异常");
-					}	
-				}else{
-					result=JsonUtil.getRetMsg(5,"用户还没登录");
+					}
+				} else {
+					result = JsonUtil.getRetMsg(5, "用户还没登录");
 				}
-				
+
 			} else {
 				// 用户id数字格式化异常
 				result = JsonUtil.getRetMsg(4, "用户id数字格式化异常");
 			}
-		}else{
-			result=StringUtil.isVaild;
+		} else {
+			result = StringUtil.isVaild;
 		}
 		out.print(result);
 		out.flush();
@@ -104,17 +113,16 @@ public class AskQuestion extends HttpServlet {
 
 	private boolean initMaxAskNum(int uId, int tId) {
 		// 获取最大提问数和当前已经提问的数量
-		int askNum = 0;
-		int maxNum=FamousTeacherSer.findMaxAsk(tId);
-		List<Ask> asks=AskSer.findAskByUserId(uId);
-		for(Ask ask : asks){
-			String askDate=ask.getAskDate();
-			boolean isToday=TimeUtils.isToday(askDate);
-			if(isToday){
-				++askNum;
-			}
+		int maxNum = 0;
+		if (tId == -1) {
+			SiteConfig config = SiteConfigSer.findSiteConfig();
+			maxNum = config.getAskNum();
+		} else {
+			maxNum = FamousTeacherSer.findMaxAsk(tId);
 		}
-		return askNum<=maxNum;
+		List<Ask> asks = AskSer.findAskByUidAndTeacherId(uId, tId);
+		return asks.size() < maxNum;
+
 	}
 
 	private String createAskModel(int uId, int tId, int type, String askBodys) {
@@ -134,11 +142,12 @@ public class AskQuestion extends HttpServlet {
 		ask.setJucaiBills(0);
 		ask.setIsReturnJcb(0);
 		isSuccess = AskSer.insertAsk(ask);
-		if(isSuccess==1){
-			FamousTeacher teacher=FamousTeacherSer.findTeacherBaseInfo(tId);
-			FamousTeacherSer.updateAskNum(teacher.getAskNum()+1, tId);
+		if (isSuccess == 1&&tId>0) {
+			FamousTeacher teacher = FamousTeacherSer.findTeacherBaseInfo(tId);
+			FamousTeacherSer.updateAskNum(teacher.getAskNum() + 1, tId);
 		}
-		return isSuccess==1 ?JsonUtil.getRetMsg(0, "提问信息提交成功") : JsonUtil.getRetMsg(1,"提问信息提交失败");
+		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "提问信息提交成功") : JsonUtil
+				.getRetMsg(1, "提问信息提交失败");
 	}
 
 }

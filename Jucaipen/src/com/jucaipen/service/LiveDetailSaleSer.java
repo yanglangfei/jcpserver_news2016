@@ -26,6 +26,11 @@ public class LiveDetailSaleSer{
 		LiveDetailSaleDao dao=new LiveDetailSaleImp();
 		return dao.findSaleByUid(uId, page);
 	}
+	
+	public static LiveDetailSale findSaleByUserIdAndTxtIdAndDetailId(int uId,int detailId){
+		LiveDetailSaleDao dao=new LiveDetailSaleImp();
+		return dao.findSaleByUserIdAndTxtIdAndDetailId(uId, detailId);
+	}
 
 	/**
 	 * @param sale

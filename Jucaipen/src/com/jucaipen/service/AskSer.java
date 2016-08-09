@@ -15,6 +15,11 @@ public class AskSer{
 		AskDao dao=new AskImp();
 		return dao.findAllAsk(page);
 	}
+	
+	public static List<Ask> findAskByUidAndTeacherId(int userId, int teacherId){
+		AskDao dao=new AskImp();
+		return dao.findAskByUidAndTeacherId(userId, teacherId);
+	}
 
 	/**
 	 * @param count

@@ -18,6 +18,8 @@ public interface AskDao {
 	 */
 	public int findTotlePage(String condition);
 	
+	public List<Ask>  findAskByUidAndTeacherId(int userId,int teacherId);
+	
 	/**
 	 * @param pId
 	 * @return  

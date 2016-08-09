@@ -10,6 +10,7 @@ import java.util.List;
 import com.jucaipen.dao.AskDao;
 import com.jucaipen.model.Ask;
 import com.jucaipen.utils.JdbcUtil;
+import com.jucaipen.utils.TimeUtils;
 
 public class AskImp implements AskDao {
 	private Connection dbConn;
@@ -189,8 +190,9 @@ public class AskImp implements AskDao {
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY AskDate desc) AS RowNumber,* FROM JCP_Ask"
-							+ " WHERE FK_TearchId=" + teacherId + " AND ParentId=0) A "
-							+ "WHERE RowNumber > " + 15 * (page - 1));
+							+ " WHERE FK_TearchId=" + teacherId
+							+ " AND ParentId=0) A " + "WHERE RowNumber > " + 15
+							* (page - 1));
 			asks = getAsk(res, page, totlePage);
 			return asks;
 		} catch (SQLException e) {
@@ -444,6 +446,35 @@ public class AskImp implements AskDao {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	@Override
+	public List<Ask> findAskByUidAndTeacherId(int userId, int teacherId) {
+		asks.clear();
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT Id,AskDate FROM JCP_Ask WHERE ParentId=0"
+							+ " AND FK_UserId="
+							+ userId
+							+ " AND FK_TearchId="
+							+ teacherId + " AND IsPay=0");
+			while (res.next()) {
+				int id = res.getInt(1);
+				String askDate = res.getString(2);
+				boolean isToday = TimeUtils.isToday(askDate);
+				if (isToday) {
+					Ask ask = new Ask();
+					ask.setId(id);
+					asks.add(ask);
+				}
+			}
+			return asks;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

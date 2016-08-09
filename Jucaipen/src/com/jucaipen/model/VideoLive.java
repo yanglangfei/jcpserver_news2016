@@ -8,10 +8,33 @@ import java.io.Serializable;
  *
  *   直播室                     ------------------------------数据已更新    5.18
  */
+/**
+ * @author Administrator
+ *
+ */
 @SuppressWarnings("serial")
 public class VideoLive implements Serializable{
 	private int page;
 	private int totlePage;
+	
+	/**
+	 * 是否开通视频直播功能
+	 */  
+	private boolean isLiveVideo;
+	
+	/**
+	 *   是否收费
+	 */
+	private boolean isCharge;
+	
+	/**
+	 *   直播价格
+	 */
+	private int livePrice;
+	/**
+	 *   是否购买  
+	 */
+	private int isPurch;
 	/**
 	 *  直播id
 	 */
@@ -61,6 +84,34 @@ public class VideoLive implements Serializable{
 	 */
 	private int renQi;
 	
+	
+	
+	
+	
+	public boolean isCharge() {
+		return isCharge;
+	}
+	public void setCharge(boolean isCharge) {
+		this.isCharge = isCharge;
+	}
+	public int getLivePrice() {
+		return livePrice;
+	}
+	public void setLivePrice(int livePrice) {
+		this.livePrice = livePrice;
+	}
+	public int getIsPurch() {
+		return isPurch;
+	}
+	public void setIsPurch(int isPurch) {
+		this.isPurch = isPurch;
+	}
+	public boolean isLiveVideo() {
+		return isLiveVideo;
+	}
+	public void setLiveVideo(boolean isLiveVideo) {
+		this.isLiveVideo = isLiveVideo;
+	}
 	public int getPage() {
 		return page;
 	}

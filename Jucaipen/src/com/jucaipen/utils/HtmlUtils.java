@@ -3,6 +3,7 @@ package com.jucaipen.utils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * @author YLF
@@ -17,11 +18,11 @@ public class HtmlUtils {
 	 */
 	public static String parseWeb(String videoUrl) {
 		if (videoUrl != null) {
-			if (videoUrl.contains("iframe")&&videoUrl.contains("src")) {
+			if (videoUrl.contains("iframe") && videoUrl.contains("src")) {
 				Document document = Jsoup.parse(videoUrl);
 				Element ec = document.select("iframe").first();
 				return ec.attr("src");
-			} else if (videoUrl.contains("object")&&videoUrl.contains("data")) {
+			} else if (videoUrl.contains("object") && videoUrl.contains("data")) {
 				Document document = Jsoup.parse(videoUrl);
 				Element ec = document.select("object").first();
 				return ec.attr("data");
@@ -29,7 +30,22 @@ public class HtmlUtils {
 
 		}
 		return null;
-
+	}
+	/**
+	 * @param html
+	 * @return  改变Html 图片宽度属性
+	 */
+	public static String parseHtml(String html) {
+		if(html==null||html.length()<=0){
+			return html;
+		}
+		Document parse = Jsoup.parse(html);
+		Elements img = parse.getElementsByTag("img");
+		if (img != null) {
+			img.attr("width", "100%");
+			img.removeAttr("height");
+		}
+		return parse.toString();
 	}
 
 	/**

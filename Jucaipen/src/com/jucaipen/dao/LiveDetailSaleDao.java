@@ -21,6 +21,8 @@ public interface LiveDetailSaleDao {
 	 */
 	public List<LiveDetailSale> findSaleByUid(int uId,int page);
 	
+	public LiveDetailSale findSaleByUserIdAndTxtIdAndDetailId(int uId,int detailId);
+	
 	/**
 	 * @param sale
 	 * @return ÃÌº”π∫¬Ú–≈œ¢

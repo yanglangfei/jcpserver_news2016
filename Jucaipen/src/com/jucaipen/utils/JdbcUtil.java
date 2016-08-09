@@ -5,37 +5,33 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 /**
  * @author YLF
  * 
- *         数据库工具类       
+ *         数据库工具类
  * 
  */
 public class JdbcUtil {
 	/*
-	 * SqlServer 测试数据库 new 192.168.1.127 old 192.168.1.233 JcpStudyPlatformData     198       128
-	 * JCPData
+	 * SqlServer 测试数据库 new 192.168.1.127 old 192.168.1.233 JcpStudyPlatformData
+	 * 198 128 JCPData
 	 */
 	private static final String SQLSERVER_DRIVER_TEST = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	private static final String SQLSERVER_URL_TEST = "jdbc:sqlserver://192.168.1.198; DatabaseName=JcpStudyPlatformData";
 	private static final String SQLSERVER_UNAME_TEST = "sa";
 	private static final String SQLSERVER_UPWD_TEST = "111111";
-	
-	private static boolean isTest=false;
-	
-	
-	
+
+	private static boolean isTest = true;
+
 	/**
-	 *   新数据库    正式
+	 * 新数据库 正式
 	 */
 	private static final String SQLSERVER_DRIVER_N = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	private static final String SQLSERVER_URL_N= "jdbc:sqlserver://121.41.46.228; DatabaseName=JcpStudyPlatformData";
+	private static final String SQLSERVER_URL_N = "jdbc:sqlserver://121.41.46.228; DatabaseName=JcpStudyPlatformData";
 	private static final String SQLSERVER_UNAME_N = "jcpstudy";
 	private static final String SQLSERVER_UPWD_N = "jcp@)!^168";
-	
-	
-	
-	
+
 	/**
 	 * SqlServer 视频数据库
 	 */
@@ -62,11 +58,9 @@ public class JdbcUtil {
 	private static final String MYSQL_ENCODING = "useUnicode=true&characterEncoding=UTF8";
 	private static Connection dbConn;
 	private static boolean isNormal;
-	
-	
-	
+
 	/*
-	 * 本地MySql 数据库   test
+	 * 本地MySql 数据库 test
 	 */
 	private static final String MYSQL_DRIVER_TEST = "com.mysql.jdbc.Driver";
 	private static final String MYSQL_URL_TEST = "jdbc:mysql://localhost:3306/test_main";
@@ -84,22 +78,23 @@ public class JdbcUtil {
 	private static final String DERBY_URL = "jdbc:derby://121.40.227.121:1521/APP;create=true";
 	private static final String DERBY_UNAME = "jucaipen168";
 	private static final String DERBY_PWD = "jucaipen168";
+
 	/**
 	 * @return 连接sqlServer 正式数据库
 	 */
 	public static Connection connSqlServer() {
 		try {
-			
-			if(isTest){
+
+			if (isTest) {
 				Class.forName(SQLSERVER_DRIVER_TEST);
 				dbConn = DriverManager.getConnection(SQLSERVER_URL_TEST,
 						SQLSERVER_UNAME_TEST, SQLSERVER_UPWD_TEST);
-			}else{
+			} else {
 				Class.forName(SQLSERVER_DRIVER_N);
 				dbConn = DriverManager.getConnection(SQLSERVER_URL_N,
 						SQLSERVER_UNAME_N, SQLSERVER_UPWD_N);
 			}
-			
+
 			return dbConn;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -134,12 +129,8 @@ public class JdbcUtil {
 	public static Connection connVideoSqlServer() {
 		try {
 			Class.forName(SQLSERVER_DRIVER_VIDEO);
-			/*
-			 * dbConn = DriverManager.getConnection(SQLSERVER_URL_VIDEO,
-			 * SQLSERVER_UNAME_VIDEO, SQLSERVER_UPWD_VIDEO);
-			 */
-			dbConn = DriverManager.getConnection(SQLSERVER_URL_TEST,
-					SQLSERVER_UNAME_TEST, SQLSERVER_UPWD_TEST);
+			dbConn = DriverManager.getConnection(SQLSERVER_URL_VIDEO,
+					SQLSERVER_UNAME_VIDEO, SQLSERVER_UPWD_VIDEO);
 			return dbConn;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -150,18 +141,15 @@ public class JdbcUtil {
 
 	}
 
-	public void connDerby() {
+	public static Connection connDerby() {
 		try {
 			Class.forName(DERBY_DRIVER);
 			dbConn = DriverManager.getConnection(DERBY_URL, DERBY_UNAME,
 					DERBY_PWD);
-			Statement sta = dbConn.createStatement();
-			ResultSet res = sta.executeQuery("SELECT ID FROM APKINFO");
-			while (res.next()) {
-				// int id=res.getInt("ID");
-			}
+			return dbConn;
 		} catch (Exception e) {
 		}
+		return null;
 	}
 
 	/**
@@ -183,9 +171,7 @@ public class JdbcUtil {
 		return null;
 
 	}
-	
-	
-	
+
 	/**
 	 * @return 连接mySql_TEST 数据库
 	 */
@@ -193,8 +179,8 @@ public class JdbcUtil {
 		try {
 			try {
 				Class.forName(MYSQL_DRIVER_TEST);
-				dbConn = DriverManager.getConnection(MYSQL_URL_TEST, MYSQL_UNAME_TEST,
-						MYSQL_UPWD_TEST);
+				dbConn = DriverManager.getConnection(MYSQL_URL_TEST,
+						MYSQL_UNAME_TEST, MYSQL_UPWD_TEST);
 				return dbConn;
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -205,8 +191,6 @@ public class JdbcUtil {
 		return null;
 
 	}
-	
-	
 
 	public static Connection isConnectNormalSql() {
 		isNormal = true;

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,9 @@ import com.jucaipen.utils.StringUtil;
  */
 @SuppressWarnings("serial")
 public class LiveChat extends HttpServlet {
-	private static final String GET_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
+	private static final String GET_LIVE_MSG="http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
+
+	//private static final String GET_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
 	private static final String SEND_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
 	private  Map<String, String> params=new HashMap<String, String>();
 	private Timer timer;
@@ -170,6 +173,7 @@ public class LiveChat extends HttpServlet {
 				liveMsg.setReceiverFace(toUser.getFaceImage());
 			}
 			String pushMsg=JsonUtil.createLiveMsg(msgObjs);
+			System.out.println("pushMsg:"+pushMsg);
 			JPushClient client = JPushUtils.getJPush();
 			PushPayload msgs = JPushUtils.createMsg("msg", "liveMsg", pushMsg, null);
 		    JPushUtils.pushMsg(client, msgs);
