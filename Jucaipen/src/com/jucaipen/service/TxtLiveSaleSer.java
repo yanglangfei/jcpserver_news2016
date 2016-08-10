@@ -1,0 +1,26 @@
+package com.jucaipen.service;
+
+import java.util.List;
+
+import com.jucaipen.dao.TxtLiveSaleDao;
+import com.jucaipen.daoimp.TxtLiveSaleImp;
+import com.jucaipen.model.TxtLiveSale;
+
+public class TxtLiveSaleSer {
+
+	public static TxtLiveSale findSaleByUidAndTxtId(int uId, int txtId) {
+		TxtLiveSaleDao dao=new TxtLiveSaleImp();
+		return dao.findSaleByUidAndTxtId(uId, txtId);
+	}
+
+	public static List<TxtLiveSale> findSaleByUserId(int userId) {
+		TxtLiveSaleDao dao=new TxtLiveSaleImp();
+		return dao.findSaleByUserId(userId);
+	}
+
+	public static int addSale(TxtLiveSale sale) {
+		TxtLiveSaleDao dao=new TxtLiveSaleImp();
+		return dao.addSale(sale);
+	}
+
+}
