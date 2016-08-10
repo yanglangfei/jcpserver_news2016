@@ -17,7 +17,7 @@ import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
  *
- *  举报   0    日志       1   问答              2    观点                 3    视频直播
+ *  举报     repoterType   0    日志       1   问答              2    观点                 3    视频直播
  */
 @SuppressWarnings("serial")
 public class Report extends HttpServlet {
@@ -43,7 +43,11 @@ public class Report extends HttpServlet {
 						if(StringUtil.isNotNull(fkId)&&StringUtil.isInteger(fkId)){
 							int fId=Integer.parseInt(fkId);
 							result=addRepoterInfo(uId,type,fId,bodys);
+						}else{
+							result=JsonUtil.getRetMsg(4,"fkId 参数异常");
 						}
+					}else{
+						result=JsonUtil.getRetMsg(5,"repoterType 参数异常");
 					}
 				}else{
 					result=JsonUtil.getRetMsg(3,"用户还没登录");

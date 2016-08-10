@@ -21,12 +21,10 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取讲师观点 isIndex 0 1 全部： 返回参数： id image nickname isV level title desc
- *         insertDate comments goods
- *         {"page":1,"totlePage":1,"id":21,"insertDate"
- *         :"2016-03-02","title":"1", "bodys":"1","hits":8,"teacherId":1,
- *         "nickName":"源侠","level":"资深投资人","headFace":"","isV":0} 2 根据讲师id查询
- * 
+ *         获取讲师观点 isIndex 
+ *                   0   首页 
+ *                   1   全部 
+ *                   2   根据讲师id查询
  */
 @SuppressWarnings("serial")
 public class TeacherIdea extends HttpServlet {
@@ -113,7 +111,9 @@ public class TeacherIdea extends HttpServlet {
 
 	private String initAllIdea(int page) {
 		// 初始化全部讲师观点
-		teachers.clear();
+		if(page==1){
+			teachers.clear();
+		}
 		hotIdeas = HotIdeaServ.findAllHotIdea(page);
 		for (HotIdea idea : hotIdeas) {
 			int teacherId = idea.getTeacherId();

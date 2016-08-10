@@ -32,7 +32,7 @@ public class BindOtherAccount extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String userId = request.getParameter("userId");
 		String accountType = request.getParameter("accountType");
-		String accountId = request.getParameter("accountId").trim();
+		String accountId = request.getParameter("accountId");
 		if (StringUtil.isNotNull(userId)&&StringUtil.isInteger(userId)) {
 			int uId = Integer.parseInt(userId);
 			if (uId > 0) {

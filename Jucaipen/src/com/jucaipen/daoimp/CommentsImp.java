@@ -6,9 +6,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.jucaipen.dao.CommentDao;
 import com.jucaipen.model.Comment;
 import com.jucaipen.utils.JdbcUtil;
+import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator
@@ -69,8 +71,6 @@ public class CommentsImp implements CommentDao {
 							+ ","
 							+ comment.getGoods()
 							+ ","
-							+ comment.getGoods()
-							+ ","
 							+ comment.getRepCount()
 							+ ","
 							+ comment.getLogOrLiveId()
@@ -117,18 +117,20 @@ public class CommentsImp implements CommentDao {
 				int goods = res.getInt("Goods"); // Goods
 				int repNum = res.getInt("RepCount"); // RepCount
 				int fkId = res.getInt("FK_LogOrLiveId"); // FK_LogOrLiveId
-				Comment comment = new Comment();
-				comment.setId(id);
-				comment.setBodys(bodys);
-				comment.setInsertDate(insertDate);
-				comment.setIsShow(isShow);
-				comment.setGoods(goods);
-				comment.setTotlePager(totlePage);
-				comment.setPager(page);
-				comment.setRepCount(repNum);
-				comment.setLogOrLiveId(fkId);
-				comment.setParentId(parentId);
-				comments.add(comment);
+				if(TimeUtils.isToday(insertDate)){
+					Comment comment = new Comment();
+					comment.setId(id);
+					comment.setBodys(bodys);
+					comment.setInsertDate(insertDate);
+					comment.setIsShow(isShow);
+					comment.setGoods(goods);
+					comment.setTotlePager(totlePage);
+					comment.setPager(page);
+					comment.setRepCount(repNum);
+					comment.setLogOrLiveId(fkId);
+					comment.setParentId(parentId);
+					comments.add(comment);
+				}
 			}
 			return comments;
 		} catch (SQLException e) {
@@ -149,7 +151,7 @@ public class CommentsImp implements CommentDao {
 		// 根据相关观点日志 文字直播获取评论 回复信息
 		comments.clear();
 		int totlePage = getTotlePage("WHERE FK_LogOrLiveId=" + fkId
-				+ " AND CommType=" + type + " AND ParentId=" + parentId);
+				+ " AND CommType=" + type + " AND ParentId=" + parentId+" AND IsShow=1");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
@@ -157,7 +159,7 @@ public class CommentsImp implements CommentDao {
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_LogOrLive_Comm WHERE FK_LogOrLiveId="
 							+ fkId + " AND CommType=" + type + " AND ParentId="
-							+ parentId + ") A " + "WHERE RowNumber > " + 15
+							+ parentId + " AND IsShow=1) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id"); // Id

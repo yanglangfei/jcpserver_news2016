@@ -15,6 +15,7 @@ import com.jucaipen.model.AnswerSale;
 import com.jucaipen.model.Ask;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.HotIdea;
+import com.jucaipen.model.IdeaSale;
 import com.jucaipen.model.MySpecial;
 import com.jucaipen.model.MyVideo;
 import com.jucaipen.model.TextLive;
@@ -28,6 +29,7 @@ import com.jucaipen.service.AnswerSer;
 import com.jucaipen.service.AskSer;
 import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.HotIdeaServ;
+import com.jucaipen.service.IdeaSaleServer;
 import com.jucaipen.service.MySpecialSer;
 import com.jucaipen.service.MyVideoSer;
 import com.jucaipen.service.TxtLiveSaleSer;
@@ -76,7 +78,6 @@ public class QuerryTeacherIdea extends HttpServlet {
 							}else{
 								result = JsonUtil.getRetMsg(6, "userId 参数异常");
 							}
-							
 						} else {
 							result = JsonUtil.getRetMsg(5, "isIndex 参数异常");
 						}
@@ -112,6 +113,24 @@ public class QuerryTeacherIdea extends HttpServlet {
 				ideas = HotIdeaServ.findLastIdeaByTeacherId(tId, 3);
 			} else {
 				ideas = HotIdeaServ.findIdeaByTeacherId(tId, p);
+			}
+			
+			if(ideas!=null){
+				for(HotIdea idea : ideas){
+					//1   收费    0  免费
+					int isPay=idea.getIsFree();
+					if(isPay==1){
+						IdeaSale sale=IdeaSaleServer.findTxtLiveSaleByUiDAndLiveId(usId,idea.getId());
+						if(sale!=null){
+							isPurch=0;
+						}else{
+							isPurch=1;
+						}
+					}else{
+						isPurch=1;
+					}
+					idea.setIsPurch(isPurch);
+				}
 			}
 			return JsonUtil.getIdeaList(ideas);
 		} else if (type == 1) {

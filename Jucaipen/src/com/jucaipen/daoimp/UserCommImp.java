@@ -10,6 +10,7 @@ import java.util.List;
 import com.jucaipen.dao.UserCommDao;
 import com.jucaipen.model.UserComm;
 import com.jucaipen.utils.JdbcUtil;
+import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator
@@ -76,7 +77,7 @@ public class UserCommImp implements UserCommDao {
 							+ "," + comment.getReplyCount() + ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -115,22 +116,24 @@ public class UserCommImp implements UserCommDao {
 				int goods = res.getInt("Goods");
 				int isShow = res.getInt("IsShow");
 				int replyCount = res.getInt("RepCount");
-				UserComm comm = new UserComm();
-				comm.setId(id);
-				comm.setBodys(body);
-				comm.setTotlePage(totlePage);
-				comm.setPage(page);
-				comm.setNovId(fkId);
-				comm.setInsertDate(insertDate);
-				comm.setGoods(goods);
-				comm.setIsShow(isShow);
-				comm.setReplyCount(replyCount);
-				comments.add(comm);
+				if (TimeUtils.isToday(insertDate)) {
+					UserComm comm = new UserComm();
+					comm.setId(id);
+					comm.setBodys(body);
+					comm.setTotlePage(totlePage);
+					comm.setPage(page);
+					comm.setNovId(fkId);
+					comm.setInsertDate(insertDate);
+					comm.setGoods(goods);
+					comm.setIsShow(isShow);
+					comm.setReplyCount(replyCount);
+					comments.add(comm);
+				}
 			}
 			return comments;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -146,7 +149,7 @@ public class UserCommImp implements UserCommDao {
 		// 根据证券知识 视频 获取评论 回复信息
 		comments.clear();
 		int totlePage = getTotlePage("WHERE NorVId=" + fkId + " AND Type="
-				+ type + " AND ParentId=" + parentId);
+				+ type + " AND ParentId=" + parentId+" AND IsShow=0");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
@@ -154,7 +157,7 @@ public class UserCommImp implements UserCommDao {
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_User_Comm WHERE NorVId="
 							+ fkId + " AND Type=" + type + " AND ParentId="
-							+ parentId + ") A " + "WHERE RowNumber > " + 15
+							+ parentId + " AND IsShow=0) A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
 				int userId = res.getInt("UserId");
@@ -180,7 +183,7 @@ public class UserCommImp implements UserCommDao {
 			return comments;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -219,7 +222,7 @@ public class UserCommImp implements UserCommDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -239,7 +242,7 @@ public class UserCommImp implements UserCommDao {
 					+ goodNum + " WHERE Id=" + id);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -259,7 +262,7 @@ public class UserCommImp implements UserCommDao {
 					+ respCount + " WHERE Id=" + id);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -274,15 +277,15 @@ public class UserCommImp implements UserCommDao {
 		// 根据用户id获取分类下的评论信息
 		comments.clear();
 		int totlePage = getTotlePage("WHERE UserId=" + uId + " AND Type="
-				+ type );
+				+ type+" AND IsShow=0");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_User_Comm WHERE UserId="
-							+ uId + " AND Type=" + type + " ) A " + "WHERE RowNumber > " + 15
-							* (page - 1));
+							+ uId + " AND Type=" + type + " AND IsShow=0) A "
+							+ "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id");
 				String body = res.getString("Bodys");
@@ -306,7 +309,7 @@ public class UserCommImp implements UserCommDao {
 			return comments;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {

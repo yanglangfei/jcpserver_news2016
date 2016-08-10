@@ -8,8 +8,7 @@ import java.sql.Statement;
 
 /**
  * @author YLF
- * 
- *         数据库工具类
+ *   数据库工具类
  * 
  */
 public class JdbcUtil {
@@ -22,7 +21,7 @@ public class JdbcUtil {
 	private static final String SQLSERVER_UNAME_TEST = "sa";
 	private static final String SQLSERVER_UPWD_TEST = "111111";
 
-	private static boolean isTest = true;
+	private static boolean isTest = false;
 
 	/**
 	 * 新数据库 正式

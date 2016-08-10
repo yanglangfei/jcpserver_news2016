@@ -132,9 +132,8 @@ public class AddRemark extends HttpServlet {
 				if (pId <= 0) {
 					// 评论三次之后不会产生积分
 					News news = NewServer.findNewsById(nId);
-					List<RebateIntegeralDetail> details = RebateIntegeralDetailSer
-							.findRebateIntegeralByUserId(uId);
-					if (details.size() <= 3) {
+					List<UserComm> comms = UserCommSer.findComment(uId, 0, 1, 0);
+					if (comms.size() <= 3) {
 						SiteConfig config = SiteConfigSer.findSiteConfig();
 						int commIntegeral = config.getCommIntegeral();
 						Account a = AccountSer.findAccountByUserId(uId);
@@ -194,9 +193,8 @@ public class AddRemark extends HttpServlet {
 				// 评论三次之后不会产生积分
 				if (pId <= 0) {
 					Video video = VideoServer.findVideoById(nId);
-					List<RebateIntegeralDetail> details = RebateIntegeralDetailSer
-							.findRebateIntegeralByUserId(uId);
-					if (details.size() <= 3) {
+					List<UserComm> comms = UserCommSer.findComment(uId, 1, 1, 0);
+					if (comms.size() <= 3) {
 						SiteConfig config = SiteConfigSer.findSiteConfig();
 						int commIntegeral = config.getCommIntegeral();
 						Account a = AccountSer.findAccountByUserId(uId);
@@ -246,18 +244,17 @@ public class AddRemark extends HttpServlet {
 			comm.setCommType(1);
 			comm.setInsertDate(TimeUtils.format(new Date(),
 					"yyyy-MM-dd HH:mm:ss"));
-			comm.setIsShow(0);
+			comm.setIsShow(1);
 			comm.setLogOrLiveId(nId);
 			comm.setParentId(pId);
-			comm.setRepCount(2);
+			comm.setRepCount(0);
 			int isSuccess = CommentSer.insertComm(comm);
 			if (isSuccess == 1) {
 				if (pId <= 0) {
 					// 评论三次之后不会产生积分
 					HotIdea idea = HotIdeaServ.findIdeaById(nId);
-					List<RebateIntegeralDetail> details = RebateIntegeralDetailSer
-							.findRebateIntegeralByUserId(uId);
-					if (details.size() <= 3) {
+					List<Comment> comms = CommentSer.findComment(uId, 1, 1, 0);
+					if (comms.size() <= 3) {
 						SiteConfig config = SiteConfigSer.findSiteConfig();
 						int commIntegeral = config.getCommIntegeral();
 						Account a = AccountSer.findAccountByUserId(uId);
@@ -306,7 +303,7 @@ public class AddRemark extends HttpServlet {
 			comm.setCommType(2);
 			comm.setInsertDate(TimeUtils.format(new Date(),
 					"yyyy-MM-dd HH:mm:ss"));
-			comm.setIsShow(0);
+			comm.setIsShow(1);
 			comm.setLogOrLiveId(nId);
 			comm.setParentId(pId);
 			comm.setRepCount(2);
@@ -315,9 +312,8 @@ public class AddRemark extends HttpServlet {
 				if (pId <= 0) {
 					// 评论三次之后不会产生积分
 					TextLive txt = TxtLiveSer.findTextLiveById(nId);
-					List<RebateIntegeralDetail> details = RebateIntegeralDetailSer
-							.findRebateIntegeralByUserId(uId);
-					if (details.size() <= 3) {
+					List<Comment> comms = CommentSer.findComment(uId, 2, 1, 0);
+					if (comms.size() <= 3) {
 						SiteConfig config = SiteConfigSer.findSiteConfig();
 						int commIntegeral = config.getCommIntegeral();
 						Account a = AccountSer.findAccountByUserId(uId);

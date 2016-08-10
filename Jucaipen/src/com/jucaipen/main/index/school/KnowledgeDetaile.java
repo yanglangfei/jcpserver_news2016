@@ -30,16 +30,10 @@ public class KnowledgeDetaile extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String knowId=request.getParameter("knowId");
-		String classId=request.getParameter("classId");
 		if(StringUtil.isNotNull(knowId)){
 			if(StringUtil.isInteger(knowId)){
 				int kId=Integer.parseInt(knowId);
-				if(StringUtil.isNotNull(classId)&&StringUtil.isInteger(classId)){
-					int cId=Integer.parseInt(classId);
-					result=initKnowDetails(kId,cId);
-				}else{
-					result=JsonUtil.getRetMsg(3,"classId 参数异常");
-				}
+					result=initKnowDetails(kId);
 			}else{
 				result=JsonUtil.getRetMsg(2,"knowId 参数数字格式化异常");
 			}
@@ -51,7 +45,7 @@ public class KnowledgeDetaile extends HttpServlet {
 		out.close();
 	}
 
-	private String initKnowDetails(int kId, int cId) {
+	private String initKnowDetails(int kId) {
 		//初始化知识详细信息
 		Knowledge knowledge=KnowledgetSer.findKnowledgeById(kId);
 		if(knowledge!=null){

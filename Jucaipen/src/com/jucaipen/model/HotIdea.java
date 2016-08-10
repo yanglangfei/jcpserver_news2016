@@ -82,6 +82,8 @@ public class HotIdea implements Serializable{
 	 *  是否免费
 	 */
 	private int isFree;
+	
+	private int isPurch;
 	/**
 	 *   需要支付聚财币
 	 */
@@ -96,6 +98,14 @@ public class HotIdea implements Serializable{
 	 */
 	private int xnHits;
 	
+	
+	
+	public int getIsPurch() {
+		return isPurch;
+	}
+	public void setIsPurch(int isPurch) {
+		this.isPurch = isPurch;
+	}
 	public int getXnHits() {
 		return xnHits;
 	}

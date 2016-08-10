@@ -11,7 +11,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  *
- *   演播室   栏目打气
+ *  演播室   栏目打气
  */
 @SuppressWarnings("serial")
 public class Encourage extends HttpServlet {
@@ -33,7 +33,6 @@ public class Encourage extends HttpServlet {
 		out.flush();
 		out.close();
 	}
-	
 	
 	private String addEncourage(int liveId) {
 		int renQi=StudioSer.findStudioRenQiById(liveId);

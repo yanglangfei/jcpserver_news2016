@@ -16,6 +16,7 @@ public interface UserCommDao {
 	 * @return Ìí¼ÓÆÀÂÛ   »Ø¸´
 	 */
 	public int insertComm( UserComm comment);
+	
 
 	/**
 	 * @param uId

@@ -22,7 +22,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator   getlogcomments
  * 
- *         获取日志 文字直播 评论回复信息 commType 评论类型 0 日志评论 1 文字直播评论
+ *        获取日志 文字直播 评论回复信息 commType 评论类型 0 日志评论 1 文字直播评论
  */
 @SuppressWarnings("serial")
 public class QuerryComments extends HttpServlet {
