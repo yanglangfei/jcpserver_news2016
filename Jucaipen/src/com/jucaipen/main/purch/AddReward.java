@@ -40,7 +40,6 @@ import com.jucaipen.utils.TimeUtils;
 public class AddReward extends HttpServlet {
 	private String result;
 	private String ip;
-
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
