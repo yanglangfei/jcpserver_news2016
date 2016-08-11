@@ -28,7 +28,10 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取新闻详细信息       type    (0  新闻详细信息)    （1   观点详细信息）  (2  战法详细信息)
+ *         获取新闻详细信息       type    
+ *                        (0  新闻详细信息)    
+ *                        （1   观点详细信息）  
+ *                        (2  战法详细信息)
  */
 @SuppressWarnings("serial")
 public class NewsDetail extends HttpServlet {

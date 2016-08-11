@@ -20,6 +20,11 @@ public class VideoServer {
 		return dao.findVideoBySpecialId(specialId);
 	}
 	
+	public static List<Video> findVideoByKeyWord(String keyWord,int page) {
+		VideoDao dao = new VideoImp();
+		return dao.findVideoByKeyWord(keyWord, page);
+	}
+	
 	public static  Video findHitsAndGoods(int id) {
 		VideoDao dao = new VideoImp();
 		return dao.findHitsAndGoods(id);

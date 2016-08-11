@@ -469,6 +469,11 @@
     <servlet-name>AddGoods</servlet-name>
     <servlet-class>com.jucaipen.main.user.AddGoods</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>VideoSearch</servlet-name>
+    <servlet-class>com.jucaipen.main.video.VideoSearch</servlet-class>
+  </servlet>
+
 
 
 
@@ -949,5 +954,9 @@
   <servlet-mapping>
     <servlet-name>AddGoods</servlet-name>
     <url-pattern>/jucaipen/addgoods</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>VideoSearch</servlet-name>
+    <url-pattern>/jucaipen/videosearch</url-pattern>
   </servlet-mapping>
 </web-app>

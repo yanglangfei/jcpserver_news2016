@@ -2,14 +2,11 @@ package com.jucaipen.main.index;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.HotIdea;
@@ -30,7 +27,6 @@ import com.jucaipen.utils.StringUtil;
 public class TeacherIdea extends HttpServlet {
 	private String result;
 	private List<HotIdea> hotIdeas;
-	private List<FamousTeacher> teachers = new ArrayList<FamousTeacher>();
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -88,32 +84,29 @@ public class TeacherIdea extends HttpServlet {
 
 	private String initIdeaByTeacherId(int tId, int page) {
 		// 根据讲师id获取观点
-		teachers.clear();
+		FamousTeacher teacher = FamousTeacherSer
+				.findFamousTeacherById(tId);
 		hotIdeas = HotIdeaServ.findIdeaByTeacherId(tId, page);
 		for (HotIdea idea : hotIdeas) {
-			int teacherId = idea.getTeacherId();
-			FamousTeacher teacher = FamousTeacherSer
-					.findFamousTeacherById(teacherId);
 			if (teacher == null) {
 				teacher = new FamousTeacher();
 			}
-			teachers.add(teacher);
+			idea.setTeacherFace(teacher.getHeadFace());
+			idea.setTeacherIsV(teacher.getIsV());
+			idea.setTeacherLeavel(teacher.getLevel());
+			idea.setTeacherName(teacher.getNickName());
 		}
-		return JsonUtil.getAllHotIdeaList(hotIdeas, teachers);
+		return JsonUtil.getAllHotIdeaList(hotIdeas);
 	}
 
 	private String initIndexIdea() {
 		// 获取首页热门观点信息 首页 精选
-		teachers.clear();
 		hotIdeas = HotIdeaServ.findIndexIdea(3);
 		return JsonUtil.getIndexList(hotIdeas);
 	}
 
 	private String initAllIdea(int page) {
 		// 初始化全部讲师观点
-		if(page==1){
-			teachers.clear();
-		}
 		hotIdeas = HotIdeaServ.findAllHotIdea(page);
 		for (HotIdea idea : hotIdeas) {
 			int teacherId = idea.getTeacherId();
@@ -122,9 +115,12 @@ public class TeacherIdea extends HttpServlet {
 			if (teacher == null) {
 				teacher = new FamousTeacher();
 			}
-			teachers.add(teacher);
+			idea.setTeacherFace(teacher.getHeadFace());
+			idea.setTeacherIsV(teacher.getIsV());
+			idea.setTeacherLeavel(teacher.getLevel());
+			idea.setTeacherName(teacher.getNickName());
 		}
-		return JsonUtil.getAllHotIdeaList(hotIdeas, teachers);
+		return JsonUtil.getAllHotIdeaList(hotIdeas);
 	}
 
 }

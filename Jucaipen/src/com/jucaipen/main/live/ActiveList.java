@@ -21,7 +21,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *     用户席位 ---讲师守护者
+ *     现场贵宾 ---讲师守护者
  */
 @SuppressWarnings("serial")
 public class ActiveList extends HttpServlet {
@@ -40,10 +40,10 @@ public class ActiveList extends HttpServlet {
 				int lId = Integer.parseInt(teacherId);
 				initBangList(lId);
 			} else {
-				result = JsonUtil.getRetMsg(2, "liveId 参数数字格式化异常");
+				result = JsonUtil.getRetMsg(2, "teacherId 参数数字格式化异常");
 			}
 		} else {
-			result = JsonUtil.getRetMsg(1, "liveId 参数不能为空");
+			result = JsonUtil.getRetMsg(1, "teacherId 参数不能为空");
 		}
 		out.println(result);
 		out.flush();

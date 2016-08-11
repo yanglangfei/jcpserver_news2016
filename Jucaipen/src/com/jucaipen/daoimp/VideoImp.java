@@ -1463,4 +1463,56 @@ public class VideoImp implements VideoDao {
 		return 0;
 	}
 
+	@Override
+	public List<Video> findVideoByKeyWord(String keyWord,int page) {
+		videos.clear();
+		int totlePage=getTotlePage(" WHERE Title LIKE '%"+keyWord+"%'");
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP 15 FK_ClassId,Id,Title,ImagesUrl,Description,IsMySite,VideoPageUrl,FK_Pecial,VideoType,PlayCount,VideoUrl,VideoDate,PlayXNCount FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Video WHERE Title LIKE '%"
+							+ keyWord
+							+ "%'  ) A "
+							+ "WHERE RowNumber > "
+							+ 15
+							* (page - 1));
+			while (res.next()) {
+				int id = res.getInt(SqlUtil.NEWS_ID);
+				String title = res.getString(SqlUtil.VIDEO_TITLE);
+				String Images = res.getString(SqlUtil.VIDEO_IMAGES);
+				String desc = res.getString("Description");
+				int isMySiteVideo = res.getInt("IsMySite");
+				String pageUrl = res.getString("VideoPageUrl");
+				int cId = res.getInt("FK_ClassId");
+				int pecialId = res.getInt("FK_Pecial");
+				int hits = res.getInt("PlayCount");
+				int videoType = res.getInt("VideoType");
+				String VideoUrl = res.getString("VideoUrl");
+				String VideoDate = res.getString("VideoDate");
+				int xnHits=res.getInt("PlayXNCount");
+				Video video = new Video(id, title);
+				video.setImages(Images);
+				video.setDescript(desc);
+				video.setClassId(cId);
+				video.setVideoDate(VideoDate);
+				video.setVideoUrl(VideoUrl);
+				video.setVideoType(videoType);
+				video.setHitCount(hits);
+				video.setXnHitCount(xnHits);
+				video.setPecialId(pecialId);
+				video.setHtmlUrl(pageUrl);
+				video.setTotlePage(totlePage);
+				video.setPage(page);
+				video.setIsMySiteVideo(isMySiteVideo);
+				videos.add(video);
+			}
+			return videos;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

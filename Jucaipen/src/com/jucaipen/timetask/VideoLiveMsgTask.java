@@ -18,7 +18,9 @@ public class VideoLiveMsgTask extends TimerTask{
 	private int maxId;
 	private int userId;
 	private int liveId;
-	private static final String GET_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
+	private static final String GET_LIVE_MSG="http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
+
+//	private static final String GET_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
 	private boolean isManager;
 
 	public VideoLiveMsgTask(int maxId, int userId, int liveId,boolean isManager) {

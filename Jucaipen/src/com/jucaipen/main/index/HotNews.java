@@ -19,12 +19,9 @@ import com.jucaipen.utils.StringUtil;
  * @author Administrator
  * 
  *         获取今日热点 isIndex 
- *         0 首页 返回参数： id title from date remark imageThumb
- *         {"id":7214,"title":"","imageThumb":"","comms":0,
- *         "insertDate":"2016-02-19","from":"腾讯财经"} 1 全部数据 返回参数：
+ *         0 首页   首页   精选
+ *         1 全部数据
  *      
- *      
- *        首页   精选
  */
 
 @SuppressWarnings("serial")

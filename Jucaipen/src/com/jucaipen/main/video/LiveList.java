@@ -106,15 +106,14 @@ public class LiveList extends HttpServlet {
 				live.setCharge(teacher.getLiveFree()==1);
 				live.setLivePrice(teacher.getLivePrice());
 				live.setVideoUrl(teacher.getVideoLiveUrl());
-				
-				if(uId>0){
+				/*if(uId>0){
 					VideoLiveSale sale=VideoLiveSaleSer.findSaleByUidAndLiveId(uId, live.getId());
 				    if(sale!=null){
 				    	isPurch=0;
 				    }else{
 				    	isPurch=1;
 				    }
-				}
+				}*/
 				live.setIsPurch(isPurch);
 				teachers.add(teacher);
 			}

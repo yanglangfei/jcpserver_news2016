@@ -1,5 +1,4 @@
 package com.jucaipen.main.live;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -25,163 +24,168 @@ import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
+
 /**
  * @author Administrator
- *
- *   演播室互动
+ *         
+ *         演播室互动
  */
 @SuppressWarnings("serial")
 public class StudioChat extends HttpServlet {
 	private Timer timer;
 	private boolean isManager;
-	private static final String GET_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
-	private static final String SEND_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
-	private Map<String, String> params=new HashMap<String, String>();
+	private static final String GET_LIVE_MSG = "http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
+	private static final String SEND_LIVE_MSG = "http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
 
+	//private static final String GET_LIVE_MSG = "http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
+	//private static final String SEND_LIVE_MSG = "http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
+	private Map<String, String> params = new HashMap<String, String>();
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String msgObject=request.getParameter("msgObject");
-		if(StringUtil.isNotNull(msgObject)){
+		String msgObject = request.getParameter("msgObject");
+		if (StringUtil.isNotNull(msgObject)) {
 			ChatMsgObject chatMsg = JsonUtil.parseChatMsg(msgObject);
-			int userId=chatMsg.getFromId();
-			int liveId=chatMsg.getLiveId();
-				int opType=chatMsg.getOpType();
-				if(opType==1){
-					//上线   --推送历史记录
-					int maxId=requestMsg(userId, liveId);
-					timer = new Timer();
-					StudioMsgTask task=new StudioMsgTask(maxId,userId,liveId,isManager);
-					timer.scheduleAtFixedRate(task, new Date(), 2000);
-				}else if(opType==2){
-					//聊天
-					String msg=chatMsg.getMsg();
-					int toId=chatMsg.getToId();
-					String result=sendMsg(userId, liveId, msg, toId);
-					out.print(result);
-				}else{
-					//下线
-					if(timer!=null){
-						timer.cancel();
-						timer=null;
-					}
+			int userId = chatMsg.getFromId();
+			int liveId = chatMsg.getLiveId();
+			int opType = chatMsg.getOpType();
+			if (opType == 1) {
+				// 上线 --推送历史记录
+				int maxId = requestMsg(userId, liveId);
+				timer = new Timer();
+				StudioMsgTask task = new StudioMsgTask(maxId, userId, liveId,
+						isManager);
+				timer.scheduleAtFixedRate(task, new Date(), 2000);
+			} else if (opType == 2) {
+				// 聊天
+				String msg = chatMsg.getMsg();
+				int toId = chatMsg.getToId();
+				String result = sendMsg(userId, liveId, msg, toId);
+				out.print(result);
+			} else {
+				// 下线
+				if (timer != null) {
+					timer.cancel();
+					timer = null;
 				}
+			}
 		}
 		out.flush();
 		out.close();
 	}
 
-	
-	
 	/**
 	 * @param uId
 	 * @param lId
 	 * @param msg
 	 * @param toId
-	 * @return   发送消息
+	 * @return 发送消息
 	 */
-	public  String sendMsg(int uId, int sId, String msg, int toId){
-		Studio studio=StudioSer.findStudioById(sId);
-		int liveId=studio.getVideoLiveId();
-		if(liveId<=0){
+	public String sendMsg(int uId, int sId, String msg, int toId) {
+		Studio studio = StudioSer.findStudioById(sId);
+		int liveId = studio.getVideoLiveId();
+		if (liveId <= 0) {
 			return null;
 		}
 		User fromUser;
 		User toUser;
-		if(uId>0){
-			fromUser=UserServer.findUserChatInfo(uId);
-			toUser=UserServer.findUserChatInfo(toId);
-			if(toUser==null){
-				toUser=new User();
+		if (uId > 0) {
+			fromUser = UserServer.findUserChatInfo(uId);
+			toUser = UserServer.findUserChatInfo(toId);
+			if (toUser == null) {
+				toUser = new User();
 			}
-		}else{
-			return JsonUtil.getRetMsg(3,"请先登录");
+		} else {
+			return JsonUtil.getRetMsg(3, "请先登录");
 		}
 		params.clear();
-		params.put("lid", liveId+"");
+		params.put("lid", liveId + "");
 		params.put("msg", msg);
-		params.put("userlevel", fromUser.getUserLeval()+"");
-		params.put("isroomadmin", fromUser.getIsRoomAdmin()+"");
-		params.put("issysadmin", fromUser.getIsSysAdmin()+"");
-		params.put("ischatadmin", fromUser.getIsRoomManager()+"");
-		params.put("isserverid",fromUser.getServerId()+"");
-		params.put("isshouhuzhe",0+"");
-		params.put("isteacher",fromUser.getIsTeacher()+"");
-		params.put("buyproductid",fromUser.getBuyProductId()+"");
+		params.put("userlevel", fromUser.getUserLeval() + "");
+		params.put("isroomadmin", fromUser.getIsRoomAdmin() + "");
+		params.put("issysadmin", fromUser.getIsSysAdmin() + "");
+		params.put("ischatadmin", fromUser.getIsRoomManager() + "");
+		params.put("isserverid", fromUser.getServerId() + "");
+		params.put("isshouhuzhe", 0 + "");
+		params.put("isteacher", fromUser.getIsTeacher() + "");
+		params.put("buyproductid", fromUser.getBuyProductId() + "");
 		params.put("nickName", fromUser.getNickName());
-		params.put("userid", uId+"");
-		String result=LoginUtil.sendHttpPost(SEND_LIVE_MSG, params);
-		JSONObject object=new JSONObject(result);
-		boolean isSend=object.getBoolean("IsLogin");
-		String Msg=object.getString("Msg");
-		if(isSend){
+		params.put("userid", uId + "");
+		String result = LoginUtil.sendHttpPost(SEND_LIVE_MSG, params);
+		JSONObject object = new JSONObject(result);
+		boolean isSend = object.getBoolean("IsLogin");
+		String Msg = object.getString("Msg");
+		if (isSend) {
 			return JsonUtil.getRetMsg(0, "消息发送成功");
-		}else{
+		} else {
 			return JsonUtil.getRetMsg(1, Msg);
 		}
 	}
-	
+
 	/**
 	 * @param uId
 	 * @param lId
-	 * @param tId   上线请求消息
+	 * @param tId
+	 *            上线请求消息
 	 */
-	public  int requestMsg(int uId, int sId){
+	public int requestMsg(int uId, int sId) {
 		Studio studio = StudioSer.findStudioById(sId);
-		if(studio==null){
+		if (studio == null) {
 			return -1;
 		}
-		int liveId=studio.getVideoLiveId();
+		int liveId = studio.getVideoLiveId();
 		params.clear();
 		User user;
-		if(uId>0){
-			user=UserServer.findUserChatInfo(uId);
-		}else{
-			user=new User();
+		if (uId > 0) {
+			user = UserServer.findUserChatInfo(uId);
+		} else {
+			user = new User();
 		}
-		int isRoomAdmin=user.getIsRoomAdmin();
-		int isRoomManager=user.getIsRoomManager();
-		int isSysAdmin=user.getIsSysAdmin();
-		int isTeacher=user.getIsTeacher();
-		if(isSysAdmin==1||isRoomAdmin==1||isRoomManager==1||isTeacher==1){
-			 isManager=true;
-		}else{
-			isManager=false;
+		int isRoomAdmin = user.getIsRoomAdmin();
+		int isRoomManager = user.getIsRoomManager();
+		int isSysAdmin = user.getIsSysAdmin();
+		int isTeacher = user.getIsTeacher();
+		if (isSysAdmin == 1 || isRoomAdmin == 1 || isRoomManager == 1
+				|| isTeacher == 1) {
+			isManager = true;
+		} else {
+			isManager = false;
 		}
-		params.put("lid", liveId+"");
-		params.put("Topid", 0+"");
-		params.put("IsServerId", user.getServerId()+"");
-		String result=LoginUtil.sendHttpPost(GET_LIVE_MSG, params);
-		List<VideoLiveMsg>  msgObjs =JsonUtil.repCompleMsgObj(result);
-		if(msgObjs!=null){
-			for(VideoLiveMsg liveMsg : msgObjs){
-				int sendId=liveMsg.getSendUserId();
-				int receiverId=liveMsg.getReceiverId();
+		params.put("lid", liveId + "");
+		params.put("Topid", 0 + "");
+		params.put("IsServerId", user.getServerId() + "");
+		String result = LoginUtil.sendHttpPost(GET_LIVE_MSG, params);
+		List<VideoLiveMsg> msgObjs = JsonUtil.repCompleMsgObj(result);
+		if (msgObjs != null) {
+			for (VideoLiveMsg liveMsg : msgObjs) {
+				int sendId = liveMsg.getSendUserId();
+				int receiverId = liveMsg.getReceiverId();
 				User fromUser = UserServer.findBaseInfoById(sendId);
 				User toUser = UserServer.findBaseInfoById(receiverId);
-				if(fromUser==null){
-					fromUser=new User();
+				if (fromUser == null) {
+					fromUser = new User();
 				}
 				liveMsg.setSendFace(fromUser.getFaceImage());
-				if(toUser==null){
-					toUser=new User();
+				if (toUser == null) {
+					toUser = new User();
 				}
 				liveMsg.setReceiverFace(toUser.getFaceImage());
 			}
-			String pushMsg=JsonUtil.createLiveMsg(msgObjs);
-			if(msgObjs.size()>0&&pushMsg!=null){
+			String pushMsg = JsonUtil.createLiveMsg(msgObjs);
+			if (msgObjs.size() > 0 && pushMsg != null) {
 				JPushClient client = JPushUtils.getJPush();
-				PushPayload msgs = JPushUtils.createMsg("msg", "studioMsg", pushMsg, null);
-			    JPushUtils.pushMsg(client, msgs);
+				PushPayload msgs = JPushUtils.createMsg("msg", "studioMsg",
+						pushMsg, null);
+				JPushUtils.pushMsg(client, msgs);
 			}
-			if(msgObjs.size()>0){
-				if(isManager){
-					return  msgObjs.get(msgObjs.size()-1).getId();
-				}else{
-					return msgObjs.get(msgObjs.size()-1).getShenhe();
+			if (msgObjs.size() > 0) {
+				if (isManager) {
+					return msgObjs.get(msgObjs.size() - 1).getId();
+				} else {
+					return msgObjs.get(msgObjs.size() - 1).getShenhe();
 				}
 			}
 		}

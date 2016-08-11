@@ -227,7 +227,7 @@ public class QuerryTeacherIdea extends HttpServlet {
 				live.setCharge(teacher.getLiveFree()==1);
 				live.setLivePrice(teacher.getLivePrice());
 				live.setVideoUrl(teacher.getVideoLiveUrl());
-				if(usId>0&&live.isCharge()){
+				/*if(usId>0&&live.isCharge()){
 					VideoLiveSale sale=VideoLiveSaleSer.findSaleByUidAndLiveId(usId, live.getId());
 					if(sale!=null){
 						live.setIsPurch(0);
@@ -236,7 +236,7 @@ public class QuerryTeacherIdea extends HttpServlet {
 					}
 				}else{
 					live.setIsPurch(1);
-				}
+				}*/
 			}
 			List<Video> videos = VideoServer.findVideoByTeacherId(tId, p);
 			if (videos != null) {

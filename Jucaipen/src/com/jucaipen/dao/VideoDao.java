@@ -18,6 +18,12 @@ public interface VideoDao {
 	 * @return  根据分类id 获取视频
 	 */
 	public List<Video> findVideoByClassId(int classId,int page);
+	
+	/**
+	 * @param keyWord
+	 * @return  根据关键字检索视频
+	 */
+	public List<Video>  findVideoByKeyWord(String keyWord,int page);
 	/**
 	 * @param teacherId
 	 * @param page

@@ -8,4 +8,11 @@ public class StringTest {
 		String time = TimeUtils.format(new Date(), "yyyyMMddHHmmssSSSS");
 		System.out.println("time:" + time);
 	}
+	
+	public boolean call(Integer t){
+		System.out.println("call:"+t);
+		return true;
+	}
+	
+	
 }

@@ -15,11 +15,10 @@ import com.jucaipen.service.MyGiftsSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  * 
- *         获取赠送礼品详细信息
+ *    获取赠送礼品详细信息
  */
 @SuppressWarnings("serial")
 public class GiftRecoderDetail extends HttpServlet {

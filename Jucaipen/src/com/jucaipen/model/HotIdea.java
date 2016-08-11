@@ -58,6 +58,14 @@ public class HotIdea implements Serializable{
 	 * 发表观点教师id
 	 */
 	private int teacherId;
+	
+	private String teacherName;
+	
+	private String teacherLeavel;
+	
+	private String teacherFace;
+	
+	private int teacherIsV;
 	/**
 	 * 相关图片
 	 */
@@ -98,8 +106,30 @@ public class HotIdea implements Serializable{
 	 */
 	private int xnHits;
 	
-	
-	
+	public String getTeacherName() {
+		return teacherName;
+	}
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
+	public String getTeacherLeavel() {
+		return teacherLeavel;
+	}
+	public void setTeacherLeavel(String teacherLeavel) {
+		this.teacherLeavel = teacherLeavel;
+	}
+	public String getTeacherFace() {
+		return teacherFace;
+	}
+	public void setTeacherFace(String teacherFace) {
+		this.teacherFace = teacherFace;
+	}
+	public int getTeacherIsV() {
+		return teacherIsV;
+	}
+	public void setTeacherIsV(int teacherIsV) {
+		this.teacherIsV = teacherIsV;
+	}
 	public int getIsPurch() {
 		return isPurch;
 	}

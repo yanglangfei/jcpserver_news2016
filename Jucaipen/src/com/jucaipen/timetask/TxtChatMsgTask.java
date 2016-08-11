@@ -12,7 +12,6 @@ import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.JsonUtil;
 
 public class TxtChatMsgTask extends TimerTask{
-
 	private int maxId;
 	private int userId;
 	private int liveId;

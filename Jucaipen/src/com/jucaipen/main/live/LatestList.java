@@ -79,7 +79,6 @@ public class LatestList extends HttpServlet {
 				rebate.setFromName(user.getNickName());
 				rebate.setFromFace(user.getFaceImage());
 			}
-
 			return JsonUtil.getLateList(rebateArray);
 		} else {
 			// ÔÂ°ñµ¥
