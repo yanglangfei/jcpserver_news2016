@@ -55,6 +55,10 @@ public class FeedBack implements Serializable{
 	 */
 	private String handleMan;
 	
+	
+	public FeedBack() {
+		super();
+	}
 	public FeedBack(int id, int userId, String trueName, String mobileNum,
 			String body, String insertDate, String ip, int type) {
 		this.id = id;

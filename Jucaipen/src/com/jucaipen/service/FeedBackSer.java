@@ -12,7 +12,7 @@ public class FeedBackSer{
 	 * @param feedBack
 	 * @return  添加意见
 	 */
-	public int insertFeedBack(FeedBack feedBack) {
+	public static int insertFeedBack(FeedBack feedBack) {
 		FeedBackDao dao=new FeedBackImp();
 		return dao.insertFeedBack(feedBack);
 	}
@@ -20,7 +20,7 @@ public class FeedBackSer{
 	/**
 	 * @return  获取所有意见
 	 */
-	public List<FeedBack> findAllFeedBack() {
+	public static List<FeedBack> findAllFeedBack() {
 		FeedBackDao dao=new FeedBackImp();
 		return dao.findAllFeedBack();
 	}
@@ -29,7 +29,7 @@ public class FeedBackSer{
 	 * @param uId
 	 * @return  根据用户id查询意见信息
 	 */
-	public List<FeedBack> findFeedBaceByUserId(int uId) {
+	public static List<FeedBack> findFeedBaceByUserId(int uId) {
 		FeedBackDao dao=new FeedBackImp();
 		return dao.findFeedBaceByUserId(uId);
 	}
@@ -38,7 +38,7 @@ public class FeedBackSer{
 	 * @param type
 	 * @return  根据意见状态查询意见信息
 	 */
-	public List<FeedBack> findFeedBackByType(int type) {
+	public static List<FeedBack> findFeedBackByType(int type) {
 		FeedBackDao dao=new FeedBackImp();
 		return dao.findFeedBackByType(type);
 	}
@@ -48,7 +48,7 @@ public class FeedBackSer{
 	 * @param type
 	 * @return 根据用户id、意见状态查询意见
 	 */
-	public List<FeedBack> findFeedBackByUidAndType(int uId, int type) {
+	public static List<FeedBack> findFeedBackByUidAndType(int uId, int type) {
 		FeedBackDao dao=new FeedBackImp();
 		return dao.findFeedBackByUidAndType(uId, type);
 	}
@@ -57,7 +57,7 @@ public class FeedBackSer{
 	 * @param id
 	 * @return  根据id 查询意见详细信息
 	 */
-	public FeedBack findFeedBackById(int id) {
+	public static FeedBack findFeedBackById(int id) {
 		FeedBackDao dao=new FeedBackImp();
 		return dao.findFeedBackById(id);
 	}

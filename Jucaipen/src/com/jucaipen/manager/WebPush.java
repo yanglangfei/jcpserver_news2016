@@ -80,7 +80,6 @@ public class WebPush extends HttpServlet {
 		JSONObject res = XinGeUtil.getInstance(false).pushAllDevMsg(title,
 				message);
 		return res.toString();
-
 	}
 
 }

@@ -18,7 +18,6 @@ import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  *
@@ -56,8 +55,6 @@ public class QuerryMyAsk extends HttpServlet {
 		}else{
 			result=JsonUtil.getRetMsg(1,"userId 参数不能为空");
 		}
-		
-		
 		out.println(result);
 		out.flush();
 		out.close();
@@ -71,10 +68,11 @@ public class QuerryMyAsk extends HttpServlet {
 				FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(teacherId);
 				if(teacher==null){
 					teacher=new FamousTeacher();
+					ask.setTeacherName("");
+				}else{
+					ask.setTeacherName(teacher.getNickName());
 				}
-				ask.setTeacherName(teacher.getNickName());
 			}
-			
 		}
 		User user=UserServer.findUserById(uId);
 		return JsonUtil.getAskList(asks, user);

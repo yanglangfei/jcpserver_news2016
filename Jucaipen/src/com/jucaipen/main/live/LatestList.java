@@ -72,7 +72,6 @@ public class LatestList extends HttpServlet {
 			// FK_TearchId=1 AND DATEDIFF(day, InsertDate, GETDATE())=0 GROUP
 			// BY FK_FromUserId;
 			List<Rebate> rebateArray=RebateSer.findDayRebateByTeacher(tId);
-			
 			for (Rebate rebate : rebateArray) {
 				int userId = rebate.getFromId();
 				User user = UserServer.findUserById(userId);

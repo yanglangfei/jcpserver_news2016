@@ -977,7 +977,7 @@ public class VideoImp implements VideoDao {
 			res = sta
 					.executeQuery("SELECT TOP "
 							+ count
-							+ " Id,ImagesUrl,Title,PlayXNCount,VideoDate,VideoType,VideoPageUrl,FK_Pecial,FK_ClassId FROM JCP_Video WHERE ColumnId="
+							+ " Id,ImagesUrl,Title,PlayXNCount,VideoDate,VideoType,VideoPageUrl,FK_Pecial,FK_ClassId,Description FROM JCP_Video WHERE ColumnId="
 							+ commId + " ORDER BY VideoDate DESC");
 			while (res.next()) {
 				int id = res.getInt(1);
@@ -989,6 +989,7 @@ public class VideoImp implements VideoDao {
 				String pageUrl = res.getString(7);
 				int specialId = res.getInt(8);
 				int classId = res.getInt(9);
+				String desc=res.getString(10);
 				Video video = new Video();
 				video.setId(id);
 				video.setTitle(title);
@@ -996,6 +997,7 @@ public class VideoImp implements VideoDao {
 				video.setImages(imageUrl);
 				video.setHtmlUrl(pageUrl);
 				video.setClassId(classId);
+				video.setDescript(desc);
 				video.setXnHitCount(xnHits);
 				video.setVideoDate(videoDate);
 				video.setVideoType(videoType);
@@ -1022,7 +1024,7 @@ public class VideoImp implements VideoDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 15 Id,ImagesUrl,Title,PlayXNCount,VideoDate,VideoType,VideoPageUrl,FK_Pecial,FK_ClassId FROM "
+					.executeQuery("SELECT TOP 15 Description,Id,ImagesUrl,Title,PlayXNCount,VideoDate,VideoType,VideoPageUrl,FK_Pecial,FK_ClassId FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Video WHERE ColumnId = "
 							+ commId
 							+ ") A "
@@ -1039,12 +1041,14 @@ public class VideoImp implements VideoDao {
 				String pageUrl = res.getString("VideoPageUrl");
 				int specialId = res.getInt("FK_Pecial");
 				int classId = res.getInt("FK_ClassId");
+				String desc=res.getString("Description");
 				Video video = new Video();
 				video.setId(id);
 				video.setTotlePage(totlePage);
 				video.setPage(page);
 				video.setClassId(classId);
 				video.setTitle(title);
+				video.setDescript(desc);
 				video.setPecialId(specialId);
 				video.setImages(imageUrl);
 				video.setHtmlUrl(pageUrl);

@@ -6,19 +6,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.json.JSONObject;
+
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.push.model.PushPayload;
+
 import com.jucaipen.model.ChatMsgObject;
+import com.jucaipen.model.Guardian;
 import com.jucaipen.model.Studio;
 import com.jucaipen.model.User;
+import com.jucaipen.model.VideoLive;
 import com.jucaipen.model.VideoLiveMsg;
+import com.jucaipen.service.GuardianSer;
 import com.jucaipen.service.StudioSer;
 import com.jucaipen.service.UserServer;
+import com.jucaipen.service.VideoLiveServer;
 import com.jucaipen.timetask.StudioMsgTask;
 import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.JsonUtil;
@@ -34,11 +42,11 @@ import com.jucaipen.utils.StringUtil;
 public class StudioChat extends HttpServlet {
 	private Timer timer;
 	private boolean isManager;
-	private static final String GET_LIVE_MSG = "http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
-	private static final String SEND_LIVE_MSG = "http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
+	//private static final String GET_LIVE_MSG = "http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
+	//private static final String SEND_LIVE_MSG = "http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
 
-	//private static final String GET_LIVE_MSG = "http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
-	//private static final String SEND_LIVE_MSG = "http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
+	private static final String GET_LIVE_MSG = "http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
+	private static final String SEND_LIVE_MSG = "http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
 	private Map<String, String> params = new HashMap<String, String>();
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -87,6 +95,13 @@ public class StudioChat extends HttpServlet {
 	public String sendMsg(int uId, int sId, String msg, int toId) {
 		Studio studio = StudioSer.findStudioById(sId);
 		int liveId = studio.getVideoLiveId();
+		int gurdianId;
+		int teacherId=0;
+		Guardian fromGuardian=null;
+		VideoLive live = VideoLiveServer.getRoomInfo(liveId);
+		if(live!=null){
+			teacherId=live.getTeacherId();
+		}
 		if (liveId <= 0) {
 			return null;
 		}
@@ -94,12 +109,19 @@ public class StudioChat extends HttpServlet {
 		User toUser;
 		if (uId > 0) {
 			fromUser = UserServer.findUserChatInfo(uId);
+			fromGuardian = GuardianSer.findIsGuardian(teacherId, uId);
 			toUser = UserServer.findUserChatInfo(toId);
 			if (toUser == null) {
 				toUser = new User();
 			}
 		} else {
 			return JsonUtil.getRetMsg(3, "请先登录");
+		}
+		
+		if(fromGuardian!=null){
+			gurdianId=fromGuardian.getId();
+		}else{
+			gurdianId=0;
 		}
 		params.clear();
 		params.put("lid", liveId + "");
@@ -109,7 +131,7 @@ public class StudioChat extends HttpServlet {
 		params.put("issysadmin", fromUser.getIsSysAdmin() + "");
 		params.put("ischatadmin", fromUser.getIsRoomManager() + "");
 		params.put("isserverid", fromUser.getServerId() + "");
-		params.put("isshouhuzhe", 0 + "");
+		params.put("isshouhuzhe", gurdianId+ "");
 		params.put("isteacher", fromUser.getIsTeacher() + "");
 		params.put("buyproductid", fromUser.getBuyProductId() + "");
 		params.put("nickName", fromUser.getNickName());
@@ -127,16 +149,23 @@ public class StudioChat extends HttpServlet {
 
 	/**
 	 * @param uId
+	 * @param teacherId 
 	 * @param lId
 	 * @param tId
 	 *            上线请求消息
 	 */
 	public int requestMsg(int uId, int sId) {
+		int serverId=0;
+		int teacherId=0;
 		Studio studio = StudioSer.findStudioById(sId);
 		if (studio == null) {
 			return -1;
 		}
 		int liveId = studio.getVideoLiveId();
+		VideoLive live=VideoLiveServer.getRoomInfo(liveId);
+		if(live!=null){
+		   teacherId=live.getTeacherId();
+		}
 		params.clear();
 		User user;
 		if (uId > 0) {
@@ -145,18 +174,17 @@ public class StudioChat extends HttpServlet {
 			user = new User();
 		}
 		int isRoomAdmin = user.getIsRoomAdmin();
-		int isRoomManager = user.getIsRoomManager();
-		int isSysAdmin = user.getIsSysAdmin();
-		int isTeacher = user.getIsTeacher();
-		if (isSysAdmin == 1 || isRoomAdmin == 1 || isRoomManager == 1
-				|| isTeacher == 1) {
+		int fk_teacherId = user.getFk_roomTeacherId();
+		if (isRoomAdmin==1&&teacherId==fk_teacherId) {
 			isManager = true;
+			serverId=1;
 		} else {
 			isManager = false;
+			serverId=0;
 		}
 		params.put("lid", liveId + "");
 		params.put("Topid", 0 + "");
-		params.put("IsServerId", user.getServerId() + "");
+		params.put("IsServerId", serverId + "");
 		String result = LoginUtil.sendHttpPost(GET_LIVE_MSG, params);
 		List<VideoLiveMsg> msgObjs = JsonUtil.repCompleMsgObj(result);
 		if (msgObjs != null) {
@@ -174,7 +202,7 @@ public class StudioChat extends HttpServlet {
 				}
 				liveMsg.setReceiverFace(toUser.getFaceImage());
 			}
-			String pushMsg = JsonUtil.createLiveMsg(msgObjs);
+			String pushMsg = JsonUtil.createLiveMsg(msgObjs,false,uId);
 			if (msgObjs.size() > 0 && pushMsg != null) {
 				JPushClient client = JPushUtils.getJPush();
 				PushPayload msgs = JPushUtils.createMsg("msg", "studioMsg",

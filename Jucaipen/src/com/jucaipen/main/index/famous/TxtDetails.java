@@ -3,13 +3,10 @@ package com.jucaipen.main.index.famous;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.jucaipen.daoimp.LiveDetailSaleImp;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.LiveDetailSale;
 import com.jucaipen.model.SiteConfig;

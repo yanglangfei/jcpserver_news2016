@@ -313,7 +313,9 @@ public class RebateImp implements RebateDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT SUM(RebateMoney),FK_FromUserId from JCP_Rebate WHERE FK_TearchId="+teacherId+"  AND   DATEDIFF(day, InsertDate, GETDATE())=0   GROUP BY FK_FromUserId");
+					.executeQuery("SELECT SUM(RebateMoney) AS A,FK_FromUserId from JCP_Rebate WHERE FK_TearchId="
+							+ teacherId
+							+ "  AND   DATEDIFF(day, InsertDate, GETDATE())=0  GROUP BY FK_FromUserId ORDER BY A DESC");
 			while (res.next()) {
 				int rebateMoney = res.getInt(1); // RebateMoney
 				int fromId = res.getInt(2); // FK_FromUserId
@@ -344,7 +346,9 @@ public class RebateImp implements RebateDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT SUM(RebateMoney),FK_FromUserId from JCP_Rebate WHERE FK_TearchId="+teacherId+"  AND   DATEDIFF(month, InsertDate, GETDATE())=0   GROUP BY FK_FromUserId");
+					.executeQuery("SELECT SUM(RebateMoney) AS A,FK_FromUserId from JCP_Rebate WHERE FK_TearchId="
+							+ teacherId
+							+ "  AND   DATEDIFF(month, InsertDate, GETDATE())=0   GROUP BY FK_FromUserId ORDER BY A DESC");
 			while (res.next()) {
 				int rebateMoney = res.getInt(1); // RebateMoney
 				int fromId = res.getInt(2); // FK_FromUserId

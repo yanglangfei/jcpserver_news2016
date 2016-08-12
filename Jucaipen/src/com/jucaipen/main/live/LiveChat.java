@@ -11,15 +11,20 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.json.JSONObject;
+
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.push.model.PushPayload;
+
 import com.jucaipen.model.ChatMsgObject;
 import com.jucaipen.model.Guardian;
 import com.jucaipen.model.User;
+import com.jucaipen.model.VideoLive;
 import com.jucaipen.model.VideoLiveMsg;
 import com.jucaipen.service.GuardianSer;
 import com.jucaipen.service.UserServer;
+import com.jucaipen.service.VideoLiveServer;
 import com.jucaipen.timetask.VideoLiveMsgTask;
 import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.JsonUtil;
@@ -31,11 +36,11 @@ import com.jucaipen.utils.StringUtil;
  */
 @SuppressWarnings("serial")
 public class LiveChat extends HttpServlet {
-	private static final String GET_LIVE_MSG="http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
-	private static final String SEND_LIVE_MSG="http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
+	//private static final String GET_LIVE_MSG="http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
+	//private static final String SEND_LIVE_MSG="http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
 
-	//private static final String GET_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
-	//private static final String SEND_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
+	private static final String GET_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
+	private static final String SEND_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
 	private  Map<String, String> params=new HashMap<String, String>();
 	private Timer timer;
 	private boolean isManager;
@@ -50,8 +55,7 @@ public class LiveChat extends HttpServlet {
 			ChatMsgObject chatMsg = JsonUtil.parseChatMsg(msgObject);
 			int userId=chatMsg.getFromId();
 			int liveId=chatMsg.getLiveId();
-			int teacherId=chatMsg.getTeacherId();
-				int opType=chatMsg.getOpType();
+			int opType=chatMsg.getOpType();
 				if(opType==1){
 					//上线   --推送历史记录
 					int maxId=requestMsg(userId, liveId);
@@ -62,7 +66,7 @@ public class LiveChat extends HttpServlet {
 					//聊天
 					String msg=chatMsg.getMsg();
 					int toId=chatMsg.getToId();
-					String result=sendMsg(userId, liveId, msg, teacherId, toId);
+					String result=sendMsg(userId, liveId, msg, toId);
 					out.print(result);
 				}else{
 					//下线
@@ -85,14 +89,20 @@ public class LiveChat extends HttpServlet {
 	 * @param toId
 	 * @return   发送消息
 	 */
-	public  String sendMsg(int uId, int lId, String msg,int tId, int toId){
+	public  String sendMsg(int uId, int lId, String msg, int toId){
 		int gurdianId;
 		User fromUser;
+		int teacherId=0;
 		User toUser;
+		VideoLive live = VideoLiveServer.getRoomInfo(lId);
+		if(live!=null){
+			teacherId=live.getTeacherId();
+		}
+		
 		Guardian fromGuardian = null;
 		if(uId>0){
 			fromUser=UserServer.findUserChatInfo(uId);
-			fromGuardian = GuardianSer.findIsGuardian(tId, uId);
+			fromGuardian = GuardianSer.findIsGuardian(teacherId, uId);
 			toUser=UserServer.findUserChatInfo(toId);
 			if(toUser==null){
 				toUser=new User();
@@ -134,28 +144,35 @@ public class LiveChat extends HttpServlet {
 	/**
 	 * @param uId
 	 * @param lId
+	 * @param teacherId 
 	 * @param tId   上线请求消息
 	 */
 	public  int requestMsg(int uId, int lId){
 		User user;
+		int teacherId=0;
+		int serverId=0;
+		VideoLive live = VideoLiveServer.getRoomInfo(lId);
+		if(live!=null){
+			teacherId=live.getTeacherId();
+		}
 		if(uId>0){
 			user=UserServer.findUserChatInfo(uId);
 		}else{
 			user=new User();
 		}
 		int isRoomAdmin=user.getIsRoomAdmin();
-		int isRoomManager=user.getIsRoomManager();
-		int isSysAdmin=user.getIsSysAdmin();
-		int isTeacher=user.getIsTeacher();
-		if(isSysAdmin==1||isRoomAdmin==1||isRoomManager==1||isTeacher==1){
+		int fk_roomId=user.getFk_roomTeacherId();
+		if(isRoomAdmin==1&&teacherId==fk_roomId){
 			 isManager=true;
+			 serverId=1;
 		}else{
 			isManager=false;
+			serverId=0;
 		}
 		params.clear();
 		params.put("lid", lId+"");
-		params.put("topid", 0+"");
-		params.put("IsServerId", user.getServerId()+"");
+		params.put("Topid", 0+"");
+		params.put("IsServerId", serverId+"");
 		String result=LoginUtil.sendHttpPost(GET_LIVE_MSG, params);
 		List<VideoLiveMsg>  msgObjs =JsonUtil.repCompleMsgObj(result);
 		if(msgObjs!=null){
@@ -173,7 +190,7 @@ public class LiveChat extends HttpServlet {
 				}
 				liveMsg.setReceiverFace(toUser.getFaceImage());
 			}
-			String pushMsg=JsonUtil.createLiveMsg(msgObjs);
+			String pushMsg=JsonUtil.createLiveMsg(msgObjs,false,uId);
 			JPushClient client = JPushUtils.getJPush();
 			PushPayload msgs = JPushUtils.createMsg("msg", "liveMsg", pushMsg, null);
 		    JPushUtils.pushMsg(client, msgs);
