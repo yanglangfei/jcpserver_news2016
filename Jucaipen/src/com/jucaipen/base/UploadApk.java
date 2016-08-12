@@ -91,10 +91,11 @@ public class UploadApk extends HttpServlet {
 							querryMaxId();
 							if(maxId>0){
 								// 更新apk数据库数据
-								createApkDate(param, uuId+"/"+ tempFile.getName());
+								String filePath = uuId+"/"+ tempFile.getName();
+								createApkDate(param,filePath);
 								if(info!=null){
 									updateApkInfo(info);
-								    pushUpdateInfo();
+								    pushUpdateInfo(filePath);
 				     				out.print("文件上传处理成功");
 								}else {
 									out.print("文件处理失败");
@@ -116,11 +117,14 @@ public class UploadApk extends HttpServlet {
 		out.close();
 	}
 
-	private void pushUpdateInfo() {
+	/**
+	 * @param filePath  更新APK
+	 */
+	private void pushUpdateInfo(String filePath) {
 		JPushClient client = JPushUtils.getJPush();
-		PushPayload notifyMsgh = JPushUtils.createNptify("APK可更新到最新版本"+versionName,"action",1);
-		//JPushUtils.pushMsg(client, notifyMsgh);
-		
+		PushPayload msg = JPushUtils.createMsg("update", "versionChange", filePath,null);
+		//PushPayload notifyMsgh = JPushUtils.createNptify("APK可更新到最新版本"+versionName,"action",1);
+		JPushUtils.pushMsg(client, msg);
 		//XinGeUtil.getInstance(false).pushAllUpdateDevice(0, "apk版本更新提醒", "可更新到最新版本"+versionName);
 	}
 

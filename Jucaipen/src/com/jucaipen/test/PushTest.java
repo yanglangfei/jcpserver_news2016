@@ -10,7 +10,7 @@ public class PushTest {
 
 	public static void main(String[] args) {
 		JPushClient client = JPushUtils.getJPush();
-		PushPayload msg = JPushUtils.createMsg("test", "title", "content", null);
+		PushPayload msg = JPushUtils.createMsg("update", "versionChange", "http://",null);
 		PushResult res = JPushUtils.pushMsg(client, msg);
 		System.out.println(res.toString());
 	}
