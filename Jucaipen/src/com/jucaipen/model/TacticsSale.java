@@ -26,6 +26,11 @@ public class TacticsSale {
 	private String tacticeImage;
 	
 	private String teacherName;
+	
+	/**
+	 *  是否订阅   0     是        1  否        2  过期
+	 */
+	private int isOrder;
 	/**
 	 *  手机号
 	 */
@@ -56,6 +61,14 @@ public class TacticsSale {
 	private String remark;
 	
 	
+	
+	
+	public int getIsOrder() {
+		return isOrder;
+	}
+	public void setIsOrder(int isOrder) {
+		this.isOrder = isOrder;
+	}
 	public String getTacticsTitle() {
 		return tacticsTitle;
 	}

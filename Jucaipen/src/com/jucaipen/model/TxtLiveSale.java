@@ -9,12 +9,40 @@ import java.io.Serializable;
  */
 @SuppressWarnings("serial")
 public class TxtLiveSale implements Serializable{
+	private int page;
+	private int totlePage;
 	private int id;
 	private int userId;
 	private int teacherId;
+	private String teacherName;
+	private String fk_title;
 	private String orderCode;
 	private int fk_txtId;
 	private String insertDate;
+	public String getTeacherName() {
+		return teacherName;
+	}
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
+	public String getFk_title() {
+		return fk_title;
+	}
+	public void setFk_title(String fk_title) {
+		this.fk_title = fk_title;
+	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getTotlePage() {
+		return totlePage;
+	}
+	public void setTotlePage(int totlePage) {
+		this.totlePage = totlePage;
+	}
 	public int getId() {
 		return id;
 	}

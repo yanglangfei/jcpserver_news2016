@@ -4,12 +4,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.Answer;
 import com.jucaipen.model.AnswerSale;
 import com.jucaipen.model.Ask;
@@ -23,7 +21,6 @@ import com.jucaipen.model.TxtLiveSale;
 import com.jucaipen.model.User;
 import com.jucaipen.model.Video;
 import com.jucaipen.model.VideoLive;
-import com.jucaipen.model.VideoLiveSale;
 import com.jucaipen.service.AnswerSaleSer;
 import com.jucaipen.service.AnswerSer;
 import com.jucaipen.service.AskSer;
@@ -35,7 +32,6 @@ import com.jucaipen.service.MyVideoSer;
 import com.jucaipen.service.TxtLiveSaleSer;
 import com.jucaipen.service.TxtLiveSer;
 import com.jucaipen.service.UserServer;
-import com.jucaipen.service.VideoLiveSaleSer;
 import com.jucaipen.service.VideoLiveServer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.JsonUtil;

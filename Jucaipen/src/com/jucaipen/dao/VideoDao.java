@@ -15,6 +15,12 @@ public interface VideoDao {
 	public List<Video> findVideoByClassId(String classId,int page);
 	
 	/**
+	 * @param top
+	 * @return  获取热门视频信息
+	 */
+	public List<Video>  findHotVideoList(int top);
+	
+	/**
 	 * @return  根据分类id 获取视频
 	 */
 	public List<Video> findVideoByClassId(int classId,int page);

@@ -172,9 +172,6 @@ public class IdeaSale implements Serializable{
 	public int getLogId() {
 		return logId;
 	}
-	public void setLiveId(int logId) {
-		this.logId = logId;
-	}
 	public String getInsertDate() {
 		return insertDate;
 	}

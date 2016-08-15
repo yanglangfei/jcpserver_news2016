@@ -99,11 +99,11 @@ public class AnswerSaleImp implements AnswerSaleDao {
 							+ userId + ") A " + "WHERE RowNumber > " + 15
 							* (page - 1));
 			while (res.next()) {
-				int id=res.getInt(1);  
-				int tId=res.getInt(3);  //FK_TearchId
-				String orderCode=res.getString(4); //OrderCode
-				int askId=res.getInt(5);  //FK_AskId
-				String insertDate=res.getString(6); //InsertDate
+				int id=res.getInt("Id");  
+				int tId=res.getInt("FK_TearchId");  //FK_TearchId
+				String orderCode=res.getString("OrderCode"); //OrderCode
+				int askId=res.getInt("FK_AskId");  //FK_AskId
+				String insertDate=res.getString("InsertDate"); //InsertDate
 				AnswerSale as=new AnswerSale();
 				as.setPage(page);
 				as.setTotlePage(totlePage);

@@ -14,7 +14,6 @@ import com.jucaipen.service.SiteConfigSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  *
@@ -34,7 +33,7 @@ public class MyInvestCode extends HttpServlet {
 		if(StringUtil.isNotNull(userId)&&StringUtil.isInteger(userId)){
 			int uId=Integer.parseInt(userId);
 			if(uId>0){
-				result=getInvestCode(uId);
+				result=getMyInvestCode(uId);
 			}else{
 				result=JsonUtil.getRetMsg(1,"用户没没登录");
 			}
@@ -46,7 +45,7 @@ public class MyInvestCode extends HttpServlet {
 		out.close();
 	}
 
-	private String getInvestCode(int uId) {
+	private String getMyInvestCode(int uId) {
 		User user=UserServer.findBaseInfoById(uId);
 		SiteConfig config=SiteConfigSer.findSiteConfig();
 		int integeral=config.getRegIntegeral();

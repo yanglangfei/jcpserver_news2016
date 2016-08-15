@@ -11,6 +11,11 @@ import java.io.Serializable;
 public class MyVideo implements Serializable{
 	private int page;
 	private int totlePage;
+	
+	/**
+	 *   是否购买    0    已购买     1    未购买     2   已过期
+	 */
+	private int isPurch;
 	/**
 	 *  Id
 	 */
@@ -69,9 +74,12 @@ public class MyVideo implements Serializable{
     
     
     
-    
-    
-    
+	public int getIsPurch() {
+		return isPurch;
+	}
+	public void setIsPurch(int isPurch) {
+		this.isPurch = isPurch;
+	}
 	public int getXnHits() {
 		return xnHits;
 	}

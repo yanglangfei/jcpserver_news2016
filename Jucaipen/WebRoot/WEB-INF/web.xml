@@ -481,6 +481,26 @@
     <servlet-name>MyInvestCode</servlet-name>
     <servlet-class>com.jucaipen.main.my.MyInvestCode</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>HotVideos</servlet-name>
+    <servlet-class>com.jucaipen.main.video.HotVideos</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PurchTxtLive</servlet-name>
+    <servlet-class>com.jucaipen.main.purch.PurchTxtLive</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PurchTxtDetails</servlet-name>
+    <servlet-class>com.jucaipen.main.purch.PurchTxtDetails</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PurchLogs</servlet-name>
+    <servlet-class>com.jucaipen.main.purch.PurchLogs</servlet-class>
+  </servlet>
+
+
+
+
 
 
 
@@ -976,5 +996,21 @@
   <servlet-mapping>
     <servlet-name>MyInvestCode</servlet-name>
     <url-pattern>/jucaipen/getinvestcode</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>HotVideos</servlet-name>
+    <url-pattern>/jucaipen/gethotvideos</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PurchTxtLive</servlet-name>
+    <url-pattern>/jucaipen/purchtxtLive</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PurchTxtDetails</servlet-name>
+    <url-pattern>/jucaipen/purchtxtdetails</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PurchLogs</servlet-name>
+    <url-pattern>/jucaipen/purchlogs</url-pattern>
   </servlet-mapping>
 </web-app>

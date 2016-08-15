@@ -1,24 +1,19 @@
 package com.jucaipen.main.video;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.TextLive;
 import com.jucaipen.model.TxtLiveSale;
 import com.jucaipen.model.VideoLive;
-import com.jucaipen.model.VideoLiveSale;
 import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.TxtLiveSaleSer;
-import com.jucaipen.service.VideoLiveSaleSer;
 import com.jucaipen.service.VideoLiveServer;
 import com.jucaipen.service.TxtLiveSer;
 import com.jucaipen.utils.HeaderUtil;

@@ -13,9 +13,9 @@ public class TxtLiveSaleSer {
 		return dao.findSaleByUidAndTxtId(uId, txtId);
 	}
 
-	public static List<TxtLiveSale> findSaleByUserId(int userId) {
+	public static List<TxtLiveSale> findSaleByUserId(int userId,int page) {
 		TxtLiveSaleDao dao=new TxtLiveSaleImp();
-		return dao.findSaleByUserId(userId);
+		return dao.findSaleByUserId(userId,page);
 	}
 
 	public static int addSale(TxtLiveSale sale) {

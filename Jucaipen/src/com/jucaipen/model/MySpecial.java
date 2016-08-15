@@ -37,6 +37,11 @@ public class MySpecial implements Serializable{
 	private String specialDesc;
 	
 	/**
+	 *   是否购买    0   已购买     1    未购买     2   已过期
+	 */
+	private int isPurch;
+	
+	/**
 	 *  专辑讲师 
 	 */
 	private int specialTeacher;
@@ -68,11 +73,12 @@ public class MySpecial implements Serializable{
 	 */
 	private String endDate;
 	
-	
-	
-	
-	
-	
+	public int getIsPurch() {
+		return isPurch;
+	}
+	public void setIsPurch(int isPurch) {
+		this.isPurch = isPurch;
+	}
 	public String getTeacherName() {
 		return teacherName;
 	}

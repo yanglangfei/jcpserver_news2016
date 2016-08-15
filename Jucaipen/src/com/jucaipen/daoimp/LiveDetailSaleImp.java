@@ -110,7 +110,9 @@ public class LiveDetailSaleImp implements LiveDetailSaleDao {
 				sale.setOrderCode(orderCode);
 				sale.setLiveDetailId(liveDetailId);
 				sale.setInsertDate(insertDate);
+				sales.add(sale);
 			}
+			return sales;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{
