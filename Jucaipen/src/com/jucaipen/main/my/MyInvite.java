@@ -1,9 +1,9 @@
 package com.jucaipen.main.my;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,6 +17,7 @@ import com.jucaipen.service.RecommderSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
 
 /**
@@ -25,7 +26,8 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class MyInvite extends HttpServlet {
 	private String result;
-	private List<User> users = new ArrayList<User>();
+	private String parsePhoneNum = "http://user.jucaipen.com/ashx/AndroidUser.ashx?action=GetDecryptMobileNum";
+	private Map<String, String> param = new HashMap<String, String>();
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -70,17 +72,28 @@ public class MyInvite extends HttpServlet {
 
 	private String initMyInvite(int uId, int page) {
 		// 初始化我的邀请
-		List<Recommder> recommders = RecommderSer.findRecommderByParentId(uId,
-				page);
+		List<Recommder> recommders = RecommderSer.findRecommderByParentId(uId, page);
 		for (Recommder recommder : recommders) {
 			int userId = recommder.getUserId();
 			User user = UserServer.findUserNikNameById(userId);
 			if (user == null) {
 				user = new User();
 			}
-			users.add(user);
+			String tel = user.getMobileNum();
+			if(tel!=null){
+				param.put("mobilenum", tel);
+				String resJson = LoginUtil.sendHttpPost(parsePhoneNum, param);
+				org.json.JSONObject object = new org.json.JSONObject(resJson);
+				boolean isParse = object.getBoolean("Result");
+				if (isParse) {
+					String mobile = object.getString("MobileNum");
+					recommder.setUserPhone(mobile);
+				}
+			}
+			recommder.setUserFace(user.getFaceImage());
+			recommder.setUserName(user.getUserName());
 		}
-		return JsonUtil.getRecommderList(recommders, users);
+		return JsonUtil.getRecommderList(recommders);
 	}
 
 }

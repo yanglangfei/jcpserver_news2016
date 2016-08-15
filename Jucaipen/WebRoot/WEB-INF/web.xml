@@ -477,6 +477,11 @@
     <servlet-name>FeedBack</servlet-name>
         <servlet-class>com.jucaipen.base.AddFeedBack</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>MyInvestCode</servlet-name>
+    <servlet-class>com.jucaipen.main.my.MyInvestCode</servlet-class>
+  </servlet>
+
 
 
 
@@ -967,5 +972,9 @@
   <servlet-mapping>
     <servlet-name>FeedBack</servlet-name>
     <url-pattern>/jucaipen/feedback</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MyInvestCode</servlet-name>
+    <url-pattern>/jucaipen/getinvestcode</url-pattern>
   </servlet-mapping>
 </web-app>

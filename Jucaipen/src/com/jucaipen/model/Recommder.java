@@ -16,13 +16,30 @@ public class Recommder implements Serializable{
 	 */
 	private int id;
 	/**
-	 *  UserId
+	 *  UserId  被推荐人
 	 */
 	private int userId;
+	
+	/**
+	 *   被推荐人姓名
+	 */
+	private String userName;
+	
+	/**
+	 *   被推荐人手机号
+	 */
+	private String userPhone;
+	
+	/**
+	 *  被推荐人头像
+	 */
+	private String userFace;
 	/**
 	 *  推荐人  ParentUserId
 	 */
 	private int parentUserId;
+	
+	
 	/**
 	 *  InsertDate  
 	 */
@@ -39,7 +56,24 @@ public class Recommder implements Serializable{
 	 *  Integral  所获积分奖励
 	 */
 	private int Integral;
-	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getUserPhone() {
+		return userPhone;
+	}
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
+	public String getUserFace() {
+		return userFace;
+	}
+	public void setUserFace(String userFace) {
+		this.userFace = userFace;
+	}
 	public int getPage() {
 		return page;
 	}

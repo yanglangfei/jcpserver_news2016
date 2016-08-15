@@ -273,16 +273,20 @@ public class UserImp implements UserDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("select ISNULL (TrueName,'') TrueName,ISNULL (NickName,'') NickName,ISNULL (UserFace,'') UserFace from JCP_User where Id="
-							+ id);
+					.executeQuery("select ISNULL (TrueName,'') TrueName,ISNULL (NickName,'') NickName,ISNULL (UserFace,'') UserFace,ISNULL (MobileNum,'') MobileNum,UserName from JCP_User where Id="
+							+ id); 
 			while (res.next()) {
 				String NickName = res.getString(SqlUtil.USER_NICKNAME);
 				String trueName = res.getString(SqlUtil.USER_TRUENAME);
 				String faceImage = res.getString(SqlUtil.USRE_FACEIMAGE);
+				String telPhone=res.getString("MobileNum");
+				String userName=res.getString("UserName");
 				u = new User();
 				u.setId(id);
 				u.setFaceImage(faceImage);
 				u.setTrueName(trueName);
+				u.setMobileNum(telPhone);
+				u.setUserName(userName);
 				u.setNickName(NickName);
 				return u;
 			}
@@ -812,7 +816,7 @@ public class UserImp implements UserDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT NickName,UserLevel,UserFace,UserName,MobileNum,LoginTime,AllIntegral FROM JCP_User WHERE Id="
+					.executeQuery("SELECT NickName,UserLevel,UserFace,UserName,MobileNum,LoginTime,AllIntegral,InvitationCode FROM JCP_User WHERE Id="
 							+ id);
 			while (res.next()) {
 				String nickName = res.getString(1);
@@ -822,12 +826,14 @@ public class UserImp implements UserDao {
 				String telPhone = res.getString(5);
 				int loginNum = res.getInt(6);
 				int integeral = res.getInt(7);
+				String investCode=res.getString(8);
 				User user = new User();
 				user.setId(id);
 				user.setLoginNum(loginNum);
 				user.setUserLeval(leavel);
 				user.setFaceImage(userFace);
 				user.setNickName(nickName);
+				user.setInvitationCode(investCode);
 				user.setUserName(userName);
 				user.setMobileNum(telPhone);
 				user.setAllIntegral(integeral);

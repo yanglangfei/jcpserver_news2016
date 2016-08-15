@@ -44,8 +44,6 @@ public class CheckMobileCode extends HttpServlet {
 		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
 		if(isDevice==HeaderUtil.PHONE_APP){
 			checkDate = sdf.format(new Date());
-			//用户真实姓名
-			//String trueName=request.getParameter("trueName");
 			//用户id  
 			String userId=request.getParameter("userId");
 			//用户手机号
@@ -55,12 +53,9 @@ public class CheckMobileCode extends HttpServlet {
 			//券商名称
 			String qsName=request.getParameter("qsName");
 			String teacherId=request.getParameter("teacherId");
-		//	ip=request.getRemoteAddr();
 			if(StringUtil.isInteger(userId)){
 				//用户id数字格式化正常
-			//	int uId=Integer.parseInt(userId);
 				if(StringUtil.isInteger(teacherId)){                
-					//tId = Integer.parseInt(teacherId);
 					if(StringUtil.isMobileNumber(mobileNum)){   
 						if(StringUtil.isNotNull(qsName)){
 						//手机号符合要求

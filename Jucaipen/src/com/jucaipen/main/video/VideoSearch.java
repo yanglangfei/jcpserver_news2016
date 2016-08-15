@@ -1,14 +1,11 @@
 package com.jucaipen.main.video;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.MySpecial;
 import com.jucaipen.model.MyVideo;
 import com.jucaipen.model.Special;
@@ -32,6 +29,7 @@ public class VideoSearch extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String key;
 		response.setCharacterEncoding("utf-8");
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
@@ -40,7 +38,13 @@ public class VideoSearch extends HttpServlet {
 		String page=request.getParameter("page");
 		String userId=request.getParameter("userId");
 		if(StringUtil.isNotNull(keyWord)){
-			String key = new String(keyWord.getBytes("ISO-8859-1"),"utf-8");
+			//war È¥µô±àÂë×ª»»
+			String adr=request.getLocalAddr();
+			if(adr.equals("121.40.227.121")){
+				key = keyWord;
+			}else{
+				key = new String(keyWord.getBytes("ISO-8859-1"),"utf-8");
+			}
 			if(StringUtil.isNotNull(page)&&StringUtil.isInteger(page)){
 				int p=Integer.parseInt(page);
 				if(StringUtil.isNotNull(userId)&&StringUtil.isInteger(userId)){

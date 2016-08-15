@@ -22,7 +22,7 @@ import com.jucaipen.utils.StringUtil;
  */
 @SuppressWarnings("serial")
 public class Regin extends HttpServlet {
-	private String reginUrl = "http://www.jcplicai.com/ashx/AndroidUser.ashx?action=reg";
+	private String reginUrl = "http://www.jucaipen.com/ashx/AndroidUser.ashx?action=reg";
 	private String result;
 	private String ip;
 	private Map<String, String> param = new HashMap<String, String>();
@@ -98,7 +98,7 @@ public class Regin extends HttpServlet {
 		String msg = object.getString("Msg");
 		if (res) {
 			// 注册成功处理
-			int userId=object.getInt("ActionId");
+			//int userId=object.getInt("ActionId");
 		//	handleIntegeral(investCode, userId, telPhone);
 			return JsonUtil.getRetMsg(0, msg);
 		} else {
