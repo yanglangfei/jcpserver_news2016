@@ -1,5 +1,4 @@
 package com.jucaipen.main.my;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jucaipen.model.Answer;
 import com.jucaipen.model.AnswerSale;
 import com.jucaipen.model.Ask;
 import com.jucaipen.model.FamousTeacher;
@@ -24,9 +22,9 @@ import com.jucaipen.model.TacticsSale;
 import com.jucaipen.model.TextLive;
 import com.jucaipen.model.TxtLiveDetails;
 import com.jucaipen.model.TxtLiveSale;
+import com.jucaipen.model.User;
 import com.jucaipen.model.Video;
 import com.jucaipen.service.AnswerSaleSer;
-import com.jucaipen.service.AnswerSer;
 import com.jucaipen.service.AskSer;
 import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.HotIdeaServ;
@@ -40,6 +38,7 @@ import com.jucaipen.service.TacticsSer;
 import com.jucaipen.service.TxtLiveDetaileSer;
 import com.jucaipen.service.TxtLiveSaleSer;
 import com.jucaipen.service.TxtLiveSer;
+import com.jucaipen.service.UserServer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
@@ -187,13 +186,12 @@ public class QuerryMySale extends HttpServlet {
 			List<AnswerSale> answerSales = AnswerSaleSer.findSaleByUid(uId, p);
 			for (AnswerSale answerSale : answerSales) {
 				Ask ask = AskSer.findAskById(answerSale.getAskId());
-				List<Answer> answer = AnswerSer.findAnswerByAskId(ask.getId());
-				FamousTeacher teacher = FamousTeacherSer
-						.findFamousTeacherById(answerSale.getTeacherId());
+				User user=UserServer.findBaseInfoById(ask.getUserId());
 				answerSale.setAskBody(ask.getAskBody());
-				answerSale.setAnswerBody(answer.get(0).getAnswerBody());
-				answerSale.setAnswerTeacherName(teacher.getNickName());
-				answerSale.setTeacherFace(teacher.getHeadFace());
+				answerSale.setAskUserName(user.getNickName());
+				answerSale.setUserFace(user.getFaceImage());
+				answerSale.setAskDate(ask.getAskDate());
+				answerSale.setReplyCount(ask.getReplyCount());
 			}
 			return JsonUtil.getMyQusestionList(answerSales);
 		} else if (type == 5) {

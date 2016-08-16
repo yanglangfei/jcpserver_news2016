@@ -20,6 +20,10 @@ public class AnswerSale {
 	 */
 	private String askBody;
 	
+	private String askDate;
+	
+	private int replyCount;
+	
 	/**
 	 *  回复内容
 	 */
@@ -28,9 +32,9 @@ public class AnswerSale {
 	/**
 	 *   回复讲师昵称
 	 */
-	private String answerTeacherName;
+	private String askUserName;
 	
-	private String teacherFace;
+	private String userFace;
 	
 	/**
 	 *  id   Id
@@ -57,14 +61,17 @@ public class AnswerSale {
 	 */
 	private String insetDate;
 	
-	
-	
-	
-	public String getTeacherFace() {
-		return teacherFace;
+	public String getAskDate() {
+		return askDate;
 	}
-	public void setTeacherFace(String teacherFace) {
-		this.teacherFace = teacherFace;
+	public void setAskDate(String askDate) {
+		this.askDate = askDate;
+	}
+	public int getReplyCount() {
+		return replyCount;
+	}
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
 	}
 	public String getAskBody() {
 		return askBody;
@@ -78,11 +85,18 @@ public class AnswerSale {
 	public void setAnswerBody(String answerBody) {
 		this.answerBody = answerBody;
 	}
-	public String getAnswerTeacherName() {
-		return answerTeacherName;
+	
+	public String getAskUserName() {
+		return askUserName;
 	}
-	public void setAnswerTeacherName(String answerTeacherName) {
-		this.answerTeacherName = answerTeacherName;
+	public void setAskUserName(String askUserName) {
+		this.askUserName = askUserName;
+	}
+	public String getUserFace() {
+		return userFace;
+	}
+	public void setUserFace(String userFace) {
+		this.userFace = userFace;
 	}
 	public int getId() {
 		return id;
