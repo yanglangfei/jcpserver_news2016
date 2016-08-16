@@ -29,6 +29,9 @@ public class AnswerSale {
 	 *   ªÿ∏¥Ω≤ ¶Í«≥∆
 	 */
 	private String answerTeacherName;
+	
+	private String teacherFace;
+	
 	/**
 	 *  id   Id
 	 */
@@ -55,6 +58,14 @@ public class AnswerSale {
 	private String insetDate;
 	
 	
+	
+	
+	public String getTeacherFace() {
+		return teacherFace;
+	}
+	public void setTeacherFace(String teacherFace) {
+		this.teacherFace = teacherFace;
+	}
 	public String getAskBody() {
 		return askBody;
 	}

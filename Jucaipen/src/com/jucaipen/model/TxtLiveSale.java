@@ -14,11 +14,35 @@ public class TxtLiveSale implements Serializable{
 	private int id;
 	private int userId;
 	private int teacherId;
+	private int fk_attenNum;
 	private String teacherName;
 	private String fk_title;
 	private String orderCode;
+	private int fk_txtHits;
+	private int fk_txtIsEnd;
 	private int fk_txtId;
 	private String insertDate;
+	
+	
+	
+	public int getFk_attenNum() {
+		return fk_attenNum;
+	}
+	public void setFk_attenNum(int fk_attenNum) {
+		this.fk_attenNum = fk_attenNum;
+	}
+	public int getFk_txtIsEnd() {
+		return fk_txtIsEnd;
+	}
+	public void setFk_txtIsEnd(int fk_txtIsEnd) {
+		this.fk_txtIsEnd = fk_txtIsEnd;
+	}
+	public int getFk_txtHits() {
+		return fk_txtHits;
+	}
+	public void setFk_txtHits(int fk_txtHits) {
+		this.fk_txtHits = fk_txtHits;
+	}
 	public String getTeacherName() {
 		return teacherName;
 	}

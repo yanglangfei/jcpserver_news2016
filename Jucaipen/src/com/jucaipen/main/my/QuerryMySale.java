@@ -116,6 +116,7 @@ public class QuerryMySale extends HttpServlet {
 				vd.setVideoUrl(video.getHtmlUrl());
 				vd.setVideoImag(video.getImages());
 				vd.setVideoTitle(video.getTitle());
+				vd.setVideoDesc(video.getDescript());
 			}
 			return JsonUtil.getMyVideoList(myVideos);
 		} else if (type == 1) {
@@ -175,6 +176,8 @@ public class QuerryMySale extends HttpServlet {
 							.findFamousTeacherById(tId);
 					sale.setTeacherName(teacher.getNickName());
 					sale.setFk_title(txt.getTitle());
+					sale.setFk_txtHits(txt.getXnHits());
+					sale.setFk_txtIsEnd(txt.getIsEnd());
 				}
 			}
 			return JsonUtil.getMyTxtList(txtSales);
@@ -190,6 +193,7 @@ public class QuerryMySale extends HttpServlet {
 				answerSale.setAskBody(ask.getAskBody());
 				answerSale.setAnswerBody(answer.get(0).getAnswerBody());
 				answerSale.setAnswerTeacherName(teacher.getNickName());
+				answerSale.setTeacherFace(teacher.getHeadFace());
 			}
 			return JsonUtil.getMyQusestionList(answerSales);
 		} else if (type == 5) {
@@ -215,7 +219,7 @@ public class QuerryMySale extends HttpServlet {
 			}
 			return JsonUtil.getMyTacticsList(tacticsSales);
 		} else {
-			// 6 直播观点 单条
+			// 6 直播详情 单条
 			List<LiveDetailSale> txtSales = LiveDetailSaleSer.findSaleByUid(
 					uId, p);
 			if (txtSales != null) {
@@ -224,8 +228,11 @@ public class QuerryMySale extends HttpServlet {
 					int tId = detailSale.getTeacherId();
 					TxtLiveDetails details = TxtLiveDetaileSer
 							.findTextDetaileById(detailId);
+					int liveId=details.getFk_liveId();
+					TextLive txtLive=TxtLiveSer.findTextLiveById(liveId);
 					FamousTeacher teacher = FamousTeacherSer
 							.findFamousTeacherById(tId);
+					detailSale.setFk_txtTitle(txtLive.getTitle());
 					detailSale.setDetailBody(details.getBodys());
 					detailSale.setOwnTeacher(teacher.getNickName());
 				}

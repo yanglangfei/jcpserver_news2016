@@ -434,8 +434,8 @@
     <servlet-class>com.jucaipen.main.video.UpdateBaseData</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>PurchAsk</servlet-name>
-    <servlet-class>com.jucaipen.main.purch.PurchAsk</servlet-class>
+    <servlet-name>PurchQuestion</servlet-name>
+    <servlet-class>com.jucaipen.main.purch.PurchQuestion</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>PurchVideo</servlet-name>
@@ -497,6 +497,21 @@
     <servlet-name>PurchLogs</servlet-name>
     <servlet-class>com.jucaipen.main.purch.PurchLogs</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>PayAsk</servlet-name>
+    <servlet-class>com.jucaipen.main.purch.PayAsk</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CatchAnswer</servlet-name>
+    <servlet-class>com.jucaipen.main.purch.CatchAnswer</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PayRecycleAsk</servlet-name>
+    <servlet-class>com.jucaipen.main.purch.PayRecycleAsk</servlet-class>
+  </servlet>
+
+
+
 
 
 
@@ -950,8 +965,8 @@
     <url-pattern>/jucaipen/updatebasedata</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>PurchAsk</servlet-name>
-    <url-pattern>/jucaipen/purchask</url-pattern>
+    <servlet-name>PurchQuestion</servlet-name>
+    <url-pattern>/jucaipen/purchquestion</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>PurchVideo</servlet-name>
@@ -1012,5 +1027,17 @@
   <servlet-mapping>
     <servlet-name>PurchLogs</servlet-name>
     <url-pattern>/jucaipen/purchlogs</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PayAsk</servlet-name>
+    <url-pattern>/jucaipen/payask</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CatchAnswer</servlet-name>
+    <url-pattern>/jucaipen/catchanswer</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PayRecycleAsk</servlet-name>
+    <url-pattern>/jucaipen/payrecycleask</url-pattern>
   </servlet-mapping>
 </web-app>

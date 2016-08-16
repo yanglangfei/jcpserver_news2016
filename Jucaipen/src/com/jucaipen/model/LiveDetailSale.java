@@ -37,6 +37,8 @@ public class LiveDetailSale implements Serializable{
 	 */
 	private int liveDetailId;
 	
+	private String fk_txtTitle;
+	
 	/**
 	 *  Ö±²¥ÄÚÈÝ
 	 */
@@ -47,7 +49,12 @@ public class LiveDetailSale implements Serializable{
 	 */
 	private String insertDate;
 	
-	
+	public String getFk_txtTitle() {
+		return fk_txtTitle;
+	}
+	public void setFk_txtTitle(String fk_txtTitle) {
+		this.fk_txtTitle = fk_txtTitle;
+	}
 	public String getOwnTeacher() {
 		return ownTeacher;
 	}

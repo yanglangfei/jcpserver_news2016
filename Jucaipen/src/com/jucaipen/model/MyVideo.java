@@ -43,6 +43,8 @@ public class MyVideo implements Serializable{
 	
 	private int fk_specialId;
 	
+	private String videoDesc;
+	
 	private int xnHits;
 	
 	private int classId;
@@ -74,6 +76,12 @@ public class MyVideo implements Serializable{
     
     
     
+	public String getVideoDesc() {
+		return videoDesc;
+	}
+	public void setVideoDesc(String videoDesc) {
+		this.videoDesc = videoDesc;
+	}
 	public int getIsPurch() {
 		return isPurch;
 	}
