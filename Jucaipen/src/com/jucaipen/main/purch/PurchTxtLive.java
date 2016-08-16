@@ -123,7 +123,7 @@ public class PurchTxtLive extends HttpServlet {
 
 		Contribute contribute = new Contribute();
 		contribute.setAllJucaiBills(b);
-		contribute.setComType(8);
+		contribute.setComType(6);
 		contribute.setFk_id(txtId);
 		contribute.setTeacherId(teacherId);
 		contribute.setUserId(uId);

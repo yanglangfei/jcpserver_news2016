@@ -91,7 +91,6 @@ public class PayRecycleAsk extends HttpServlet {
 
 	private String payRecycleAsk(int uId, int bs, int type, String askBody,
 			int aId) {
-		// TODO ×·ÎÊ´¦ÀíÂß¼­
 		Answer answer = AnswerSer.findAnswerById(aId);
 		int teacherId = answer.getTeacherId();
 		FamousTeacher teacher = FamousTeacherSer

@@ -126,7 +126,7 @@ public class PurchLogs extends HttpServlet {
 
 		Contribute contribute = new Contribute();
 		contribute.setAllJucaiBills(b);
-		contribute.setComType(6);
+		contribute.setComType(8);
 		contribute.setFk_id(lId);
 		contribute.setInsertDate(TimeUtils.format(new Date(),
 				"yyyy-MM-dd HH:mm:ss"));

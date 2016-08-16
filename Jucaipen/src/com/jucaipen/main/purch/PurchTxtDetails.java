@@ -125,7 +125,7 @@ public class PurchTxtDetails extends HttpServlet {
 
 		Contribute contribute = new Contribute();
 		contribute.setAllJucaiBills(b);
-		contribute.setComType(8);
+		contribute.setComType(6);
 		contribute.setFk_id(detailId);
 		contribute.setTeacherId(teacherId);
 		contribute.setUserId(uId);
