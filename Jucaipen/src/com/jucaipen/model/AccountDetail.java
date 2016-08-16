@@ -61,6 +61,7 @@ public class AccountDetail {
 	
 	public AccountDetail() {
 		
+		
 	}
 	public AccountDetail(int id, String orderCode, double detailMoney,
 			int detailType, int state, String remark, String insertDate,

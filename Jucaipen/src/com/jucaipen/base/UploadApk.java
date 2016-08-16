@@ -22,12 +22,15 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.PushPayload;
 
+import com.google.gson.JsonObject;
 import com.jucaipen.model.ApkInfo;
 import com.jucaipen.service.ApkInfoServer;
 import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.StringUtil;
+
 /**
  * @author YLF
  * 
@@ -38,7 +41,7 @@ import com.jucaipen.utils.StringUtil;
  */
 @SuppressWarnings("serial")
 public class UploadApk extends HttpServlet {
-	private SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	/**
 	 * APK文件保存路径
 	 */
@@ -48,16 +51,15 @@ public class UploadApk extends HttpServlet {
 	 */
 	private Map<String, String> param = new HashMap<String, String>();
 	private ApkInfo info;
-	//private int isSuccess;
 	private int maxId;
 	private String uuId;
 	private String savePath;
 	private String versionName;
-	
+
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		rootPath="D:/apkInfo/apk/";
+		rootPath = "D:/apkInfo/apk/";
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -66,10 +68,10 @@ public class UploadApk extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		uuId=UUID.randomUUID().toString();
-		savePath=rootPath+uuId;
-		File dirFile=new File(savePath);
-		if(!dirFile.exists()){
+		uuId = UUID.randomUUID().toString();
+		savePath = rootPath + uuId;
+		File dirFile = new File(savePath);
+		if (!dirFile.exists()) {
 			dirFile.mkdirs();
 		}
 		DiskFileItemFactory dif = new DiskFileItemFactory();
@@ -88,21 +90,21 @@ public class UploadApk extends HttpServlet {
 						File tempFile = new File(fi.getName());
 						File saveFile = new File(savePath, tempFile.getName());
 						fi.write(saveFile);
-							querryMaxId();
-							if(maxId>0){
-								// 更新apk数据库数据
-								String filePath = uuId+"/"+ tempFile.getName();
-								createApkDate(param,filePath);
-								if(info!=null){
-									updateApkInfo(info);
-								    pushUpdateInfo(filePath);
-				     				out.print("文件上传处理成功");
-								}else {
-									out.print("文件处理失败");
-								}
-							}else {
+						querryMaxId();
+						if (maxId > 0) {
+							// 更新apk数据库数据
+							String filePath = uuId + "/" + tempFile.getName();
+							createApkDate(param, filePath);
+							if (info != null) {
+								updateApkInfo(info);
+								pushUpdateInfo(filePath);
+								out.print("文件上传处理成功");
+							} else {
 								out.print("文件处理失败");
 							}
+						} else {
+							out.print("文件处理失败");
+						}
 					} else {
 						out.print("没有选择文件");
 					}
@@ -118,22 +120,27 @@ public class UploadApk extends HttpServlet {
 	}
 
 	/**
-	 * @param filePath  更新APK
+	 * @param filePath
+	 *            更新APK
 	 */
 	private void pushUpdateInfo(String filePath) {
 		JPushClient client = JPushUtils.getJPush();
-		PushPayload msg = JPushUtils.createMsg("update", "versionChange", filePath,null);
-		//PushPayload notifyMsgh = JPushUtils.createNptify("APK可更新到最新版本"+versionName,"action",1);
-		JPushUtils.pushMsg(client, msg);
-		//XinGeUtil.getInstance(false).pushAllUpdateDevice(0, "apk版本更新提醒", "可更新到最新版本"+versionName);
+		JsonObject object = new JsonObject();
+		object.addProperty("versionCode", info.getVersionCode());
+		object.addProperty("versionName", info.getVsionName());
+		object.addProperty("path", info.getApkPath());
+		PushPayload msg = JPushUtils.createMsg("update", "versionChange",
+				object.toString(), null);
+		PushResult res=JPushUtils.pushMsg(client, msg);
+		System.out.println("res:"+res.toString());
 	}
 
 	/**
-	 * 获取APK信息最大的id 
+	 * 获取APK信息最大的id
 	 */
 	private void querryMaxId() {
-	  maxId=ApkInfoServer.querryMaxId();
-		
+		maxId = ApkInfoServer.querryMaxId();
+
 	}
 
 	/**
@@ -147,7 +154,7 @@ public class UploadApk extends HttpServlet {
 	}
 
 	/**
-	 * @param param2
+	 * @param param
 	 * @param string
 	 *            构建APK对象
 	 */
@@ -160,7 +167,7 @@ public class UploadApk extends HttpServlet {
 			info.setVsionName(versionName);
 			info.setApkPath(path);
 			info.setPkgName("com.example.androidnetwork");
-			String date=sdf.format(new Date());
+			String date = sdf.format(new Date());
 			info.setUpdateDate(date);
 			if (StringUtil.isInteger(versionCode)) {
 				int vCode = Integer.parseInt(versionCode);

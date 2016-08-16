@@ -3,6 +3,7 @@ package com.jucaipen.main.purch;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
+import com.jucaipen.model.Answer;
 import com.jucaipen.model.AnswerSale;
 import com.jucaipen.model.Ask;
 import com.jucaipen.model.Contribute;
@@ -20,6 +22,7 @@ import com.jucaipen.model.SysAccount;
 import com.jucaipen.model.SysDetailAccount;
 import com.jucaipen.model.User;
 import com.jucaipen.service.AccountSer;
+import com.jucaipen.service.AnswerSer;
 import com.jucaipen.service.AskSer;
 import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.service.UserServer;
@@ -36,7 +39,6 @@ import com.jucaipen.utils.TimeUtils;
 public class PurchQuestion extends HttpServlet {
 	private String result;
 	private String ip;
-
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -78,10 +80,23 @@ public class PurchQuestion extends HttpServlet {
 	}
 
 	private String purchAnswer(int aId, int uId, int bs) {
+		boolean catchAnswer = false;
 		User user = UserServer.findBaseInfoById(uId);
 		Account a = AccountSer.findAccountByUserId(uId);
 		Ask ask = AskSer.findAskById(aId);
 		int teacherId = ask.getTeacherId();
+		List<Answer> answers = AnswerSer.findAnswerByAskId(aId);
+		if (answers != null) {
+			for (Answer answer : answers) {
+				int isCatch = answer.getIsCatch();
+				if (isCatch == 1) {
+					catchAnswer = true;
+				}
+			}
+		}
+		if (!catchAnswer) {
+			return JsonUtil.getRetMsg(2, "回答还没有被采纳，不能进行购买");
+		}
 		if (a == null || a.getJucaiBills() < bs) {
 			return JsonUtil.getRetMsg(1, "聚财币余额不足");
 		}
