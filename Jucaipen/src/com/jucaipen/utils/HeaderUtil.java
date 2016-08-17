@@ -124,13 +124,6 @@ public class HeaderUtil {
 			return null;
 		}
 		ClientOsInfo osInfo=new  ClientOsInfo();
-		String[] osStr = UA.split(";");
-		if(osStr.length>0){
-			osInfo.setMainSys(osStr[0]);
-		}
-		if(osStr.length>3){
-			osInfo.setPhoneType(osStr[3]);
-		}
 		UA=UA.toUpperCase();
 		// 存放正则表达式
 		String rex = "";
@@ -139,8 +132,10 @@ public class HeaderUtil {
 		if (UA.indexOf(iosString) != -1) {
 			if(isMatch(UA, "\\([\\s]*iPhone[\\s]*;", Pattern.CASE_INSENSITIVE)){
 				osInfo.setDeviceType(DEVICE_TYPE_PHONE);
+				osInfo.setMainSys("iPhone");
 			}else if(isMatch(UA, "\\([\\s]*iPad[\\s]*;", Pattern.CASE_INSENSITIVE)){
 				osInfo.setDeviceType(DEVICE_TYPE_PAD);
+				osInfo.setMainSys("iPad");
 			}
 			rex = ".*" + "[\\s]+(\\d[_\\d]*)" + iosString;
 			Pattern p = Pattern.compile(rex, Pattern.CASE_INSENSITIVE);
@@ -160,8 +155,10 @@ public class HeaderUtil {
 		if (UA.indexOf(androidString) != -1) {
 			if(isMatch(UA, "\\bMobi", Pattern.CASE_INSENSITIVE)){
 				osInfo.setDeviceType(DEVICE_TYPE_PHONE);
+				osInfo.setMainSys("ANDROID");
 			}else {
 				osInfo.setDeviceType(DEVICE_TYPE_PAD);
+				osInfo.setMainSys("Pad");
 			}
 			rex = ".*" + androidString + "[\\s]*(\\d*[\\._\\d]*)";
 			Pattern p = Pattern.compile(rex, Pattern.CASE_INSENSITIVE);
@@ -189,6 +186,7 @@ public class HeaderUtil {
 				osInfo.setOsTypeVersion(OSTYPE_WP+"_" + version);
 				return osInfo;
 			}
+			osInfo.setMainSys("WINDOWS PHONE");
 			osInfo.setOsTypeVersion(OSTYPE_WP);
 			return osInfo;
 		}
@@ -205,13 +203,16 @@ public class HeaderUtil {
 				osInfo.setOsTypeVersion(OSTYPE_BLACKBERRY+"_" + version);
 				return osInfo;
 			}
+			osInfo.setMainSys("BLACKBERRY");
 			osInfo.setOsTypeVersion(OSTYPE_BLACKBERRY);
 			return osInfo;
 		}
 		if(UA.contains("LINUX")){//android
 			if(isMatch(UA, "\\bMobi", Pattern.CASE_INSENSITIVE)){
 				osInfo.setDeviceType(DEVICE_TYPE_PHONE);
+				osInfo.setMainSys("ANDROID");
 			}else {
+				osInfo.setMainSys("Pad");
 				osInfo.setDeviceType(DEVICE_TYPE_PAD);
 			}
 			
@@ -237,8 +238,10 @@ public class HeaderUtil {
 		if(UA.matches(".*((IOS)|(iPAD)).*(IPH).*")){
 			if(isMatch(UA, "[\\s]*iPh[\\s]*", Pattern.CASE_INSENSITIVE)){
 				osInfo.setDeviceType(DEVICE_TYPE_PHONE);
+				osInfo.setMainSys("iPhone");
 			}else {
 				osInfo.setDeviceType(DEVICE_TYPE_PAD);
+				osInfo.setMainSys("iPad");
 			}
 			 Pattern p = Pattern.compile("U;\\s*(IPH[\\s]*)?(OS[\\s]*)?(\\d[\\._\\d]*\\d)[\\s]*;",Pattern.CASE_INSENSITIVE);
 		        Matcher m = p.matcher(UA);

@@ -42,6 +42,11 @@ public class HotIdea implements Serializable{
 	 * 评论数
 	 */
 	private int commens;
+	
+	/**
+	 *   自己拥有的聚财币
+	 */
+	private int ownJucaiBills;
 	/**
 	 * 发表观点时间
 	 */
@@ -66,6 +71,7 @@ public class HotIdea implements Serializable{
 	private String teacherFace;
 	
 	private int teacherIsV;
+	
 	/**
 	 * 相关图片
 	 */
@@ -91,6 +97,9 @@ public class HotIdea implements Serializable{
 	 */
 	private int isFree;
 	
+	/**
+	 *   1  未购买      0 已购买
+	 */
 	private int isPurch;
 	/**
 	 *   需要支付聚财币
@@ -106,6 +115,12 @@ public class HotIdea implements Serializable{
 	 */
 	private int xnHits;
 	
+	public int getOwnJucaiBills() {
+		return ownJucaiBills;
+	}
+	public void setOwnJucaiBills(int ownJucaiBills) {
+		this.ownJucaiBills = ownJucaiBills;
+	}
 	public String getTeacherName() {
 		return teacherName;
 	}

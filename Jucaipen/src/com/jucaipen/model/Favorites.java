@@ -37,6 +37,11 @@ public class Favorites implements Serializable {
 	private boolean isSpecial;
 	
 	/**
+	 *   是否购买    0   是    1   否    2   过期
+	 */
+	private int isPurch;
+	
+	/**
 	 * 收藏时间
 	 */
 	private String date;
@@ -48,6 +53,14 @@ public class Favorites implements Serializable {
 	private int type;
 	
 	
+	
+	
+	public int getIsPurch() {
+		return isPurch;
+	}
+	public void setIsPurch(int isPurch) {
+		this.isPurch = isPurch;
+	}
 	public boolean isCharge() {
 		return isCharge;
 	}

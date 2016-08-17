@@ -3,13 +3,16 @@ package com.jucaipen.main.purch;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.Contribute;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.LiveDetailSale;
@@ -25,9 +28,11 @@ import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.service.TxtLiveDetaileSer;
 import com.jucaipen.service.TxtLiveSer;
 import com.jucaipen.service.UserServer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
+
 /**
  * @author Administrator
  * 
@@ -44,32 +49,39 @@ public class PurchTxtDetails extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String ip = request.getRemoteAddr();
-		String userId = request.getParameter("userId");
-		String txtDetailId = request.getParameter("txtDetailId");
-		String bills = request.getParameter("bills");
-		if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
-			int uId = Integer.parseInt(userId);
-			if (uId > 0) {
-				if (StringUtil.isNotNull(txtDetailId)
-						&& StringUtil.isInteger(txtDetailId)) {
-					int detailId = Integer.parseInt(txtDetailId);
-					if (StringUtil.isNotNull(bills)
-							&& StringUtil.isInteger(bills)) {
-						int b = Integer.parseInt(bills);
-						result = purchTxtDetails(ip, uId, b, detailId);
+		String userAgent = request.getParameter("User-Agent");
+		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
+		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
+		if (isDevice == HeaderUtil.PHONE_APP) {
+			String userId = request.getParameter("userId");
+			String txtDetailId = request.getParameter("txtDetailId");
+			String bills = request.getParameter("bills");
+			if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
+				int uId = Integer.parseInt(userId);
+				if (uId > 0) {
+					if (StringUtil.isNotNull(txtDetailId)
+							&& StringUtil.isInteger(txtDetailId)) {
+						int detailId = Integer.parseInt(txtDetailId);
+						if (StringUtil.isNotNull(bills)
+								&& StringUtil.isInteger(bills)) {
+							int b = Integer.parseInt(bills);
+							result = purchTxtDetails(ip, uId, b, detailId);
+						} else {
+							result = JsonUtil.getRetMsg(4, "bills 参数异常");
+						}
 					} else {
-						result = JsonUtil.getRetMsg(4, "bills 参数异常");
+						result = JsonUtil.getRetMsg(3, "txtLiveId 参数异常");
 					}
 				} else {
-					result = JsonUtil.getRetMsg(3, "txtLiveId 参数异常");
+					result = JsonUtil.getRetMsg(2, "用户还没登录");
 				}
 			} else {
-				result = JsonUtil.getRetMsg(2, "用户还没登录");
+				result = JsonUtil.getRetMsg(1, "userId 参数异常");
 			}
 		} else {
-			result = JsonUtil.getRetMsg(1, "userId 参数异常");
+			result = StringUtil.isVaild;
 		}
-        out.print(result);
+		out.print(result);
 		out.flush();
 		out.close();
 	}
@@ -171,7 +183,7 @@ public class PurchTxtDetails extends HttpServlet {
 
 		int isSuccess = RollBackUtil.purchTxtDetail(user, b, sysAccount,
 				rebate, sysRebate, sale, account, accountDetail,
-				accountDetailIntegeral, uId,detailAccount,contribute);
+				accountDetailIntegeral, uId, detailAccount, contribute);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "购买直播观点成功") : JsonUtil
 				.getRetMsg(1, "购买直播观点失败");
 	}

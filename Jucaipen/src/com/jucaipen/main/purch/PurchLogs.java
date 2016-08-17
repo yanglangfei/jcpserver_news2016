@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.Contribute;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.HotIdea;
@@ -26,6 +27,7 @@ import com.jucaipen.service.HotIdeaServ;
 import com.jucaipen.service.IdeaSaleServer;
 import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.service.UserServer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
@@ -45,31 +47,39 @@ public class PurchLogs extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String userId = request.getParameter("userId");
-		String logId = request.getParameter("logId");
-		String bills = request.getParameter("bills");
-		String ip=request.getRemoteAddr();
-		if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
-			int uId = Integer.parseInt(userId);
-			if (uId > 0) {
-				if (StringUtil.isNotNull(logId) && StringUtil.isInteger(logId)) {
-					int lId = Integer.parseInt(logId);
-					if (StringUtil.isNotNull(bills)
-							&& StringUtil.isInteger(bills)) {
-						int b = Integer.parseInt(bills);
-						result = purchLogs(uId, lId, b,ip);
+		String userAgent = request.getParameter("User-Agent");
+		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
+		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
+		if (isDevice == HeaderUtil.PHONE_APP) {
+			String userId = request.getParameter("userId");
+			String logId = request.getParameter("logId");
+			String bills = request.getParameter("bills");
+			String ip = request.getRemoteAddr();
+			if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
+				int uId = Integer.parseInt(userId);
+				if (uId > 0) {
+					if (StringUtil.isNotNull(logId)
+							&& StringUtil.isInteger(logId)) {
+						int lId = Integer.parseInt(logId);
+						if (StringUtil.isNotNull(bills)
+								&& StringUtil.isInteger(bills)) {
+							int b = Integer.parseInt(bills);
+							result = purchLogs(uId, lId, b, ip);
+						} else {
+							result = JsonUtil.getRetMsg(4, "bills 参数异常");
+						}
 					} else {
-						result = JsonUtil.getRetMsg(4, "bills 参数异常");
+						result = JsonUtil.getRetMsg(3, "logId 参数异常");
 					}
 				} else {
-					result = JsonUtil.getRetMsg(3, "logId 参数异常");
+					result = JsonUtil.getRetMsg(2, "用户还没登录");
 				}
-			} else {
-				result = JsonUtil.getRetMsg(2, "用户还没登录");
-			}
 
+			} else {
+				result = JsonUtil.getRetMsg(1, "userId 参数异常");
+			}
 		} else {
-			result = JsonUtil.getRetMsg(1, "userId 参数异常");
+			result = StringUtil.isVaild;
 		}
 		out.println(result);
 		out.flush();
@@ -105,7 +115,8 @@ public class PurchLogs extends HttpServlet {
 		accountDetail.setDetailType(1);
 		// 0聚财币，1积分
 		accountDetail.setState(0);
-		accountDetail.setRemark("解锁【"+teacher.getNickName()+"】的日志《"+idea.getTitle()+"》");
+		accountDetail.setRemark("解锁【" + teacher.getNickName() + "】的日志《"
+				+ idea.getTitle() + "》");
 		accountDetail.setInsertDate(TimeUtils.format(new Date(),
 				"yyyy-MM-dd HH:mm:ss"));
 		accountDetail.setIsDel(0);
@@ -118,7 +129,8 @@ public class PurchLogs extends HttpServlet {
 		accountDetailIntegeral.setDetailType(0);
 		// 0聚财币，1积分
 		accountDetailIntegeral.setState(1);
-		accountDetailIntegeral.setRemark("解锁【"+teacher.getNickName()+"】的日志《"+idea.getTitle()+"》积分+"+b);
+		accountDetailIntegeral.setRemark("解锁【" + teacher.getNickName()
+				+ "】的日志《" + idea.getTitle() + "》积分+" + b);
 		accountDetailIntegeral.setInsertDate(TimeUtils.format(new Date(),
 				"yyyy-MM-dd HH:mm:ss"));
 		accountDetailIntegeral.setIsDel(0);
@@ -142,7 +154,8 @@ public class PurchLogs extends HttpServlet {
 		detailAccount.setOrderId(0);
 		detailAccount.setPrice(b);
 		detailAccount.setRecoderType(2);
-		detailAccount.setRemark("解锁【"+teacher.getNickName()+"】的日志《"+idea.getTitle()+"》");
+		detailAccount.setRemark("解锁【" + teacher.getNickName() + "】的日志《"
+				+ idea.getTitle() + "》");
 		detailAccount.setType(6);
 		detailAccount.setUserId(uId);
 

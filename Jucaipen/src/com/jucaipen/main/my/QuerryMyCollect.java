@@ -13,15 +13,18 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.Favorites;
 import com.jucaipen.model.Knowledge;
+import com.jucaipen.model.MyVideo;
 import com.jucaipen.model.Special;
 import com.jucaipen.model.Video;
 import com.jucaipen.service.FavoritesSer;
 import com.jucaipen.service.KnowledgetSer;
+import com.jucaipen.service.MyVideoSer;
 import com.jucaipen.service.SpecialSer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
+import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator
@@ -89,18 +92,28 @@ public class QuerryMyCollect extends HttpServlet {
 		// 初始化我的收藏
 		videos.clear();
 		knowledges.clear();
+		int isPurch=1;
 		List<Favorites> favourates;
 		if (t == 0) {
 			// 视频
 			favourates = FavoritesSer.findFavourateByUidAndType(uId, 1, p);
 		} else {
-			// 知识
+			// 知识f
 			favourates = FavoritesSer.findFavourateByUidAndType(uId, 2, p);
 		}
 		for (Favorites fa : favourates) {
 			int fkId = fa.getFk_Id();
 			if (t == 0) {
 				Video video = VideoServer.findVideoById(fkId);
+				MyVideo myVideo=MyVideoSer.findIsMyVideo(uId, fkId);
+				if(myVideo!=null){
+					if(TimeUtils.isLive(myVideo.getStartDate(), myVideo.getEndDate())){
+						isPurch=0;
+					}else{
+						isPurch=2;
+					}
+				}
+				fa.setIsPurch(isPurch);
 				if(video!=null){
 					int specialId=video.getPecialId();
 					int isFree=video.getVideoType();

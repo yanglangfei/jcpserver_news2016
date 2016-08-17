@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.Contribute;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.Guardian;
@@ -25,6 +26,7 @@ import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.GuardianSer;
 import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.service.UserServer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
@@ -46,39 +48,47 @@ public class OpenGurdian extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		ip = request.getRemoteAddr();
-		String days = request.getParameter("days");
-		String userId = request.getParameter("userId");
-		String teacherId = request.getParameter("teacherId");
-		String bills = request.getParameter("bills");
-		if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
-			int uId = Integer.parseInt(userId);
-			if (uId > 0) {
-				if (StringUtil.isNotNull(teacherId)
-						&& StringUtil.isInteger(teacherId)) {
-					int tId = Integer.parseInt(teacherId);
-					if (StringUtil.isNotNull(days)
-							&& StringUtil.isInteger(days)) {
-						int d = Integer.parseInt(days);
-						if (StringUtil.isNotNull(bills)
-								&& StringUtil.isInteger(bills)) {
-							int b = Integer.parseInt(bills);
-							result = openGurdian(uId, tId, d, b);
-						} else {
-							result = JsonUtil.getRetMsg(3, "bill 参数异常");
-						}
+		String userAgent = request.getParameter("User-Agent");
+		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
+		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
+		if (isDevice == HeaderUtil.PHONE_APP) {
+			String days = request.getParameter("days");
+			String userId = request.getParameter("userId");
+			String teacherId = request.getParameter("teacherId");
+			String bills = request.getParameter("bills");
+			if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
+				int uId = Integer.parseInt(userId);
+				if (uId > 0) {
+					if (StringUtil.isNotNull(teacherId)
+							&& StringUtil.isInteger(teacherId)) {
+						int tId = Integer.parseInt(teacherId);
+						if (StringUtil.isNotNull(days)
+								&& StringUtil.isInteger(days)) {
+							int d = Integer.parseInt(days);
+							if (StringUtil.isNotNull(bills)
+									&& StringUtil.isInteger(bills)) {
+								int b = Integer.parseInt(bills);
+								result = openGurdian(uId, tId, d, b);
+							} else {
+								result = JsonUtil.getRetMsg(3, "bill 参数异常");
+							}
 
+						} else {
+							result = JsonUtil.getRetMsg(1, "days 参数异常");
+						}
 					} else {
-						result = JsonUtil.getRetMsg(1, "days 参数异常");
+						result = JsonUtil.getRetMsg(2, "teacherId 参数异常");
 					}
 				} else {
-					result = JsonUtil.getRetMsg(2, "teacherId 参数异常");
+					result = JsonUtil.getRetMsg(3, "用户登录失败");
 				}
+
 			} else {
-				result = JsonUtil.getRetMsg(3, "用户登录失败");
+				result = JsonUtil.getRetMsg(4, "userId 参数异常");
 			}
 
 		} else {
-			result = JsonUtil.getRetMsg(4, "userId 参数异常");
+			result = StringUtil.isVaild;
 		}
 		out.println(result);
 		out.flush();
@@ -101,8 +111,8 @@ public class OpenGurdian extends HttpServlet {
 		String endDate = null;
 		Guardian guardianM = GuardianSer.findIsGuardian(tId, uId);
 		if (guardianM != null) {
-			//续约
-			gurdianId=guardianM.getId();
+			// 续约
+			gurdianId = guardianM.getId();
 			startDate = guardianM.getStartDate();
 			try {
 				Date endD = TimeUtils.parse(guardianM.getEndDate(),
@@ -201,7 +211,7 @@ public class OpenGurdian extends HttpServlet {
 
 		int isSuccess = RollBackUtil.synchrGuardian(guardian, rebate, account,
 				b, detailJ, detailIntegeral, uId, user, account2,
-				detailAccount, contribute, teacher, sysRebate,gurdianId);
+				detailAccount, contribute, teacher, sysRebate, gurdianId);
 		return isSuccess == 1 ? JsonUtil.getOpenGurdianSuccess(guardian)
 				: JsonUtil.getRetMsg(1, "开通守护失败");
 	}

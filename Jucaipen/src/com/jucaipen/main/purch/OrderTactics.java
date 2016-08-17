@@ -3,13 +3,16 @@ package com.jucaipen.main.purch;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.Contribute;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.Rebate;
@@ -24,6 +27,7 @@ import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.service.TacticsSaleSer;
 import com.jucaipen.service.TacticsSer;
 import com.jucaipen.service.UserServer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
@@ -43,46 +47,53 @@ public class OrderTactics extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		ip = request.getRemoteAddr();
-		String userId = request.getParameter("userId");
-		String tacticeId = request.getParameter("tacticsId");
-		String days = request.getParameter("days");
-		String bills = request.getParameter("bills");
-		if (StringUtil.isNotNull(userId)) {
-			if (StringUtil.isInteger(userId)) {
-				int uId = Integer.parseInt(userId);
-				if (uId > 0) {
-					if (StringUtil.isNotNull(tacticeId)) {
-						if (StringUtil.isInteger(tacticeId)) {
-							int tId = Integer.parseInt(tacticeId);
-								if (StringUtil.isNotNull(days)
-										&& StringUtil.isInteger(days)) {
-									int d = Integer.parseInt(days);
-									if (StringUtil.isNotNull(bills)
-											&& StringUtil.isInteger(bills)) {
-										int b = Integer.parseInt(bills);
-										result = orderTactics(uId, tId, d, b);
+		String userAgent = request.getParameter("User-Agent");
+		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
+		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
+		if(isDevice==HeaderUtil.PHONE_APP){
+			String userId = request.getParameter("userId");
+			String tacticeId = request.getParameter("tacticsId");
+			String days = request.getParameter("days");
+			String bills = request.getParameter("bills");
+			if (StringUtil.isNotNull(userId)) {
+				if (StringUtil.isInteger(userId)) {
+					int uId = Integer.parseInt(userId);
+					if (uId > 0) {
+						if (StringUtil.isNotNull(tacticeId)) {
+							if (StringUtil.isInteger(tacticeId)) {
+								int tId = Integer.parseInt(tacticeId);
+									if (StringUtil.isNotNull(days)
+											&& StringUtil.isInteger(days)) {
+										int d = Integer.parseInt(days);
+										if (StringUtil.isNotNull(bills)
+												&& StringUtil.isInteger(bills)) {
+											int b = Integer.parseInt(bills);
+											result = orderTactics(uId, tId, d, b);
+										} else {
+											result = JsonUtil.getRetMsg(7,
+													"bills 参数异常");
+										}
 									} else {
-										result = JsonUtil.getRetMsg(7,
-												"bills 参数异常");
+										result = JsonUtil.getRetMsg(6, "days 参数异常");
 									}
-								} else {
-									result = JsonUtil.getRetMsg(6, "days 参数异常");
-								}
+							} else {
+								result = JsonUtil.getRetMsg(5,
+										"tacticeId 参数数字格式化异常和");
+							}
 						} else {
-							result = JsonUtil.getRetMsg(5,
-									"tacticeId 参数数字格式化异常和");
+							result = JsonUtil.getRetMsg(4, "tacticeId 参数不能为空");
 						}
 					} else {
-						result = JsonUtil.getRetMsg(4, "tacticeId 参数不能为空");
+						result = JsonUtil.getRetMsg(3, "用户还没登录");
 					}
 				} else {
-					result = JsonUtil.getRetMsg(3, "用户还没登录");
+					result = JsonUtil.getRetMsg(2, "userId 参数数字格式化异常");
 				}
 			} else {
-				result = JsonUtil.getRetMsg(2, "userId 参数数字格式化异常");
+				result = JsonUtil.getRetMsg(1, "userId 参数不能为空");
 			}
-		} else {
-			result = JsonUtil.getRetMsg(1, "userId 参数不能为空");
+		}else{
+			result=StringUtil.isVaild;
 		}
 		out.println(result);
 		out.flush();

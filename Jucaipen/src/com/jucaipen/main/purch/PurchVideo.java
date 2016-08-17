@@ -3,13 +3,16 @@ package com.jucaipen.main.purch;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
+import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.MyVideo;
 import com.jucaipen.model.SysAccount;
 import com.jucaipen.model.SysDetailAccount;
@@ -20,6 +23,7 @@ import com.jucaipen.service.MyVideoSer;
 import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.service.VideoServer;
+import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
@@ -27,7 +31,7 @@ import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
  * 
- *         购买视频 
+ *         购买视频
  */
 @SuppressWarnings("serial")
 public class PurchVideo extends HttpServlet {
@@ -41,38 +45,45 @@ public class PurchVideo extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		ip = request.getRemoteAddr();
-		String userId = request.getParameter("userId");
-		String videoId = request.getParameter("videoId");
-		String bills = request.getParameter("bills");
-		String days = request.getParameter("days");
-		if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
-			int uId = Integer.parseInt(userId);
-			if (uId > 0) {
-				if (StringUtil.isNotNull(videoId)
-						&& StringUtil.isInteger(videoId)) {
-					int vId = Integer.parseInt(videoId);
-					if (StringUtil.isNotNull(bills)
-							&& StringUtil.isInteger(bills)) {
-						int b = Integer.parseInt(bills);
-						if (StringUtil.isNotNull(days)
-								&& StringUtil.isInteger(days)) {
-							int d = Integer.parseInt(days);
-							result = purchVideo(uId, vId, b, d);
-						}else{
-							result=JsonUtil.getRetMsg(5,"days 参数异常");
+		String userAgent = request.getParameter("User-Agent");
+		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
+		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
+		if (isDevice == HeaderUtil.PHONE_APP) {
+			String userId = request.getParameter("userId");
+			String videoId = request.getParameter("videoId");
+			String bills = request.getParameter("bills");
+			String days = request.getParameter("days");
+			if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
+				int uId = Integer.parseInt(userId);
+				if (uId > 0) {
+					if (StringUtil.isNotNull(videoId)
+							&& StringUtil.isInteger(videoId)) {
+						int vId = Integer.parseInt(videoId);
+						if (StringUtil.isNotNull(bills)
+								&& StringUtil.isInteger(bills)) {
+							int b = Integer.parseInt(bills);
+							if (StringUtil.isNotNull(days)
+									&& StringUtil.isInteger(days)) {
+								int d = Integer.parseInt(days);
+								result = purchVideo(uId, vId, b, d);
+							} else {
+								result = JsonUtil.getRetMsg(5, "days 参数异常");
+							}
+						} else {
+							result = JsonUtil.getRetMsg(4, "bills 参数异常");
 						}
-					}else{
-						result=JsonUtil.getRetMsg(4,"bills 参数异常");
+					} else {
+						result = JsonUtil.getRetMsg(3, "videoId 参数异常");
 					}
-				}else{
-					result=JsonUtil.getRetMsg(3,"videoId 参数异常");
+				} else {
+					result = JsonUtil.getRetMsg(2, "用户还没登录");
 				}
-			}else{
-				result=JsonUtil.getRetMsg(2,"用户还没登录");
-			}
 
-		}else{
-			result=JsonUtil.getRetMsg(1,"userId 参数异常");
+			} else {
+				result = JsonUtil.getRetMsg(1, "userId 参数异常");
+			}
+		} else {
+			result = StringUtil.isVaild;
 		}
 		out.println(result);
 		out.flush();
@@ -90,10 +101,9 @@ public class PurchVideo extends HttpServlet {
 		}
 
 		// 是否已经购买
-		MyVideo mVideo =MyVideoSer.findIsMyVideo(uId, vId);
+		MyVideo mVideo = MyVideoSer.findIsMyVideo(uId, vId);
 		if (mVideo != null
-				&& TimeUtils.isLive(mVideo.getStartDate(),
-						mVideo.getEndDate())) {
+				&& TimeUtils.isLive(mVideo.getStartDate(), mVideo.getEndDate())) {
 			// 续费
 			return JsonUtil.getRetMsg(5, "当前用户在订阅时间段，不能继续订阅");
 		} else {

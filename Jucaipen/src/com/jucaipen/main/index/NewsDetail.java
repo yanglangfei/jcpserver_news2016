@@ -3,20 +3,22 @@ package com.jucaipen.main.index;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.jucaipen.model.Account;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.HotIdea;
+import com.jucaipen.model.IdeaSale;
 import com.jucaipen.model.JcpNews;
 import com.jucaipen.model.SiteConfig;
 import com.jucaipen.model.TacticsDetails;
+import com.jucaipen.service.AccountSer;
 import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.HotIdeaServ;
+import com.jucaipen.service.IdeaSaleServer;
 import com.jucaipen.service.JcpNewsSer;
 import com.jucaipen.service.ResourceFromServer;
 import com.jucaipen.service.SiteConfigSer;
@@ -49,12 +51,18 @@ public class NewsDetail extends HttpServlet {
 			String typeId=request.getParameter("typeId");
 			String newsId = request.getParameter("newsId");
 			String page=request.getParameter("page");
+			String userId=request.getParameter("userId");
 			if (StringUtil.isNotNull(newsId)) {
 				if (StringUtil.isInteger(newsId)) {
 					int id = Integer.parseInt(newsId);
 					if(StringUtil.isNotNull(typeId)&&StringUtil.isInteger(typeId)){
 						int type=Integer.parseInt(typeId);
-						result=initNewsDetail(id,type,page);
+						if(StringUtil.isNotNull(userId)&&StringUtil.isInteger(userId)){
+							int uId=Integer.parseInt(userId);
+							result=initNewsDetail(id,type,page,uId);
+						}else{
+							result=JsonUtil.getRetMsg(4,"userId 参数异常");
+						}
 					}else{
 						result=JsonUtil.getRetMsg(3,"typeId 参数异常");
 					}
@@ -72,7 +80,7 @@ public class NewsDetail extends HttpServlet {
 		out.close();
 	}
 
-	private String initNewsDetail(int id, int type, String page) {
+	private String initNewsDetail(int id, int type, String page, int uId) {
 		// 初始化新闻详细信息
 		if(type==0){
 			//新闻详细信息
@@ -84,14 +92,30 @@ public class NewsDetail extends HttpServlet {
 			return JsonUtil.getNewsDetails(news);
 		}else if(type==1){
 			//观点详细信息
+			int isPurch=1;
+			int ownJucaiBills=0;
 			HotIdea idea = HotIdeaServ.findIdeaById(id);
 			int tId=idea.getTeacherId();
 			FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(tId);
+			if(uId>0){
+				Account account=AccountSer.findAccountByUserId(uId);
+				IdeaSale sale = IdeaSaleServer.findTxtLiveSaleByUiDAndLiveId(uId, id);
+				if(sale!=null){
+					isPurch=0;
+				}
+				if(account!=null){
+					ownJucaiBills=account.getJucaiBills();
+				}
+			}
 			if(teacher==null){
 				teacher=new FamousTeacher();
 			}
+			idea.setTeacherFace(teacher.getHeadFace());
+			idea.setTeacherName(teacher.getNickName());
+			idea.setIsPurch(isPurch);
+			idea.setOwnJucaiBills(ownJucaiBills);
 			initIdeaHits(tId,id,idea.getHits(),idea.getXnHits(),teacher.getArticleReadCount(),teacher.getXnArticleReadNum());
-			return JsonUtil.getIdeaDetails(idea,teacher);
+			return JsonUtil.getIdeaDetails(idea);
 		}else{
 			//获取战法列表
 			if(StringUtil.isNotNull(page)&&StringUtil.isInteger(page)){

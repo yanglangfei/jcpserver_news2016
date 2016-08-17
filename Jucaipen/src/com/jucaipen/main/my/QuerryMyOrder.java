@@ -19,6 +19,9 @@ import com.jucaipen.utils.StringUtil;
  * @author Administrator
  *
  * 查询我的订单   type   （0 未支付）   （1  已支付）  （2  支付失败）       
+ * 
+ * 
+ * 
  */
 @SuppressWarnings("serial")
 public class QuerryMyOrder extends HttpServlet {
