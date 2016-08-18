@@ -1,5 +1,4 @@
 package com.jucaipen.main.live;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -11,13 +10,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.push.model.PushPayload;
 import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  * 
@@ -68,10 +67,13 @@ public class ActiveList extends HttpServlet {
 			param.clear();
 			param.put("tId", tId + "");
 			String res = LoginUtil.sendHttpPost(GETUser, param);
-			JPushClient client = JPushUtils.getJPush();
-			PushPayload msgObj = JPushUtils.createMsg("msg", "onLine", res,
-					null);
-			JPushUtils.pushMsg(client, msgObj);
+			JSONArray array=JsonUtil.createOnLineArray(res);
+			if(array.length()>0){
+				JPushClient client = JPushUtils.getJPush();
+				PushPayload msgObj = JPushUtils.createMsg("msg", "onLine", array.toString(),
+						null);
+				JPushUtils.pushMsg(client, msgObj);
+			}
 		}
 
 	}

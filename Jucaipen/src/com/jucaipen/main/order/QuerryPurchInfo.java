@@ -105,7 +105,7 @@ public class QuerryPurchInfo extends HttpServlet {
 			//战法信息
 			Tactics tactics=TacticsSer.findTacticsById(fId);
 			TacticsSale sale=TacticsSaleSer.findTacticsIsSale(uId, fId);
-			//// 0     订购期        1  未购买        2  过期
+			// 0     订购期        1  未购买        2  过期
 			if(sale!=null){
 				if(TimeUtils.isLive(sale.getStartDate(), sale.getEndDate())){
 					tactics.setIsOrder(0);

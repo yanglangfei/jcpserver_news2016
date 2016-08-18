@@ -509,6 +509,16 @@
     <servlet-name>PayRecycleAsk</servlet-name>
     <servlet-class>com.jucaipen.main.purch.PayRecycleAsk</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>QuerryNewsType</servlet-name>
+    <servlet-class>com.jucaipen.main.index.QuerryNewsType</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>NewsByType</servlet-name>
+    <servlet-class>com.jucaipen.main.index.NewsByType</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -1039,5 +1049,13 @@
   <servlet-mapping>
     <servlet-name>PayRecycleAsk</servlet-name>
     <url-pattern>/jucaipen/payrecycleask</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryNewsType</servlet-name>
+    <url-pattern>/jucaipen/getnewstype</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>NewsByType</servlet-name>
+    <url-pattern>/jucaipen/newsbytype</url-pattern>
   </servlet-mapping>
 </web-app>

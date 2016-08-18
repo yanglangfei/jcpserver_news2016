@@ -40,7 +40,7 @@ public class JcpNewsImp implements JcpNewsDao {
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -60,16 +60,17 @@ public class JcpNewsImp implements JcpNewsDao {
 			dbConn = JdbcUtil.connSqlServer();
 			if (dbConn != null) {
 				sta = dbConn.createStatement();
+				//SELECT TOP 15 * FROM (select row_number() over(order by InsertDate DESC ) AS row_num , * from JCPNews ) a WHERE row_num>15
 				res = sta
 						.executeQuery("SELECT TOP 15 * FROM "
-								+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc,Id desc) AS RowNumber,* FROM JCPNews) A "
+								+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCPNews) A "
 								+ "WHERE RowNumber > " + 15 * (pager - 1));
 				news = getNews(res, pager, totlePager);
 				return news;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -82,23 +83,28 @@ public class JcpNewsImp implements JcpNewsDao {
 	/*
 	 * 通过分类查询新闻
 	 */
-	public List<JcpNews> findNewsBybigId(int bigId,int samllId, int pager) {
-		int totlePager = findTotlePager(" Where BigId=" + bigId+"  AND SmallId="+samllId);
+	public List<JcpNews> findNewsBybigId(int bigId, int samllId, int pager) {
+		int totlePager = findTotlePager(" Where BigId=" + bigId
+				+ "  AND SmallId=" + samllId);
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 15 Id,Title,ImageUrl,ZhaiYao,HtmlPath,ComeFrom,XnHits,Zan FROM "
+					.executeQuery("SELECT TOP 15 Id,Title,ImageUrl,ZhaiYao,HtmlPath,ComeFrom,XnHits,Zan,InsertDate,Commens FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc ,id desc) AS RowNumber,* FROM JCPNews"
 							+ " WHERE BigId="
-							+ bigId+" AND SmallId="+samllId
+							+ bigId
+							+ " AND SmallId="
+							+ samllId
 							+ ") A "
-							+ "WHERE RowNumber > " + 15 * (pager - 1));
+							+ "WHERE RowNumber > "
+							+ 15
+							* (pager - 1));
 			news = getNewsList(res, pager, totlePager);
 			return news;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -107,7 +113,6 @@ public class JcpNewsImp implements JcpNewsDao {
 		}
 		return null;
 	}
-
 
 	/*
 	 * 查询首页显示新闻
@@ -122,7 +127,7 @@ public class JcpNewsImp implements JcpNewsDao {
 			return news;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -131,7 +136,6 @@ public class JcpNewsImp implements JcpNewsDao {
 		}
 		return null;
 	}
-
 
 	/*
 	 * 查询精选的新闻
@@ -150,7 +154,7 @@ public class JcpNewsImp implements JcpNewsDao {
 			return news;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -173,7 +177,7 @@ public class JcpNewsImp implements JcpNewsDao {
 			return news;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -192,14 +196,14 @@ public class JcpNewsImp implements JcpNewsDao {
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("select * from JCPNews where Id=" + id);
 			news = getNews(res, -1, -1);
-			if(news!=null&&news.size()>0){
+			if (news != null && news.size() > 0) {
 				return news.get(0);
-			}else {
+			} else {
 				return null;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -209,22 +213,22 @@ public class JcpNewsImp implements JcpNewsDao {
 
 		return null;
 	}
-
 
 	/*
 	 * 首页新闻---分类
 	 */
-	public List<JcpNews> findNewsIndex(int bigId,int smallId, int isIndex) {
+	public List<JcpNews> findNewsIndex(int bigId, int smallId, int isIndex) {
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("select * from JCPNews where BigId=" + bigId+" and SmallId="+smallId
-					+ " and IsIndex=" + isIndex + " order by InsertDate desc");
+			res = sta.executeQuery("select * from JCPNews where BigId=" + bigId
+					+ " and SmallId=" + smallId + " and IsIndex=" + isIndex
+					+ " order by InsertDate desc");
 			news = getNews(res, -1, -1);
 			return news;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -235,17 +239,17 @@ public class JcpNewsImp implements JcpNewsDao {
 		return null;
 	}
 
-	public int upDateHits(int xnHits,int hits, int id) {
+	public int upDateHits(int xnHits, int hits, int id) {
 		// 修改点击数
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			isSuccess = sta.executeUpdate("UPDATE JCPNews SET Hits=" + hits
-					+ ",XnHits="+xnHits+" WHERE Id=" + id);
+					+ ",XnHits=" + xnHits + " WHERE Id=" + id);
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -255,17 +259,17 @@ public class JcpNewsImp implements JcpNewsDao {
 		return 0;
 	}
 
-	public int upDateComments(int Commens,int id) {
+	public int upDateComments(int Commens, int id) {
 		// 修改评论数
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			isSuccess = sta.executeUpdate("UPDATE JCPNews SET Commens=" + Commens
-					+ " WHERE Id=" + id);
+			isSuccess = sta.executeUpdate("UPDATE JCPNews SET Commens="
+					+ Commens + " WHERE Id=" + id);
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -276,17 +280,17 @@ public class JcpNewsImp implements JcpNewsDao {
 	}
 
 	/*
-	 * 首页显示新闻
-	 *    全部（不过滤图片）
+	 * 首页显示新闻 全部（不过滤图片）
 	 */
-	public List<JcpNews> findIndexShow(int bigId,int smallId,int top) {
+	public List<JcpNews> findIndexShow(int bigId, int smallId, int top) {
 		news.clear();
 		try {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
-			res = sta
-					.executeQuery("select top "+top+" Id,Title,ImageUrl,ZhaiYao from JCPNews where  BigId="
-							+ bigId + " AND SmallId="+smallId+"  order by InsertDate desc,Id desc");
+			res = sta.executeQuery("select top " + top
+					+ " Id,Title,ImageUrl,ZhaiYao from JCPNews where  BigId="
+					+ bigId + " AND SmallId=" + smallId
+					+ "  order by InsertDate desc,Id desc");
 			while (res.next()) {
 				String title = res.getString(SqlUtil.NEWS_TITLE);
 				int id = res.getInt(SqlUtil.NEWS_ID);
@@ -302,7 +306,7 @@ public class JcpNewsImp implements JcpNewsDao {
 			return news;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -312,7 +316,6 @@ public class JcpNewsImp implements JcpNewsDao {
 		return null;
 	}
 
-	
 	/**
 	 * @param res
 	 * @param pager
@@ -326,11 +329,11 @@ public class JcpNewsImp implements JcpNewsDao {
 				String summary = res.getString(SqlUtil.NEWS_DES);
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				String imageUrl = res.getString(SqlUtil.NEW_IMAGE);
-				int from=res.getInt("ComeFrom");
-				String insertDate=res.getString(SqlUtil.NEWS_INSERT);
-				int comms=res.getInt("Commens");
-				int goods=res.getInt("Zan");
-				int hits=res.getInt("Hits");
+				int from = res.getInt("ComeFrom");
+				String insertDate = res.getString(SqlUtil.NEWS_INSERT);
+				int comms = res.getInt("Commens");
+				int goods = res.getInt("Zan");
+				int xnHits = res.getInt("XnHits");
 				JcpNews n = new JcpNews();
 				n.setId(id);
 				n.setPage(pager);
@@ -338,7 +341,7 @@ public class JcpNewsImp implements JcpNewsDao {
 				n.setTitle(title);
 				n.setDesc(summary);
 				n.setId(id);
-				n.setHits(hits);
+				n.setXnHits(xnHits);
 				n.setZan(goods);
 				n.setComeFrom(from);
 				n.setInsertDate(insertDate);
@@ -349,7 +352,7 @@ public class JcpNewsImp implements JcpNewsDao {
 			return news;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -370,17 +373,17 @@ public class JcpNewsImp implements JcpNewsDao {
 		try {
 			while (res.next()) {
 				int bigId = res.getInt("BigId");
-				int smallId=res.getInt("SmallId");
+				int smallId = res.getInt("SmallId");
 				String title = res.getString(SqlUtil.NEWS_TITLE);
 				String descript = res.getString(SqlUtil.NEWS_DES);
 				int id = res.getInt(SqlUtil.NEWS_ID);
-				int comeFrom=res.getInt("ComeFrom");
+				int comeFrom = res.getInt("ComeFrom");
 				String keyWord = res.getString(SqlUtil.NEWS_KEYWORD);
 				String bodys = res.getString(SqlUtil.NEWS_BODYS);
 				String imageUrl = res.getString(SqlUtil.NEW_IMAGE);
 				String date = res.getString(SqlUtil.NEWS_INSERT);
-				int xnHits=res.getInt("XnHits");
-				int goods=res.getInt("Zan");
+				int xnHits = res.getInt("XnHits");
+				int goods = res.getInt("Zan");
 				JcpNews n = new JcpNews();
 				n.setImageUrl(imageUrl);
 				n.setBodys(bodys);
@@ -402,7 +405,7 @@ public class JcpNewsImp implements JcpNewsDao {
 			return news;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -421,7 +424,7 @@ public class JcpNewsImp implements JcpNewsDao {
 			res = sta.executeQuery("SELECT Title FROM JCPNews WHERE Id=" + id);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -444,10 +447,10 @@ public class JcpNewsImp implements JcpNewsDao {
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);
 				String title = res.getString(SqlUtil.NEWS_TITLE);
-				String image=res.getString(SqlUtil.NEW_IMAGE);
-				String insertDate=res.getString(SqlUtil.NEWS_INSERT);
-				int xnHits=res.getInt("XnHits");
-				int from=res.getInt("ComeFrom");
+				String image = res.getString(SqlUtil.NEW_IMAGE);
+				String insertDate = res.getString(SqlUtil.NEWS_INSERT);
+				int xnHits = res.getInt("XnHits");
+				int from = res.getInt("ComeFrom");
 				JcpNews n = new JcpNews();
 				n.setId(id);
 				n.setTitle(title);
@@ -460,7 +463,7 @@ public class JcpNewsImp implements JcpNewsDao {
 			return news;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -475,17 +478,19 @@ public class JcpNewsImp implements JcpNewsDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			res=sta.executeQuery("SELECT Zan,Hits,XnHits FROM JCPNews WHERE Id="+id);
+			res = sta
+					.executeQuery("SELECT Zan,Hits,XnHits FROM JCPNews WHERE Id="
+							+ id);
 			while (res.next()) {
-				int goods=res.getInt(1);
-				int hits=res.getInt(2);
-				int xnHits=res.getInt(3);
-				JcpNews news=new JcpNews();
+				int goods = res.getInt(1);
+				int hits = res.getInt(2);
+				int xnHits = res.getInt(3);
+				JcpNews news = new JcpNews();
 				news.setZan(goods);
 				news.setHits(hits);
 				news.setXnHits(xnHits);
 				return news;
-				
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -498,12 +503,12 @@ public class JcpNewsImp implements JcpNewsDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			return sta.executeUpdate("UPDATE JCPNews SET Zan="+goods+" WHERE Id="+id);
+			return sta.executeUpdate("UPDATE JCPNews SET Zan=" + goods
+					+ " WHERE Id=" + id);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
-
 
 }

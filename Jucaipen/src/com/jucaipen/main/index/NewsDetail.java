@@ -3,10 +3,12 @@ package com.jucaipen.main.index;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.model.Account;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.FamousTeacher;
@@ -14,6 +16,7 @@ import com.jucaipen.model.HotIdea;
 import com.jucaipen.model.IdeaSale;
 import com.jucaipen.model.JcpNews;
 import com.jucaipen.model.SiteConfig;
+import com.jucaipen.model.Tactics;
 import com.jucaipen.model.TacticsDetails;
 import com.jucaipen.service.AccountSer;
 import com.jucaipen.service.FamousTeacherSer;
@@ -23,6 +26,7 @@ import com.jucaipen.service.JcpNewsSer;
 import com.jucaipen.service.ResourceFromServer;
 import com.jucaipen.service.SiteConfigSer;
 import com.jucaipen.service.TacticsDetailSer;
+import com.jucaipen.service.TacticsSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
@@ -120,8 +124,11 @@ public class NewsDetail extends HttpServlet {
 			//获取战法列表
 			if(StringUtil.isNotNull(page)&&StringUtil.isInteger(page)){
 				int p=Integer.parseInt(page);
+				Tactics tactics=TacticsSer.findTacticsById(id);
+				int teacherId=tactics.getTeacherId();
+				FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(teacherId);
 				List<TacticsDetails> detailsArray=TacticsDetailSer.findDetailsByFkId(id,p);
-				return JsonUtil.getTacticsDetailInfo(detailsArray);
+				return JsonUtil.getTacticsDetailInfo(detailsArray,teacher);
 			}else{
 				return JsonUtil.getRetMsg(7,"page 参数异常");
 			}

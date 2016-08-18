@@ -1295,7 +1295,7 @@ public class RollBackUtil {
 			// 3、账户总表 JCP_Account
 			int newIntegeral = b + acount.getIntegeral();
 			sta.executeUpdate("UPDATE JCP_Account SET Integral=" + newIntegeral
-					+ "  AND JucaiBi=" + (acount.getJucaiBills() - b)
+					+ " , JucaiBi=" + (acount.getJucaiBills() - b)
 					+ " WHERE UserId=" + uId);
 
 			// 4、用户表积分 JCP_User
@@ -1437,7 +1437,7 @@ public class RollBackUtil {
 			// 3、账户总表 JCP_Account
 			int newIntegeral = b + account.getIntegeral();
 			sta.executeUpdate("UPDATE JCP_Account SET Integral=" + newIntegeral
-					+ "  AND JucaiBi=" + (account.getJucaiBills() - b)
+					+ ", JucaiBi=" + (account.getJucaiBills() - b)
 					+ " WHERE UserId=" + uId);
 
 			// 4、用户表积分 JCP_User
@@ -1579,7 +1579,7 @@ public class RollBackUtil {
 			// 3、账户总表 JCP_Account
 			int newIntegeral = b + account.getIntegeral();
 			sta.executeUpdate("UPDATE JCP_Account SET Integral=" + newIntegeral
-					+ "  AND JucaiBi=" + (account.getJucaiBills() - b)
+					+ " , JucaiBi=" + (account.getJucaiBills() - b)
 					+ " WHERE UserId=" + uId);
 
 			// 4、用户表积分 JCP_User
@@ -1746,7 +1746,7 @@ public class RollBackUtil {
 			// 3、账户总表 JCP_Account
 			int newIntegeral = bs + account.getIntegeral();
 			sta.executeUpdate("UPDATE JCP_Account SET Integral=" + newIntegeral
-					+ "  AND JucaiBi=" + (account.getJucaiBills() - bs)
+					+ " , JucaiBi=" + (account.getJucaiBills() - bs)
 					+ " WHERE UserId=" + uId);
 
 			// 4、用户表积分 JCP_User
@@ -1924,13 +1924,15 @@ public class RollBackUtil {
 	 * @param detailAccount
 	 * @param ask
 	 * @param detailAccount2
-	 * @param bs 
-	 * @param accountDetailIntegeral 
+	 * @param bs
+	 * @param accountDetailIntegeral
 	 * @return 付费追问
 	 */
 	public static int payRecycleAsk(Ask ask, SysDetailAccount detailAccount,
 			SysAccount sysAccount, int uId, User user, Account account,
-			AccountDetail accountDetail, int aId, SysDetailAccount detailAccount2, int bs, AccountDetail accountDetailIntegeral) {
+			AccountDetail accountDetail, int aId,
+			SysDetailAccount detailAccount2, int bs,
+			AccountDetail accountDetailIntegeral) {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			dbConn.setAutoCommit(false);
@@ -1982,7 +1984,7 @@ public class RollBackUtil {
 					+ accountDetail.getRemark() + "','"
 					+ accountDetail.getInsertDate() + "'," + 0 + ","
 					+ accountDetail.getUserId() + ")");
-			//积分增加
+			// 积分增加
 			sta.executeUpdate("INSERT INTO JCP_Account_Detail"
 					+ "(OrderCode,DetailMoney,DetailType,State,Remark,"
 					+ "InsertDate,IsDel,UserId) VALUES ('"
@@ -1994,11 +1996,10 @@ public class RollBackUtil {
 					+ accountDetailIntegeral.getInsertDate() + "'," + 0 + ","
 					+ accountDetailIntegeral.getUserId() + ")");
 
-
 			// 3、账户总表 JCP_Account
-			int newIntegeral =  + account.getIntegeral();
+			int newIntegeral = +account.getIntegeral();
 			sta.executeUpdate("UPDATE JCP_Account SET Integral=" + newIntegeral
-					+ "  AND JucaiBi=" + (account.getJucaiBills() - bs)
+					+ " , JucaiBi=" + (account.getJucaiBills() - bs)
 					+ " WHERE UserId=" + uId);
 
 			// 4、用户表积分 JCP_User
@@ -2027,9 +2028,8 @@ public class RollBackUtil {
 					+ detailAccount.getOrderId() + ","
 					+ detailAccount.getPrice() + ",'"
 					+ detailAccount.getInsertDate() + "','"
-					+ detailAccount.getRemark() + "','"
-					+ detailAccount.getIp() + "',"
-					+ detailAccount.getIsDel() + ")");
+					+ detailAccount.getRemark() + "','" + detailAccount.getIp()
+					+ "'," + detailAccount.getIsDel() + ")");
 			dbConn.commit();
 			return 1;
 		} catch (SQLException e) {

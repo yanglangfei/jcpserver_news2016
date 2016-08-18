@@ -85,9 +85,11 @@ public class VideoLiveMsgTask extends TimerTask{
 				liveMsg.setReceiverFace(toUser.getFaceImage());
 			}
 			String pushMsg=JsonUtil.createLiveMsg(msgObjs,true,uId);
-			JPushClient client = JPushUtils.getJPush();
-			PushPayload msgs = JPushUtils.createMsg("msg", "liveMsg", pushMsg, null);
-		    JPushUtils.pushMsg(client, msgs);
+			if(msgObjs.size()>0&&pushMsg.length()>0){
+				JPushClient client = JPushUtils.getJPush();
+				PushPayload msgs = JPushUtils.createMsg("msg", "liveMsg", pushMsg, null);
+			    JPushUtils.pushMsg(client, msgs);
+			}
 		    if(msgObjs.size()>0){
 				if(isM){
 					maxId=  msgObjs.get(msgObjs.size()-1).getId();
