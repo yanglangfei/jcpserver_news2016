@@ -20,9 +20,9 @@ import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
 /**
- * @author Administrator   getlogcomments
+ * @author Administrator
  * 
- *        获取日志 文字直播 评论回复信息 commType 评论类型 0 日志评论 1 文字直播评论
+ *         获取日志 文字直播 评论回复信息 commType 评论类型 0 日志评论 1 文字直播评论
  */
 @SuppressWarnings("serial")
 public class QuerryComments extends HttpServlet {
@@ -84,10 +84,10 @@ public class QuerryComments extends HttpServlet {
 		users.clear();
 		List<Comment> comms;
 		if (type == 0) {
-			//日志
+			// 日志
 			comms = CommentSer.findCommenBykId(index, p, pId, 1);
 		} else {
-			//文字直播
+			// 文字直播
 			comms = CommentSer.findCommenBykId(index, p, pId, 2);
 		}
 		for (Comment comment : comms) {

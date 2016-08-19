@@ -18,7 +18,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取相关新闻 返回参数: id title from remarks insertDate image
+ *         获取相关新闻
  * 
  */
 @SuppressWarnings("serial")

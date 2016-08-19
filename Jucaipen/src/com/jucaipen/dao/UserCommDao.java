@@ -60,5 +60,5 @@ public interface UserCommDao {
 	 * @return 修改评论信息 回复数
 	 */
 	public int updateCommentRespCount(int id, int respCount);
-
+	
 }

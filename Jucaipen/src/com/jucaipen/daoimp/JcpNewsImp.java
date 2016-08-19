@@ -90,7 +90,7 @@ public class JcpNewsImp implements JcpNewsDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 15 Id,Title,ImageUrl,ZhaiYao,HtmlPath,ComeFrom,XnHits,Zan,InsertDate,Commens FROM "
+					.executeQuery("SELECT TOP 15 Id,Title,ImageUrl,ZhaiYao,HtmlPath,ComeFrom,XnHits,Zan,InsertDate,Commens,Hits FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc ,id desc) AS RowNumber,* FROM JCPNews"
 							+ " WHERE BigId="
 							+ bigId
@@ -334,6 +334,7 @@ public class JcpNewsImp implements JcpNewsDao {
 				int comms = res.getInt("Commens");
 				int goods = res.getInt("Zan");
 				int xnHits = res.getInt("XnHits");
+				int hits=res.getInt("Hits");
 				JcpNews n = new JcpNews();
 				n.setId(id);
 				n.setPage(pager);
@@ -344,6 +345,7 @@ public class JcpNewsImp implements JcpNewsDao {
 				n.setXnHits(xnHits);
 				n.setZan(goods);
 				n.setComeFrom(from);
+				n.setHits(hits);
 				n.setInsertDate(insertDate);
 				n.setComms(comms);
 				n.setImageUrl(imageUrl);
@@ -384,10 +386,12 @@ public class JcpNewsImp implements JcpNewsDao {
 				String date = res.getString(SqlUtil.NEWS_INSERT);
 				int xnHits = res.getInt("XnHits");
 				int goods = res.getInt("Zan");
+				int hits=res.getInt("Hits");
 				JcpNews n = new JcpNews();
 				n.setImageUrl(imageUrl);
 				n.setBodys(bodys);
 				n.setId(id);
+				n.setHits(hits);
 				n.setSmallId(smallId);
 				n.setBigId(bigId);
 				n.setTitle(title);

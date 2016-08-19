@@ -22,10 +22,9 @@ import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
 /**
- * @author Administrator 问答 type 0 全部 返回参数： id image userName askDate askBody
- *         isReply [{"page":1,"totlePage":6,"askId":83,
- *         "userName":"zhang","insertDate":"2016-03-04",
- *         "askBodys":"2","headFace":"","isReply":2} 1 根据讲师id获取：
+ * @author Administrator 问答 
+ *                           type 0 全部 
+ *                                1 根据讲师id获取：
  */
 @SuppressWarnings("serial")
 public class Question extends HttpServlet {

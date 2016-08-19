@@ -90,6 +90,13 @@ public class UserCommImp implements UserCommDao {
 	@Override
 	public int cancelComm(int id) {
 		// É¾³ýÆÀÂÛÐÅÏ¢
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("DELETE FROM JCP_User_Comm WHERE Id="+id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return 0;
 	}
 

@@ -18,7 +18,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *  获取视频 证券知识 评论回复信息 commType 评论类型 0 视频评论 1 知识评论
+ *  获取视频 证券知识 评论回复信息 commType 评论类型 0 视频评论 1 资讯评论
  */
 @SuppressWarnings("serial")
 public class PlayComment extends HttpServlet {
@@ -82,7 +82,7 @@ public class PlayComment extends HttpServlet {
 			// 视频
 			comms = UserCommSer.findCommenBykId(fId, p, pId, 1);
 		} else {
-			// 证券知识
+			// 资讯
 			comms = UserCommSer.findCommenBykId(fId, p, pId, 0);
 		}
 		for (UserComm comm : comms) {

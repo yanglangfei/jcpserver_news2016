@@ -15,7 +15,7 @@ import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
 /**
- * @author Administrator 获取学院基础知识 分类信息 getbasetype
+ * @author Administrator 获取学院基础知识 分类信息 
  * 
  */
 @SuppressWarnings("serial")
@@ -52,7 +52,7 @@ public class BaseKnowType extends HttpServlet {
 	}
 
 	private String initBaseType(int pId, int lId) {
-		// 初始化学院分类信息
+		//初始化学院分类信息
 		List<KnowledgeClass> knowTypes = KnowledgeClassSer
 				.findKnowClassByPid(pId);
 		if (lId == 0) {

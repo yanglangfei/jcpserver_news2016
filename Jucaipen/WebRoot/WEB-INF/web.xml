@@ -517,6 +517,11 @@
     <servlet-name>NewsByType</servlet-name>
     <servlet-class>com.jucaipen.main.index.NewsByType</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>RemoveMyData</servlet-name>
+    <servlet-class>com.jucaipen.main.user.RemoveMyData</servlet-class>
+  </servlet>
+
 
 
 
@@ -1057,5 +1062,9 @@
   <servlet-mapping>
     <servlet-name>NewsByType</servlet-name>
     <url-pattern>/jucaipen/newsbytype</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RemoveMyData</servlet-name>
+    <url-pattern>/jucaipen/delmydata</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -113,6 +113,5 @@ public class AnswerDetails extends HttpServlet {
 	private void initHits(int id, int hits, int xnHits) {
 		SiteConfig config = SiteConfigSer.findSiteConfig();
 		AskSer.updateHits(id, hits + 1, xnHits + config.getNewsMom());
-
 	}
 }

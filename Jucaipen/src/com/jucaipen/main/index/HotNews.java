@@ -14,16 +14,13 @@ import com.jucaipen.service.ResourceFromServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
- * 
  *         获取今日热点 isIndex 
  *         0 首页   首页   精选
  *         1 全部数据
  *      
  */
-
 @SuppressWarnings("serial")
 public class HotNews extends HttpServlet {
 	private String result;
@@ -73,7 +70,6 @@ public class HotNews extends HttpServlet {
 
 	private String initAllData(int page) {
 		// 获取全部今日热点信息
-		
 		news = JcpNewsSer.findAll(page);
 		for (JcpNews n : news) {
 			int fromId = n.getComeFrom();
@@ -93,7 +89,6 @@ public class HotNews extends HttpServlet {
 			n.setFrom(from);
 		}
 		return JsonUtil.getNewsList(news);
-
 	}
 
 }

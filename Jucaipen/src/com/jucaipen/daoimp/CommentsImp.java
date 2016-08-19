@@ -78,7 +78,7 @@ public class CommentsImp implements CommentDao {
 							+ comment.getParentId() + ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -91,6 +91,15 @@ public class CommentsImp implements CommentDao {
 	@Override
 	public int cancelComm(int id) {
 		// 删除评论
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("DELETE FROM JCP_LogOrLive_Comm WHERE Id="
+					+ id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 		return 0;
 	}
 
@@ -117,7 +126,7 @@ public class CommentsImp implements CommentDao {
 				int goods = res.getInt("Goods"); // Goods
 				int repNum = res.getInt("RepCount"); // RepCount
 				int fkId = res.getInt("FK_LogOrLiveId"); // FK_LogOrLiveId
-				if(TimeUtils.isToday(insertDate)){
+				if (TimeUtils.isToday(insertDate)) {
 					Comment comment = new Comment();
 					comment.setId(id);
 					comment.setBodys(bodys);
@@ -135,7 +144,7 @@ public class CommentsImp implements CommentDao {
 			return comments;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -151,7 +160,8 @@ public class CommentsImp implements CommentDao {
 		// 根据相关观点日志 文字直播获取评论 回复信息
 		comments.clear();
 		int totlePage = getTotlePage("WHERE FK_LogOrLiveId=" + fkId
-				+ " AND CommType=" + type + " AND ParentId=" + parentId+" AND IsShow=1");
+				+ " AND CommType=" + type + " AND ParentId=" + parentId
+				+ " AND IsShow=1");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
@@ -159,8 +169,8 @@ public class CommentsImp implements CommentDao {
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_LogOrLive_Comm WHERE FK_LogOrLiveId="
 							+ fkId + " AND CommType=" + type + " AND ParentId="
-							+ parentId + " AND IsShow=1) A " + "WHERE RowNumber > " + 15
-							* (page - 1));
+							+ parentId + " AND IsShow=1) A "
+							+ "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id"); // Id
 				int userId = res.getInt("FK_UserId");
@@ -186,7 +196,7 @@ public class CommentsImp implements CommentDao {
 			return comments;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -228,7 +238,7 @@ public class CommentsImp implements CommentDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -248,7 +258,7 @@ public class CommentsImp implements CommentDao {
 					+ goodNum + " WHERE Id=" + id);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -268,7 +278,7 @@ public class CommentsImp implements CommentDao {
 					+ respCount + " WHERE Id=" + id);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -290,8 +300,8 @@ public class CommentsImp implements CommentDao {
 			res = sta
 					.executeQuery("SELECT TOP 15 * FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_LogOrLive_Comm WHERE FK_UserId="
-							+ uId + " AND CommType=" + type + ") A " + "WHERE RowNumber > " + 15
-							* (page - 1));
+							+ uId + " AND CommType=" + type + ") A "
+							+ "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
 				int id = res.getInt("Id"); // Id
 				String bodys = res.getString("Bodys"); // Bodys
@@ -315,7 +325,7 @@ public class CommentsImp implements CommentDao {
 			return comments;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {

@@ -21,7 +21,6 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class QuerryAttention extends HttpServlet {
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -71,5 +70,4 @@ public class QuerryAttention extends HttpServlet {
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }

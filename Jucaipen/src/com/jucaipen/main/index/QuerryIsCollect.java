@@ -16,12 +16,12 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  *
- *  获取收藏状态    0   视频收藏状态      1    知识收藏状态
+ *  获取收藏状态    0   视频收藏状态      
+ *             1    知识收藏状态
  */
 @SuppressWarnings("serial")
 public class QuerryIsCollect extends HttpServlet {
 	private String result;
-
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
