@@ -74,7 +74,6 @@ public class RelateVideo extends HttpServlet {
 				isPurch=1;
 			}
 		}
-		
 		List<Video> videos;
 		if(type==0){
 			//œ‡πÿ ”∆µ        ----classId  
