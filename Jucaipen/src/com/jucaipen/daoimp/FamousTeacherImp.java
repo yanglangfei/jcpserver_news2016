@@ -206,6 +206,8 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				int dayPrice=result.getInt("DayPrice");
 				int renQi=result.getInt("LiveRenQi");
 				int askNum=result.getInt("AskNum");
+				int isTxtFree=result.getInt("TxtLiveIsFree");
+				int txtPrice=result.getInt("TxtLivePrice");
 				int answerPrice=result.getInt("AnswerPrice");
 				String videoUrl=result.getString("VideoLiveUrl");
 				int isUserLive=result.getInt("IsUserLiveUrl");
@@ -217,6 +219,8 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				teacher.setPage(page);
 				teacher.setTotlePage(totlePage);
 				teacher.setId(id);
+				teacher.setTxtLiveFree(isTxtFree);
+				teacher.setTxtLivePrice(txtPrice);
 				teacher.setXnLiveRenQi(xnLive);
 				teacher.setVideoLiveUrl(videoUrl);
 				teacher.setAnswerCount(answerCount);

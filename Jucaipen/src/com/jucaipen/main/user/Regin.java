@@ -98,46 +98,11 @@ public class Regin extends HttpServlet {
 		String msg = object.getString("Msg");
 		if (res) {
 			// 注册成功处理
-			//int userId=object.getInt("ActionId");
-		//	handleIntegeral(investCode, userId, telPhone);
 			return JsonUtil.getRetMsg(0, msg);
 		} else {
 			// 注册失败处理
 			return JsonUtil.getRetMsg(1, msg);
 		}
 	}
-
-/*	public void handleIntegeral(String investCode,int userId,String telPhone) {
-		SiteConfig config = SiteConfigSer.findSiteConfig();
-		if (StringUtil.isNotNull(investCode)) {
-			// 更新邀请人积分信息
-			int recoIntegeral = config.getRecommIntegeral();
-			User user = UserServer.findUserByInvestCode(investCode);
-			UserServer.updateIntegeral(user.getId(), user.getAllIntegral()
-					+ recoIntegeral);
-		}
-
-		// 注册成功 送积分
-		int regIntegeral = config.getRegIntegeral();
-		Account account = new Account();
-		account.setUserId(userId);
-		account.setIntegeral(regIntegeral);
-		account.setJucaiBills(0);
-		// 更新总账户积分信息
-		Account a = AccountSer.findAccountById(userId);
-		if(a==null){
-			AccountSer.addAccount(account);
-		}
-		RebateIntegeralDetail inDetail = new RebateIntegeralDetail();
-		inDetail.setUserId(userId);
-		inDetail.setType(2);
-		inDetail.setIntegralNum(regIntegeral);
-		inDetail.setInsertDate(TimeUtils.format(new Date(),
-				"yyyy-MM-dd HH:mm:ss"));
-		inDetail.setRemark("新用户注册【" + telPhone + "】");
-		inDetail.setFromId(userId);
-		// 更新返利信息
-		RebateIntegeralDetailSer.addRebateIntegeral(inDetail);
-	}*/
 
 }

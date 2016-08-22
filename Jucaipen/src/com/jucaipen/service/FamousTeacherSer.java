@@ -37,8 +37,6 @@ public class FamousTeacherSer {
 		FamousTeacherDao dao=new FamousTeacherImp();
 		return dao.updateIdeaReadNum(id, readNum, xnNum);
 	}
-	
-	
 
 	/**
 	 * @return  获取首页统计数据  （人气    观点   回答数   粉丝数）

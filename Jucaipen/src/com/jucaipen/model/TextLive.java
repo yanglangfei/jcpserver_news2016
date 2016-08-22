@@ -55,6 +55,8 @@ public class TextLive implements Serializable{
 	 * 讲师id
 	 */
 	private int teacherId;
+	
+	private int ownJucaiBills;
 	/**
 	 * 是否结束（1未开始，2进行中，3已结束）   
 	 */
@@ -62,6 +64,12 @@ public class TextLive implements Serializable{
 	
 	
 	
+	public int getOwnJucaiBills() {
+		return ownJucaiBills;
+	}
+	public void setOwnJucaiBills(int ownJucaiBills) {
+		this.ownJucaiBills = ownJucaiBills;
+	}
 	public boolean isCharge() {
 		return isCharge;
 	}

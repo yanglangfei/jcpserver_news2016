@@ -47,11 +47,18 @@ public class NewsByType extends HttpServlet {
 	}
 
 	private String getNewsByType(int small, int page) {
-		List<JcpNews> news = JcpNewsSer.findNewsBybigId(2, small, page);
-		for (JcpNews n : news) {
-			int fromId = n.getComeFrom();
-			String from = ResourceFromServer.getRSources(fromId);
-			n.setFrom(from);
+		List<JcpNews> news;
+		if(small==0){
+			news = JcpNewsSer.findAll(page);
+		}else{
+			 news = JcpNewsSer.findNewsBybigId(2, small, page);
+		}
+		if(news!=null){
+			for (JcpNews n : news) {
+				int fromId = n.getComeFrom();
+				String from = ResourceFromServer.getRSources(fromId);
+				n.setFrom(from);
+			}
 		}
 		return JsonUtil.getNewsList(news);
 	}

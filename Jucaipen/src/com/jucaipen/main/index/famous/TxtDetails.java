@@ -73,7 +73,8 @@ public class TxtDetails extends HttpServlet {
 				.findTextDetaileByLiveId(tId,0);
 		if(txtDetails!=null){
 			for(TxtLiveDetails detail : txtDetails){
-				if(uId>0&&teacher.getTxtLiveFree()!=0){
+				int isTxtFree=teacher.getTxtLiveFree();
+				if(uId>0&&isTxtFree==0){
 					LiveDetailSale sale = LiveDetailSaleSer.findSaleByUserIdAndTxtIdAndDetailId(uId, detail.getId());
 				    if(sale!=null){
 				    	isPurch=0;
@@ -81,8 +82,10 @@ public class TxtDetails extends HttpServlet {
 				    	isPurch=1;
 				    }
 				}
+				if(isTxtFree==1){
+					detail.setIsFree(0);
+				}
 				detail.setIsPurch(isPurch);
-				
 			}
 		}
 		initTxtHits(tId,live.getHits(),live.getXnHits());

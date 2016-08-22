@@ -15,18 +15,19 @@ import com.jucaipen.service.HotIdeaServ;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
+
 /**
  * @author Administrator
  * 
- *         获取讲师观点 isIndex 
- *                   0   首页 
- *                   1   全部 
- *                   2   根据讲师id查询
+ *         获取讲师观点 isIndex 0 首页 
+ *                           1 全部 
+ *                           2 根据讲师id查询
  */
 @SuppressWarnings("serial")
 public class TeacherIdea extends HttpServlet {
 	private String result;
 	private List<HotIdea> hotIdeas;
+
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -84,8 +85,7 @@ public class TeacherIdea extends HttpServlet {
 
 	private String initIdeaByTeacherId(int tId, int page) {
 		// 根据讲师id获取观点
-		FamousTeacher teacher = FamousTeacherSer
-				.findFamousTeacherById(tId);
+		FamousTeacher teacher = FamousTeacherSer.findFamousTeacherById(tId);
 		hotIdeas = HotIdeaServ.findIdeaByTeacherId(tId, page);
 		for (HotIdea idea : hotIdeas) {
 			if (teacher == null) {

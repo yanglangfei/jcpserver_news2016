@@ -23,7 +23,6 @@ public class UserCommImp implements UserCommDao {
 	private Statement sta;
 	private ResultSet res;
 	private List<UserComm> comments = new ArrayList<UserComm>();
-
 	/**
 	 * @return 查询证券知识 视频总页数
 	 */

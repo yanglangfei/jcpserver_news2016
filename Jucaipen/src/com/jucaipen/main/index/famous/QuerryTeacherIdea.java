@@ -43,10 +43,7 @@ import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
 
 /**
- * @author Administrator type (0 观点)
- *                            (1 问答)
- *                            (2 文字直播) 
- *                            (3 视频直播)
+ * @author Administrator type (0 观点) (1 问答) (2 文字直播) (3 视频直播)
  */
 @SuppressWarnings("serial")
 public class QuerryTeacherIdea extends HttpServlet {
@@ -62,7 +59,7 @@ public class QuerryTeacherIdea extends HttpServlet {
 		String teacherId = request.getParameter("teacherId");
 		String typeId = request.getParameter("typeId");
 		String page = request.getParameter("page");
-		String userId=request.getParameter("userId");
+		String userId = request.getParameter("userId");
 		if (StringUtil.isNotNull(teacherId)) {
 			if (StringUtil.isInteger(teacherId)) {
 				int tId = Integer.parseInt(teacherId);
@@ -75,10 +72,12 @@ public class QuerryTeacherIdea extends HttpServlet {
 						if (StringUtil.isNotNull(isIndex)
 								&& StringUtil.isInteger(isIndex)) {
 							int index = Integer.parseInt(isIndex);
-							if(StringUtil.isNotNull(userId)&&StringUtil.isInteger(userId)){
-								int uId=Integer.parseInt(userId);
-								result = initTeacherIdeaData(tId, type, p, index,uId);
-							}else{
+							if (StringUtil.isNotNull(userId)
+									&& StringUtil.isInteger(userId)) {
+								int uId = Integer.parseInt(userId);
+								result = initTeacherIdeaData(tId, type, p,
+										index, uId);
+							} else {
 								result = JsonUtil.getRetMsg(6, "userId 参数异常");
 							}
 						} else {
@@ -101,12 +100,13 @@ public class QuerryTeacherIdea extends HttpServlet {
 		out.close();
 	}
 
-	private String initTeacherIdeaData(int tId, int type, int p, int isIndex, int usId) {
+	private String initTeacherIdeaData(int tId, int type, int p, int isIndex,
+			int usId) {
 		// 初始化讲师热门观点 问答 文字直播 直播信息
-		FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(tId);
-		int isPurch=1;
-		if(usId<=0){
-			isPurch=1;
+		FamousTeacher teacher = FamousTeacherSer.findFamousTeacherById(tId);
+		int isPurch = 1;
+		if (usId <= 0) {
+			isPurch = 1;
 		}
 		if (type == 0) {
 			// 热门观点
@@ -117,20 +117,22 @@ public class QuerryTeacherIdea extends HttpServlet {
 			} else {
 				ideas = HotIdeaServ.findIdeaByTeacherId(tId, p);
 			}
-			
-			if(ideas!=null){
-				for(HotIdea idea : ideas){
-					//1   收费    0  免费
-					int isPay=idea.getIsFree();
-					if(isPay==1){
-						IdeaSale sale=IdeaSaleServer.findTxtLiveSaleByUiDAndLiveId(usId,idea.getId());
-						if(sale!=null){
-							isPurch=0;
-						}else{
-							isPurch=1;
+
+			if (ideas != null) {
+				for (HotIdea idea : ideas) {
+					// 1 收费 0 免费
+					int isPay = idea.getIsFree();
+					if (isPay == 1) {
+						IdeaSale sale = IdeaSaleServer
+								.findTxtLiveSaleByUiDAndLiveId(usId,
+										idea.getId());
+						if (sale != null) {
+							isPurch = 0;
+						} else {
+							isPurch = 1;
 						}
-					}else{
-						isPurch=1;
+					} else {
+						isPurch = 1;
 					}
 					idea.setIsPurch(isPurch);
 				}
@@ -157,66 +159,70 @@ public class QuerryTeacherIdea extends HttpServlet {
 				if (user == null) {
 					user = new User();
 				}
-				int isPay=ask.getIsPay();
-				if(isPay==1){
-					AnswerSale sale=AnswerSaleSer.findSaleByUserIdAndAskId(usId, ask.getId());
-					if(sale!=null||usId==uId){
-						isPurch=0;
-					}else{
-						isPurch=1;
+				int isPay = ask.getIsPay();
+				if (isPay == 1) {
+					AnswerSale sale = AnswerSaleSer.findSaleByUserIdAndAskId(
+							usId, ask.getId());
+					if (sale != null || usId == uId) {
+						isPurch = 0;
+					} else {
+						isPurch = 1;
 					}
-					
-				}else{
-					if(usId==uId){
-						isPurch=0;
-					}else{
-						isPurch=1;
+
+				} else {
+					if (usId == uId) {
+						isPurch = 0;
+					} else {
+						isPurch = 1;
 					}
 				}
 				ask.setIsPurch(isPurch);
 				users.add(user);
 			}
-			return JsonUtil.getAskList(asks, users,0);
+			return JsonUtil.getAskList(asks, users, 0);
 		} else if (type == 2) {
 			// 文字直播
-			TextLive txt=null;
+			TextLive txt = null;
 			List<TextLive> txts = TxtLiveSer.findTxtLiveByTeacherIdAndLast(tId,
 					1);
 			List<TextLive> allTxts;
 			if (isIndex == 0) {
 				// 首页
-				allTxts = TxtLiveSer.findTxtLiveByTeacherIdAndLast(tId, 3);
+				allTxts = TxtLiveSer.findTxtLiveByTeacherIdAndLast(tId, 1);
+				return JsonUtil.getIndexTxtArray(allTxts);
 			} else {
 				allTxts = TxtLiveSer.findTextLiveByTeacherId(tId, p);
 			}
-			if(txts!=null&&txts.size()>0){
-				txt=txts.get(0);
-				txt.setCharge(teacher.getTxtLiveFree()==1);
+			if (txts != null && txts.size() > 0) {
+				txt = txts.get(0);
+				txt.setCharge(teacher.getTxtLiveFree() == 1);
 				txt.setTxtPrice(teacher.getTxtLivePrice());
-				if(usId>0&&txt.isCharge()){
-					TxtLiveSale sale=TxtLiveSaleSer.findSaleByUidAndTxtId(usId, txt.getId());
-					if(sale!=null){
+				if (usId > 0 && txt.isCharge()) {
+					TxtLiveSale sale = TxtLiveSaleSer.findSaleByUidAndTxtId(
+							usId, txt.getId());
+					if (sale != null) {
 						txt.setIsPurch(0);
-					}else{
+					} else {
 						txt.setIsPurch(1);
 					}
-				}else{
+				} else {
 					txt.setIsPurch(1);
 				}
 			}
-			
-			if(allTxts!=null){
-				for(TextLive tx : allTxts){
-					tx.setCharge(teacher.getTxtLiveFree()==1);
+
+			if (allTxts != null) {
+				for (TextLive tx : allTxts) {
+					tx.setCharge(teacher.getTxtLiveFree() == 1);
 					tx.setTxtPrice(teacher.getTxtLivePrice());
-					if(usId>0&&txt.isCharge()){
-						TxtLiveSale sale=TxtLiveSaleSer.findSaleByUidAndTxtId(usId, txt.getId());
-						if(sale!=null){
+					if (usId > 0 && txt.isCharge()) {
+						TxtLiveSale sale = TxtLiveSaleSer
+								.findSaleByUidAndTxtId(usId, txt.getId());
+						if (sale != null) {
 							tx.setIsPurch(0);
-						}else{
+						} else {
 							tx.setIsPurch(1);
 						}
-					}else{
+					} else {
 						tx.setIsPurch(1);
 					}
 				}
@@ -224,56 +230,66 @@ public class QuerryTeacherIdea extends HttpServlet {
 			return JsonUtil.getTxtLiveByTeacherId(txt, allTxts);
 		} else {
 			// 直播
-		    VideoLive live = VideoLiveServer.findLiveBytId(tId);
-			if(live!=null){
-				live.setLiveVideo(teacher.getIsUserLiveUrl()==1);
-				live.setCharge(teacher.getLiveFree()==1);
+			VideoLive live = VideoLiveServer.findLiveBytId(tId);
+			if (live != null) {
+				live.setLiveVideo(teacher.getIsUserLiveUrl() == 1);
+				live.setCharge(teacher.getLiveFree() == 1);
 				live.setLivePrice(teacher.getLivePrice());
 				live.setVideoUrl(teacher.getVideoLiveUrl());
-				if(usId>0&&live.isCharge()){
-					VideoLiveSale sale=VideoLiveSaleSer.findSaleByUidAndLiveId(usId, live.getId());
-					if(sale!=null){
+				if (usId > 0 && live.isCharge()) {
+					VideoLiveSale sale = VideoLiveSaleSer
+							.findSaleByUidAndLiveId(usId, live.getId());
+					if (sale != null) {
 						live.setIsPurch(0);
-					}else{
+					} else {
 						live.setIsPurch(1);
 					}
-				}else{
+				} else {
 					live.setIsPurch(1);
 				}
+			}
+
+			if (isIndex == 0) {
+				// 首页
+				return JsonUtil.getIndexVideoLive(live);
 			}
 			List<Video> videos = VideoServer.findVideoByTeacherId(tId, p);
 			if (videos != null) {
 				for (Video video : videos) {
 					// 是否为付费视频 0为免费视频，1为付费视频
 					int videoType = video.getVideoType();
-					int specialId=video.getPecialId();
+					int specialId = video.getPecialId();
 					video.setCharge(videoType == 1);
-					if(video.isCharge()){
-						if(specialId>0){
-							MySpecial mSpecial=MySpecialSer.getIsMySpecial(usId, specialId);
-							if(mSpecial!=null){
-								if(TimeUtils.isLive(mSpecial.getStartDate(), mSpecial.getEndDate())){
+					if (video.isCharge()) {
+						if (specialId > 0) {
+							MySpecial mSpecial = MySpecialSer.getIsMySpecial(
+									usId, specialId);
+							if (mSpecial != null) {
+								if (TimeUtils.isLive(mSpecial.getStartDate(),
+										mSpecial.getEndDate())) {
 									video.setIsPurch(0);
-								}else{
+								} else {
 									video.setIsPurch(1);
 								}
-							}else{
+							} else {
 								video.setIsPurch(1);
 							}
-							
-						}else{
-							MyVideo mVideo=MyVideoSer.findIsMyVideo(usId, video.getId());
-							if(mVideo!=null){
-								if(TimeUtils.isLive(mVideo.getStartDate(), mVideo.getEndDate())){
+
+						} else {
+							MyVideo mVideo = MyVideoSer.findIsMyVideo(usId,
+									video.getId());
+							if (mVideo != null) {
+								if (TimeUtils.isLive(mVideo.getStartDate(),
+										mVideo.getEndDate())) {
 									video.setIsPurch(0);
-								}else{
+								} else {
 									video.setIsPurch(1);
 								}
-							}else{
+							} else {
 								video.setIsPurch(1);
 							}
 						}
-					  
+
 					}
 				}
 			}

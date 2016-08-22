@@ -1,19 +1,5 @@
 package com.jucaipen.main.index;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import com.jucaipen.model.ClientOsInfo;
-import com.jucaipen.model.JcpNews;
-import com.jucaipen.service.JcpNewsSer;
-import com.jucaipen.service.ResourceFromServer;
-import com.jucaipen.utils.HeaderUtil;
-import com.jucaipen.utils.JsonUtil;
-import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  *         获取今日热点 isIndex 
@@ -22,7 +8,7 @@ import com.jucaipen.utils.StringUtil;
  *      
  */
 @SuppressWarnings("serial")
-public class HotNews extends HttpServlet {
+public class HotNews extends HttpServlet {/*
 	private String result;
 	private List<JcpNews> news;
 
@@ -91,4 +77,4 @@ public class HotNews extends HttpServlet {
 		return JsonUtil.getNewsList(news);
 	}
 
-}
+*/}

@@ -1,11 +1,8 @@
 package com.jucaipen.service;
-
 import java.util.List;
-
 import com.jucaipen.dao.UserCommDao;
 import com.jucaipen.daoimp.UserCommImp;
 import com.jucaipen.model.UserComm;
-
 /**
  * @author Administrator 0证券知识，1为视频 JCP_User_Comm
  */

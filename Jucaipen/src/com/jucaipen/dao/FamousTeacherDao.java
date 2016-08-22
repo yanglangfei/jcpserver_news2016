@@ -1,9 +1,6 @@
 package com.jucaipen.dao;
-
 import java.util.List;
-
 import com.jucaipen.model.FamousTeacher;
-
 public interface FamousTeacherDao {
 	
 	/**
