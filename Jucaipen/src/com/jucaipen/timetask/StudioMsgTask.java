@@ -26,7 +26,6 @@ public class StudioMsgTask extends TimerTask{
 	private  Map<String, String> params=new HashMap<String, String>();
 	private boolean isManager;
 	//private static final String GET_LIVE_MSG="http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
-
 	private static final String GET_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
 
 	public StudioMsgTask(int maxId, int userId, int liveId,boolean isManager) {

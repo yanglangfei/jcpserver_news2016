@@ -53,9 +53,9 @@ public class JcpNewsSer{
 		return dao.findNewsIndex(bigId, smallId, isIndex);
 	}
 
-	public static List<JcpNews> findRelatedNewsById(int id) {
+	public static List<JcpNews> findRelatedNewsById(int id,int top) {
 		JcpNewsDao dao=new JcpNewsImp();
-		return dao.findRelatedNewsById(id);
+		return dao.findRelatedNewsById(id,top);
 	}
 
 	public static List<JcpNews> findLastNewsByNewsNum(int count) {

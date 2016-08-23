@@ -21,7 +21,7 @@ public class JdbcUtil {
 	private static final String SQLSERVER_UNAME_TEST = "sa";
 	private static final String SQLSERVER_UPWD_TEST = "111111";
 
-	private static boolean isTest = false;
+	private static boolean isTest = true;
 
 	/**
 	 * 新数据库 正式

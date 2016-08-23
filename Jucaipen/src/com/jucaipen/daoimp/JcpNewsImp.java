@@ -60,7 +60,9 @@ public class JcpNewsImp implements JcpNewsDao {
 			dbConn = JdbcUtil.connSqlServer();
 			if (dbConn != null) {
 				sta = dbConn.createStatement();
-				//SELECT TOP 15 * FROM (select row_number() over(order by InsertDate DESC ) AS row_num , * from JCPNews ) a WHERE row_num>15
+				// SELECT TOP 15 * FROM (select row_number() over(order by
+				// InsertDate DESC ) AS row_num , * from JCPNews ) a WHERE
+				// row_num>15
 				res = sta
 						.executeQuery("SELECT TOP 15 * FROM "
 								+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate DESC) AS RowNumber,* FROM JCPNews) A "
@@ -90,7 +92,7 @@ public class JcpNewsImp implements JcpNewsDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 15 Id,Title,ImageUrl,ZhaiYao,HtmlPath,ComeFrom,XnHits,Zan,InsertDate,Commens,Hits,Bodys FROM "
+					.executeQuery("SELECT TOP 15 Id,Title,ImageUrl,ZhaiYao,HtmlPath,ComeFrom,XnHits,Zan,InsertDate,Commens,Hits,Bodys,IsImage FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc ,id desc) AS RowNumber,* FROM JCPNews"
 							+ " WHERE BigId="
 							+ bigId
@@ -334,8 +336,9 @@ public class JcpNewsImp implements JcpNewsDao {
 				int comms = res.getInt("Commens");
 				int goods = res.getInt("Zan");
 				int xnHits = res.getInt("XnHits");
-				int hits=res.getInt("Hits");
-				String bodys=res.getString("Bodys");
+				int hits = res.getInt("Hits");
+				String bodys = res.getString("Bodys");
+				int isImage = res.getInt("IsImage");
 				JcpNews n = new JcpNews();
 				n.setId(id);
 				n.setPage(pager);
@@ -343,6 +346,7 @@ public class JcpNewsImp implements JcpNewsDao {
 				n.setTitle(title);
 				n.setDesc(summary);
 				n.setId(id);
+				n.setImage(isImage);
 				n.setBodys(bodys);
 				n.setXnHits(xnHits);
 				n.setZan(goods);
@@ -388,7 +392,8 @@ public class JcpNewsImp implements JcpNewsDao {
 				String date = res.getString(SqlUtil.NEWS_INSERT);
 				int xnHits = res.getInt("XnHits");
 				int goods = res.getInt("Zan");
-				int hits=res.getInt("Hits");
+				int hits = res.getInt("Hits");
+				int isImage = res.getInt("IsImage");
 				JcpNews n = new JcpNews();
 				n.setImageUrl(imageUrl);
 				n.setBodys(bodys);
@@ -396,6 +401,7 @@ public class JcpNewsImp implements JcpNewsDao {
 				n.setHits(hits);
 				n.setSmallId(smallId);
 				n.setBigId(bigId);
+				n.setImage(isImage);
 				n.setTitle(title);
 				n.setZan(goods);
 				n.setXnHits(xnHits);
@@ -515,6 +521,39 @@ public class JcpNewsImp implements JcpNewsDao {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	@Override
+	public List<JcpNews> findRelatedNewsById(int id, int top) {
+		try {
+			news.clear();
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP "
+							+ top
+							+ " Title,ImageUrl,Id,ComeFrom,Commens,InsertDate FROM JCPNews WHERE IsTuiJian=1 ORDER BY InsertDate DESC");
+			while (res.next()) {
+				int newsId = res.getInt("Id");
+				String title = res.getString("Title");
+				String imageUrl = res.getString("ImageUrl");
+				int comeFrom = res.getInt("ComeFrom");
+				int comms = res.getInt("Commens");
+				String insertDate = res.getString("InsertDate");
+				JcpNews n = new JcpNews();
+				n.setTitle(title);
+				n.setId(newsId);
+				n.setComeFrom(comeFrom);
+				n.setComms(comms);
+				n.setInsertDate(insertDate);
+				n.setImageUrl(imageUrl);
+				news.add(n);
+			}
+			return news;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

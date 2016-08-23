@@ -1,4 +1,4 @@
-package com.jucaipen.main.index;
+package com.jucaipen.main.news;
 
 import java.io.IOException;
 import java.io.PrintWriter;

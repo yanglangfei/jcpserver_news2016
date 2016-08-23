@@ -51,7 +51,7 @@
   </servlet>
   <servlet>
     <servlet-name>RelateNews</servlet-name>
-    <servlet-class>com.jucaipen.main.index.RelateNews</servlet-class>
+    <servlet-class>com.jucaipen.main.news.RelateNews</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>QuerryComments</servlet-name>
@@ -511,11 +511,11 @@
   </servlet>
   <servlet>
     <servlet-name>QuerryNewsType</servlet-name>
-    <servlet-class>com.jucaipen.main.index.QuerryNewsType</servlet-class>
+    <servlet-class>com.jucaipen.main.news.QuerryNewsType</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>NewsByType</servlet-name>
-    <servlet-class>com.jucaipen.main.index.NewsByType</servlet-class>
+    <servlet-class>com.jucaipen.main.news.NewsByType</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>RemoveMyData</servlet-name>

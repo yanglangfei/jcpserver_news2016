@@ -50,7 +50,7 @@ public interface JcpNewsDao {
 	 * @param id
 	 * @return   通过指定新闻id 获取相关新闻
 	 */
-	public List<JcpNews> findRelatedNewsById(int id);
+	public List<JcpNews> findRelatedNewsById(int id,int top);
 	/**
 	 * @param count
 	 * @return   查询最新的count条新闻
