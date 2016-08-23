@@ -19,7 +19,6 @@ import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
- *
  *  获取战法列表信息
  */
 @SuppressWarnings("serial")

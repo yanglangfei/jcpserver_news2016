@@ -13,12 +13,10 @@ import com.jucaipen.service.ResourceFromServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  * 
  *         获取相关新闻
- * 
  */
 @SuppressWarnings("serial")
 public class RelateNews extends HttpServlet {

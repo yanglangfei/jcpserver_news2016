@@ -210,6 +210,7 @@ public class QuerryMySale extends HttpServlet {
 					}else{
 						tacticsSale.setIsOrder(2);
 					}
+					tacticsSale.setTeacherImage(teacher.getHeadFace());
 					tacticsSale.setTacticeImage(tactics.getImageUrl());
 					tacticsSale.setTacticsTitle(tactics.getTitle());
 					tacticsSale.setTeacherName(teacher.getNickName());

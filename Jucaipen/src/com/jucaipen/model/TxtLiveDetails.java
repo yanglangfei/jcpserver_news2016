@@ -15,6 +15,8 @@ public class TxtLiveDetails implements Serializable{
 	 * id
 	 */
 	private int id;
+	
+	private int ownJucaiBills;
 	/**
 	 * 相关直播id
 	 */
@@ -54,9 +56,12 @@ public class TxtLiveDetails implements Serializable{
 	 *  内容分类id
 	 */
 	private int fk_contentId;
-	
-	
-	
+	public int getOwnJucaiBills() {
+		return ownJucaiBills;
+	}
+	public void setOwnJucaiBills(int ownJucaiBills) {
+		this.ownJucaiBills = ownJucaiBills;
+	}
 	public int getIsPurch() {
 		return isPurch;
 	}

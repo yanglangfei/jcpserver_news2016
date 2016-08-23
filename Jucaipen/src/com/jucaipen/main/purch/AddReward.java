@@ -40,6 +40,7 @@ import com.jucaipen.utils.TimeUtils;
 public class AddReward extends HttpServlet {
 	private String result;
 	private String ip;
+
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -125,8 +126,8 @@ public class AddReward extends HttpServlet {
 			teacher = FamousTeacherSer.findTeacherBaseInfo(fId);
 			nickName = teacher.getNickName();
 			detail.setRemark("打赏给名师：【" + nickName + "】");
-			detailIntegeral
-					.setRemark("打赏给名师：【" + nickName + "】,账户积分+" + markerMoney);
+			detailIntegeral.setRemark("打赏给名师：【" + nickName + "】,账户积分+"
+					+ markerMoney);
 			marker.setType(1);
 		} else {
 			// 打赏观点
@@ -135,7 +136,8 @@ public class AddReward extends HttpServlet {
 			teacher = FamousTeacherSer.findTeacherBaseInfo(teacherId);
 			String title = idea.getTitle();
 			detail.setRemark("打赏观点：【" + title + "】");
-			detailIntegeral.setRemark("打赏观点：【" + title + "】,账户积分+" + markerMoney);
+			detailIntegeral.setRemark("打赏观点：【" + title + "】,账户积分+"
+					+ markerMoney);
 			marker.setType(2);
 		}
 		marker.setIp(ip);
@@ -154,13 +156,14 @@ public class AddReward extends HttpServlet {
 		// 0聚财币，1积分
 		detail.setState(0);
 		detailIntegeral.setState(1);
-		detail.setInsertDate(TimeUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
-		detailIntegeral.setInsertDate(TimeUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+		detail.setInsertDate(TimeUtils
+				.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		detailIntegeral.setInsertDate(TimeUtils.format(new Date(),
+				"yyyy-MM-dd HH:mm:ss"));
 		detail.setIsDel(0);
 		detailIntegeral.setIsDel(0);
 		detail.setUserId(uId);
 		detailIntegeral.setUserId(uId);
-
 		Contribute contribute = new Contribute();
 		if (typeId == 0) {
 			// 打赏讲师
@@ -204,9 +207,7 @@ public class AddReward extends HttpServlet {
 		rebate.setInsertDate(TimeUtils
 				.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 		rebate.setRemark("用户打赏返利");
-
 		// 系统返利
-
 		Rebate sysRebate = new Rebate();
 		sysRebate.setRebateMoney((markerMoney * (1 - teacher.getReturnRate())));
 		sysRebate.setType(1);
@@ -218,7 +219,7 @@ public class AddReward extends HttpServlet {
 
 		int isSuccess = RollBackUtil.addReward(marker, detail, integeral,
 				markerMoney, jucaiBills, uId, contribute, sysAccount,
-				sysDetail, user, rebate, sysRebate,detailIntegeral);
+				sysDetail, user, rebate, sysRebate, detailIntegeral);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "打赏成功") : JsonUtil
 				.getRetMsg(1, "打赏失败");
 	}

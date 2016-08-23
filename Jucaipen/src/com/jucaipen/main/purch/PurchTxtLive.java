@@ -24,6 +24,7 @@ import com.jucaipen.model.User;
 import com.jucaipen.service.AccountSer;
 import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.SysAccountSer;
+import com.jucaipen.service.TxtLiveSaleSer;
 import com.jucaipen.service.TxtLiveSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.HeaderUtil;
@@ -91,6 +92,10 @@ public class PurchTxtLive extends HttpServlet {
 		int teacherId = txtLive.getTeacherId();
 		FamousTeacher teacher = FamousTeacherSer
 				.findFamousTeacherById(teacherId);
+		TxtLiveSale saled = TxtLiveSaleSer.findSaleByUidAndTxtId(uId, txtId);
+		if(saled!=null){
+			return JsonUtil.getRetMsg(6, "文字直播已经购买，不能重复购买");
+		}
 		if (account == null || account.getJucaiBills() < b) {
 			return JsonUtil.getRetMsg(5, "余额不足，请先充值");
 		}

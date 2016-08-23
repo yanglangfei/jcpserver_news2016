@@ -5,7 +5,6 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -141,47 +140,51 @@ h4 {
 }
 
 .login_body_m {
-    width: 84%;
-    float: left;
-    padding: 0 8%;
+	width: 84%;
+	float: left;
+	padding: 0 8%;
 }
 </style>
+
+<script type="text/javascript">
+	
+</script>
 
 </head>
 <%
 	String investCode = request.getParameter("investCode");
 %>
 <body>
-    <div class="login_body_m">
-	<form action="jucaipen/regin" method="post">
-		<div class="login_main" style="margin-top: 1.8rem;">
-			<h4>
-				好友邀请您加入聚财盆，邀请码:<%=investCode %></h4>
-			<ul>
-				<li><span><i class="icon1"> <img
-							src="images/tel.png" /></i><em> <input name="telPhone"
-							type="text" id="txb_mobile" placeholder="请输入手机号" />
-					</em></span></li>
-				<li><span><i class="icon2"> <img
-							src="images/yanzhengma.png" /></i><em class="icon_yzm"> <input
-							name="checkCode" type="text" id="txb_code" class="yanzhengma"
-							placeholder="请输入短信验证码" /> <input id="sendcode" type="button"
-							class="fsyzm red" style="width: 3.5rem" value="获取验证码" />
-					</em></span></li>
-				<li><span><i class="icon5"> <img
-							src="images/lock.png" /></i><em> <input name="password"
-							type="password" id="txb_pwd" placeholder="请输入登录密码" />
-					</em></span></li>
-				<li class="def"><span><i class="icon5"> <img
-							src="images/lock.png" /></i><em> <input name="reptPwd"
-							type="password" id="txb_sure_pwd" placeholder="请再次输入登录密码" />
-					</em></span></li>
-			</ul>
-			<h4>
-				<input type="submit" name="btn_reg" value="注   册" id="btn_reg" />
-			</h4>
-		</div>
-	</form>
+	<div class="login_body_m">
+		<form action="jucaipen/regin" method="post">
+			<div class="login_main" style="margin-top: 1.8rem;">
+				<h4>
+					好友邀请您加入聚财盆，邀请码:<%=investCode%></h4>
+				<ul>
+					<li><span><i class="icon1"> <img
+								src="images/tel.png" /></i><em> <input name="telPhone"
+								type="text" id="txb_mobile" placeholder="请输入手机号" />
+						</em></span></li>
+					<li><span><i class="icon2"> <img
+								src="images/yanzhengma.png" /></i><em class="icon_yzm"> <input
+								name="checkCode" type="text" id="txb_code" class="yanzhengma"
+								placeholder="请输入短信验证码" /> <input id="sendcode" type="button"
+								class="fsyzm red" style="width: 3.5rem" value="获取验证码" />
+						</em></span></li>
+					<li><span><i class="icon5"> <img
+								src="images/lock.png" /></i><em> <input name="password"
+								type="password" id="txb_pwd" placeholder="请输入登录密码" />
+						</em></span></li>
+					<li class="def"><span><i class="icon5"> <img
+								src="images/lock.png" /></i><em> <input name="reptPwd"
+								type="password" id="txb_sure_pwd" placeholder="请再次输入登录密码" />
+						</em></span></li>
+				</ul>
+				<h4>
+					<input type="submit" name="btn_reg" value="注   册" id="btn_reg" />
+				</h4>
+			</div>
+		</form>
 	</div>
 </body>
 </html>

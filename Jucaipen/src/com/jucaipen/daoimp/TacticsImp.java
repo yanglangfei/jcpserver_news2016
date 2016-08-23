@@ -108,7 +108,9 @@ public class TacticsImp implements TacticsDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_Tactics WHERE Id="+id+" AND IsDel=0");
+			res=sta.executeQuery("SELECT Title,description,PeoPleNum,"
+					+ "ISNULL(Imagesurl,'') Imagesurl,TeacherId,InsertDate,"
+					+ "halfYearsMoney,YearsMoney,MonthMoney,threeMonthmoney FROM JCP_Tactics WHERE Id="+id+" AND IsDel=0");
 			while (res.next()) {
 				String title=res.getString("Title");  //Title
 				String desc=res.getString("description");  //description
@@ -120,7 +122,6 @@ public class TacticsImp implements TacticsDao {
 				int threeMonthmoney=res.getInt("threeMonthmoney");  //threeMonthmoney
 				int yearMoney=res.getInt("YearsMoney");  //YearsMoney
 				int mothMoney=res.getInt("MonthMoney");  //MonthMoney
-				int isDel=res.getInt("IsDel");
 				Tactics tactics=new Tactics();
 				tactics.setId(id);
 				tactics.setTitle(title);
@@ -133,7 +134,6 @@ public class TacticsImp implements TacticsDao {
 				tactics.setThreeMonthmoney(threeMonthmoney);
 				tactics.setYearsMoney(yearMoney);
 				tactics.setMothMoney(mothMoney);
-				tactics.setIsDel(isDel);
 				return tactics;
 			}
 		} catch (SQLException e) {
@@ -156,7 +156,9 @@ public class TacticsImp implements TacticsDao {
 		dbConn=JdbcUtil.connSqlServer();
 		try {
 			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT TOP 15 * FROM "
+			res=sta.executeQuery("SELECT TOP 15 Id,Title,description,PeoPleNum,"
+					+ "ISNULL(Imagesurl,'') Imagesurl,TeacherId,"
+					+ "InsertDate,halfYearsMoney,threeMonthmoney,YearsMoney,MonthMoney FROM "
 					+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Tactics"
 					+ " WHERE TeacherId="+tId+" AND IsDel=0) A " + "WHERE RowNumber > " + 15
 					* (page - 1));
@@ -172,7 +174,6 @@ public class TacticsImp implements TacticsDao {
 				int threeMonthmoney=res.getInt("threeMonthmoney");  //threeMonthmoney
 				int yearMoney=res.getInt("YearsMoney");  //YearsMoney
 				int mothMoney=res.getInt("MonthMoney");  //MonthMoney
-				int isDel=res.getInt("IsDel");
 				Tactics tactics=new Tactics();
 				tactics.setId(id);
 				tactics.setTitle(title);
@@ -187,7 +188,6 @@ public class TacticsImp implements TacticsDao {
 				tactics.setThreeMonthmoney(threeMonthmoney);
 				tactics.setYearsMoney(yearMoney);
 				tactics.setMothMoney(mothMoney);
-				tactics.setIsDel(isDel);
 				tacticsArray.add(tactics);
 			}
 			return tacticsArray;

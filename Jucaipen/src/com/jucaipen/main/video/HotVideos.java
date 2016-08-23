@@ -15,8 +15,8 @@ import com.jucaipen.utils.JsonUtil;
 
 /**
  * @author Administrator
- *
- *  获取热门搜索视频
+ * 
+ *         获取热门搜索视频
  */
 @SuppressWarnings("serial")
 public class HotVideos extends HttpServlet {
@@ -27,7 +27,7 @@ public class HotVideos extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		result=initHotVideoList();
+		result = initHotVideoList();
 		out.println(result);
 		out.flush();
 		out.close();

@@ -107,13 +107,10 @@ public class OrderTactics extends HttpServlet {
 		FamousTeacher teacher;
 		User user = UserServer.findBaseInfoById(uId);
 		Account account = AccountSer.findAccountByUserId(uId);
-		if (account == null) {
+		if (account == null||account.getJucaiBills()<bills) {
 			return JsonUtil.getRetMsg(3, "账户聚财币不足，请充值");
 		}
-		int jucaiBills = account.getJucaiBills();
-		if (jucaiBills > 0 && jucaiBills < bills) {
-			return JsonUtil.getRetMsg(3, "账户聚财币不足，请充值");
-		}
+		
 		// 是否已经订阅
 		TacticsSale saleMain = TacticsSaleSer.findTacticsIsSale(uId, tId);
 		if (saleMain != null&&TimeUtils.isLive(saleMain.getStartDate(), saleMain.getEndDate())) {

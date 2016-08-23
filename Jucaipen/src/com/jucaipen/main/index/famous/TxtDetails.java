@@ -3,15 +3,19 @@ package com.jucaipen.main.index.famous;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.jucaipen.model.Account;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.LiveDetailSale;
 import com.jucaipen.model.SiteConfig;
 import com.jucaipen.model.TextLive;
 import com.jucaipen.model.TxtLiveDetails;
+import com.jucaipen.service.AccountSer;
 import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.LiveDetailSaleSer;
 import com.jucaipen.service.SiteConfigSer;
@@ -27,7 +31,6 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class TxtDetails extends HttpServlet {
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -59,10 +62,10 @@ public class TxtDetails extends HttpServlet {
 	private String initTxtDetails(int tId,int uId) {
 		// 初始化文字直播详细信息
 		int isPurch=1;
+		int ownJucaiBills=0;
 		if(uId<=0){
 			isPurch=1;
 		}
-		
 		TextLive live = TxtLiveSer.findTextLiveById(tId);
 		if(live==null){
 			return JsonUtil.getRetMsg(6,"直播信息不存在");
@@ -75,16 +78,21 @@ public class TxtDetails extends HttpServlet {
 			for(TxtLiveDetails detail : txtDetails){
 				int isTxtFree=teacher.getTxtLiveFree();
 				if(uId>0&&isTxtFree==0){
+					Account account=AccountSer.findAccountByUserId(uId);
 					LiveDetailSale sale = LiveDetailSaleSer.findSaleByUserIdAndTxtIdAndDetailId(uId, detail.getId());
 				    if(sale!=null){
 				    	isPurch=0;
 				    }else{
 				    	isPurch=1;
 				    }
+				    if(account!=null){
+				    	ownJucaiBills=account.getJucaiBills();
+				    }
 				}
 				if(isTxtFree==1){
 					detail.setIsFree(0);
 				}
+				detail.setOwnJucaiBills(ownJucaiBills);
 				detail.setIsPurch(isPurch);
 			}
 		}

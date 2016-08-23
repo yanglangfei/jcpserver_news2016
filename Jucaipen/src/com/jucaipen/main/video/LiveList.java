@@ -89,6 +89,7 @@ public class LiveList extends HttpServlet {
 	private String initLive(int page,int uId) {
 		// 初始化视频直播    ----正在直播的视频
 		int isPurch=1;
+		int ownJucaiBills=0;
 		if(uId<=0){
 			isPurch=1;
 		}
@@ -103,17 +104,24 @@ public class LiveList extends HttpServlet {
 					teacher = new FamousTeacher();
 				}
 				live.setLiveVideo(teacher.getIsUserLiveUrl()==1);
-				live.setCharge(teacher.getLiveFree()==1);
+				//live.setCharge(teacher.getLiveFree()==1);
+				live.setCharge(false);
 				live.setLivePrice(teacher.getLivePrice());
 				live.setVideoUrl(teacher.getVideoLiveUrl());
+				live.setTeacherName(teacher.getNickName());
 				if(uId>0){
+					Account account=AccountSer.findAccountByUserId(uId);
 					VideoLiveSale sale=VideoLiveSaleSer.findSaleByUidAndLiveId(uId, live.getId());
 				    if(sale!=null){
 				    	isPurch=0;
 				    }else{
 				    	isPurch=1;
 				    }
+				    if(account!=null){
+				    	ownJucaiBills=account.getJucaiBills();
+				    }
 				}
+				live.setOwnJucaiBills(ownJucaiBills);
 				live.setIsPurch(isPurch);
 				teachers.add(teacher);
 			}

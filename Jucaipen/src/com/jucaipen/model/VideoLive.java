@@ -43,6 +43,8 @@ public class VideoLive implements Serializable{
 	 * 直播标题
 	 */
 	private String title;
+	
+	private int ownJucaiBills;
 	/**
 	 * 直播关键字
 	 */
@@ -67,6 +69,8 @@ public class VideoLive implements Serializable{
 	 *  直播讲师id
 	 */
 	private int teacherId;
+	
+	private String teacherName;
 	/**
 	 * 直播状态 1未开始 2进行中 3已结束
 	 */
@@ -84,10 +88,18 @@ public class VideoLive implements Serializable{
 	 */
 	private int renQi;
 	
-	
-	
-	
-	
+	public int getOwnJucaiBills() {
+		return ownJucaiBills;
+	}
+	public void setOwnJucaiBills(int ownJucaiBills) {
+		this.ownJucaiBills = ownJucaiBills;
+	}
+	public String getTeacherName() {
+		return teacherName;
+	}
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
+	}
 	public boolean isCharge() {
 		return isCharge;
 	}

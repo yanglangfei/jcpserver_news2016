@@ -77,12 +77,10 @@ public class QuerryPurchInfo extends HttpServlet {
 	}
 
 	private String initPurchInfo(int type, int fId, int uId) {
-		int ownJucaiBills;
+		int ownJucaiBills=0;
 		Account account = AccountSer.findAccountByUserId(uId);
 		if (account != null) {
 			ownJucaiBills = account.getJucaiBills();
-		} else {
-			ownJucaiBills = 0;
 		}
 		if (type == 0) {
 			// สำฦต
@@ -115,7 +113,6 @@ public class QuerryPurchInfo extends HttpServlet {
 			}else{
 				tactics.setIsOrder(1);
 			}
-			
 			return JsonUtil.getTacticsPurchInfo(tactics,sale,ownJucaiBills);
 		}
 		return null;    

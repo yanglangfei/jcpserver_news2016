@@ -428,24 +428,6 @@ public class JcpNewsImp implements JcpNewsDao {
 
 	}
 
-	public List<JcpNews> findRelatedNewsById(int id) {
-		// 根据指定新闻id 查询相关新闻
-		try {
-			dbConn = JdbcUtil.connSqlServer();
-			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT Title FROM JCPNews WHERE Id=" + id);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				JdbcUtil.closeConn(sta, dbConn, res);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
-
 	public List<JcpNews> findLastNewsByNewsNum(int count) {
 		// 获取最新的count条新闻
 		news.clear();

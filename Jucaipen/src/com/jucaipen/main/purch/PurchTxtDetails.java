@@ -1,14 +1,11 @@
 package com.jucaipen.main.purch;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
@@ -24,6 +21,7 @@ import com.jucaipen.model.TxtLiveDetails;
 import com.jucaipen.model.User;
 import com.jucaipen.service.AccountSer;
 import com.jucaipen.service.FamousTeacherSer;
+import com.jucaipen.service.LiveDetailSaleSer;
 import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.service.TxtLiveDetaileSer;
 import com.jucaipen.service.TxtLiveSer;
@@ -32,7 +30,6 @@ import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
-
 /**
  * @author Administrator
  * 
@@ -96,6 +93,12 @@ public class PurchTxtDetails extends HttpServlet {
 		int teacherId = textLive.getTeacherId();
 		FamousTeacher teacher = FamousTeacherSer
 				.findFamousTeacherById(teacherId);
+		LiveDetailSale detailSale = LiveDetailSaleSer
+				.findSaleByUserIdAndTxtIdAndDetailId(uId, detailId);
+		if (detailSale != null) {
+			return JsonUtil.getRetMsg(6, "直播详细已经购买，不能重复购买");
+		}
+
 		if (account == null || account.getJucaiBills() < b) {
 			return JsonUtil.getRetMsg(5, "余额不足，请先充值");
 		}
