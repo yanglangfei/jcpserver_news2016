@@ -152,13 +152,11 @@ h4 {
 	String investCode = request.getParameter("investCode");
 %>
 <body>
-
     <div class="login_body_m">
-
 	<form action="jucaipen/regin" method="post">
 		<div class="login_main" style="margin-top: 1.8rem;">
 			<h4>
-				好友邀请您加入聚财盆，邀请码:<%=investCode%></h4>
+				好友邀请您加入聚财盆，邀请码:<%=investCode %></h4>
 			<ul>
 				<li><span><i class="icon1"> <img
 							src="images/tel.png" /></i><em> <input name="telPhone"

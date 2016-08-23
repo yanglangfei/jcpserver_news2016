@@ -97,10 +97,8 @@ public class Regin extends HttpServlet {
 		boolean res = object.getBoolean("Result");
 		String msg = object.getString("Msg");
 		if (res) {
-			// 注册成功处理
 			return JsonUtil.getRetMsg(0, msg);
 		} else {
-			// 注册失败处理
 			return JsonUtil.getRetMsg(1, msg);
 		}
 	}
