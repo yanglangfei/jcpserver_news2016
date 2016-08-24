@@ -22,7 +22,6 @@ import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.SiteConfigSer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  * 
@@ -31,7 +30,6 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class AnswerDetails extends HttpServlet {
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

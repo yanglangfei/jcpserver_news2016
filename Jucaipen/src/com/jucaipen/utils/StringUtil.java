@@ -78,6 +78,26 @@ public class StringUtil {
 		}
 	}
 	
+	
+	public static String createMsg(String msg,int type){
+		if(type==0){
+			return "<img src='"+msg+"'>";
+		}else{
+			return msg;
+		}
+	}
+	
+	public static void main(String[] args) {
+		StringBuffer buffer=new StringBuffer();
+		buffer.append(createMsg("我是谁", 1));
+		buffer.append(createMsg("http://img.jucaipen.com/jucaipenUpload/2016/2/15/201621515955.gif",0));
+		buffer.append(createMsg("好滴", 1));
+		buffer.append(createMsg("http://img.jucaipen.com/jucaipenUpload/2015/7/15/2015715174157.gif",0));
+		buffer.append(createMsg("http://img.jucaipen.com/jucaipenUpload/2015/7/15/2015715174423.gif",0));
+		buffer.append(createMsg("呵呵", 1));
+		System.out.println(buffer.toString());
+	}
+	
 	  
 	/**
 	 * @param bank
@@ -92,8 +112,6 @@ public class StringUtil {
 			return false;
 		}
 	}
-	       
-
 	/**
 	 * 判断手机号码的正确性
 	 * 
@@ -101,7 +119,6 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean isMobileNumber(String mobiles) {
-
 		if (null != mobiles) {
 			Pattern p = Pattern
 					.compile("^((13[0-9])|(15[^4,\\D])|(18[0-9])|(17[0-9]))\\d{8}$");
@@ -112,9 +129,6 @@ public class StringUtil {
 		}
 	}
 	
-	
-	
-
 	/**
 	 * @param password
 	 * @return 密码长度是否在6-23之间
@@ -153,7 +167,8 @@ public class StringUtil {
 			return true;
 		}
 	}
-
+	
+	
 	/**
 	 * 判断字符串是否是整数
 	 */
@@ -238,10 +253,8 @@ public class StringUtil {
 		newStr=newStr.replaceAll("<p>", "");
 		newStr=newStr.replace("{UserName}", "");
 		return newStr;
-		
-		
-		
 	}
+	
 
 
 }

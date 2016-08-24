@@ -184,7 +184,7 @@ public class QuerryTeacherIdea extends HttpServlet {
 			return JsonUtil.getAskList(asks, users, 0);
 		} else if (type == 2) {
 			// 文字直播
-			int ownJucaiBills=0;
+			int ownJucaiBills = 0;
 			TextLive txt = null;
 			List<TextLive> txts = TxtLiveSer.findTxtLiveByTeacherIdAndLast(tId,
 					1);
@@ -194,7 +194,7 @@ public class QuerryTeacherIdea extends HttpServlet {
 				txt.setCharge(teacher.getTxtLiveFree() == 1);
 				txt.setTxtPrice(teacher.getTxtLivePrice());
 				if (usId > 0 && txt.isCharge()) {
-					Account account=AccountSer.findAccountByUserId(usId);
+					Account account = AccountSer.findAccountByUserId(usId);
 					TxtLiveSale sale = TxtLiveSaleSer.findSaleByUidAndTxtId(
 							usId, txt.getId());
 					if (sale != null) {
@@ -202,23 +202,23 @@ public class QuerryTeacherIdea extends HttpServlet {
 					} else {
 						txt.setIsPurch(1);
 					}
-					
-					if(account!=null){
-						ownJucaiBills=account.getJucaiBills();
+
+					if (account != null) {
+						ownJucaiBills = account.getJucaiBills();
 					}
-					
+
 				} else {
 					txt.setIsPurch(1);
 				}
-				
+
 				txt.setOwnJucaiBills(ownJucaiBills);
 			}
 
-			if(isIndex==0){
-				//首页
+			if (isIndex == 0) {
+				// 首页
 				return JsonUtil.getIndexTxtArray(txts);
 			}
-			
+
 			if (allTxts != null) {
 				for (TextLive tx : allTxts) {
 					tx.setCharge(teacher.getTxtLiveFree() == 1);
@@ -239,16 +239,16 @@ public class QuerryTeacherIdea extends HttpServlet {
 			return JsonUtil.getTxtLiveByTeacherId(txt, allTxts);
 		} else {
 			// 视频直播
-			int ownJucaiBills=0;
+			int ownJucaiBills = 0;
 			VideoLive live = VideoLiveServer.findLiveBytId(tId);
 			if (live != null) {
 				live.setLiveVideo(teacher.getIsUserLiveUrl() == 1);
-				//live.setCharge(teacher.getLiveFree() == 1);
+				// live.setCharge(teacher.getLiveFree() == 1);
 				live.setCharge(false);
 				live.setLivePrice(teacher.getLivePrice());
 				live.setVideoUrl(teacher.getVideoLiveUrl());
 				if (usId > 0 && live.isCharge()) {
-					Account account=AccountSer.findAccountByUserId(usId);
+					Account account = AccountSer.findAccountByUserId(usId);
 					VideoLiveSale sale = VideoLiveSaleSer
 							.findSaleByUidAndLiveId(usId, live.getId());
 					if (sale != null) {
@@ -256,10 +256,10 @@ public class QuerryTeacherIdea extends HttpServlet {
 					} else {
 						live.setIsPurch(1);
 					}
-					if(account!=null){
-						ownJucaiBills=account.getJucaiBills();
+					if (account != null) {
+						ownJucaiBills = account.getJucaiBills();
 					}
-					
+
 				} else {
 					live.setIsPurch(1);
 				}

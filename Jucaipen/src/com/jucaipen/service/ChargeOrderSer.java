@@ -35,6 +35,11 @@ public class ChargeOrderSer {
 		ChargeOrderDao dao=new ChargeOrderImp();
 		return dao.findOrderByUidAndState(uId, state, page);
 	}
+	
+	public static int deleteOrder(int id){
+		ChargeOrderDao dao=new ChargeOrderImp();
+		return dao.deleteOrder(id);
+	}
 
 	/**
 	 * @param order

@@ -1,10 +1,8 @@
 package com.jucaipen.main.index;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,15 +16,12 @@ import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
 /**
- * @author Administrator
- * 
- *         观点中 获取打赏列表
+ * @author Administrator 观点中 获取打赏列表
  */
 @SuppressWarnings("serial")
 public class QuerryRewarder extends HttpServlet {
 	private String result;
-	private List<String> faces=new ArrayList<String>();
-
+	private List<String> faces = new ArrayList<String>();
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -37,16 +32,16 @@ public class QuerryRewarder extends HttpServlet {
 		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
 		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
 		if (isDevice == HeaderUtil.PHONE_APP) {
-			String logId=request.getParameter("logId");
-			if(StringUtil.isNotNull(logId)){
-				if(StringUtil.isInteger(logId)){
-					int lId=Integer.parseInt(logId);
-		            result=initMarkData(lId);
-				}else{
-					result=JsonUtil.getRetMsg(2,"logId 参数数字格式化异常");
+			String logId = request.getParameter("logId");
+			if (StringUtil.isNotNull(logId)) {
+				if (StringUtil.isInteger(logId)) {
+					int lId = Integer.parseInt(logId);
+					result = initMarkData(lId);
+				} else {
+					result = JsonUtil.getRetMsg(2, "logId 参数数字格式化异常");
 				}
-			}else{
-				result=JsonUtil.getRetMsg(1,"logId 参数不能为空");
+			} else {
+				result = JsonUtil.getRetMsg(1, "logId 参数不能为空");
 			}
 		} else {
 			result = StringUtil.isVaild;
@@ -60,13 +55,13 @@ public class QuerryRewarder extends HttpServlet {
 		// 初始化打赏信息
 		faces.clear();
 		List<Marker> markers = MarkerSer.findTopMarkerByLogId(logId, 18);
-		for(Marker marker : markers){
-			int uId=marker.getUserId();
-			String face=UserServer.findFaceImageById(uId);
+		for (Marker marker : markers) {
+			int uId = marker.getUserId();
+			String face = UserServer.findFaceImageById(uId);
 			faces.add(face);
 		}
-		return JsonUtil.getMarkerData(markers,faces);
-		
+		return JsonUtil.getMarkerData(markers, faces);
+
 	}
 
 }

@@ -151,6 +151,7 @@ public class ChargeOrderImp implements ChargeOrderDao {
 							+ " AND IsDel=" + 0 + ") A " + "WHERE RowNumber > "
 							+ 15 * (page - 1));
 			while (res.next()) {
+				int id=res.getInt("Id");
 				String orderCode = res.getString("OrderCode");
 				double payMoney = res.getDouble("Pay_money");
 				String insertDate = res.getString("InsertDate");
@@ -160,6 +161,7 @@ public class ChargeOrderImp implements ChargeOrderDao {
 				ChargeOrder order = new ChargeOrder();
 				order.setTotlePage(totlePage);
 				order.setPage(page);
+				order.setId(id);
 				order.setOrderCode(orderCode);
 				order.setChargeMoney(payMoney);
 				order.setInsertDate(insertDate);

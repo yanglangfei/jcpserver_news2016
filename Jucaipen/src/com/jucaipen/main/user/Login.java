@@ -103,7 +103,6 @@ public class Login extends HttpServlet {
 		}
 	}
 
-   
 	public void handleLoginLog(String userName, int logResult, int userId,
 			String password, String remark, ClientOsInfo os) {
 		LoginLog log = new LoginLog();

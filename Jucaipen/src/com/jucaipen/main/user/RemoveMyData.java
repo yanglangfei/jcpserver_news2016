@@ -2,13 +2,17 @@ package com.jucaipen.main.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.jucaipen.model.ChargeOrder;
 import com.jucaipen.model.Comment;
 import com.jucaipen.model.Favorites;
 import com.jucaipen.model.UserComm;
+import com.jucaipen.service.ChargeOrderSer;
 import com.jucaipen.service.CommentSer;
 import com.jucaipen.service.FavoritesSer;
 import com.jucaipen.service.UserCommSer;
@@ -18,7 +22,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         删除我的数据 typeId 0 我收藏的视频 1 我收藏的知识 2 视频评论 3 观点评论 4 资讯评论
+ *         删除我的数据 typeId 0 我收藏的视频 1 我收藏的知识 2 视频评论 3 观点评论 4 资讯评论 5 充值记录
  * 
  */
 @SuppressWarnings("serial")
@@ -105,6 +109,15 @@ public class RemoveMyData extends HttpServlet {
 				return JsonUtil.getRetMsg(1, "评论不存在");
 			}
 			int isSuccess = UserCommSer.cancelComm(id);
+			return isSuccess == 1 ? JsonUtil.getRetMsg(0, "删除成功") : JsonUtil
+					.getRetMsg(1, "删除失败");
+		} else if (type == 5) {
+			// 充值记录
+			ChargeOrder order = ChargeOrderSer.findOrderById(id);
+			if (order == null || order.getUserId() != uId) {
+				return JsonUtil.getRetMsg(1, "订单不存在");
+			}
+			int isSuccess = ChargeOrderSer.deleteOrder(id);
 			return isSuccess == 1 ? JsonUtil.getRetMsg(0, "删除成功") : JsonUtil
 					.getRetMsg(1, "删除失败");
 		}

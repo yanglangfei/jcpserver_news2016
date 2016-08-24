@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 public class HotNews extends HttpServlet {/*
 	private String result;
 	private List<JcpNews> news;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -63,7 +62,6 @@ public class HotNews extends HttpServlet {/*
 			n.setFrom(from);
 		}
 		return JsonUtil.getNewsList(news);
-
 	}
 
 	private String initIndexData() {
