@@ -61,7 +61,6 @@ public class SchoolVideoList extends HttpServlet {
 			}
 		}
 		
-		
 		// 初始化视频教程
 		List<Video> videos=VideoServer.findVideoByClassIdLast(4, 9);
 		if(videos!=null){
@@ -95,7 +94,6 @@ public class SchoolVideoList extends HttpServlet {
 				isPurch=1;
 			}
 		}
-		
 		
 		if(uId>0&&specialId<=0){
 			MyVideo myVideo=MyVideoSer.findIsMyVideo(uId, video.getId());

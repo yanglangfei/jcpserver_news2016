@@ -49,8 +49,10 @@ public class NewsByType extends HttpServlet {
 	private String getNewsByType(int small, int page) {
 		List<JcpNews> news;
 		if(small==0){
+			//获取推荐资讯信息
 			news = JcpNewsSer.findAll(page);
 		}else{
+			//根据分类获取资讯信息
 			 news = JcpNewsSer.findNewsBybigId(2, small, page);
 		}
 		if(news!=null){

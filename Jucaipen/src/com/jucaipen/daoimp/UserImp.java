@@ -901,6 +901,12 @@ public class UserImp implements UserDao {
 					+ ",LastLoginIp='" + ip + "' WHERE Id=" + uId);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return 0;
 	}

@@ -882,7 +882,7 @@ public class VideoImp implements VideoDao {
 							+ count
 							+ " FK_Pecial,FK_ClassId,Id,Title,Description,ImagesUrl,PlayCount,VideoDate,VideoUrl,VideoType,PlayXNCount,VideoPageUrl from JCP_Video"
 							+ " WHERE FK_ClassId=" + classId
-							+ " ORDER BY PlayXNCount DESC");
+							);
 
 			while (res.next()) {
 				int id = res.getInt(SqlUtil.NEWS_ID);

@@ -86,7 +86,7 @@ public class LiveList extends HttpServlet {
 		out.close();
 	}
 
-	private String initLive(int page,int uId) {
+	private String initLive(int p,int uId) {
 		// 初始化视频直播    ----正在直播的视频
 		int isPurch=1;
 		int ownJucaiBills=0;
@@ -130,7 +130,7 @@ public class LiveList extends HttpServlet {
 
 	}
 
-	private String initTxtLive(int page,int uId) {
+	private String initTxtLive(int p,int uId) {
 		// 初始化文字直播   ---获取正在直播的文字直播
 		int isPurch=1;
 		int ownJucaiBills=0;

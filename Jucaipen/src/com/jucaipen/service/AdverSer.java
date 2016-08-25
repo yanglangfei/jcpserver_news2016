@@ -12,7 +12,7 @@ public class AdverSer {
 
 	}
 
-	/**
+	/** 
 	 * @param pId
 	 * @return   根据幻灯id 获取相应广告
 	 */
