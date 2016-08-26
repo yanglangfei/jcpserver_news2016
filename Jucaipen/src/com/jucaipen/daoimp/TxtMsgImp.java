@@ -21,8 +21,8 @@ public class TxtMsgImp implements TxtMsgDao {
 	public List<TxtLiveMsg> findLastTxtMsg(int count, int liveId,
 			boolean isCheck,int msgType) {
 		msgs.clear();
-		dbConn = JdbcUtil.connSqlServer();
 		try {
+			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			if (isCheck) {
 				// 审核后的数据
@@ -78,8 +78,8 @@ public class TxtMsgImp implements TxtMsgDao {
 	public List<TxtLiveMsg> findTxtMsgByMaxId(int maxId, int liveId,
 			boolean isCheck,int msgType) {
 		msgs.clear();
-		dbConn = JdbcUtil.connSqlServer();
 		try {
+			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			if (isCheck) {
 				res = sta
@@ -126,8 +126,8 @@ public class TxtMsgImp implements TxtMsgDao {
 
 	@Override
 	public int addMsg(TxtLiveMsg msg) {
-		dbConn = JdbcUtil.connSqlServer();
 		try {
+			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			return sta.executeUpdate("INSERT INTO JCP_TxtLive_Msg"
 					+ "(UserId,MessBody,shenhe,Fk_TxtLiveId,InsertDate,"

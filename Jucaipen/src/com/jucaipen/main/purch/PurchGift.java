@@ -101,6 +101,11 @@ public class PurchGift extends HttpServlet {
 		// 1、查看聚财币是否足够
 		User user = UserServer.findBaseInfoById(uId);
 		Account a = AccountSer.findAccountByUserId(uId);
+		if(b<=0){
+			return JsonUtil.getRetMsg(6,"暂不支持购买");
+		}
+		
+		
 		if (a == null || a.getJucaiBills() < b) {
 			return JsonUtil.getRetMsg(1, "聚财币余额不足");
 		}

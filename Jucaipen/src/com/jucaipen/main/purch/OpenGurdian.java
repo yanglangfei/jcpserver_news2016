@@ -99,11 +99,11 @@ public class OpenGurdian extends HttpServlet {
 		// 聚财币是否足够
 		int gurdianId = 0;
 		Account account = AccountSer.findAccountByUserId(uId);
-		if (account == null) {
-			return JsonUtil.getRetMsg(3, "账户聚财币不足，请充值");
+		if(b<=0){
+			return JsonUtil.getRetMsg(6, "暂不支持开通");
 		}
-		int jucaiBills = account.getJucaiBills();
-		if (jucaiBills > 0 && jucaiBills < b) {
+		
+		if (account == null||account.getJucaiBills() < b) {
 			return JsonUtil.getRetMsg(3, "账户聚财币不足，请充值");
 		}
 		// 是否开通守护
@@ -122,7 +122,6 @@ public class OpenGurdian extends HttpServlet {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-
 		} else {
 			startDate = TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
 			endDate = TimeUtils.format(TimeUtils.addBaseDay(new Date(), d),

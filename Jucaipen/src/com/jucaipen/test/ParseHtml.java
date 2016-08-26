@@ -1,29 +1,28 @@
 package com.jucaipen.test;
 
-import java.io.IOException;
-
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 public class ParseHtml {
-	
+
 	public static void main(String[] args) {
-	    Connection conn = Jsoup.connect("https://s.taobao.com/search?q=õùõ÷&commend=all&ssid=s5-e&search_type=item&sourceId=tb.index&spm=a21bo.50862.201856-taobao-item.1&ie=utf8&initiative_id=tbindexz_20160817");
-	     try {
-			Document doc = conn.get();
-			System.out.println("doc:"+doc.body().toString());
-		/*	Elements tagA = doc.getElementsByTag("a");
-			for(Element e : tagA){
-				//String src=e.attr("src");
-				System.out.println("src:"+e.text());
-			}*/
-			System.out.println("popop");
-			System.out.println("lll");
-		} catch (IOException e) {
-			e.printStackTrace();
+		Document doc = null;
+		try {
+			doc = Jsoup.connect(
+					"http://epg.tvsou.com/programys/TV_1/Channel_1/W5.htm")
+					.get();
+			Elements content = doc.getElementsByClass("tvgenre");
+			for (int i = 0; i < content.size(); i++) {
+				Elements times = content.get(i).getElementsByTag("span");
+				Elements pm1 = content.get(i).getElementsByTag("a");
+				for (int j = 0; j < times.size(); j++) {
+					System.out.println("time:" + times.get(j).html() + "  programys:"
+							+ pm1.get(j).html());
+				}
+			}
+		} catch (Exception e) {
 		}
-	
 	}
-	
 
 }

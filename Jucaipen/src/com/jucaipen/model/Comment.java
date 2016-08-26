@@ -26,6 +26,12 @@ public class Comment implements Serializable {
 	 * 用户id
 	 */
 	private int userId;
+	
+	private String userName;
+	
+	private String userFace;
+	
+	private int userLeavel;
 	/**
 	 * 评论内容
 	 */
@@ -56,12 +62,39 @@ public class Comment implements Serializable {
 	private int logOrLiveId;
 	
 	private String fkName;
+	
+	private String fkDesc;
+	
 	/**
 	 *   回复评论的id
 	 */
 	private int parentId;
 	
 	
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getUserFace() {
+		return userFace;
+	}
+	public void setUserFace(String userFace) {
+		this.userFace = userFace;
+	}
+	public int getUserLeavel() {
+		return userLeavel;
+	}
+	public void setUserLeavel(int userLeavel) {
+		this.userLeavel = userLeavel;
+	}
+	public String getFkDesc() {
+		return fkDesc;
+	}
+	public void setFkDesc(String fkDesc) {
+		this.fkDesc = fkDesc;
+	}
 	public String getFkName() {
 		return fkName;
 	}

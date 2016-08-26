@@ -20,6 +20,21 @@ public class UserComm implements Serializable {
      *  评论用户id
      */
     private int userId;
+    
+    /**
+     *  用户名称
+     */
+    private String userName;
+    /**
+     *  用户头像
+     */
+    private String userFace;
+    
+    /**
+     *   用户等级
+     */
+    private int userLeavel;
+    
     /**
      *  评论内容
      */
@@ -38,6 +53,10 @@ public class UserComm implements Serializable {
     private int novId;
     
     private String fkName;
+    
+    private String fkDesc;
+    
+    private String fkImage;
     /**
      *  点赞数量
      */
@@ -54,9 +73,36 @@ public class UserComm implements Serializable {
      *  是否显示（0是，1否）
      */
     private int isShow;
-    
-    
-    
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getUserFace() {
+		return userFace;
+	}
+	public void setUserFace(String userFace) {
+		this.userFace = userFace;
+	}
+	public int getUserLeavel() {
+		return userLeavel;
+	}
+	public void setUserLeavel(int userLeavel) {
+		this.userLeavel = userLeavel;
+	}
+	public String getFkDesc() {
+		return fkDesc;
+	}
+	public void setFkDesc(String fkDesc) {
+		this.fkDesc = fkDesc;
+	}
+	public String getFkImage() {
+		return fkImage;
+	}
+	public void setFkImage(String fkImage) {
+		this.fkImage = fkImage;
+	}
 	public String getFkName() {
 		return fkName;
 	}

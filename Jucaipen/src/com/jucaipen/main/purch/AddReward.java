@@ -109,15 +109,15 @@ public class AddReward extends HttpServlet {
 		AccountDetail detail = new AccountDetail();
 		AccountDetail detailIntegeral = new AccountDetail();
 		Account account = AccountSer.findAccountByUserId(uId);
-		if (account == null) {
+		if(markerMoney<=0){
+			return JsonUtil.getRetMsg(6,"打赏金额异常");
+		}
+		
+		if (account == null||account.getJucaiBills()<markerMoney) {
 			return JsonUtil.getRetMsg(3, "账户聚财币不足，请充值");
 		}
 		int integeral = account.getIntegeral();
-		int jucaiBills = account.getJucaiBills();
-		if (jucaiBills < markerMoney) {
-			return JsonUtil.getRetMsg(3, "账户聚财币不足，请充值");
-		}
-
+        int jucaiBills=account.getJucaiBills();
 		User user = UserServer.findBaseInfoById(uId);
 		Marker marker = new Marker();
 		if (typeId == 0) {

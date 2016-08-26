@@ -107,6 +107,10 @@ public class OrderTactics extends HttpServlet {
 		FamousTeacher teacher;
 		User user = UserServer.findBaseInfoById(uId);
 		Account account = AccountSer.findAccountByUserId(uId);
+		if(bills<=0){
+			return JsonUtil.getRetMsg(6,"暂不支持订阅");
+		}
+		
 		if (account == null||account.getJucaiBills()<bills) {
 			return JsonUtil.getRetMsg(3, "账户聚财币不足，请充值");
 		}

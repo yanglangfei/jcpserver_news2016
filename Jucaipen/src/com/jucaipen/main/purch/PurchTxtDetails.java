@@ -98,6 +98,10 @@ public class PurchTxtDetails extends HttpServlet {
 		if (detailSale != null) {
 			return JsonUtil.getRetMsg(6, "直播详细已经购买，不能重复购买");
 		}
+		
+		if(b<=0){
+			return JsonUtil.getRetMsg(6,"暂不支持购买");
+		}
 
 		if (account == null || account.getJucaiBills() < b) {
 			return JsonUtil.getRetMsg(5, "余额不足，请先充值");

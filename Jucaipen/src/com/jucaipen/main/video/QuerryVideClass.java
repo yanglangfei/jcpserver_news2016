@@ -3,28 +3,26 @@ package com.jucaipen.main.video;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.VideoClass;
 import com.jucaipen.service.VideoClassSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  * 
  *         获取视频分类信息  不是类型  讲师
  */
-@SuppressWarnings("serial")
 public class QuerryVideClass extends HttpServlet {
+	/**
+	 */
+	private static final long serialVersionUID = 6515272608845875430L;
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

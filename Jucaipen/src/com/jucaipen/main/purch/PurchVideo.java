@@ -96,6 +96,10 @@ public class PurchVideo extends HttpServlet {
 		String endDate = null;
 		User user = UserServer.findBaseInfoById(uId);
 		Account a = AccountSer.findAccountByUserId(uId);
+		if(b<=0){
+			return JsonUtil.getRetMsg(6, "ÔÝ²»Ö§³Ö¹ºÂò");
+		}
+		
 		if (a == null || a.getJucaiBills() < b) {
 			return JsonUtil.getRetMsg(1, "¾Û²Æ±ÒÓà¶î²»×ã");
 		}

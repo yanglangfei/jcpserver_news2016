@@ -12,11 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.model.Comment;
 import com.jucaipen.model.HotIdea;
 import com.jucaipen.model.JcpNews;
+import com.jucaipen.model.User;
 import com.jucaipen.model.UserComm;
+import com.jucaipen.model.Video;
 import com.jucaipen.service.CommentSer;
 import com.jucaipen.service.HotIdeaServ;
 import com.jucaipen.service.JcpNewsSer;
 import com.jucaipen.service.UserCommSer;
+import com.jucaipen.service.UserServer;
+import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 /**
@@ -66,6 +70,7 @@ public class MyComment extends HttpServlet {
 	}
 
 	private String initMyComments(int uId, int type, int p) {
+		User user=UserServer.findBaseInfoById(uId);
 		if (type == 0) {
 			// 0 资讯
 			List<UserComm> comms = UserCommSer.findComment(uId, 0, p);
@@ -74,22 +79,29 @@ public class MyComment extends HttpServlet {
 					int id = com.getNovId();
 					JcpNews news = JcpNewsSer.findNews(id);
 					com.setFkName(news.getTitle());
+					com.setFkDesc(news.getDesc());
+					com.setUserName(user.getNickName());
+					com.setUserFace(user.getFaceImage());
+					com.setUserLeavel(user.getUserLeval());
 				}
 			}
-
-			return JsonUtil.getUserComments(comms);
+			return JsonUtil.getNewsComments(comms);
 		} else if (type == 1) {
 			// 1 视频
 			List<UserComm> comms = UserCommSer.findComment(uId, 1, p);
 			if (comms != null) {
 				for (UserComm com : comms) {
 					int id = com.getNovId();
-					JcpNews news = JcpNewsSer.findNews(id);
-					com.setFkName(news.getTitle());
+					Video video=VideoServer.findVideoById(id);
+					com.setFkName(video.getTitle());
+					com.setFkImage(video.getImages());
+					com.setFkDesc(video.getDescript());
+					com.setUserName(user.getNickName());
+					com.setUserFace(user.getFaceImage());
+					com.setUserLeavel(user.getUserLeval());
 				}
 			}
-			return JsonUtil.getUserComments(comms);
-
+			return JsonUtil.getVideoComments(comms);
 		} else if (type == 2) {
 			// 评论类型（1观点日志，2文字直播）
 			List<Comment> comms = CommentSer.findComment(uId, 1, p);
@@ -98,6 +110,10 @@ public class MyComment extends HttpServlet {
 					int id = com.getLogOrLiveId();
 					HotIdea idea = HotIdeaServ.findIdeaById(id);
 					com.setFkName(idea.getTitle());
+					com.setFkDesc(idea.getBodys());
+					com.setUserName(user.getNickName());
+					com.setUserFace(user.getFaceImage());
+					com.setUserLeavel(user.getUserLeval());
 				}
 			}
 			return JsonUtil.getLogComments(comms);

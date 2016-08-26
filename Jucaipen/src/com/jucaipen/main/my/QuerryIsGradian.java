@@ -39,7 +39,6 @@ public class QuerryIsGradian extends HttpServlet {
 				}else{
 					result=JsonUtil.getRetMsg(3,"teacherId 参数异常");
 				}
-				
 			}else{
 				result=JsonUtil.getRetMsg(4,"用户还没登录");
 			}

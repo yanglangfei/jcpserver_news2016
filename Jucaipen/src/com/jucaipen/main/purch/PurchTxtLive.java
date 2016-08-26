@@ -93,6 +93,10 @@ public class PurchTxtLive extends HttpServlet {
 		FamousTeacher teacher = FamousTeacherSer
 				.findFamousTeacherById(teacherId);
 		TxtLiveSale saled = TxtLiveSaleSer.findSaleByUidAndTxtId(uId, txtId);
+		if(b<=0){
+			return JsonUtil.getRetMsg(6, "暂不支持购买");
+		}
+		
 		if(saled!=null){
 			return JsonUtil.getRetMsg(6, "文字直播已经购买，不能重复购买");
 		}

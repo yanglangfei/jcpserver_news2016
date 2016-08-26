@@ -18,8 +18,7 @@ import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
  * 
- *         意见反馈
- *         deviceType    0     android      1    ios
+ *         意见反馈 deviceType 0 android 1 ios
  */
 @SuppressWarnings("serial")
 public class AddFeedBack extends HttpServlet {
@@ -36,35 +35,37 @@ public class AddFeedBack extends HttpServlet {
 		String contact = request.getParameter("contact");
 		String userId = request.getParameter("userId");
 		String bodys = request.getParameter("bodys");
-		String deviceType=request.getParameter("deviceType");
+		String deviceType = request.getParameter("deviceType");
 		if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
 			int uId = Integer.parseInt(userId);
 			if (uId > 0) {
 				if (StringUtil.isNotNull(trueName)) {
 					if (StringUtil.isNotNull(contact)) {
 						if (StringUtil.isNotNull(bodys)) {
-							if(StringUtil.isNotNull(deviceType)&&StringUtil.isInteger(deviceType)){
-								int devType=Integer.parseInt(deviceType);
-								result = inserAdvice(trueName, contact, uId, bodys,ip,devType);
-							}else{
-								result=JsonUtil.getRetMsg(6,"deviceType 参数异常");
+							if (StringUtil.isNotNull(deviceType)
+									&& StringUtil.isInteger(deviceType)) {
+								int devType = Integer.parseInt(deviceType);
+								result = inserAdvice(trueName, contact, uId,
+										bodys, ip, devType);
+							} else {
+								result = JsonUtil.getRetMsg(6,
+										"deviceType 参数异常");
 							}
-						}else{
-							result=JsonUtil.getRetMsg(5,"反馈内容不能为空");
+						} else {
+							result = JsonUtil.getRetMsg(5, "反馈内容不能为空");
 						}
-					}else{
-						result=JsonUtil.getRetMsg(4,"联系方式不能为空");
+					} else {
+						result = JsonUtil.getRetMsg(4, "联系方式不能为空");
 					}
-				}else{
-					result=JsonUtil.getRetMsg(3, "真实姓名不能为空");
+				} else {
+					result = JsonUtil.getRetMsg(3, "真实姓名不能为空");
 				}
-			}else{
-				result=JsonUtil.getRetMsg(2, "用户还没登录");
+			} else {
+				result = JsonUtil.getRetMsg(2, "用户还没登录");
 			}
-		}else{
-			result=JsonUtil.getRetMsg(1, "userId 参数异常");
+		} else {
+			result = JsonUtil.getRetMsg(1, "userId 参数异常");
 		}
-
 		out.println(result);
 		out.flush();
 		out.close();
@@ -72,16 +73,18 @@ public class AddFeedBack extends HttpServlet {
 
 	private String inserAdvice(String trueName, String contact, int uId,
 			String bodys, String ip, int devType) {
-		FeedBack feedBack=new FeedBack();
+		FeedBack feedBack = new FeedBack();
 		feedBack.setBody(bodys);
-		feedBack.setInsertDate(TimeUtils.format(new Date(),"yyyy-MM-dd HH:mm:ss"));
+		feedBack.setInsertDate(TimeUtils.format(new Date(),
+				"yyyy-MM-dd HH:mm:ss"));
 		feedBack.setIp(ip);
 		feedBack.setMobileNum(contact);
 		feedBack.setTrueName(trueName);
 		feedBack.setUserId(uId);
 		feedBack.setType(0);
 		int isSuccess = FeedBackSer.insertFeedBack(feedBack);
-		return isSuccess==1 ? JsonUtil.getRetMsg(0, "意见反馈成功") : JsonUtil.getRetMsg(1,"意见反馈失败");
+		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "意见反馈成功") : JsonUtil
+				.getRetMsg(1, "意见反馈失败");
 	}
 
 }

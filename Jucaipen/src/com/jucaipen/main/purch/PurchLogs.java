@@ -92,6 +92,10 @@ public class PurchLogs extends HttpServlet {
 		int teacherId = idea.getTeacherId();
 		User user = UserServer.findBaseInfoById(uId);
 		FamousTeacher teacher = FamousTeacherSer.findTeacherBaseInfo(teacherId);
+		if(b<=0){
+			return JsonUtil.getRetMsg(6,"暂不支持购买");
+		}
+		
 		if (acount == null || acount.getJucaiBills() < b) {
 			return JsonUtil.getRetMsg(1, "余额不足，请先充值");
 		}
