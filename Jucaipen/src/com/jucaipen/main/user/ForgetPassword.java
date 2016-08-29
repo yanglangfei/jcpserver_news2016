@@ -23,8 +23,8 @@ import com.jucaipen.utils.StringUtil;
  * @author Administrator
  *      忘记密码
  */
-@SuppressWarnings("serial")
 public class ForgetPassword extends HttpServlet {
+	private static final long serialVersionUID = -7692139877775498357L;
 	private String result;
 	private Map<String, String> param = new HashMap<String, String>();
 	// 加密手机号 参数

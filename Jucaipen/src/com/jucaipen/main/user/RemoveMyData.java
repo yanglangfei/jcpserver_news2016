@@ -25,8 +25,8 @@ import com.jucaipen.utils.StringUtil;
  *         删除我的数据 typeId 0 我收藏的视频 1 我收藏的知识 2 视频评论 3 观点评论 4 资讯评论 5 充值记录
  * 
  */
-@SuppressWarnings("serial")
 public class RemoveMyData extends HttpServlet {
+	private static final long serialVersionUID = 3097481023070681816L;
 	private String result;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

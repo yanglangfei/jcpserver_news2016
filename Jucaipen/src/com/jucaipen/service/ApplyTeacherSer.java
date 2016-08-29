@@ -35,9 +35,9 @@ public class ApplyTeacherSer{
 	 * @param apply
 	 * @return Ìí¼ÓÉêÇëĞÅÏ¢
 	 */
-	public int addApply(ApplyTeacher apply) {
+	public static int addApply(ApplyTeacher apply,int step) {
 		ApplyTeacherDao dao=new ApplyTeacherImp();
-		return dao.addApply(apply);
+		return dao.addApply(apply,step);
 	}
 
 }

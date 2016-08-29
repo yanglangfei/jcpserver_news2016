@@ -18,8 +18,8 @@ import com.jucaipen.utils.JsonUtil;
  * 
  *         获取热门搜索视频
  */
-@SuppressWarnings("serial")
 public class HotVideos extends HttpServlet {
+	private static final long serialVersionUID = 4404643307063853645L;
 	private String result;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

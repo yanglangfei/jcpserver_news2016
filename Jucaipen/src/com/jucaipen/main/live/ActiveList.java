@@ -22,8 +22,8 @@ import com.jucaipen.utils.StringUtil;
  * 
  *     现场贵宾 ---讲师守护者
  */
-@SuppressWarnings("serial")
 public class ActiveList extends HttpServlet {
+	private static final long serialVersionUID = -5016293502380259661L;
 	private String result;
 	private Map<String, String> param = new HashMap<String, String>();
 	private static final String GETUser = "http://www.jucaipen.com/TeacherLive/ashx/user.ashx?action=GetUserList";

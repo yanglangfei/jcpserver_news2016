@@ -20,8 +20,8 @@ import com.jucaipen.utils.StringUtil;
  *  我的充值记录
  *  
  */
-@SuppressWarnings("serial")
 public class MyChargeRecoder extends HttpServlet {
+	private static final long serialVersionUID = 4092198290376308819L;
 	private String result;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

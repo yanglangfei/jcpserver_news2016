@@ -33,8 +33,8 @@ import com.jucaipen.utils.StringUtil;
  *         1 视频直播 返回参数：id image title joinNums isLive
  * 
  */
-@SuppressWarnings("serial")
 public class LiveList extends HttpServlet {
+	private static final long serialVersionUID = -3535325712984870701L;
 	private String result;
 	private List<FamousTeacher> teachers = new ArrayList<FamousTeacher>();
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

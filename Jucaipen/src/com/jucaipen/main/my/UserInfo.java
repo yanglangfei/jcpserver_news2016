@@ -30,8 +30,8 @@ import com.jucaipen.utils.StringUtil;
  * 
  *         获取用户信息
  */
-@SuppressWarnings("serial")
 public class UserInfo extends HttpServlet {
+	private static final long serialVersionUID = -6681194960664229841L;
 	private User user;
 	private String result;
 	private String localProvince;

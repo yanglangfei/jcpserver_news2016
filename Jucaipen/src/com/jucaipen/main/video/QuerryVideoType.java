@@ -17,8 +17,8 @@ import com.jucaipen.utils.JsonUtil;
  * @author Administrator
  *   获取视频类型信息    
  */
-@SuppressWarnings("serial")
 public class QuerryVideoType extends HttpServlet {
+	private static final long serialVersionUID = 6637614625160082897L;
 	private String result;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

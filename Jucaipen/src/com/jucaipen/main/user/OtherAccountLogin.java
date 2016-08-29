@@ -25,8 +25,8 @@ import com.jucaipen.utils.StringUtil;
  *         第三方账号登录 accountType ---第三方账号类型 accountId ---第三方账号id
  * 
  */
-@SuppressWarnings("serial")
 public class OtherAccountLogin extends HttpServlet {
+	private static final long serialVersionUID = 2932971607795771388L;
 	private User user;
 	private String result;
 	private int uId;

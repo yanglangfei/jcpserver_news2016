@@ -71,6 +71,8 @@ public class ApplyTeacher {
 	 *  推荐用户id  FK_ParentUserId
 	 */
 	private int fk_ParentUserId;
+	
+	private String parentAccount;
 	/**
 	 *  联系手机号  MobileNum
 	 */
@@ -107,6 +109,21 @@ public class ApplyTeacher {
      *  银行账号   BankAccount
      */
     private String bankAccount;
+    
+    private String actionCode;
+    
+	public String getParentAccount() {
+		return parentAccount;
+	}
+	public void setParentAccount(String parentAccount) {
+		this.parentAccount = parentAccount;
+	}
+	public String getActionCode() {
+		return actionCode;
+	}
+	public void setActionCode(String actionCode) {
+		this.actionCode = actionCode;
+	}
 	public int getId() {
 		return id;
 	}

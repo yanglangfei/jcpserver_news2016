@@ -24,8 +24,8 @@ import com.jucaipen.utils.StringUtil;
  *         咨询名师 同一个问题只能问三次，之后需要聚财币购买
  * 
  */
-@SuppressWarnings("serial")
 public class AskQuestion extends HttpServlet {
+	private static final long serialVersionUID = -373303338941959681L;
 	private int isSuccess;
 	private String result;
 	private String ip;

@@ -21,9 +21,8 @@ import com.jucaipen.utils.StringUtil;
  *         获取第三方账号信息
  * 
  */
-@SuppressWarnings("serial")
 public class OtherAccountList extends HttpServlet {
-	private User user;
+	private static final long serialVersionUID = 3971441859398207569L;
 	private String result;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -45,7 +44,7 @@ public class OtherAccountList extends HttpServlet {
 			if (StringUtil.isInteger(userId)) {
 				int uId = Integer.parseInt(userId);
 				if (uId > 0) {
-					querryOtherAccount(uId);
+					User user = querryOtherAccount(uId);
 					if (user != null) {
 						result = JsonUtil.getOtherAccountList(user);
 					} else {
@@ -65,10 +64,9 @@ public class OtherAccountList extends HttpServlet {
 		out.close();
 	}
 
-	private void querryOtherAccount(int uId) {
+	private User querryOtherAccount(int uId) {
 		// 查询第三方账号信息
-		user = UserServer.querryOtherAccount(uId);
-
+		return  UserServer.querryOtherAccount(uId);
 	}
 
 }

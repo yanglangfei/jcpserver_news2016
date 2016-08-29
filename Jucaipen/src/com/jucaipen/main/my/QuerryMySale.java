@@ -49,10 +49,9 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         typeId 0 视频 1 专辑 2 日志观点 3 文字直播 （整个文字直播） 4 问答 5 战法 6 直播观点 （单个文字直播）
  */
-@SuppressWarnings("serial")
 public class QuerryMySale extends HttpServlet {
+	private static final long serialVersionUID = -4719886263162666822L;
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

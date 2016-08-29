@@ -20,8 +20,8 @@ import com.jucaipen.utils.StringUtil;
  * 
  *         зЂВс
  */
-@SuppressWarnings("serial")
 public class Regin extends HttpServlet {
+	private static final long serialVersionUID = -1703673261889402301L;
 	private String reginUrl = "http://www.jucaipen.com/ashx/AndroidUser.ashx?action=reg";
 	private String result;
 	private String ip;

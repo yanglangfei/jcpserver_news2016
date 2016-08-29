@@ -29,8 +29,8 @@ import com.jucaipen.utils.StringUtil;
  *
  *  修改手机号
  */
-@SuppressWarnings("serial")
 public class UpdatePhone extends HttpServlet {
+	private static final long serialVersionUID = 8454252074295036903L;
 	private String result;
 	// 加密手机号 参数
 	private String encrypePath = "http://www.jcplicai.com/ashx/AndroidUser.ashx?action=GetEncryptMobileNum";

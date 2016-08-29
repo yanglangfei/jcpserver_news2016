@@ -21,8 +21,8 @@ import com.jucaipen.utils.StringUtil;
  *         QQ -----1 微信 -----2 新浪 accountId 绑定账号的id
  * 
  */
-@SuppressWarnings("serial")
 public class BindOtherAccount extends HttpServlet {
+	private static final long serialVersionUID = 4403585027823706943L;
 	private String result;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

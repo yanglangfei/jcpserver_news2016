@@ -17,8 +17,8 @@ import com.jucaipen.utils.StringUtil;
  *
  *   获取我的返利信息
  */
-@SuppressWarnings("serial")
 public class QuerryRebate extends HttpServlet {
+	private static final long serialVersionUID = -2131947635113301234L;
 	private String result;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

@@ -29,8 +29,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         µÇÂ¼
  */
-@SuppressWarnings("serial")
 public class Login extends HttpServlet {
+	private static final long serialVersionUID = 7330291568573845129L;
 	private String loginUrl = "http://www.jucaipen.com/ashx/AndroidUser.ashx?action=login";
 	private String result;
 	private String loginIp;

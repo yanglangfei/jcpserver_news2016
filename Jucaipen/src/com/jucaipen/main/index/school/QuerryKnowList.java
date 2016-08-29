@@ -20,8 +20,8 @@ import com.jucaipen.utils.StringUtil;
  *
  *  获取知识列表
  */
-@SuppressWarnings("serial")
 public class QuerryKnowList extends HttpServlet {
+	private static final long serialVersionUID = -5596448669495264585L;
 	private String result;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

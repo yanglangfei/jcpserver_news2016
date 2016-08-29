@@ -30,11 +30,10 @@ import com.jucaipen.utils.TimeUtils;
  *         {"id":94,"title":"111","imageUrl":"","comms":0,"hits":5,"desc":"1"} 1
  *         全部
  */
-@SuppressWarnings("serial")
 public class VideoList extends HttpServlet {
+	private static final long serialVersionUID = 1572364249873336315L;
 	private String result;
 	private int isPurch;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -102,7 +101,6 @@ public class VideoList extends HttpServlet {
 
 	private String initIndexData(String userId) {
 		// 初始化首页数据     首页 +推荐
-		
 		int uId=0;
 		//是否购买    0  有购买     1    未购买      2  已过期
 		if(!StringUtil.isNotNull(userId)||!StringUtil.isInteger(userId)){
@@ -144,7 +142,6 @@ public class VideoList extends HttpServlet {
 						isPurch=1;
 					}
 				}
-				
 				
 				if(uId>0&&specialId<=0){
 					MyVideo myVideo=MyVideoSer.findIsMyVideo(uId, video.getId());

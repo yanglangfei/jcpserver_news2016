@@ -274,13 +274,13 @@ public class UserImp implements UserDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("select ISNULL (TrueName,'') TrueName,ISNULL (NickName,'') NickName,ISNULL (UserFace,'') UserFace,ISNULL (MobileNum,'') MobileNum,UserName from JCP_User where Id="
-							+ id); 
+							+ id);
 			while (res.next()) {
 				String NickName = res.getString(SqlUtil.USER_NICKNAME);
 				String trueName = res.getString(SqlUtil.USER_TRUENAME);
 				String faceImage = res.getString(SqlUtil.USRE_FACEIMAGE);
-				String telPhone=res.getString("MobileNum");
-				String userName=res.getString("UserName");
+				String telPhone = res.getString("MobileNum");
+				String userName = res.getString("UserName");
 				u = new User();
 				u.setId(id);
 				u.setFaceImage(faceImage);
@@ -826,7 +826,7 @@ public class UserImp implements UserDao {
 				String telPhone = res.getString(5);
 				int loginNum = res.getInt(6);
 				int integeral = res.getInt(7);
-				String investCode=res.getString(8);
+				String investCode = res.getString(8);
 				User user = new User();
 				user.setId(id);
 				user.setLoginNum(loginNum);
@@ -901,7 +901,7 @@ public class UserImp implements UserDao {
 					+ ",LastLoginIp='" + ip + "' WHERE Id=" + uId);
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -909,6 +909,34 @@ public class UserImp implements UserDao {
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public User findUserIsCheck(int userId) {
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT IsEmailVerification,IsMobileVerification,IsTxtTearcher,IsVideoTearcher,Isteacher FROM JCP_User WHERE Id="
+							+ userId);
+			while (res.next()) {
+				int isEmailCheck = res.getInt(1);
+				int isMobileCheck = res.getInt(2);
+				int isTxtTeacher = res.getInt(3);
+				int isVideoTeacher = res.getInt(4);
+				int isTeacher = res.getInt(5);
+				User user = new User();
+				user.setIsChechEmail(isEmailCheck);
+				user.setIsChechMobile(isMobileCheck);
+				user.setIsVideoTeacher(isVideoTeacher);
+				user.setIsTxtTeacher(isTxtTeacher);
+				user.setIsTeacher(isTeacher);
+				return user;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

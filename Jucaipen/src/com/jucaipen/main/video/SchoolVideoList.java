@@ -25,8 +25,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         获取学院视频教程列表
  */
-@SuppressWarnings("serial")
 public class SchoolVideoList extends HttpServlet {
+	private static final long serialVersionUID = 9030455552900154278L;
 	private String result;
 	private int isPurch;
 

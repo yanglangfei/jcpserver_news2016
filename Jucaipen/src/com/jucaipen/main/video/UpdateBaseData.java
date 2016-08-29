@@ -22,8 +22,8 @@ import com.jucaipen.utils.StringUtil;
  *         更新点击数     typeId    0   视频点击数
  *                             1   直播点击数
  */
-@SuppressWarnings("serial")
 public class UpdateBaseData extends HttpServlet {
+	private static final long serialVersionUID = -855260812956018826L;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

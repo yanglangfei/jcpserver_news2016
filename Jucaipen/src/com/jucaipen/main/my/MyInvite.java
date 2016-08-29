@@ -23,12 +23,11 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator 获取我的邀请
  */
-@SuppressWarnings("serial")
 public class MyInvite extends HttpServlet {
+	private static final long serialVersionUID = 5250967805729780297L;
 	private String result;
 	private String parsePhoneNum = "http://user.jucaipen.com/ashx/AndroidUser.ashx?action=GetDecryptMobileNum";
 	private Map<String, String> param = new HashMap<String, String>();
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

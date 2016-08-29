@@ -29,8 +29,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         获取视频资源 以及购买状态 videoUrl isPurch
  */
-@SuppressWarnings("serial")
 public class VideoResource extends HttpServlet {
+	private static final long serialVersionUID = 2797128254989094436L;
 	private String result;
 	private static Map<String, String> param = new HashMap<String, String>();
 	private static final String LEVT_PATH = "http://www.jucaipen.com/ashx/AndroidUser.ashx?action=VideoDetail";

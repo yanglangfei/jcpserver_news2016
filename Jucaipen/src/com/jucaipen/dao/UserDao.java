@@ -17,6 +17,13 @@ public interface UserDao {
 	public int updateUserTrueNameAndTelById(String telPhone,User u);
 	
 	public int updateLoginNum(int num,int uId,String ip);
+	
+	
+	/**
+	 * @param userId
+	 * @return   获取用户手机  邮箱验证状态
+	 */
+	public User findUserIsCheck(int userId);
 	/**
 	 * @param id
 	 * @param tel

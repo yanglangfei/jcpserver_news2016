@@ -23,8 +23,8 @@ import com.jucaipen.utils.StringUtil;
  *
  *  获取我的问答
  */
-@SuppressWarnings("serial")
 public class QuerryMyAsk extends HttpServlet {
+	private static final long serialVersionUID = 6425301365805052709L;
 	private String result;
 	private List<User> users=new ArrayList<User>();
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

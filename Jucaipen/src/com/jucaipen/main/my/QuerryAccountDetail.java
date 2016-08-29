@@ -22,8 +22,8 @@ import com.jucaipen.utils.StringUtil;
  * 
  *         获取账单详细信息  state 0 聚财币 1 积分 
  */
-@SuppressWarnings("serial")
 public class QuerryAccountDetail extends HttpServlet {
+	private static final long serialVersionUID = -5370364459925577430L;
 	private String result;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

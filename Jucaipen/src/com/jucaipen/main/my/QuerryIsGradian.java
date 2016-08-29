@@ -18,10 +18,9 @@ import com.jucaipen.utils.StringUtil;
  *
  *  获取是否是讲师的守护者
  */
-@SuppressWarnings("serial")
 public class QuerryIsGradian extends HttpServlet {
+	private static final long serialVersionUID = -6583898775815524969L;
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

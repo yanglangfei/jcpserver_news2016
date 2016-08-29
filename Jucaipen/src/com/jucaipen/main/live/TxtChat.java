@@ -28,12 +28,11 @@ import com.jucaipen.utils.TimeUtils;
  *         文字直播互动     悄悄话    0      
  *                     互动      1
  */
-@SuppressWarnings("serial")
 public class TxtChat extends HttpServlet {
+	private static final long serialVersionUID = -4150372155743776368L;
 	private boolean isManager;
 	private String ip;
 	private Timer timer;
-
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

@@ -19,8 +19,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         举报 repoterType 0 日志 1 问答 2 观点 3 视频直播
  */
-@SuppressWarnings("serial")
 public class Report extends HttpServlet {
+	private static final long serialVersionUID = -8371866537764942301L;
 	private String result;
 	private String ip;
 

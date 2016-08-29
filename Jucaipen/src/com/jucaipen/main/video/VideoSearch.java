@@ -22,8 +22,8 @@ import com.jucaipen.utils.TimeUtils;
  *
  *   ÊÓÆµ¼ìË÷
  */
-@SuppressWarnings("serial")
 public class VideoSearch extends HttpServlet {
+	private static final long serialVersionUID = 7968778839097857905L;
 	private String result;
 	private int isPurch;
 

@@ -74,7 +74,11 @@ public class AddFeedBack extends HttpServlet {
 	private String inserAdvice(String trueName, String contact, int uId,
 			String bodys, String ip, int devType) {
 		FeedBack feedBack = new FeedBack();
-		feedBack.setBody(bodys);
+		if(devType==0){
+			feedBack.setBody("android问题反馈:"+bodys);
+		}else{
+			feedBack.setBody("ios问题反馈:"+bodys);
+		}
 		feedBack.setInsertDate(TimeUtils.format(new Date(),
 				"yyyy-MM-dd HH:mm:ss"));
 		feedBack.setIp(ip);
@@ -83,8 +87,8 @@ public class AddFeedBack extends HttpServlet {
 		feedBack.setUserId(uId);
 		feedBack.setType(0);
 		int isSuccess = FeedBackSer.insertFeedBack(feedBack);
-		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "意见反馈成功") : JsonUtil
-				.getRetMsg(1, "意见反馈失败");
+		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "反馈提交成功") : JsonUtil
+				.getRetMsg(1, "反馈提交失败");
 	}
 
 }

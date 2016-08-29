@@ -26,6 +26,6 @@ public interface ApplyTeacherDao {
 	 * @param apply
 	 * @return  Ìí¼ÓÉêÇëĞÅÏ¢
 	 */
-	public int addApply(ApplyTeacher apply);
+	public int addApply(ApplyTeacher apply,int step);
 
 }

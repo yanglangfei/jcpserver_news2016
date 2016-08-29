@@ -25,8 +25,8 @@ import com.jucaipen.utils.TimeUtils;
  *         关注名师 opType 0 添加关注 1 取消关注
  * 
  */
-@SuppressWarnings("serial")
 public class Attention extends HttpServlet {
+	private static final long serialVersionUID = 5934460474869115371L;
 	private String result;
 	private String ip;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

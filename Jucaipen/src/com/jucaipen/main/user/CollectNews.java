@@ -25,8 +25,8 @@ import com.jucaipen.utils.StringUtil;
  *         opType ----0 收藏 -----1 取消收藏
  * 
  */
-@SuppressWarnings("serial")
 public class CollectNews extends HttpServlet {
+	private static final long serialVersionUID = -7615999442914686319L;
 	private String result;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 

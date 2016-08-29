@@ -24,8 +24,8 @@ import com.jucaipen.utils.UpLoadFileUtils;
  *         文件上传(用户头像)
  * 
  */
-@SuppressWarnings("serial")
 public class UploadUserLogo extends HttpServlet {
+	private static final long serialVersionUID = 8708695153137084211L;
 	private Map<String, String> map;
 	private String fileName;
 	private String userId;

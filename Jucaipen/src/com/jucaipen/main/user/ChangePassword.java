@@ -26,8 +26,8 @@ import com.jucaipen.utils.StringUtil;
  * 
  *         ÐÞ¸ÄÃÜÂë
  */
-@SuppressWarnings("serial")
 public class ChangePassword extends HttpServlet {
+	private static final long serialVersionUID = -2665589395926091613L;
 	private String result;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private String encrypePath = "http://user.jucaipen.com/ashx/AndroidUser.ashx?action=GetEncryptMobileNum";

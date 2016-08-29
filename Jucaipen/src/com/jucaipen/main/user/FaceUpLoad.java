@@ -17,8 +17,8 @@ import com.jucaipen.utils.StringUtil;
  *
  *   同步更新用户头像信息
  */
-@SuppressWarnings("serial")
 public class FaceUpLoad extends HttpServlet {
+	private static final long serialVersionUID = -7510692746856945862L;
 	private String result;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

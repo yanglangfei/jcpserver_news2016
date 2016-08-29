@@ -19,12 +19,10 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *         获取讲师观点 isIndex 0 首页 
- *                           1 全部 
- *                           2 根据讲师id查询
+ *         获取讲师观点 isIndex 0 首页 1 全部 2 根据讲师id查询
  */
-@SuppressWarnings("serial")
 public class TeacherIdea extends HttpServlet {
+	private static final long serialVersionUID = 6097347924293457150L;
 	private String result;
 	private List<HotIdea> hotIdeas;
 

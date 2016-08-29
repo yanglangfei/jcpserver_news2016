@@ -28,8 +28,8 @@ import com.jucaipen.utils.StringUtil;
  * 
  *         获取我的评论
  */
-@SuppressWarnings("serial")
 public class MyComment extends HttpServlet {
+	private static final long serialVersionUID = -1247987697537247275L;
 	private String result;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

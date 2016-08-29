@@ -19,8 +19,8 @@ import com.jucaipen.utils.StringUtil;
  *
  *  获取用户中心基本信息
  **/
-@SuppressWarnings("serial")
 public class UserBaseInfo extends HttpServlet {
+	private static final long serialVersionUID = 1318609607746929659L;
 	private String result;
 	/**
 	 *   解密手机号

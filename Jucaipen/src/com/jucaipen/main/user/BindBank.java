@@ -18,8 +18,8 @@ import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator °ó¶¨ÒøÐÐ¿¨
  */
-@SuppressWarnings("serial")
 public class BindBank extends HttpServlet {
+	private static final long serialVersionUID = 8589720684117227531L;
 	private String result;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

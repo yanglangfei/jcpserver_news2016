@@ -20,8 +20,8 @@ import com.jucaipen.utils.StringUtil;
  * 
  *    获取赠送礼品详细信息
  */
-@SuppressWarnings("serial")
 public class GiftRecoderDetail extends HttpServlet {
+	private static final long serialVersionUID = -7658211294843728568L;
 	private String result;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

@@ -22,8 +22,8 @@ import com.jucaipen.utils.StringUtil;
  *
  *  获取乐视视频播放参数
  */
-@SuppressWarnings("serial")
 public class LevLiveUrl extends HttpServlet {
+	private static final long serialVersionUID = -4265030426313381260L;
 	private String result;
 	private static Map<String, String> param=new HashMap<String, String>();
 	private static final String LEVT_PATH="http://www.jucaipen.com/ashx/AndroidUser.ashx?action=VideoDetail";

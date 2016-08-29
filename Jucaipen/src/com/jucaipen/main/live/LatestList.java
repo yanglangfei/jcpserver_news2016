@@ -22,10 +22,9 @@ import com.jucaipen.utils.StringUtil;
  * 
  *         获取最新榜单信息 type 0 日榜单 1 月榜单
  */
-@SuppressWarnings("serial")
 public class LatestList extends HttpServlet {
+	private static final long serialVersionUID = -1470334903009105509L;
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

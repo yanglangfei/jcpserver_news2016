@@ -29,10 +29,9 @@ import com.jucaipen.utils.StringUtil;
  *         1 观点点赞数 2 知识点赞数 3 文字直播点赞数 4 资讯点赞数 5 视频点赞数 6 视频评论点赞
  * 
  */
-@SuppressWarnings("serial")
 public class AddGoods extends HttpServlet {
+	private static final long serialVersionUID = -9204248834484763251L;
 	private String result;
-
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

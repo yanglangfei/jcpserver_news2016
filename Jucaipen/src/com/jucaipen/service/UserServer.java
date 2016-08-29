@@ -13,12 +13,16 @@ public class UserServer {
 		UserDao dao = new UserImp();
 		return dao.findUser(page);
 	}
-	
-	public static User findUserChatInfo(int uId){
+
+	public static User findUserChatInfo(int uId) {
 		UserDao dao = new UserImp();
 		return dao.findUserChatInfo(uId);
 	}
-	
+
+	public static User findUserIsCheck(int userId) {
+		UserDao dao = new UserImp();
+		return dao.findUserIsCheck(userId);
+	}
 
 	/**
 	 * @param id
@@ -28,28 +32,27 @@ public class UserServer {
 		UserDao dao = new UserImp();
 		return dao.findUserById(id);
 	}
-	
-	public static User findBaseInfoById(int id){
+
+	public static User findBaseInfoById(int id) {
 		UserDao dao = new UserImp();
 		return dao.findBaseInfoById(id);
 	}
-	
-	
+
 	/**
 	 * @param id
-	 * @return   获取登录用户信息
+	 * @return 获取登录用户信息
 	 */
-	public static User findLoginInfoById(int id){
-		UserDao dao=new UserImp();
+	public static User findLoginInfoById(int id) {
+		UserDao dao = new UserImp();
 		return dao.findLoginInfoById(id);
 	}
-	
+
 	/**
 	 * @param investCode
-	 * @return  根据邀请码获取用户信息
+	 * @return 根据邀请码获取用户信息
 	 */
-	public static User findUserByInvestCode(String investCode){
-		UserDao dao=new UserImp();
+	public static User findUserByInvestCode(String investCode) {
+		UserDao dao = new UserImp();
 		return dao.findUserByInvestCode(investCode);
 	}
 
@@ -91,14 +94,14 @@ public class UserServer {
 		UserDao dao = new UserImp();
 		return dao.updataUserById(uId, user);
 	}
-	
+
 	/**
 	 * @param id
 	 * @param user
-	 * @return   通过id修改用户手机号和真实姓名
+	 * @return 通过id修改用户手机号和真实姓名
 	 */
-	public static int updateUserTrueNameAndTelById(String telPhone,User user){
-		UserDao dao=new UserImp();
+	public static int updateUserTrueNameAndTelById(String telPhone, User user) {
+		UserDao dao = new UserImp();
 		return dao.updateUserTrueNameAndTelById(telPhone, user);
 	}
 
@@ -114,21 +117,21 @@ public class UserServer {
 	/**
 	 * @param id
 	 * @param faceImage
-	 * @return  根据id修改用户头像URL
+	 * @return 根据id修改用户头像URL
 	 */
 	public static int updateUserLogo(int id, String faceImage) {
 		UserDao dao = new UserImp();
 		return dao.updateUserLogoById(id, faceImage);
 	}
-	
+
 	/**
 	 * @param num
 	 * @param uId
 	 * @return 更新登录次数
 	 */
-	public static int updateLoginNum(int num,int uId,String ip){
+	public static int updateLoginNum(int num, int uId, String ip) {
 		UserDao dao = new UserImp();
-		return dao.updateLoginNum(num, uId,ip);
+		return dao.updateLoginNum(num, uId, ip);
 	}
 
 	/**
@@ -139,54 +142,50 @@ public class UserServer {
 		UserDao dao = new UserImp();
 		return dao.findPasswordById(id).getPassword();
 	}
-	
-	
+
 	/**
 	 * @param tel
-	 * @return   通过手机号查询用户信息  ---完善个人资料时验证手机号是否已经绑定
+	 * @return 通过手机号查询用户信息 ---完善个人资料时验证手机号是否已经绑定
 	 */
-	public static User findUserByTelPhone(String tel){
-		UserDao dao=new UserImp();
+	public static User findUserByTelPhone(String tel) {
+		UserDao dao = new UserImp();
 		return dao.findUserByTelPhone(tel);
 	}
-	
-	
+
 	/**
 	 * @param qqId
-	 * @return   通过qqId 查询用户信息  --绑定第三方账号时验证qq是否绑定
+	 * @return 通过qqId 查询用户信息 --绑定第三方账号时验证qq是否绑定
 	 */
-	public static User findUserByQQId(String qqId){
-		UserDao dao=new UserImp();
+	public static User findUserByQQId(String qqId) {
+		UserDao dao = new UserImp();
 		return dao.findUserByQqopenId(qqId);
 	}
-	
-	
+
 	/**
 	 * @param weixinId
-	 * @return   通过微信id 查询用户信息   --绑定第三方账号时验证微信账号是否绑定
+	 * @return 通过微信id 查询用户信息 --绑定第三方账号时验证微信账号是否绑定
 	 */
-	public static User findUserByWeixinId(String weixinId){
-		UserDao dao=new UserImp();
+	public static User findUserByWeixinId(String weixinId) {
+		UserDao dao = new UserImp();
 		return dao.findUserByWeixinId(weixinId);
 	}
-	
-	
+
 	/**
 	 * @param sinaId
-	 * @return   通过新浪id查询用户信息    --绑定第三方账号时验证新浪账号是否已经绑定
+	 * @return 通过新浪id查询用户信息 --绑定第三方账号时验证新浪账号是否已经绑定
 	 */
-	public static User  findUserBySinaId(String sinaId){
-		UserDao dao=new UserImp();
+	public static User findUserBySinaId(String sinaId) {
+		UserDao dao = new UserImp();
 		return dao.findUserBySinaId(sinaId);
-		
+
 	}
-	
+
 	/**
 	 * @param id
-	 * @return  根据用户id获取用户头像URL
+	 * @return 根据用户id获取用户头像URL
 	 */
-	public static String findFaceImageById(int id){
-		UserDao dao=new UserImp();
+	public static String findFaceImageById(int id) {
+		UserDao dao = new UserImp();
 		return dao.querryFaceImage(id);
 	}
 
@@ -212,14 +211,14 @@ public class UserServer {
 		UserDao dao = new UserImp();
 		return dao.upDataAccountId(id, accountType, accountId);
 	}
-	
+
 	/**
 	 * @param id
 	 * @param tel
-	 * @return   通过ID修改手机号
+	 * @return 通过ID修改手机号
 	 */
-	public static int updatePhoneById(int id,String tel){
-		UserDao dao=new UserImp();
+	public static int updatePhoneById(int id, String tel) {
+		UserDao dao = new UserImp();
 		return dao.updatePhoneById(id, tel);
 	}
 
@@ -243,32 +242,33 @@ public class UserServer {
 		UserDao dao = new UserImp();
 		return dao.querryOtherAccount(id);
 	}
-	
+
 	/**
 	 * @param uId
-	 * @return  获取用户积分 等级信息
+	 * @return 获取用户积分 等级信息
 	 */
-	public static User querryIntegeralByUid(int uId){
-		UserDao dao=new UserImp();
+	public static User querryIntegeralByUid(int uId) {
+		UserDao dao = new UserImp();
 		return dao.querryIntegeralByUid(uId);
 	}
+
 	/**
 	 * @param uId
 	 * @param leavel
 	 * @return 修改用户等级信息
 	 */
-	public static int updateUserLeavel(int uId,int leavel){
-		UserDao dao=new UserImp();
+	public static int updateUserLeavel(int uId, int leavel) {
+		UserDao dao = new UserImp();
 		return dao.updateUserLeavel(uId, leavel);
 	}
-	
+
 	/**
 	 * @param uId
 	 * @param integeral
 	 * @return 修改用户积分信息
 	 */
-	public static int updateIntegeral(int uId,int integeral){
-		UserDao dao=new UserImp();
+	public static int updateIntegeral(int uId, int integeral) {
+		UserDao dao = new UserImp();
 		return dao.updateIntegeral(integeral, uId);
 	}
 }

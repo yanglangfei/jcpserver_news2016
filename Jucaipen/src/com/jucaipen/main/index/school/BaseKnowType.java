@@ -18,8 +18,8 @@ import com.jucaipen.utils.StringUtil;
  * @author Administrator 获取学院基础知识 分类信息 
  * 
  */
-@SuppressWarnings("serial")
 public class BaseKnowType extends HttpServlet {
+	private static final long serialVersionUID = 7671859603719461192L;
 	private String result;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

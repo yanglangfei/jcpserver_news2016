@@ -41,8 +41,8 @@ import com.jucaipen.utils.TimeUtils;
  *                                            （ 3 文字直播）
  *                      ParentId 0 评论 非0 回复
  */
-@SuppressWarnings("serial")
 public class AddRemark extends HttpServlet {
+	private static final long serialVersionUID = 6953704277453032529L;
 	private String result;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

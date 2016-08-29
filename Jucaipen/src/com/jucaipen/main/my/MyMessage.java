@@ -16,10 +16,14 @@ import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 
-@SuppressWarnings("serial")
+/**
+ * @author Administrator
+ *
+ *  获取系统消息
+ */
 public class MyMessage extends HttpServlet {
+	private static final long serialVersionUID = 3438247395328245318L;
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

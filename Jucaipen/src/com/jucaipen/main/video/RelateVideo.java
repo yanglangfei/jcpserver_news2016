@@ -27,8 +27,8 @@ import com.jucaipen.utils.TimeUtils;
  *        选集    typeId    1
  *        推荐视频   typeId  2
  */
-@SuppressWarnings("serial")
 public class RelateVideo extends HttpServlet {
+	private static final long serialVersionUID = 4174777371136060413L;
 	private String result;
 	private int isPurch;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

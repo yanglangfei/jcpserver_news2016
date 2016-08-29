@@ -19,10 +19,9 @@ import com.jucaipen.utils.StringUtil;
  *
  *  获取我绑定的银行卡
  */
-@SuppressWarnings("serial")
 public class QuerryMyBank extends HttpServlet {
+	private static final long serialVersionUID = -83881738302535151L;
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

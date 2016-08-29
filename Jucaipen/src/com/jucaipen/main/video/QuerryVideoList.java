@@ -26,12 +26,11 @@ import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator 获取视频列表信息
  */
-@SuppressWarnings("serial")
 public class QuerryVideoList extends HttpServlet {
+	private static final long serialVersionUID = -2514081515250219027L;
 	private String result;
 	private StringBuffer cIdArray;
 	private int isPurch;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

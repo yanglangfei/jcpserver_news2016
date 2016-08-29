@@ -14,8 +14,8 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator 修改个人资料
  */
-@SuppressWarnings("serial")
 public class CompleteInfo extends HttpServlet {
+	private static final long serialVersionUID = 1794034294102325495L;
 	private String result;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -82,18 +82,24 @@ public class CompleteInfo extends HttpServlet {
 		
 		if(StringUtil.isNotNull(provinceId)&&StringUtil.isInteger(provinceId)){
 			int pId=Integer.parseInt(provinceId);
-			user.setProvinceId(pId);
+			if(pId>0){
+				user.setProvinceId(pId);
+			}
 		}
 		
 
 		if (StringUtil.isNotNull(cityId) && StringUtil.isInteger(cityId)) {
 			int cId = Integer.parseInt(cityId);
-			user.setCityId(cId);
+			if(cId>0){
+				user.setCityId(cId);
+			}
 		}
 		
 		if(StringUtil.isNotNull(areaId)&&StringUtil.isInteger(areaId)){
 			int aId=Integer.parseInt(areaId);
-			user.setAreaId(aId);
+			if(aId>0){
+				user.setAreaId(aId);
+			}
 		}
 
 		if (StringUtil.isNotNull(investId) && StringUtil.isInteger(investId)) {

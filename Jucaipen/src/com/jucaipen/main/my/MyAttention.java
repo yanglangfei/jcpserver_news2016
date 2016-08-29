@@ -26,8 +26,8 @@ import com.jucaipen.utils.StringUtil;
  * 
  *         获取我的关注 type 0 我关注的 1 关注我的 （针对讲师）
  */
-@SuppressWarnings("serial")
 public class MyAttention extends HttpServlet {
+	private static final long serialVersionUID = -7941347929976544598L;
 	private String result;
 	private List<FamousTeacher> teachers = new ArrayList<FamousTeacher>();
 	private List<User> users = new ArrayList<User>();

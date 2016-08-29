@@ -29,8 +29,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         ÔùËÍÀñÆ·
  */
-@SuppressWarnings("serial")
 public class SendPresent extends HttpServlet {
+	private static final long serialVersionUID = -5375079383224086542L;
 	private String result;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

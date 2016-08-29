@@ -23,11 +23,10 @@ import com.jucaipen.utils.StringUtil;
  * 
  *         获取我拥有的礼品
  */
-@SuppressWarnings("serial")
 public class QuerryMyGift extends HttpServlet {
+	private static final long serialVersionUID = -300386616176322445L;
 	private String result;
 	private List<Gifts> gifts = new ArrayList<Gifts>();
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

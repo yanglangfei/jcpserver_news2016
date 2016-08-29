@@ -38,8 +38,8 @@ import com.jucaipen.utils.StringUtil;
  *         
  *         —›≤• “ª•∂Ø
  */
-@SuppressWarnings("serial")
 public class StudioChat extends HttpServlet {
+	private static final long serialVersionUID = -3343269386742774065L;
 	private Timer timer;
 	private boolean isManager;
 	//private static final String GET_LIVE_MSG = "http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";

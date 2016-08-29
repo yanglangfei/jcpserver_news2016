@@ -63,65 +63,77 @@ public class ApplyTeacherImp implements ApplyTeacherDao {
 	}
 
 	@Override
-	public int addApply(ApplyTeacher apply) {
+	public int addApply(ApplyTeacher apply,int step) {
 		// 添加申请信息
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			isSuccess = sta
-					.executeUpdate("INSERT INTO JCP_Apply"
-							+ "(TrueName,IDCard,Sex,CardImg_1,CardImg_2,CardImg_3,FK_CertificationId,"
-							+ "FK_PositionId,CertificationNum,FK_ProvinceId,FK_CityId,CompanyName,"
-							+ "ShanChang,UserInformation,FK_ParentUserId,MobileNum,Email,FK_UserId,"
-							+ "State,InsertDate,IsTxtLive,IsVideoLive,FK_BankId,BankAccount) VALUES"
-							+ "('"
-							+ apply.getTrueName()
-							+ "','"
-							+ apply.getIdCard()
-							+ "',"
-							+ apply.getSex()
-							+ ",'"
-							+ apply.getCardImage1()
-							+ "','"
-							+ apply.getCardImage2()
-							+ "','"
-							+ apply.getCardImage3()
-							+ "',"
-							+ apply.getFk_certificationId()
-							+ ","
-							+ apply.getFk_PositionId()
-							+ ",'"
-							+ apply.getCertificationNum()
-							+ "',"
-							+ apply.getFk_ProvinceId()
-							+ ","
-							+ apply.getFk_CityId()
-							+ ",'"
-							+ apply.getCompanyName()
-							+ "','"
-							+ apply.getShanChang()
-							+ "','"
-							+ apply.getUserInformation()
-							+ "',"
-							+ apply.getFk_ParentUserId()
-							+ ",'"
-							+ apply.getMobileNum()
-							+ "','"
-							+ apply.getEmail()
-							+ "',"
-							+ apply.getFk_UserId()
-							+ ","
-							+ apply.getState()
-							+ ",'"
-							+ apply.getInsertDate()
-							+ "',"
-							+ apply.getIsTxtLive()
-							+ ","
-							+ apply.getIsVideoLive()
-							+ ","
-							+ apply.getFk_BankId()
-							+ ",'"
-							+ apply.getBankAccount() + "')");
+			
+			if(step==1){
+				//添加第一步数据
+				isSuccess = sta
+						.executeUpdate("INSERT INTO JCP_Apply"
+								+ "(TrueName,IDCard,Sex,CardImg_1,CardImg_2,CardImg_3,FK_CertificationId,"
+								+ "FK_PositionId,CertificationNum,FK_ProvinceId,FK_CityId,CompanyName,"
+								+ "ShanChang,UserInformation,FK_ParentUserId,MobileNum,Email,FK_UserId,"
+								+ "State,InsertDate,IsTxtLive,IsVideoLive,FK_BankId,BankAccount) VALUES"
+								+ "('"
+								+ apply.getTrueName()
+								+ "','"
+								+ apply.getIdCard()
+								+ "',"
+								+ apply.getSex()
+								+ ",'"
+								+ apply.getCardImage1()
+								+ "','"
+								+ apply.getCardImage2()
+								+ "','"
+								+ apply.getCardImage3()
+								+ "',"
+								+ apply.getFk_certificationId()
+								+ ","
+								+ apply.getFk_PositionId()
+								+ ",'"
+								+ apply.getCertificationNum()
+								+ "',"
+								+ apply.getFk_ProvinceId()
+								+ ","
+								+ apply.getFk_CityId()
+								+ ",'"
+								+ apply.getCompanyName()
+								+ "','"
+								+ apply.getShanChang()
+								+ "','"
+								+ apply.getUserInformation()
+								+ "',"
+								+ apply.getFk_ParentUserId()
+								+ ",'"
+								+ apply.getMobileNum()
+								+ "','"
+								+ apply.getEmail()
+								+ "',"
+								+ apply.getFk_UserId()
+								+ ","
+								+ apply.getState()
+								+ ",'"
+								+ apply.getInsertDate()
+								+ "',"
+								+ apply.getIsTxtLive()
+								+ ","
+								+ apply.getIsVideoLive()
+								+ ","
+								+ apply.getFk_BankId()
+								+ ",'"
+								+ apply.getBankAccount() + "')");
+				
+			}else if(step==2){
+				//更新第二步数据
+				
+			}else{
+				//更新第三步数据
+				
+				
+			}
 			return isSuccess;
 		} catch (SQLException e) {
 			e.printStackTrace();

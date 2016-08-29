@@ -19,8 +19,6 @@ import com.jucaipen.utils.StringUtil;
  *         获取视频分类信息  不是类型  讲师
  */
 public class QuerryVideClass extends HttpServlet {
-	/**
-	 */
 	private static final long serialVersionUID = 6515272608845875430L;
 	private String result;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

@@ -25,8 +25,8 @@ import com.jucaipen.utils.TimeUtils;
  *         获取我的专辑下的视频
  * 
  */
-@SuppressWarnings("serial")
 public class SpecialVide extends HttpServlet {
+	private static final long serialVersionUID = -8557171212499676905L;
 	private String result;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

@@ -26,8 +26,8 @@ import com.jucaipen.utils.StringUtil;
  * 
  *         获取我的守护 type 0 我守护的 1 守护我的 （针对讲师）
  */
-@SuppressWarnings("serial")
 public class MyGuardian extends HttpServlet {
+	private static final long serialVersionUID = -8293459433867652032L;
 	private String result;
 	private List<FamousTeacher> teachers = new ArrayList<FamousTeacher>();
 	private List<User> users = new ArrayList<User>();

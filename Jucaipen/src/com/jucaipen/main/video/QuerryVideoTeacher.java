@@ -18,8 +18,8 @@ import com.jucaipen.utils.JsonUtil;
  *
  *   获取视频讲师分类信息
  */
-@SuppressWarnings("serial")
 public class QuerryVideoTeacher extends HttpServlet {
+	private static final long serialVersionUID = -6780758137101273508L;
 	private String result;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

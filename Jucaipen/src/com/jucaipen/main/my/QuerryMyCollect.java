@@ -31,12 +31,11 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         获取我的收藏 type 0 视频  1 知识
  */
-@SuppressWarnings("serial")
 public class QuerryMyCollect extends HttpServlet {
+	private static final long serialVersionUID = -5623819965609857788L;
 	private String result;
 	private List<Video> videos = new ArrayList<Video>();
 	private List<Knowledge> knowledges = new ArrayList<Knowledge>();
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

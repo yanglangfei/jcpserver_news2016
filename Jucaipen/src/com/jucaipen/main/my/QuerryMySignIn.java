@@ -18,8 +18,8 @@ import com.jucaipen.utils.StringUtil;
  *
  *  获取我的签到信息
  */
-@SuppressWarnings("serial")
 public class QuerryMySignIn extends HttpServlet {
+	private static final long serialVersionUID = 7602979208671930117L;
 	private String result;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -49,7 +49,6 @@ public class QuerryMySignIn extends HttpServlet {
 	private String initMySignInData(int uId) {
 		//初始化我的签到信息
 		 List<SignDetail> details = SignDetailSer.findMothSignDetailByUserId(uId);
-		// User user=UserServer.findBaseInfoById(uId);
 		return JsonUtil.getSignDetails(details);
 	}
 

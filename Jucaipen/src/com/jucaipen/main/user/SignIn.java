@@ -30,8 +30,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         Ç©µ½
  */
-@SuppressWarnings("serial")
 public class SignIn extends HttpServlet {
+	private static final long serialVersionUID = 4989304771882627987L;
 	private String result;
 	private String ip;
 
