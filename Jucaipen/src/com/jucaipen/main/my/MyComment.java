@@ -23,6 +23,7 @@ import com.jucaipen.service.UserServer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
+
 /**
  * @author Administrator
  * 
@@ -31,6 +32,7 @@ import com.jucaipen.utils.StringUtil;
 public class MyComment extends HttpServlet {
 	private static final long serialVersionUID = -1247987697537247275L;
 	private String result;
+
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -70,7 +72,7 @@ public class MyComment extends HttpServlet {
 	}
 
 	private String initMyComments(int uId, int type, int p) {
-		User user=UserServer.findBaseInfoById(uId);
+		User user = UserServer.findBaseInfoById(uId);
 		if (type == 0) {
 			// 0 ×ÊÑ¶
 			List<UserComm> comms = UserCommSer.findComment(uId, 0, p);
@@ -92,7 +94,7 @@ public class MyComment extends HttpServlet {
 			if (comms != null) {
 				for (UserComm com : comms) {
 					int id = com.getNovId();
-					Video video=VideoServer.findVideoById(id);
+					Video video = VideoServer.findVideoById(id);
 					com.setFkName(video.getTitle());
 					com.setFkImage(video.getImages());
 					com.setFkDesc(video.getDescript());

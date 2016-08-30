@@ -816,7 +816,7 @@ public class UserImp implements UserDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT NickName,UserLevel,UserFace,UserName,MobileNum,LoginTime,AllIntegral,InvitationCode FROM JCP_User WHERE Id="
+					.executeQuery("SELECT NickName,UserLevel,UserFace,UserName,MobileNum,LoginTime,AllIntegral,InvitationCode,IsMobileVerification FROM JCP_User WHERE Id="
 							+ id);
 			while (res.next()) {
 				String nickName = res.getString(1);
@@ -827,6 +827,7 @@ public class UserImp implements UserDao {
 				int loginNum = res.getInt(6);
 				int integeral = res.getInt(7);
 				String investCode = res.getString(8);
+				int isCheckMobile=res.getInt(9);
 				User user = new User();
 				user.setId(id);
 				user.setLoginNum(loginNum);
@@ -835,6 +836,7 @@ public class UserImp implements UserDao {
 				user.setNickName(nickName);
 				user.setInvitationCode(investCode);
 				user.setUserName(userName);
+				user.setIsChechMobile(isCheckMobile);
 				user.setMobileNum(telPhone);
 				user.setAllIntegral(integeral);
 				return user;
@@ -931,6 +933,26 @@ public class UserImp implements UserDao {
 				user.setIsVideoTeacher(isVideoTeacher);
 				user.setIsTxtTeacher(isTxtTeacher);
 				user.setIsTeacher(isTeacher);
+				return user;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public User findUserByUserNameOrMobile(String uName) {
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT Id FROM JCP_User WHERE UserName='"
+							+ uName+" OR MobileNum='"+uName+"'");
+			while (res.next()) {
+				int id = res.getInt(1);
+				User user = new User();
+				user.setId(id);
 				return user;
 			}
 		} catch (SQLException e) {

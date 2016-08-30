@@ -2,6 +2,12 @@ package com.jucaipen.main.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,11 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jucaipen.model.ApplyTeacher;
+import com.jucaipen.model.FamousTeacher;
+import com.jucaipen.model.MobileMessage;
 import com.jucaipen.model.User;
 import com.jucaipen.service.ApplyTeacherSer;
+import com.jucaipen.service.FamousTeacherSer;
+import com.jucaipen.service.MobileMessageSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
+import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator
@@ -23,6 +35,10 @@ import com.jucaipen.utils.StringUtil;
 public class SendApply extends HttpServlet {
 	private static final long serialVersionUID = -5458834439702229711L;
 	private String result;
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	// 加密手机号 参数
+	private String encrypePath = "http://www.jcplicai.com/ashx/AndroidUser.ashx?action=GetEncryptMobileNum";
+	private Map<String, String> param = new HashMap<String, String>();
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -41,16 +57,36 @@ public class SendApply extends HttpServlet {
 					int step = Integer.parseInt(stepType);
 					if (StringUtil.isNotNull(applyMsg)) {
 						result = createTeacher(uId, step, applyMsg);
+					} else {
+						result = JsonUtil.getRetMsg(4, "申请内容不能为空");
 					}
+				} else {
+					result = JsonUtil.getRetMsg(3, "stepType 参数异常");
 				}
-
+			} else {
+				result = JsonUtil.getRetMsg(1, "用户还没登录");
 			}
 
+		} else {
+			result = JsonUtil.getRetMsg(2, "userId 参数异常");
 		}
 
 		out.println(result);
 		out.flush();
 		out.close();
+	}
+
+	private String getPhoneNum(String telPhone) {
+		param.put("mobilenum", telPhone);
+		String resJson = LoginUtil.sendHttpPost(encrypePath, param);
+		org.json.JSONObject object = new org.json.JSONObject(resJson);
+		boolean isRes = object.getBoolean("Result");
+		if (isRes) {
+			String tel = object.getString("MobileNum");
+			return tel;
+		} else {
+			return null;
+		}
 	}
 
 	private String createTeacher(int uId, int step, String applyMsg) {
@@ -61,8 +97,8 @@ public class SendApply extends HttpServlet {
 			return JsonUtil.getRetMsg(1, "请先绑定手机号");
 		}
 		// 2 是否讲师
-		int isTeaher = user.getIsTeacher();
-		if (isTeaher == 1) {
+		FamousTeacher teacher = FamousTeacherSer.findFamousTeacherByUserId(uId);
+		if (teacher != null) {
 			return JsonUtil.getRetMsg(2, "您已经是讲师了，不能重复申请");
 		}
 
@@ -70,97 +106,198 @@ public class SendApply extends HttpServlet {
 			// 处理第一步数据
 			return addFirstStepMsg(applyMsg);
 		}
+		ApplyTeacher apply = ApplyTeacherSer.findLastApplyByUid(uId, 1);
+		int applyId = apply.getId();
 
 		if (step == 2) {
 			// 处理第二步数据
-			return addSecondStepMsg(applyMsg);
+			return addSecondStepMsg(applyMsg, applyId, uId);
 		}
 
 		if (step == 3) {
 			// 处理第三步数据
-			return addThirdStepMsg(applyMsg);
+			return addThirdStepMsg(applyMsg, applyId, uId);
 		}
 
 		return null;
 	}
 
-	private String addThirdStepMsg(String applyMsg) {
+	/**
+	 * @param applyMsg
+	 * @param uId
+	 * @param id
+	 * @return 提交申请第三步
+	 */
+	private String addThirdStepMsg(String applyMsg, int id, int uId) {
 		ApplyTeacher apply = JsonUtil.parseThirdStepApply(applyMsg);
 		String parentAccount = apply.getParentAccount();
 		if (StringUtil.isNotNull(parentAccount)) {
-
+			User user = UserServer.findUserByUserNameOrMobile(parentAccount);
+			if (user != null) {
+				apply.setFk_ParentUserId(user.getId());
+			}
 		}
 
 		String mobileNum = apply.getMobileNum();
 		if (!StringUtil.isNotNull(mobileNum)) {
+			return JsonUtil.getRetMsg(2, "请输入手机号");
+		}
 
+		String tel = getPhoneNum(mobileNum);
+		if (tel == null) {
+			return JsonUtil.getRetMsg(12, "手机号解析异常");
 		}
 
 		String email = apply.getEmail();
 		if (!StringUtil.isNotNull(email)) {
-
+			return JsonUtil.getRetMsg(4, "请输入电子邮箱");
 		}
 
-		/*
-		 * String parentAccount = object.optString("parentAccount", ""); String
-		 * mobileNum = object.optString("mobileNum", ""); String email =
-		 * object.optString("email", ""); String actionCode =
-		 * object.optString("actionCode", ""); int isTxtLive =
-		 * object.optInt("isTxtLive", -1); int isVideoLive =
-		 * object.optInt("isVideoLive", -1); int fk_BankId =
-		 * object.optInt("fk_BankId", -1); String bankAccount =
-		 * object.optString("bankAccount", "");
-		 */
+		String actionCode = apply.getActionCode();
+		if (!StringUtil.isNotNull(actionCode)) {
+			return JsonUtil.getRetMsg(5, "请输入手机验证码");
+		}
+
+		if (!checkCheckCode(tel, actionCode)) {
+			return JsonUtil.getRetMsg(6, "手机验证码错误");
+		}
+
+		int isTxtLive = apply.getIsTxtLive();
+		if (isTxtLive == -1) {
+			return JsonUtil.getRetMsg(7, "请选择是否开通文字直播功能");
+		}
+
+		int isVideoLive = apply.getIsVideoLive();
+		if (isVideoLive == -1) {
+			return JsonUtil.getRetMsg(8, "请选择是否开通视频直播功能");
+		}
+
+		int fk_BankId = apply.getFk_BankId();
+		if (fk_BankId == -1) {
+			return JsonUtil.getRetMsg(9, "请选择银行");
+		}
+		String bankAccount = apply.getBankAccount();
+		if (!StringUtil.isNotNull(bankAccount)) {
+			return JsonUtil.getRetMsg(10, "请输入银行卡号");
+		}
+
+		if (!StringUtil.isBankCard(bankAccount)) {
+			return JsonUtil.getRetMsg(11, "银行卡异常");
+		}
+
 		int isSuccess = ApplyTeacherSer.addApply(apply, 3);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "提交成功") : JsonUtil
 				.getRetMsg(1, "提交失败");
 	}
 
-	private String addSecondStepMsg(String applyMsg) {
+	/**
+	 * @param mobileNum
+	 * @param actionCode
+	 * @return 判断验证码是否正确
+	 */
+	private boolean checkCheckCode(String mobileNum, String actionCode) {
+		try {
+			// 验证新手机验证码是否正确
+			List<MobileMessage> messages = MobileMessageSer
+					.findMobileMessageByMobileNumLast(1, mobileNum);
+			if (messages.size() > 0) {
+				String code = messages.get(0).getActionCode();
+				String sendDate = messages.get(0).getSendDate();
+				String msgId = messages.get(0).getMsgid();
+				long newSendTime = sdf.parse(sendDate).getTime();
+				long currrentTime = System.currentTimeMillis();
+
+				if ((code.equals(actionCode))
+						&& ((currrentTime - newSendTime) <= (3 * 60 * 1000))) {
+					// 验证新手机号是否已被使用
+					User user = UserServer.findUserByTelPhone(mobileNum);
+					insertCheckInfo(mobileNum, sdf.format(new Date()), msgId,
+							true);
+					return user == null ? true : false;
+				} else {
+					insertCheckInfo(mobileNum, sdf.format(new Date()), msgId,
+							false);
+					return false;
+				}
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return false;
+
+	}
+
+	private void insertCheckInfo(String mobileNum, String checkDate,
+			String msgId, boolean isPassed) {
+		// 修改短信激活状态
+		MobileMessage mobileMessage = new MobileMessage();
+		if (isPassed) {
+			mobileMessage.setMsgType(2);
+			mobileMessage.setCheckDate(checkDate);
+		} else {
+			mobileMessage.setMsgType(3);
+		}
+		MobileMessageSer.upDateMessageType(msgId, mobileMessage);
+	}
+
+	/**
+	 * @param applyMsg
+	 * @param uId
+	 * @param id
+	 * @return 提交申请第二步
+	 */
+	private String addSecondStepMsg(String applyMsg, int id, int uId) {
 		ApplyTeacher apply = JsonUtil.parseSecondStepApply(applyMsg);
 		int fk_certificationId = apply.getFk_certificationId();
 		if (fk_certificationId == -1) {
-
+			return JsonUtil.getRetMsg(2, "请选择资格证书类型");
 		}
 		int fk_PositionId = apply.getFk_PositionId();
 		if (fk_PositionId == -1) {
-
+			return JsonUtil.getRetMsg(3, "请选择岗位");
 		}
 
 		int fk_ProvinceId = apply.getFk_ProvinceId();
 		if (fk_ProvinceId == -1) {
-
+			return JsonUtil.getRetMsg(4, "请选择所在省份");
 		}
 
 		int fk_CityId = apply.getFk_CityId();
 		if (fk_CityId == -1) {
-
+			return JsonUtil.getRetMsg(5, "请选择所在城市");
 		}
 
 		String certificationNum = apply.getCertificationNum();
 		if (!StringUtil.isNotNull(certificationNum)) {
-
+			return JsonUtil.getRetMsg(6, "请输入资格证编号");
 		}
 
 		String companyName = apply.getCompanyName();
 		if (!StringUtil.isNotNull(companyName)) {
-
+			return JsonUtil.getRetMsg(7, "请输入所在公司名称");
 		}
 
 		String shanChang = apply.getShanChang();
 		if (!StringUtil.isNotNull(shanChang)) {
-
+			return JsonUtil.getRetMsg(8, "请输入擅长领域");
 		}
 
 		String userInformation = apply.getUserInformation();
 		if (!StringUtil.isNotNull(userInformation)) {
-
+			return JsonUtil.getRetMsg(9, "请输入个人简介");
 		}
+
+		apply.setId(id);
 		int isSuccess = ApplyTeacherSer.addApply(apply, 1);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "提交成功") : JsonUtil
 				.getRetMsg(1, "提交失败");
 	}
 
+	/**
+	 * @param applyMsg
+	 * @param applyId
+	 * @return 提交申请第一步
+	 */
 	private String addFirstStepMsg(String applyMsg) {
 		ApplyTeacher apply = JsonUtil.parseFirstStepApply(applyMsg);
 		String name = apply.getTrueName();
@@ -173,8 +310,12 @@ public class SendApply extends HttpServlet {
 		if (!StringUtil.isNotNull(idCard)) {
 			return JsonUtil.getRetMsg(4, "身份证号不能为空");
 		}
-		int sex = apply.getSex();
 
+		if (!StringUtil.isIdCard(idCard)) {
+			return JsonUtil.getRetMsg(7, "身份证输入有误");
+		}
+
+		int sex = apply.getSex();
 		if (sex == -1) {
 			return JsonUtil.getRetMsg(5, "性别必须选择");
 		}
@@ -184,6 +325,7 @@ public class SendApply extends HttpServlet {
 		if (!StringUtil.isNotNull(cardImage1)) {
 			return JsonUtil.getRetMsg(6, "请上传身份证正面照");
 		}
+		apply.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 		int isSuccess = ApplyTeacherSer.addApply(apply, 1);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "提交成功") : JsonUtil
 				.getRetMsg(1, "提交失败");

@@ -214,8 +214,14 @@ public class User implements Serializable {
 	 */
 	private int isTeacher;
 	
+	private int applyState;
 	
-	
+	public int getApplyState() {
+		return applyState;
+	}
+	public void setApplyState(int applyState) {
+		this.applyState = applyState;
+	}
 	public int getIsRoomManager() {
 		return isRoomManager;
 	}

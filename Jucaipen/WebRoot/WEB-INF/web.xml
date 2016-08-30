@@ -524,6 +524,12 @@
 		<servlet-name>RemoveMyData</servlet-name>
 		<servlet-class>com.jucaipen.main.user.RemoveMyData</servlet-class>
 	</servlet>
+  <servlet>
+    <servlet-name>QuerryMyApply</servlet-name>
+    <servlet-class>com.jucaipen.main.my.QuerryMyApply</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -1070,4 +1076,8 @@
 		<servlet-name>RemoveMyData</servlet-name>
 		<url-pattern>/jucaipen/delmydata</url-pattern>
 	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerryMyApply</servlet-name>
+    <url-pattern>/jucaipen/getapplyinfo</url-pattern>
+  </servlet-mapping>
 </web-app>

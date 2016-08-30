@@ -17,6 +17,21 @@ public interface ApplyTeacherDao {
 	 */
 	public  ApplyTeacher findApplyByUid(int uId);
 	
+	
+	/**
+	 * @param uId
+	 * @param count
+	 * @return  获取最近一条申请信息
+	 */
+	public  ApplyTeacher findLastApplyByUid(int uId,int count);
+	
+	/**
+	 * @param uId
+	 * @param count
+	 * @return  获取最近一条申请信息
+	 */
+	public  ApplyTeacher findLastApplyByUidWithStep(int uId,int count,int step);
+	
 	/**
 	 * @param recommId
 	 * @return  根据推荐用户id获取申请信息
@@ -27,5 +42,7 @@ public interface ApplyTeacherDao {
 	 * @return  添加申请信息
 	 */
 	public int addApply(ApplyTeacher apply,int step);
+	
+	public int updateApplyInfo(int id,ApplyTeacher apply);
 
 }

@@ -113,6 +113,7 @@ public class TxtChat extends HttpServlet {
 		} else {
 			user = new User();
 		}
+		
 		int isRoomAdmin = user.getIsRoomAdmin();
 		int isRoomManager = user.getIsRoomManager();
 		int isSysAdmin = user.getIsSysAdmin();

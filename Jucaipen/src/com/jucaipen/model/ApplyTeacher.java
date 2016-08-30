@@ -38,10 +38,17 @@ public class ApplyTeacher {
 	 *  资格证种类id FK_CertificationId
 	 */
 	private int fk_certificationId;
+	
+	private String certificationName;
+	
 	/**
 	 *  岗位id  FK_PositionId
 	 */
 	private int fk_PositionId;
+	
+	private String positionName;
+	
+	
 	/**
 	 *  资格证号码  CertificationNum
 	 */
@@ -50,10 +57,16 @@ public class ApplyTeacher {
 	 *  所在公司省份  FK_ProvinceId
 	 */
 	private int fk_ProvinceId;
+	
+	private String provinceName;
+	
 	/**
 	 *  所在公司城市  FK_CityId
 	 */
 	private int fk_CityId;
+	
+	private String cityName;
+	
 	/**
 	 *  公司名称 CompanyName
 	 */
@@ -71,6 +84,8 @@ public class ApplyTeacher {
 	 *  推荐用户id  FK_ParentUserId
 	 */
 	private int fk_ParentUserId;
+	
+	
 	
 	private String parentAccount;
 	/**
@@ -105,6 +120,9 @@ public class ApplyTeacher {
      *  银行id  FK_BankId
      */
     private int fk_BankId;
+    
+    private String bankName;
+    
     /**
      *  银行账号   BankAccount
      */
@@ -112,6 +130,38 @@ public class ApplyTeacher {
     
     private String actionCode;
     
+    
+    
+	public String getCertificationName() {
+		return certificationName;
+	}
+	public void setCertificationName(String certificationName) {
+		this.certificationName = certificationName;
+	}
+	public String getPositionName() {
+		return positionName;
+	}
+	public void setPositionName(String positionName) {
+		this.positionName = positionName;
+	}
+	public String getProvinceName() {
+		return provinceName;
+	}
+	public void setProvinceName(String provinceName) {
+		this.provinceName = provinceName;
+	}
+	public String getCityName() {
+		return cityName;
+	}
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+	public String getBankName() {
+		return bankName;
+	}
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
 	public String getParentAccount() {
 		return parentAccount;
 	}

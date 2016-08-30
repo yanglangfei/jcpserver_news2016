@@ -58,6 +58,12 @@ public interface FamousTeacherDao {
 	
 	/**
 	 * @param id
+	 * @return 根据id获取名师信息
+	 */
+	public FamousTeacher findFamousTeacherByUserId(int userId);
+	
+	/**
+	 * @param id
 	 * @return  获取最大提问数
 	 */
 	public int findMaxAsk(int id);

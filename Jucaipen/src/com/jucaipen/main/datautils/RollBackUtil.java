@@ -416,7 +416,7 @@ public class RollBackUtil {
 
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
-			int newLeavel = BaseData.getLeavel(integeral + markerMoney);
+			int newLeavel = BaseData.getLeavel(user.getAllIntegral() + markerMoney);
 			if (currentLeavel != newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
@@ -560,7 +560,7 @@ public class RollBackUtil {
 
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
-			int newLeavel = BaseData.getLeavel(account.getIntegeral() + bills);
+			int newLeavel = BaseData.getLeavel(user.getAllIntegral()+ bills);
 			if (currentLeavel != newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
@@ -664,7 +664,7 @@ public class RollBackUtil {
 
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
-			int newLeavel = BaseData.getLeavel(a.getIntegeral() + b);
+			int newLeavel = BaseData.getLeavel(user.getAllIntegral() + b);
 			if (currentLeavel != newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
@@ -773,7 +773,7 @@ public class RollBackUtil {
 
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
-			int newLeavel = BaseData.getLeavel(a.getIntegeral() + b);
+			int newLeavel = BaseData.getLeavel(user.getAllIntegral() + b);
 			if (currentLeavel != newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
@@ -1103,7 +1103,7 @@ public class RollBackUtil {
 
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
-			int newLeavel = BaseData.getLeavel(a.getIntegeral() + b);
+			int newLeavel = BaseData.getLeavel(user.getAllIntegral() + b);
 			if (currentLeavel != newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
@@ -1309,7 +1309,6 @@ public class RollBackUtil {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
 			}
-
 			// 5、 贡献表 JCP_Contribute
 			sta.executeUpdate("INSERT INTO JCP_Contribute"
 					+ "(FK_UserId,FK_TearchId,FK_Id,InsertDate,AllJucaibi,ComType) VALUES("

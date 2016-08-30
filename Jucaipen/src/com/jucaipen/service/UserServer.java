@@ -1,6 +1,7 @@
 package com.jucaipen.service;
 
 import java.util.List;
+
 import com.jucaipen.dao.UserDao;
 import com.jucaipen.daoimp.UserImp;
 import com.jucaipen.model.User;
@@ -17,6 +18,11 @@ public class UserServer {
 	public static User findUserChatInfo(int uId) {
 		UserDao dao = new UserImp();
 		return dao.findUserChatInfo(uId);
+	}
+
+	public static User findUserByUserNameOrMobile(String uName) {
+		UserDao dao = new UserImp();
+		return dao.findUserByUserNameOrMobile(uName);
 	}
 
 	public static User findUserIsCheck(int userId) {

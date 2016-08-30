@@ -18,6 +18,8 @@ public interface UserDao {
 	
 	public int updateLoginNum(int num,int uId,String ip);
 	
+	public User findUserByUserNameOrMobile(String uName);
+	
 	
 	/**
 	 * @param userId

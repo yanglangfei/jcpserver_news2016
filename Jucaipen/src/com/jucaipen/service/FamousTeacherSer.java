@@ -16,6 +16,11 @@ public class FamousTeacherSer {
 		return dao.findAllFamousTeacher(page);
 	}
 	
+	public static FamousTeacher findFamousTeacherByUserId(int userId){
+		FamousTeacherDao dao = new FamousTeacherImp();
+		return dao.findFamousTeacherByUserId(userId);
+	}
+	
 	/**
 	 * @return  获取所有讲师   不分页
 	 */
