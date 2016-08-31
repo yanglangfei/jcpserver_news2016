@@ -163,6 +163,8 @@ public class FamousTeacher implements Serializable{
 	 *  银行id
 	 */
 	private int bankId;
+	
+	private String bankName;
 	/**
 	 *   银行账号
 	 */
@@ -200,8 +202,12 @@ public class FamousTeacher implements Serializable{
      *  虚拟文章阅读数
      */
     private int xnArticleReadNum;
-    
-    
+	public String getBankName() {
+		return bankName;
+	}
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
 	public int getTxtLivePrice() {
 		return txtLivePrice;
 	}

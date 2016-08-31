@@ -74,10 +74,11 @@ public class ApplyTeacherImp implements ApplyTeacherDao {
 				// 添加第一步数据
 				isSuccess = sta.executeUpdate("INSERT INTO JCP_Apply"
 						+ "(TrueName,IDCard,Sex,CardImg_1"
-						+ ",State,InsertDate) VALUES" + "('"
+						+ ",State,InsertDate,FK_UserId) VALUES" + "('"
 						+ apply.getTrueName() + "','" + apply.getIdCard()
 						+ "'," + apply.getSex() + ",'" + apply.getCardImage1()
-						+ "'," + 0 + ",'" + apply.getInsertDate() + "')");
+						+ "'," + 0 + ",'" + apply.getInsertDate() + "',"
+						+ apply.getFk_UserId() + ")");
 			} else if (step == 2) {
 				// 更新第二步数据
 				isSuccess = sta
@@ -89,7 +90,11 @@ public class ApplyTeacherImp implements ApplyTeacherDao {
 								+ apply.getCertificationNum()
 								+ "',FK_ProvinceId="
 								+ apply.getFk_ProvinceId()
-								+ ",FK_CityId="
+								+ ",FK_BankId="
+								+ apply.getFk_BankId()
+								+ ",BankAccount='"
+								+ apply.getBankAccount()
+								+ "',FK_CityId="
 								+ apply.getFk_CityId()
 								+ ",CompanyName='"
 								+ apply.getCompanyName()
@@ -105,12 +110,9 @@ public class ApplyTeacherImp implements ApplyTeacherDao {
 						.executeUpdate("UPDATE JCP_Apply SET FK_ParentUserId="
 								+ apply.getFk_ParentUserId() + ",MobileNum='"
 								+ apply.getMobileNum() + "',Email='"
-								+ apply.getEmail() + "',FK_UserId="
-								+ apply.getFk_UserId() + ",IsTxtLive="
+								+ apply.getEmail() + "',IsTxtLive="
 								+ apply.getIsTxtLive() + ",IsVideoLive="
-								+ apply.getIsVideoLive() + ",FK_BankId="
-								+ apply.getFk_BankId() + ",BankAccount='"
-								+ apply.getBankAccount() + "' WHERE Id="
+								+ apply.getIsVideoLive() + " WHERE Id="
 								+ apply.getId());
 			}
 			return isSuccess;

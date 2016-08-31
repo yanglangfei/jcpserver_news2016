@@ -103,7 +103,7 @@ public class StringUtil {
 	 * @param bank
 	 * @return  判断是否是银行卡号   
 	 * 
-	 *   6228481698729890079
+	 *   6228 4816 9872 9890 079
 	 */
 	public static boolean isBankCard(String bank){
 		if(isNotNull(bank)){

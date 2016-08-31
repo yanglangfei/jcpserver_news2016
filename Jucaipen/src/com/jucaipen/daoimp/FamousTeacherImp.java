@@ -217,6 +217,8 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				int livePrice = result.getInt("VideoLivePrice");
 				int xnLive = result.getInt("LiveRenQiXuLi");
 				int xnReadIdeaNum = result.getInt("ArticleReadCountXuLi");
+				int bankId = result.getInt("FK_BankId");
+				String bankAccount = result.getString("BankAccount");
 				FamousTeacher teacher = new FamousTeacher();
 				teacher.setPage(page);
 				teacher.setTotlePage(totlePage);
@@ -236,6 +238,8 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				teacher.setNickName(nickName);
 				teacher.setHeadFace(headFace);
 				teacher.setLevel(touxian);
+				teacher.setBankId(bankId);
+				teacher.setBankAccount(bankAccount);
 				teacher.setIntroduce(introduce);
 				teacher.setIsV(isV);
 				teacher.setAnswerPrice(answerPrice);
@@ -440,6 +444,24 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		}
 
 		return null;
+	}
+
+	@Override
+	public int updateTeacherBaseInfo(int teacherId, FamousTeacher teacher) {
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			return sta.executeUpdate("UPDATE JCP_Tearcher SET  NickName='"
+					+ teacher.getNickName() + "',HeadFace='"
+					+ teacher.getHeadFace() + "',Notice='"
+					+ teacher.getNotice() + "',Jianjie='"
+					+ teacher.getIntroduce() + "',ShanChang='"
+					+ teacher.getHoby() + "',FK_BankId=" + teacher.getBankId()
+					+ ",BankAccount='" + teacher.getBankAccount() + "')");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 }

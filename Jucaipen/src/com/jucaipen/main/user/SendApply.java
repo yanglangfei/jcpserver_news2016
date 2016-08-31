@@ -8,12 +8,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.ApplyTeacher;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.MobileMessage;
@@ -104,8 +102,9 @@ public class SendApply extends HttpServlet {
 
 		if (step == 1) {
 			// 处理第一步数据
-			return addFirstStepMsg(applyMsg);
+			return addFirstStepMsg(applyMsg, uId);
 		}
+
 		ApplyTeacher apply = ApplyTeacherSer.findLastApplyByUid(uId, 1);
 		int applyId = apply.getId();
 
@@ -116,7 +115,7 @@ public class SendApply extends HttpServlet {
 
 		if (step == 3) {
 			// 处理第三步数据
-			return addThirdStepMsg(applyMsg, applyId, uId);
+			return addThirdStepMsg(applyMsg, applyId);
 		}
 
 		return null;
@@ -128,7 +127,7 @@ public class SendApply extends HttpServlet {
 	 * @param id
 	 * @return 提交申请第三步
 	 */
-	private String addThirdStepMsg(String applyMsg, int id, int uId) {
+	private String addThirdStepMsg(String applyMsg, int id) {
 		ApplyTeacher apply = JsonUtil.parseThirdStepApply(applyMsg);
 		String parentAccount = apply.getParentAccount();
 		if (StringUtil.isNotNull(parentAccount)) {
@@ -153,6 +152,10 @@ public class SendApply extends HttpServlet {
 			return JsonUtil.getRetMsg(4, "请输入电子邮箱");
 		}
 
+		if (!StringUtil.isMail(email)) {
+			return JsonUtil.getRetMsg(9, "邮箱格式错误");
+		}
+
 		String actionCode = apply.getActionCode();
 		if (!StringUtil.isNotNull(actionCode)) {
 			return JsonUtil.getRetMsg(5, "请输入手机验证码");
@@ -163,26 +166,9 @@ public class SendApply extends HttpServlet {
 		}
 
 		int isTxtLive = apply.getIsTxtLive();
-		if (isTxtLive == -1) {
-			return JsonUtil.getRetMsg(7, "请选择是否开通文字直播功能");
-		}
-
 		int isVideoLive = apply.getIsVideoLive();
-		if (isVideoLive == -1) {
-			return JsonUtil.getRetMsg(8, "请选择是否开通视频直播功能");
-		}
-
-		int fk_BankId = apply.getFk_BankId();
-		if (fk_BankId == -1) {
-			return JsonUtil.getRetMsg(9, "请选择银行");
-		}
-		String bankAccount = apply.getBankAccount();
-		if (!StringUtil.isNotNull(bankAccount)) {
-			return JsonUtil.getRetMsg(10, "请输入银行卡号");
-		}
-
-		if (!StringUtil.isBankCard(bankAccount)) {
-			return JsonUtil.getRetMsg(11, "银行卡异常");
+		if (isTxtLive == -1 && isVideoLive == -1) {
+			return JsonUtil.getRetMsg(7, "请选择开通项目");
 		}
 
 		int isSuccess = ApplyTeacherSer.addApply(apply, 3);
@@ -206,14 +192,13 @@ public class SendApply extends HttpServlet {
 				String msgId = messages.get(0).getMsgid();
 				long newSendTime = sdf.parse(sendDate).getTime();
 				long currrentTime = System.currentTimeMillis();
-
 				if ((code.equals(actionCode))
 						&& ((currrentTime - newSendTime) <= (3 * 60 * 1000))) {
 					// 验证新手机号是否已被使用
 					User user = UserServer.findUserByTelPhone(mobileNum);
 					insertCheckInfo(mobileNum, sdf.format(new Date()), msgId,
 							true);
-					return user == null ? true : false;
+					return user == null;
 				} else {
 					insertCheckInfo(mobileNum, sdf.format(new Date()), msgId,
 							false);
@@ -259,11 +244,13 @@ public class SendApply extends HttpServlet {
 
 		int fk_ProvinceId = apply.getFk_ProvinceId();
 		if (fk_ProvinceId == -1) {
+			apply.setFk_ProvinceId(0);
 			return JsonUtil.getRetMsg(4, "请选择所在省份");
 		}
 
 		int fk_CityId = apply.getFk_CityId();
 		if (fk_CityId == -1) {
+			apply.setFk_CityId(0);
 			return JsonUtil.getRetMsg(5, "请选择所在城市");
 		}
 
@@ -277,28 +264,36 @@ public class SendApply extends HttpServlet {
 			return JsonUtil.getRetMsg(7, "请输入所在公司名称");
 		}
 
+		int fk_BankId = apply.getFk_BankId();
+		if (fk_BankId == -1) {
+			return JsonUtil.getRetMsg(9, "请选择银行");
+		}
+		String bankAccount = apply.getBankAccount();
+		if (!StringUtil.isNotNull(bankAccount)) {
+			return JsonUtil.getRetMsg(10, "请输入银行卡号");
+		}
+
+		if (!StringUtil.isBankCard(bankAccount)) {
+			return JsonUtil.getRetMsg(11, "银行卡异常");
+		}
+
 		String shanChang = apply.getShanChang();
 		if (!StringUtil.isNotNull(shanChang)) {
 			return JsonUtil.getRetMsg(8, "请输入擅长领域");
 		}
-
-		String userInformation = apply.getUserInformation();
-		if (!StringUtil.isNotNull(userInformation)) {
-			return JsonUtil.getRetMsg(9, "请输入个人简介");
-		}
-
 		apply.setId(id);
-		int isSuccess = ApplyTeacherSer.addApply(apply, 1);
+		int isSuccess = ApplyTeacherSer.addApply(apply, 2);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "提交成功") : JsonUtil
 				.getRetMsg(1, "提交失败");
 	}
 
 	/**
 	 * @param applyMsg
+	 * @param uId
 	 * @param applyId
 	 * @return 提交申请第一步
 	 */
-	private String addFirstStepMsg(String applyMsg) {
+	private String addFirstStepMsg(String applyMsg, int uId) {
 		ApplyTeacher apply = JsonUtil.parseFirstStepApply(applyMsg);
 		String name = apply.getTrueName();
 		if (!StringUtil.isNotNull(name)) {
@@ -321,10 +316,10 @@ public class SendApply extends HttpServlet {
 		}
 
 		String cardImage1 = apply.getCardImage1();
-
 		if (!StringUtil.isNotNull(cardImage1)) {
 			return JsonUtil.getRetMsg(6, "请上传身份证正面照");
 		}
+		apply.setFk_UserId(uId);
 		apply.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 		int isSuccess = ApplyTeacherSer.addApply(apply, 1);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "提交成功") : JsonUtil

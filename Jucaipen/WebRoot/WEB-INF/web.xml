@@ -528,6 +528,16 @@
     <servlet-name>QuerryMyApply</servlet-name>
     <servlet-class>com.jucaipen.main.my.QuerryMyApply</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>MyTeachInfo</servlet-name>
+    <servlet-class>com.jucaipen.main.my.MyTeachInfo</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CompleteTeacherInfo</servlet-name>
+    <servlet-class>com.jucaipen.main.user.CompleteTeacherInfo</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -1079,5 +1089,13 @@
   <servlet-mapping>
     <servlet-name>QuerryMyApply</servlet-name>
     <url-pattern>/jucaipen/getapplyinfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>MyTeachInfo</servlet-name>
+    <url-pattern>/jucaipen/myteachinfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CompleteTeacherInfo</servlet-name>
+    <url-pattern>/jucaipen/completeteacherinfo</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -33,6 +33,7 @@ public class QuerryCertification extends HttpServlet {
 		out.close();
 	}
 
+	
 	/**
 	 * @return  初始化资格证书列表
 	 */

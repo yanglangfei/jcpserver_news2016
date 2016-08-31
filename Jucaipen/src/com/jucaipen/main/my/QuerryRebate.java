@@ -15,7 +15,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  *
- *   获取我的返利信息
+ *   获取我的返利信息       普通用户     讲师
  */
 public class QuerryRebate extends HttpServlet {
 	private static final long serialVersionUID = -2131947635113301234L;

@@ -74,6 +74,14 @@ public interface FamousTeacherDao {
 	 */
 	public FamousTeacher findPurchInfo(int tId);
 	
+	
+	/**
+	 * @param teacherId
+	 * @param teacher
+	 * @return  修改讲师基本信息
+	 */
+	public int updateTeacherBaseInfo(int teacherId,FamousTeacher teacher);
+	
 	public int updateIdeaReadNum(int id,int readNum,int xnNum);
 	
 
