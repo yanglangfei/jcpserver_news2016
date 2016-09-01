@@ -14,7 +14,7 @@ import com.jucaipen.utils.JdbcUtil;
 /**
  * @author Administrator
  * 
- *         申请名师信息
+ *     申请名师信息
  */
 public class ApplyTeacherImp implements ApplyTeacherDao {
 	private Connection dbConn;
@@ -22,7 +22,6 @@ public class ApplyTeacherImp implements ApplyTeacherDao {
 	private ResultSet res;
 	private List<ApplyTeacher> applys = new ArrayList<ApplyTeacher>();
 	private int isSuccess;
-
 	@Override
 	public ApplyTeacher findApplyByUid(int uId) {
 		// 根据用户id获取申请信息
@@ -77,7 +76,7 @@ public class ApplyTeacherImp implements ApplyTeacherDao {
 						+ ",State,InsertDate,FK_UserId) VALUES" + "('"
 						+ apply.getTrueName() + "','" + apply.getIdCard()
 						+ "'," + apply.getSex() + ",'" + apply.getCardImage1()
-						+ "'," + 0 + ",'" + apply.getInsertDate() + "',"
+						+ "'," + (-1) + ",'" + apply.getInsertDate() + "',"
 						+ apply.getFk_UserId() + ")");
 			} else if (step == 2) {
 				// 更新第二步数据
@@ -112,8 +111,8 @@ public class ApplyTeacherImp implements ApplyTeacherDao {
 								+ apply.getMobileNum() + "',Email='"
 								+ apply.getEmail() + "',IsTxtLive="
 								+ apply.getIsTxtLive() + ",IsVideoLive="
-								+ apply.getIsVideoLive() + " WHERE Id="
-								+ apply.getId());
+								+ apply.getIsVideoLive() +",State=" + 0
+								+ " WHERE Id=" + apply.getId());
 			}
 			return isSuccess;
 		} catch (SQLException e) {
@@ -135,11 +134,14 @@ public class ApplyTeacherImp implements ApplyTeacherDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT TOP " + count
-					+ " Id FROM JCP_Apply WHERE FK_UserId=" + uId);
+					+ " Id,State FROM JCP_Apply WHERE FK_UserId=" + uId
+					+ " ORDER BY InsertDate DESC");
 			while (res.next()) {
 				int id = res.getInt(1);
+				int state=res.getInt(2);
 				ApplyTeacher apply = new ApplyTeacher();
 				apply.setId(id);
+				apply.setState(state);
 				return apply;
 			}
 		} catch (SQLException e) {

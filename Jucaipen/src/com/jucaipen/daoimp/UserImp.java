@@ -948,7 +948,7 @@ public class UserImp implements UserDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT Id FROM JCP_User WHERE UserName='"
-							+ uName+" OR MobileNum='"+uName+"'");
+							+ uName+"' OR MobileNum='"+uName+"'");
 			while (res.next()) {
 				int id = res.getInt(1);
 				User user = new User();

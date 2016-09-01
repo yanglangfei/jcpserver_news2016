@@ -144,7 +144,7 @@ public class RollBackUtil {
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
 			int newLeavel = BaseData.getLeavel(user.getAllIntegral() + b);
-			if (currentLeavel != newLeavel) {
+			if (currentLeavel < newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
 			}
@@ -417,7 +417,7 @@ public class RollBackUtil {
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
 			int newLeavel = BaseData.getLeavel(user.getAllIntegral() + markerMoney);
-			if (currentLeavel != newLeavel) {
+			if (currentLeavel < newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
 			}
@@ -561,7 +561,7 @@ public class RollBackUtil {
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
 			int newLeavel = BaseData.getLeavel(user.getAllIntegral()+ bills);
-			if (currentLeavel != newLeavel) {
+			if (currentLeavel < newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
 			}
@@ -665,7 +665,7 @@ public class RollBackUtil {
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
 			int newLeavel = BaseData.getLeavel(user.getAllIntegral() + b);
-			if (currentLeavel != newLeavel) {
+			if (currentLeavel < newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
 			}
@@ -774,7 +774,7 @@ public class RollBackUtil {
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
 			int newLeavel = BaseData.getLeavel(user.getAllIntegral() + b);
-			if (currentLeavel != newLeavel) {
+			if (currentLeavel < newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
 			}
@@ -1104,7 +1104,7 @@ public class RollBackUtil {
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
 			int newLeavel = BaseData.getLeavel(user.getAllIntegral() + b);
-			if (currentLeavel != newLeavel) {
+			if (currentLeavel < newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
 			}
@@ -1213,7 +1213,7 @@ public class RollBackUtil {
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
 			int newLeavel = BaseData.getLeavel(newIntegeral);
-			if (currentLeavel != newLeavel) {
+			if (currentLeavel < newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
 			}
@@ -1305,7 +1305,7 @@ public class RollBackUtil {
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
 			int newLeavel = BaseData.getLeavel(newIntegeral);
-			if (currentLeavel != newLeavel) {
+			if (currentLeavel < newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
 			}
@@ -1446,7 +1446,7 @@ public class RollBackUtil {
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
 			int newLeavel = BaseData.getLeavel(newIntegeral);
-			if (currentLeavel != newLeavel) {
+			if (currentLeavel < newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
 			}
@@ -1588,7 +1588,7 @@ public class RollBackUtil {
 			// 更新用户等级
 			int currentLeavel = user.getUserLeval();
 			int newLeavel = BaseData.getLeavel(newIntegeral);
-			if (currentLeavel != newLeavel) {
+			if (currentLeavel < newLeavel) {
 				sta.executeUpdate("UPDATE JCP_User SET UserLevel=" + newLeavel
 						+ " WHERE Id=" + uId);
 			}

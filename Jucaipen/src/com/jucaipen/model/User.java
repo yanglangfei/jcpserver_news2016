@@ -216,6 +216,16 @@ public class User implements Serializable {
 	
 	private int applyState;
 	
+	private String applyFailReason;
+	
+	
+	
+	public String getApplyFailReason() {
+		return applyFailReason;
+	}
+	public void setApplyFailReason(String applyFailReason) {
+		this.applyFailReason = applyFailReason;
+	}
 	public int getApplyState() {
 		return applyState;
 	}

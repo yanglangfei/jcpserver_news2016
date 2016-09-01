@@ -37,7 +37,7 @@ import com.jucaipen.utils.StringUtil;
  * 
  *         msgId   1 
  *         
- *         typeId   0    注册    1   修改手机号   2  修改密码   3  忘记密码
+ *         typeId   0    注册    1   修改手机号   2  修改密码   3  忘记密码  4 申请讲师
  */
 @SuppressWarnings("serial")
 public class SendMobileCode extends HttpServlet {
@@ -173,6 +173,8 @@ public class SendMobileCode extends HttpServlet {
 			message.setRemark("APP用户修改密码");
 		}else if(type==3){
 			message.setRemark("APP用户找回密码");
+		}else if(type==4){
+			message.setRemark("App用户申请讲师");
 		}
 		message.setRemark(mark);
 		isSuccess = MobileMessageSer.insertMessage(message);

@@ -24,7 +24,6 @@ import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
-
 /**
  * @author Administrator
  * 
@@ -68,7 +67,6 @@ public class SendApply extends HttpServlet {
 		} else {
 			result = JsonUtil.getRetMsg(2, "userId 参数异常");
 		}
-
 		out.println(result);
 		out.flush();
 		out.close();
@@ -148,11 +146,8 @@ public class SendApply extends HttpServlet {
 		}
 
 		String email = apply.getEmail();
-		if (!StringUtil.isNotNull(email)) {
-			return JsonUtil.getRetMsg(4, "请输入电子邮箱");
-		}
 
-		if (!StringUtil.isMail(email)) {
+		if (StringUtil.isNotNull(email) && !StringUtil.isMail(email)) {
 			return JsonUtil.getRetMsg(9, "邮箱格式错误");
 		}
 
@@ -161,16 +156,16 @@ public class SendApply extends HttpServlet {
 			return JsonUtil.getRetMsg(5, "请输入手机验证码");
 		}
 
-		if (!checkCheckCode(tel, actionCode)) {
+		/*if (!checkCheckCode(tel, actionCode)) {
 			return JsonUtil.getRetMsg(6, "手机验证码错误");
-		}
+		}*/
 
 		int isTxtLive = apply.getIsTxtLive();
 		int isVideoLive = apply.getIsVideoLive();
 		if (isTxtLive == -1 && isVideoLive == -1) {
 			return JsonUtil.getRetMsg(7, "请选择开通项目");
 		}
-
+        apply.setId(id);
 		int isSuccess = ApplyTeacherSer.addApply(apply, 3);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "提交成功") : JsonUtil
 				.getRetMsg(1, "提交失败");
