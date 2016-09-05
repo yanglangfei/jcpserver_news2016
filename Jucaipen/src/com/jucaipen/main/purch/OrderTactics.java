@@ -35,8 +35,8 @@ import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator 订阅战法信息
  */
-@SuppressWarnings("serial")
 public class OrderTactics extends HttpServlet {
+	private static final long serialVersionUID = 1656206475308345758L;
 	private String result;
 	private String ip;
 

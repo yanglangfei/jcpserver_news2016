@@ -37,8 +37,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         购买日志观点
  */
-@SuppressWarnings("serial")
 public class PurchLogs extends HttpServlet {
+	private static final long serialVersionUID = -7936956821213897489L;
 	private String result;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

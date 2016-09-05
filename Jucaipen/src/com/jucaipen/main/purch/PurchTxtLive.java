@@ -37,8 +37,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         购买文字直播 整个
  */
-@SuppressWarnings("serial")
 public class PurchTxtLive extends HttpServlet {
+	private static final long serialVersionUID = 7355170506754734899L;
 	private String result;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

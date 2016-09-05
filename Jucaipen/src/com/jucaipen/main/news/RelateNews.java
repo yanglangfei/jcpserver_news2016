@@ -18,10 +18,9 @@ import com.jucaipen.utils.StringUtil;
  * 
  *         获取相关新闻
  */
-@SuppressWarnings("serial")
 public class RelateNews extends HttpServlet {
+	private static final long serialVersionUID = 2672914910809261749L;
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

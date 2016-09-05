@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.model.AnswerSale;
 import com.jucaipen.model.Ask;
 import com.jucaipen.model.FamousTeacher;
+import com.jucaipen.model.Guardian;
 import com.jucaipen.model.HotIdea;
 import com.jucaipen.model.IdeaSale;
 import com.jucaipen.model.LiveDetailSale;
@@ -27,6 +28,7 @@ import com.jucaipen.model.Video;
 import com.jucaipen.service.AnswerSaleSer;
 import com.jucaipen.service.AskSer;
 import com.jucaipen.service.FamousTeacherSer;
+import com.jucaipen.service.GuardianSer;
 import com.jucaipen.service.HotIdeaServ;
 import com.jucaipen.service.IdeaSaleServer;
 import com.jucaipen.service.LiveDetailSaleSer;
@@ -172,6 +174,8 @@ public class QuerryMySale extends HttpServlet {
 					TextLive txt = TxtLiveSer.findTextLiveById(txtId);
 					FamousTeacher teacher = FamousTeacherSer
 							.findFamousTeacherById(tId);
+					Guardian guardian=GuardianSer.findIsGuardian(tId, uId);
+					sale.setGurdian(guardian!=null);
 					sale.setTeacherName(teacher.getNickName());
 					sale.setFk_title(txt.getTitle());
 					sale.setFk_txtHits(txt.getXnHits());

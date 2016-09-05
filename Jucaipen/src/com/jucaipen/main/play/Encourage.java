@@ -13,8 +13,8 @@ import com.jucaipen.utils.StringUtil;
  *
  *  ÑÝ²¥ÊÒ   À¸Ä¿´òÆø
  */
-@SuppressWarnings("serial")
 public class Encourage extends HttpServlet {
+	private static final long serialVersionUID = -4190844857155383546L;
 	private String result;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

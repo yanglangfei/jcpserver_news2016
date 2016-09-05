@@ -15,6 +15,7 @@ import com.jucaipen.model.Answer;
 import com.jucaipen.model.AnswerSale;
 import com.jucaipen.model.Ask;
 import com.jucaipen.model.FamousTeacher;
+import com.jucaipen.model.Guardian;
 import com.jucaipen.model.HotIdea;
 import com.jucaipen.model.IdeaSale;
 import com.jucaipen.model.MySpecial;
@@ -30,6 +31,7 @@ import com.jucaipen.service.AnswerSaleSer;
 import com.jucaipen.service.AnswerSer;
 import com.jucaipen.service.AskSer;
 import com.jucaipen.service.FamousTeacherSer;
+import com.jucaipen.service.GuardianSer;
 import com.jucaipen.service.HotIdeaServ;
 import com.jucaipen.service.IdeaSaleServer;
 import com.jucaipen.service.MySpecialSer;
@@ -184,6 +186,12 @@ public class QuerryTeacherIdea extends HttpServlet {
 			return JsonUtil.getAskList(asks, users, 0);
 		} else if (type == 2) {
 			// 文字直播
+			if(usId<=0){
+				isPurch=1;
+			}
+			
+			Guardian guardian = GuardianSer.findIsGuardian(tId, usId);
+			
 			int ownJucaiBills = 0;
 			TextLive txt = null;
 			List<TextLive> txts = TxtLiveSer.findTxtLiveByTeacherIdAndLast(tId,
@@ -216,7 +224,7 @@ public class QuerryTeacherIdea extends HttpServlet {
 
 			if (isIndex == 0) {
 				// 首页
-				return JsonUtil.getIndexTxtArray(txts);
+				return JsonUtil.getIndexTxtArray(txts,guardian);
 			}
 
 			if (allTxts != null) {
@@ -236,7 +244,7 @@ public class QuerryTeacherIdea extends HttpServlet {
 					}
 				}
 			}
-			return JsonUtil.getTxtLiveByTeacherId(txt, allTxts);
+			return JsonUtil.getTxtLiveByTeacherId(txt, allTxts,guardian);
 		} else {
 			// 视频直播
 			int ownJucaiBills = 0;

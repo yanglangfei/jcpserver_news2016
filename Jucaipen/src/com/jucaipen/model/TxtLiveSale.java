@@ -23,8 +23,18 @@ public class TxtLiveSale implements Serializable{
 	private int fk_txtId;
 	private String insertDate;
 	
+	private boolean isGurdian;
 	
 	
+	
+	
+	
+	public boolean isGurdian() {
+		return isGurdian;
+	}
+	public void setGurdian(boolean isGurdian) {
+		this.isGurdian = isGurdian;
+	}
 	public int getFk_attenNum() {
 		return fk_attenNum;
 	}

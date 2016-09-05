@@ -29,10 +29,9 @@ import com.jucaipen.utils.TimeUtils;
  *         payState 1 未支付 2 已支付 3 支付失败 payType 1网上银行（通联） 2支付宝 3微信支付4：余额支付
  *         5网上银行(汇付宝)
  */
-@SuppressWarnings("serial")
 public class Recharge extends HttpServlet {
+	private static final long serialVersionUID = 4058444946640167655L;
 	private String result;
-
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

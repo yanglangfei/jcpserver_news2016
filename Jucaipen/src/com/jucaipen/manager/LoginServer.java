@@ -23,8 +23,8 @@ import com.jucaipen.utils.StringUtil;
  *         登录后台管理系统
  * 
  */
-@SuppressWarnings("serial")
 public class LoginServer extends HttpServlet {
+	private static final long serialVersionUID = -2446747156672320315L;
 	private String result;
 	private Connection dbConn; 
 	private ServerManager manager;

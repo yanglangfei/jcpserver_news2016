@@ -33,8 +33,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         π∫¬Ú¿Ò∆∑
  */
-@SuppressWarnings("serial")
 public class PurchGift extends HttpServlet {
+	private static final long serialVersionUID = -8389392305908385567L;
 	private String result;
 	private String ip;
 

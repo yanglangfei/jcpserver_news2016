@@ -34,8 +34,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         ¸¶·Ñ×·ÎÊ
  */
-@SuppressWarnings("serial")
 public class PayRecycleAsk extends HttpServlet {
+	private static final long serialVersionUID = 2750171635464982466L;
 	private String ip;
 	private String result;
 

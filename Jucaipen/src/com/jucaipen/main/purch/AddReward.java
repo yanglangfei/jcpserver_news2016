@@ -36,8 +36,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         打赏 typeId (0 打赏讲师) （1 打赏观点）
  */
-@SuppressWarnings("serial")
 public class AddReward extends HttpServlet {
+	private static final long serialVersionUID = 7660136154061926366L;
 	private String result;
 	private String ip;
 
@@ -109,6 +109,8 @@ public class AddReward extends HttpServlet {
 		AccountDetail detail = new AccountDetail();
 		AccountDetail detailIntegeral = new AccountDetail();
 		Account account = AccountSer.findAccountByUserId(uId);
+		int integeral = account.getIntegeral();
+       
 		if(markerMoney<=0){
 			return JsonUtil.getRetMsg(6,"打赏金额异常");
 		}
@@ -116,8 +118,7 @@ public class AddReward extends HttpServlet {
 		if (account == null||account.getJucaiBills()<markerMoney) {
 			return JsonUtil.getRetMsg(3, "账户聚财币不足，请充值");
 		}
-		int integeral = account.getIntegeral();
-        int jucaiBills=account.getJucaiBills();
+		 int jucaiBills=account.getJucaiBills();
 		User user = UserServer.findBaseInfoById(uId);
 		Marker marker = new Marker();
 		if (typeId == 0) {

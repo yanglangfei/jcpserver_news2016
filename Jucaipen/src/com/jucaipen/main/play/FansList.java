@@ -19,8 +19,8 @@ import com.jucaipen.utils.TimeUtils;
  *
  *  ÈËÆø°ñ
  */
-@SuppressWarnings("serial")
 public class FansList extends HttpServlet {
+	private static final long serialVersionUID = 161956627147491980L;
 	private String result;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

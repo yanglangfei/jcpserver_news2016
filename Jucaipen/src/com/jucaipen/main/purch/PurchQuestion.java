@@ -35,8 +35,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         ¹ºÂòÎÊ´ð
  */
-@SuppressWarnings("serial")
 public class PurchQuestion extends HttpServlet {
+	private static final long serialVersionUID = 5816518002340286711L;
 	private String result;
 	private String ip;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

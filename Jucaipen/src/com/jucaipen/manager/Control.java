@@ -13,8 +13,8 @@ import com.jucaipen.utils.StringUtil;
  * @author Administrator
  *
  */
-@SuppressWarnings("serial")
 public class Control extends HttpServlet {
+	private static final long serialVersionUID = 4906602039828919994L;
 	private String result;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

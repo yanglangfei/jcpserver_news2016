@@ -33,6 +33,7 @@ public class TxtChat extends HttpServlet {
 	private boolean isManager;
 	private String ip;
 	private Timer timer;
+	private PushPayload msgObj;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -148,8 +149,13 @@ public class TxtChat extends HttpServlet {
 
 		String pushMsg = JsonUtil.createTxtMsgArray(msgs);
 		JPushClient client = JPushUtils.getJPush();
-		PushPayload msgObj = JPushUtils.createMsg("msg", "txtMsg", pushMsg,
-				null);
+		if(msgType==0){
+			 msgObj = JPushUtils.createMsg("msg", "qiaoqiao", pushMsg,
+					null);
+		}else{
+			 msgObj = JPushUtils.createMsg("msg", "txtMsg", pushMsg,
+					null);
+		}
 		JPushUtils.pushMsg(client, msgObj);
 		if (msgs != null && msgs.size() > 0) {
 			if (isManager) {

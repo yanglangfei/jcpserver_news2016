@@ -21,8 +21,8 @@ import com.jucaipen.utils.StringUtil;
  * 
  *         获取嘉宾   typeId   (0 获取首页嘉宾)   （1 获取全部嘉宾）
  */
-@SuppressWarnings("serial")
 public class QuerryGuest extends HttpServlet {
+	private static final long serialVersionUID = 8943981291520195117L;
 	private String result;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

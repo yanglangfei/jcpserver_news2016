@@ -36,8 +36,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         typeId 0 视频 1 专辑 2 守护   3  战法
  */
-@SuppressWarnings("serial")
 public class QuerryPurchInfo extends HttpServlet {
+	private static final long serialVersionUID = 5937142906680276551L;
 	private String result;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

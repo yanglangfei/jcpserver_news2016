@@ -30,8 +30,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         ∏∂∑—Œ 
  */
-@SuppressWarnings("serial")
 public class PayAsk extends HttpServlet {
+	private static final long serialVersionUID = 3749798484035649579L;
 	private String ip;
 	private String result;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

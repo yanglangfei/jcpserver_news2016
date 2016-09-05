@@ -33,7 +33,6 @@ import com.jucaipen.utils.JdbcUtil;
 public class RollBackUtil {
 	private static Connection dbConn;
 	private static Statement sta;
-
 	/**
 	 * ¿ªÍ¨ÊØ»¤
 	 * 

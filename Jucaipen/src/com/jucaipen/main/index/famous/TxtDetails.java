@@ -1,14 +1,11 @@
 package com.jucaipen.main.index.famous;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.Account;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.LiveDetailSale;
@@ -64,7 +61,7 @@ public class TxtDetails extends HttpServlet {
 		int isPurch=1;
 		int ownJucaiBills=0;
 		if(uId<=0){
-			isPurch=1;
+			return JsonUtil.getRetMsg(1,"用户还没登录");
 		}
 		TextLive live = TxtLiveSer.findTextLiveById(tId);
 		if(live==null){

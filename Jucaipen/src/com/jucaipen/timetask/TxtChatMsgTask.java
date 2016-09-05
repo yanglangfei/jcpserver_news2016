@@ -17,6 +17,7 @@ public class TxtChatMsgTask extends TimerTask{
 	private int liveId;
 	private boolean isManager;
 	private int msgType;
+	private PushPayload msgObj;
 
 	public TxtChatMsgTask(int maxId, int userId, int liveId,boolean isManager,int msgType) {
 		this.maxId=maxId;
@@ -53,7 +54,11 @@ public class TxtChatMsgTask extends TimerTask{
 		if(msgs!=null&&msgs.size()>0){
 			String pushMsg = JsonUtil.createTxtMsgArray(msgs);
 			JPushClient client = JPushUtils.getJPush();
-			PushPayload msgObj = JPushUtils.createMsg("msg", "txtMsg", pushMsg, null);
+			if(type==0){
+				msgObj = JPushUtils.createMsg("msg", "qiaoqiao", pushMsg, null);
+			}else{
+				msgObj = JPushUtils.createMsg("msg", "txtMsg", pushMsg, null);
+			}
 			JPushUtils.pushMsg(client, msgObj);
 			if(isM){
 				maxId= msgs.get(msgs.size()-1).getId();

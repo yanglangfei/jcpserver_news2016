@@ -22,7 +22,7 @@ public class VideoLiveImp implements VideoLiveDao {
 	private ResultSet res;
 	private Statement sta;
 	private List<VideoLive> chatRooms = new ArrayList<VideoLive>();
-	
+
 	/**
 	 * @return 查询直播室总页数
 	 */
@@ -38,7 +38,7 @@ public class VideoLiveImp implements VideoLiveDao {
 			return totlePager;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -48,7 +48,6 @@ public class VideoLiveImp implements VideoLiveDao {
 		return 0;
 
 	}
-	
 
 	public List<VideoLive> getRoomList() {
 		// 获取所有直播间名称
@@ -73,7 +72,7 @@ public class VideoLiveImp implements VideoLiveDao {
 			return chatRooms;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -91,18 +90,18 @@ public class VideoLiveImp implements VideoLiveDao {
 			res = sta
 					.executeQuery("SELECT * FROM JCP_VideoLive WHERE Id=" + id);
 			while (res.next()) {
-				String title=res.getString(2);  //Title
-				String keyWord=res.getString(3);  //Keyword
-				String desc=res.getString(4);  //Descirption
-				int classId=res.getInt(5);  //Fk_CalssId
-				String videoUrl=res.getString(6);  //Videourl
-				String videoImage=res.getString(7);  //VideoImg
-				int teacherId=res.getInt(8);  //Fk_TeacherId
-				int isEnd=res.getInt(9);  //IsEnd
-				String startDate=res.getString(10);  //StratDate
-				String endDate=res.getString(11);  //EndDate
-				int renQi=res.getInt(12);  //RenQi
-				VideoLive live=new VideoLive();
+				String title = res.getString(2); // Title
+				String keyWord = res.getString(3); // Keyword
+				String desc = res.getString(4); // Descirption
+				int classId = res.getInt(5); // Fk_CalssId
+				String videoUrl = res.getString(6); // Videourl
+				String videoImage = res.getString(7); // VideoImg
+				int teacherId = res.getInt(8); // Fk_TeacherId
+				int isEnd = res.getInt(9); // IsEnd
+				String startDate = res.getString(10); // StratDate
+				String endDate = res.getString(11); // EndDate
+				int renQi = res.getInt(12); // RenQi
+				VideoLive live = new VideoLive();
 				live.setClassId(classId);
 				live.setDescript(desc);
 				live.setEndDate(endDate);
@@ -118,7 +117,7 @@ public class VideoLiveImp implements VideoLiveDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -130,28 +129,28 @@ public class VideoLiveImp implements VideoLiveDao {
 
 	public List<VideoLive> getAllRoom(int page) {
 		chatRooms.clear();
-		int totlePage=getTotlePage("");
-		dbConn=JdbcUtil.connSqlServer();
+		int totlePage = getTotlePage("");
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT TOP 15 * FROM "
-					+ "(SELECT ROW_NUMBER() OVER (ORDER BY StratDate desc) AS RowNumber,* FROM JCP_VideoLive"
-					+ ") A " + "WHERE RowNumber > " + 15
-					* (page - 1));
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT TOP 15 * FROM "
+							+ "(SELECT ROW_NUMBER() OVER (ORDER BY StratDate desc) AS RowNumber,* FROM JCP_VideoLive"
+							+ ") A " + "WHERE RowNumber > " + 15 * (page - 1));
 			while (res.next()) {
-				int id=res.getInt("Id");
-				String title=res.getString("Title");  //Title
-				String keyWord=res.getString("Keyword");  //Keyword
-				String desc=res.getString("Descirption");  //Descirption
-				int classId=res.getInt("Fk_CalssId");  //Fk_CalssId
-				String videoUrl=res.getString("Videourl");  //Videourl
-				String videoImage=res.getString("VideoImg");  //VideoImg
-				int teacherId=res.getInt("Fk_TeacherId");  //Fk_TeacherId
-				int isEnd=res.getInt("IsEnd");  //IsEnd
-				String startDate=res.getString("StratDate");  //StratDate
-				String endDate=res.getString("EndDate");  //EndDate
-				int renQi=res.getInt("RenQi");  //RenQi
-				VideoLive live=new VideoLive();
+				int id = res.getInt("Id");
+				String title = res.getString("Title"); // Title
+				String keyWord = res.getString("Keyword"); // Keyword
+				String desc = res.getString("Descirption"); // Descirption
+				int classId = res.getInt("Fk_CalssId"); // Fk_CalssId
+				String videoUrl = res.getString("Videourl"); // Videourl
+				String videoImage = res.getString("VideoImg"); // VideoImg
+				int teacherId = res.getInt("Fk_TeacherId"); // Fk_TeacherId
+				int isEnd = res.getInt("IsEnd"); // IsEnd
+				String startDate = res.getString("StratDate"); // StratDate
+				String endDate = res.getString("EndDate"); // EndDate
+				int renQi = res.getInt("RenQi"); // RenQi
+				VideoLive live = new VideoLive();
 				live.setPage(page);
 				live.setTotlePage(totlePage);
 				live.setId(id);
@@ -171,7 +170,7 @@ public class VideoLiveImp implements VideoLiveDao {
 			return chatRooms;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -197,7 +196,7 @@ public class VideoLiveImp implements VideoLiveDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -207,28 +206,29 @@ public class VideoLiveImp implements VideoLiveDao {
 		return null;
 	}
 
-
 	@Override
 	public VideoLive findLiveBytId(int tId) {
 		// 获取讲师下的直播视频信息
 		chatRooms.clear();
-		dbConn=JdbcUtil.connSqlServer();
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_VideoLive WHERE Fk_TeacherId="+tId);
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT Id,Title,Keyword,Descirption,Fk_CalssId,ISNULL(Videourl,'') Videourl,VideoImg,IsEnd,StratDate,EndDate,RenQi FROM JCP_VideoLive WHERE Fk_TeacherId="
+							+ tId);
 			while (res.next()) {
-				int id=res.getInt("Id");
-				String title=res.getString("Title");  //Title
-				String keyWord=res.getString("Keyword");  //Keyword
-				String desc=res.getString("Descirption");  //Descirption
-				int classId=res.getInt("Fk_CalssId");  //Fk_CalssId
-				String videoUrl=res.getString("Videourl");  //Videourl
-				String videoImage=res.getString("VideoImg");  //VideoImg
-				int isEnd=res.getInt("IsEnd");  //IsEnd
-				String startDate=res.getString("StratDate");  //StratDate
-				String endDate=res.getString("EndDate");  //EndDate
-				int renQi=res.getInt("RenQi");  //RenQi
-				VideoLive live=new VideoLive();
+				int id = res.getInt("Id");
+				String title = res.getString("Title"); // Title
+				String keyWord = res.getString("Keyword"); // Keyword
+				String desc = res.getString("Descirption"); // Descirption
+				int classId = res.getInt("Fk_CalssId"); // Fk_CalssId
+				String videoUrl = res.getString("Videourl"); // Videourl
+				String videoImage = res.getString("VideoImg"); // VideoImg
+				int isEnd = res.getInt("IsEnd"); // IsEnd
+				String startDate = res.getString("StratDate"); // StratDate
+				String endDate = res.getString("EndDate"); // EndDate
+				int renQi = res.getInt("RenQi"); // RenQi
+				VideoLive live = new VideoLive();
 				live.setId(id);
 				live.setTitle(title);
 				live.setKeyWord(keyWord);
@@ -245,7 +245,7 @@ public class VideoLiveImp implements VideoLiveDao {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -255,27 +255,27 @@ public class VideoLiveImp implements VideoLiveDao {
 		return null;
 	}
 
-
 	@Override
 	public List<VideoLive> findLiveByIsEnd(int isEnd) {
 		chatRooms.clear();
-		dbConn=JdbcUtil.connSqlServer();
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_VideoLive WHERE IsEnd="+isEnd);
+			sta = dbConn.createStatement();
+			res = sta.executeQuery("SELECT * FROM JCP_VideoLive WHERE IsEnd="
+					+ isEnd);
 			while (res.next()) {
-				int id=res.getInt("Id");
-				String title=res.getString("Title");  //Title
-				String keyWord=res.getString("Keyword");  //Keyword
-				String desc=res.getString("Descirption");  //Descirption
-				int classId=res.getInt("Fk_CalssId");  //Fk_CalssId
-				String videoUrl=res.getString("Videourl");  //Videourl
-				String videoImage=res.getString("VideoImg");  //VideoImg
-				String startDate=res.getString("StratDate");  //StratDate
-				String endDate=res.getString("EndDate");  //EndDate
-				int renQi=res.getInt("RenQi");  //RenQi
-				int teacherId=res.getInt("Fk_TeacherId");
-				VideoLive live=new VideoLive();
+				int id = res.getInt("Id");
+				String title = res.getString("Title"); // Title
+				String keyWord = res.getString("Keyword"); // Keyword
+				String desc = res.getString("Descirption"); // Descirption
+				int classId = res.getInt("Fk_CalssId"); // Fk_CalssId
+				String videoUrl = res.getString("Videourl"); // Videourl
+				String videoImage = res.getString("VideoImg"); // VideoImg
+				String startDate = res.getString("StratDate"); // StratDate
+				String endDate = res.getString("EndDate"); // EndDate
+				int renQi = res.getInt("RenQi"); // RenQi
+				int teacherId = res.getInt("Fk_TeacherId");
+				VideoLive live = new VideoLive();
 				live.setId(id);
 				live.setTitle(title);
 				live.setKeyWord(keyWord);
@@ -293,7 +293,7 @@ public class VideoLiveImp implements VideoLiveDao {
 			return chatRooms;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				JdbcUtil.closeConn(sta, dbConn, res);
 			} catch (SQLException e) {
@@ -303,12 +303,11 @@ public class VideoLiveImp implements VideoLiveDao {
 		return null;
 	}
 
-
 	@Override
 	public int updateRenQi(int id, int renQi) {
-		dbConn=JdbcUtil.connSqlServer();
+		dbConn = JdbcUtil.connSqlServer();
 		try {
-			sta=dbConn.createStatement();
+			sta = dbConn.createStatement();
 			return sta.executeUpdate("UPDATE JCP_VideoLive SET ");
 		} catch (SQLException e) {
 			e.printStackTrace();

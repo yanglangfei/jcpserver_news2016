@@ -73,6 +73,9 @@ public class SignIn extends HttpServlet {
 			}
 		}
 		User user = UserServer.findBaseInfoById(uId);
+		if(user==null){
+			return "";
+		}
 		String insertDate = TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
 		// 更新签到详细表
 		SignDetail detail = new SignDetail();

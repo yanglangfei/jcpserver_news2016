@@ -34,8 +34,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         ╡иди╩ь╢П
  */
-@SuppressWarnings("serial")
 public class CatchAnswer extends HttpServlet {
+	private static final long serialVersionUID = 3472044508946288560L;
 	private String result;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -19,8 +19,8 @@ import com.jucaipen.utils.XinGeUtil;
  * 
  *         all 1 全部设备 2 指定TAG设备 3 指定TOKEN设备 msgType 新闻 直播 系统通知 版本更新
  */
-@SuppressWarnings("serial")
 public class WebPush extends HttpServlet {
+	private static final long serialVersionUID = -7443274292656349638L;
 	private String result;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

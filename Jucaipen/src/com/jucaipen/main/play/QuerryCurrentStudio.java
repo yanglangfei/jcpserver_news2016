@@ -20,8 +20,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         ªÒ»°—›≤•
  */
-@SuppressWarnings("serial")
 public class QuerryCurrentStudio extends HttpServlet {
+	private static final long serialVersionUID = 845421431112793609L;
 	private String result;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

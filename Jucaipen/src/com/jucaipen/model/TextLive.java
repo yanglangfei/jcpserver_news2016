@@ -62,8 +62,18 @@ public class TextLive implements Serializable{
 	 */
 	private int isEnd;
 	
+	/**
+	 *    «∑Ò ÿª§
+	 */
+	private boolean isGuardian;
 	
 	
+	public boolean isGuardian() {
+		return isGuardian;
+	}
+	public void setGuardian(boolean isGuardian) {
+		this.isGuardian = isGuardian;
+	}
 	public int getOwnJucaiBills() {
 		return ownJucaiBills;
 	}

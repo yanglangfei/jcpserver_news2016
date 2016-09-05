@@ -13,14 +13,13 @@ import com.jucaipen.model.Studio;
 import com.jucaipen.service.StudioSer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.TimeUtils;
-
 /**
  * @author Administrator
  * 
  *   ΩÒ»’—›≤•
  */
-@SuppressWarnings("serial")
 public class QuerryTodayStusio extends HttpServlet {
+	private static final long serialVersionUID = -535074658209484967L;
 	private String result;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

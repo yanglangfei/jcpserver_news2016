@@ -19,8 +19,8 @@ import com.jucaipen.utils.StringUtil;
  * 
  *         根据分类获取资讯信息
  */
-@SuppressWarnings("serial")
 public class NewsByType extends HttpServlet {
+	private static final long serialVersionUID = 4388616214420842470L;
 	private String result;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

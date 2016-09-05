@@ -20,8 +20,8 @@ import com.jucaipen.utils.StringUtil;
  * 
  *    获取视频 证券知识 评论回复信息 commType 评论类型 0 视频评论 1 资讯评论
  */
-@SuppressWarnings("serial")
 public class PlayComment extends HttpServlet {
+	private static final long serialVersionUID = 6322861183112029194L;
 	private String result;
 	private List<User> users = new ArrayList<User>();
 	public void doGet(HttpServletRequest request, HttpServletResponse response)

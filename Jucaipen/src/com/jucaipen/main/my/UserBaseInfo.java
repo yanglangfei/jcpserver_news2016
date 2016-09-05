@@ -68,8 +68,11 @@ public class UserBaseInfo extends HttpServlet {
 		FamousTeacher teacher = FamousTeacherSer.findFamousTeacherByUserId(uId);
 		// …Í«Î «∑Ò≥…π¶
 		ApplyTeacher apply = ApplyTeacherSer.findLastApplyByUid(uId, 1);
-		
+
 		User user = UserServer.findBaseInfoById(uId);
+		if (user == null) {
+			return "";
+		}
 		param.put("mobilenum", user.getMobileNum());
 		String resJson = LoginUtil.sendHttpPost(parsePhoneNum, param);
 		org.json.JSONObject object = new org.json.JSONObject(resJson);
@@ -79,15 +82,16 @@ public class UserBaseInfo extends HttpServlet {
 			user.setMobileNum(mobile);
 		}
 		user.setIsTeacher(teacher != null ? 1 : 0);
-		if(apply!=null&&apply.getState()==3){
-			//…Û∫À ß∞‹
-			ApplyDetails details = ApplyDetailsSer.findDetailsByApplyId(apply.getId());
-			if(details!=null){
+		if (apply != null && apply.getState() == 3) {
+			// …Û∫À ß∞‹
+			ApplyDetails details = ApplyDetailsSer.findDetailsByApplyId(apply
+					.getId());
+			if (details != null) {
 				user.setApplyFailReason(details.getCause());
 			}
 		}
-		
-		user.setApplyState(apply!=null ?apply.getState() : -1);
+
+		user.setApplyState(apply != null ? apply.getState() : -1);
 		return JsonUtil.getBaseInfo(user);
 	}
 

@@ -33,8 +33,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         π∫¬Ú ”∆µ
  */
-@SuppressWarnings("serial")
 public class PurchVideo extends HttpServlet {
+	private static final long serialVersionUID = 5603892025072935802L;
 	private String result;
 	private String ip;
 

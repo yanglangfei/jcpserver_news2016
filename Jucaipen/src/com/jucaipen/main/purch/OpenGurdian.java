@@ -36,8 +36,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         ¿ªÍ¨ÊØ»¤
  */
-@SuppressWarnings("serial")
 public class OpenGurdian extends HttpServlet {
+	private static final long serialVersionUID = 7215614542250498399L;
 	private String result;
 	private String ip;
 

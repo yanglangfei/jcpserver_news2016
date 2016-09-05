@@ -1,4 +1,5 @@
 package com.jucaipen.main.video;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -8,15 +9,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.model.Account;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.FamousTeacher;
+import com.jucaipen.model.Guardian;
 import com.jucaipen.model.TextLive;
 import com.jucaipen.model.TxtLiveSale;
 import com.jucaipen.model.VideoLive;
 import com.jucaipen.model.VideoLiveSale;
 import com.jucaipen.service.AccountSer;
 import com.jucaipen.service.FamousTeacherSer;
+import com.jucaipen.service.GuardianSer;
 import com.jucaipen.service.TxtLiveSaleSer;
 import com.jucaipen.service.TxtLiveSer;
 import com.jucaipen.service.VideoLiveSaleSer;
@@ -37,6 +41,7 @@ public class LiveList extends HttpServlet {
 	private static final long serialVersionUID = -3535325712984870701L;
 	private String result;
 	private List<FamousTeacher> teachers = new ArrayList<FamousTeacher>();
+
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -49,23 +54,24 @@ public class LiveList extends HttpServlet {
 		if (isDevice == HeaderUtil.PHONE_APP) {
 			String liveType = request.getParameter("liveType");
 			String page = request.getParameter("page");
-			String userId=request.getParameter("userId");
+			String userId = request.getParameter("userId");
 			if (StringUtil.isNotNull(liveType)) {
 				if (StringUtil.isInteger(liveType)) {
 					int type = Integer.parseInt(liveType);
 					if (StringUtil.isNotNull(page)
 							&& StringUtil.isInteger(page)) {
 						int p = Integer.parseInt(page);
-						if(StringUtil.isNotNull(userId)&&StringUtil.isInteger(userId)){
-							int uId=Integer.parseInt(userId);
+						if (StringUtil.isNotNull(userId)
+								&& StringUtil.isInteger(userId)) {
+							int uId = Integer.parseInt(userId);
 							if (type == 0) {
 								// 文字直播
-								result = initTxtLive(p,uId);
+								result = initTxtLive(p, uId);
 							} else {
 								// 视频直播
-								result = initLive(p,uId);
+								result = initLive(p, uId);
 							}
-						}else{
+						} else {
 							result = JsonUtil.getRetMsg(4, "userId 参数异常");
 						}
 					} else {
@@ -86,40 +92,42 @@ public class LiveList extends HttpServlet {
 		out.close();
 	}
 
-	private String initLive(int p,int uId) {
-		// 初始化视频直播    ----正在直播的视频
-		int isPurch=1;
-		int ownJucaiBills=0;
-		if(uId<=0){
-			isPurch=1;
+	private String initLive(int p, int uId) {
+		// 初始化视频直播 ----正在直播的视频
+		int isPurch = 1;
+		int ownJucaiBills = 0;
+		if (uId <= 0) {
+			isPurch = 1;
 		}
-		
+
 		teachers.clear();
 		List<VideoLive> videos = VideoLiveServer.findLiveByIsEnd(2);
-		if(videos!=null){
+		if (videos != null) {
 			for (VideoLive live : videos) {
 				int tId = live.getTeacherId();
-				FamousTeacher teacher = FamousTeacherSer.findFamousTeacherById(tId);
+				FamousTeacher teacher = FamousTeacherSer
+						.findFamousTeacherById(tId);
 				if (teacher == null) {
 					teacher = new FamousTeacher();
 				}
-				live.setLiveVideo(teacher.getIsUserLiveUrl()==1);
-				//live.setCharge(teacher.getLiveFree()==1);
+				live.setLiveVideo(teacher.getIsUserLiveUrl() == 1);
+				// live.setCharge(teacher.getLiveFree()==1);
 				live.setCharge(false);
 				live.setLivePrice(teacher.getLivePrice());
 				live.setVideoUrl(teacher.getVideoLiveUrl());
 				live.setTeacherName(teacher.getNickName());
-				if(uId>0){
-					Account account=AccountSer.findAccountByUserId(uId);
-					VideoLiveSale sale=VideoLiveSaleSer.findSaleByUidAndLiveId(uId, live.getId());
-				    if(sale!=null){
-				    	isPurch=0;
-				    }else{
-				    	isPurch=1;
-				    }
-				    if(account!=null){
-				    	ownJucaiBills=account.getJucaiBills();
-				    }
+				if (uId > 0) {
+					Account account = AccountSer.findAccountByUserId(uId);
+					VideoLiveSale sale = VideoLiveSaleSer
+							.findSaleByUidAndLiveId(uId, live.getId());
+					if (sale != null) {
+						isPurch = 0;
+					} else {
+						isPurch = 1;
+					}
+					if (account != null) {
+						ownJucaiBills = account.getJucaiBills();
+					}
 				}
 				live.setOwnJucaiBills(ownJucaiBills);
 				live.setIsPurch(isPurch);
@@ -130,32 +138,32 @@ public class LiveList extends HttpServlet {
 
 	}
 
-	private String initTxtLive(int p,int uId) {
-		// 初始化文字直播   ---获取正在直播的文字直播
-		int isPurch=1;
-		int ownJucaiBills=0;
-		if(uId<=0){
-			isPurch=1;
-		}
+	private String initTxtLive(int p, int uId) {
+		// 初始化文字直播 ---获取正在直播的文字直播
+		int isPurch = 1;
+		int ownJucaiBills = 0;
 		teachers.clear();
 		List<TextLive> txtLives = TxtLiveSer.findTextLiveByIsEnd(2);
 		for (TextLive txt : txtLives) {
 			int tId = txt.getTeacherId();
+			Guardian guardian=GuardianSer.findIsGuardian(tId, uId);
+			txt.setGuardian(guardian!=null);
 			FamousTeacher teacher = FamousTeacherSer.findFamousTeacherById(tId);
 			if (teacher == null) {
 				teacher = new FamousTeacher();
 			}
 			if(uId>0){
-				Account account=AccountSer.findAccountByUserId(uId);
-				TxtLiveSale sale=TxtLiveSaleSer.findSaleByUidAndTxtId(uId, txt.getId());
-			    if(sale!=null){
-			    	isPurch=0;
-			    }else{
-			    	isPurch=1;
-			    }
-			    if(account!=null){
-			    	 ownJucaiBills=account.getJucaiBills();
-			    }
+				Account account = AccountSer.findAccountByUserId(uId);
+				TxtLiveSale sale = TxtLiveSaleSer.findSaleByUidAndTxtId(uId,
+						txt.getId());
+				if (sale != null) {
+					isPurch = 0;
+				} else {
+					isPurch = 1;
+				}
+				if (account != null) {
+					ownJucaiBills = account.getJucaiBills();
+				}
 			}
 			txt.setOwnJucaiBills(ownJucaiBills);
 			txt.setIsPurch(isPurch);

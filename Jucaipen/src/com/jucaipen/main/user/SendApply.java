@@ -24,6 +24,7 @@ import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
+
 /**
  * @author Administrator
  * 
@@ -156,16 +157,16 @@ public class SendApply extends HttpServlet {
 			return JsonUtil.getRetMsg(5, "请输入手机验证码");
 		}
 
-		/*if (!checkCheckCode(tel, actionCode)) {
+		if (!checkCheckCode(tel, actionCode)) {
 			return JsonUtil.getRetMsg(6, "手机验证码错误");
-		}*/
+		}
 
 		int isTxtLive = apply.getIsTxtLive();
 		int isVideoLive = apply.getIsVideoLive();
 		if (isTxtLive == -1 && isVideoLive == -1) {
 			return JsonUtil.getRetMsg(7, "请选择开通项目");
 		}
-        apply.setId(id);
+		apply.setId(id);
 		int isSuccess = ApplyTeacherSer.addApply(apply, 3);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "提交成功") : JsonUtil
 				.getRetMsg(1, "提交失败");

@@ -24,8 +24,8 @@ import com.jucaipen.utils.TimeUtils;
  * @author Administrator
  *  获取往期演播信息
  */
-@SuppressWarnings("serial")
 public class LastPlay extends HttpServlet {
+	private static final long serialVersionUID = -3226704185189432878L;
 	private String result;
 	private int isPurch;
 

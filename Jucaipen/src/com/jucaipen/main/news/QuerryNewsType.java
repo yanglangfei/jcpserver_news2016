@@ -18,8 +18,8 @@ import com.jucaipen.utils.JsonUtil;
  * 
  *         获取资讯分类信息
  */
-@SuppressWarnings("serial")
 public class QuerryNewsType extends HttpServlet {
+	private static final long serialVersionUID = -8237640124427982067L;
 	private String result;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
