@@ -187,4 +187,94 @@ public class SysMessageImp implements SysMessageDao {
 		return null;
 	}
 
+
+	@Override
+	public List<SysMessage> findMessageBySenderIdAndMaxId(int senderId,
+			 int maxId) {
+		//获取我发送的系统消息
+		messages.clear();
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT * FROM JCP_Mess WHERE FK_SendUserId="+senderId+" AND Id>"+maxId);
+			while (res.next()) {
+				int id=res.getInt("Id");
+				String title=res.getString("Title");  //Title
+				String content=res.getString("MessContent");  //MessContent
+				int type=res.getInt("MessType");  //MessType
+				int receiverId=res.getInt("FK_ReceiveUserId");  //FK_ReceiveUserId
+				String sendDate=res.getString("SendDate");  //SendDate
+				String receiverDate=res.getString("ReceiveDate");  //ReceiveDate
+				int isRead=res.getInt("IsRead");  //IsRead
+				SysMessage message=new SysMessage();
+				message.setTitle(title);
+				message.setContent(content);
+				message.setType(type);
+				message.setId(id);
+				message.setSenderId(senderId);
+				message.setReceiverId(receiverId);
+				message.setSendDate(sendDate);
+				message.setIsRead(isRead);
+				message.setReceiveDate(receiverDate);
+				messages.add(message);
+			}
+			return messages;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+
+	@Override
+	public List<SysMessage> findMessageByReceiverIdAndMaxId(int receiverId,
+			 int maxId) {
+		//获取我发送的系统消息
+		messages.clear();
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT * FROM JCP_Mess WHERE FK_ReceiveUserId="+receiverId+" AND Id>"+maxId);
+			while (res.next()) {
+				int id=res.getInt("Id");
+				String title=res.getString("Title");  //Title
+				String content=res.getString("MessContent");  //MessContent
+				int type=res.getInt("MessType");  //MessType
+				int senderId=res.getInt("FK_SendUserId");  //FK_SendUserId
+				String sendDate=res.getString("SendDate");  //SendDate
+				String receiverDate=res.getString("ReceiveDate");  //ReceiveDate
+				int isRead=res.getInt("IsRead");  //IsRead
+				SysMessage message=new SysMessage();
+				message.setTitle(title);
+				message.setContent(content);
+				message.setType(type);
+				message.setId(id);
+				message.setSenderId(senderId);
+				message.setReceiverId(receiverId);
+				message.setSendDate(sendDate);
+				message.setIsRead(isRead);
+				message.setReceiveDate(receiverDate);
+				messages.add(message);
+			}
+			return messages;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
 }

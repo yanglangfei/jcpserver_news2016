@@ -1,24 +1,19 @@
 package com.jucaipen.main.my;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.SysMessage;
 import com.jucaipen.model.User;
 import com.jucaipen.service.SysMessageSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
- *
  *  获取系统消息
  */
 public class MyMessage extends HttpServlet {
@@ -43,9 +38,17 @@ public class MyMessage extends HttpServlet {
 							&& StringUtil.isInteger(page)) {
 						int p = Integer.parseInt(page);
 						result=initMyMessage(uId, type, p);
+					}else{
+						result=JsonUtil.getRetMsg(1,"page 参数不能为空");
 					}
+				}else{
+					result=JsonUtil.getRetMsg(2,"typeId 参数异常");
 				}
+			}else{
+				result=JsonUtil.getRetMsg(3,"用户还没登录");
 			}
+		}else{
+			result=JsonUtil.getRetMsg(4,"userId 参数异常");
 		}
 		out.println(result);
 		out.flush();
@@ -61,7 +64,6 @@ public class MyMessage extends HttpServlet {
 			// 获取我的发件箱
 			message = SysMessageSer.findMessageBySenderId(uId, p);
 		}
-
 		if (message != null) {
 			for (SysMessage msg : message) {
 				int receiverId = msg.getReceiverId();
@@ -71,7 +73,6 @@ public class MyMessage extends HttpServlet {
 				msg.setReceiverName(receiver.getNickName());
 				msg.setSendName(sender.getNickName());
 			}
-
 		}
 		
 		return JsonUtil.getMyMessage(message);

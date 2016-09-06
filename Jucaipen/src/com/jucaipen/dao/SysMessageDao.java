@@ -28,5 +28,19 @@ public interface SysMessageDao {
 	 */
 	public List<SysMessage> findMessageByReceiverId(int receiverId,int page);
 	
+	
+	/**
+	 * @param senderId
+	 * @return 根据最大消息id获取我发送的消息
+	 */
+	public List<SysMessage> findMessageBySenderIdAndMaxId(int senderId,int maxId);
+	
+	
+	/**
+	 * @param receiverId
+	 * @return 根据最大消息id获取我接受到的系统消息
+	 */
+	public List<SysMessage> findMessageByReceiverIdAndMaxId(int receiverId,int maxId);
+	
 
 }
