@@ -198,6 +198,26 @@ public class ReportImp implements ReportDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
+			System.out.println("INSERT INTO JCP_Report(bodys,Fk_type,Fk_Id,UserId,InsertDate,IP,Ishandle,handleRemabrk,handleDate,handleRen) VALUES('"
+							+ report.getBodys()
+							+ "',"
+							+ report.getType()
+							+ ","
+							+ report.getFk_id()
+							+ ","
+							+ report.getUserId()
+							+ ",'"
+							+ report.getInsertDate()
+							+ "','"
+							+ report.getIp()
+							+ "',"
+							+ report.getIshandle()
+							+ ",'"
+							+ report.getHandleRemabrk()
+							+ "','"
+							+ report.getHandleDate()
+							+ "','"
+							+ report.getHandleRen() + "')");
 			return sta
 					.executeUpdate("INSERT INTO JCP_Report(bodys,Fk_type,Fk_Id,UserId,InsertDate,IP,Ishandle,handleRemabrk,handleDate,handleRen) VALUES('"
 							+ report.getBodys()

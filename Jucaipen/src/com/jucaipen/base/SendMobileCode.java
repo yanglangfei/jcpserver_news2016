@@ -122,7 +122,7 @@ public class SendMobileCode extends HttpServlet {
 				}
 				
 			}else{
-				result=JsonUtil.getRetMsg(3, "typeId 参数异常");
+				result=JsonUtil.getRetMsg(5, "typeId 参数异常");
 			}
 		}else{
 			result=StringUtil.isVaild;

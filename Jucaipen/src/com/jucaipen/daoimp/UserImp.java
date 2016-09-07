@@ -816,7 +816,7 @@ public class UserImp implements UserDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT NickName,UserLevel,UserFace,UserName,MobileNum,LoginTime,AllIntegral,InvitationCode,IsMobileVerification FROM JCP_User WHERE Id="
+					.executeQuery("SELECT NickName,UserLevel,ISNULL(UserFace,'') UserFace,UserName,MobileNum,LoginTime,AllIntegral,InvitationCode,IsMobileVerification FROM JCP_User WHERE Id="
 							+ id);
 			while (res.next()) {
 				String nickName = res.getString(1);
