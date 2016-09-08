@@ -135,7 +135,6 @@ public class LiveList extends HttpServlet {
 			}
 		}
 		return JsonUtil.getLiveList(videos, teachers);
-
 	}
 
 	private String initTxtLive(int p, int uId) {
@@ -171,5 +170,4 @@ public class LiveList extends HttpServlet {
 		}
 		return JsonUtil.getTxtLiveList(txtLives, teachers);
 	}
-
 }
