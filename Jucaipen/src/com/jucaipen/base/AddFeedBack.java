@@ -36,6 +36,7 @@ public class AddFeedBack extends HttpServlet {
 		String userId = request.getParameter("userId");
 		String bodys = request.getParameter("bodys");
 		String deviceType = request.getParameter("deviceType");
+	    request.getHeaderNames();
 		if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
 			int uId = Integer.parseInt(userId);
 			if (uId > 0) {
@@ -90,5 +91,5 @@ public class AddFeedBack extends HttpServlet {
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "反馈提交成功") : JsonUtil
 				.getRetMsg(1, "反馈提交失败");
 	}
-
+	
 }
