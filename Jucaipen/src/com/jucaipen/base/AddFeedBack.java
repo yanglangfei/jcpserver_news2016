@@ -21,8 +21,8 @@ import com.jucaipen.utils.TimeUtils;
  * 
  *         Òâ¼û·´À¡ deviceType 0 android 1 ios
  */
-@SuppressWarnings("serial")
 public class AddFeedBack extends HttpServlet {
+	private static final long serialVersionUID = 8503836834399278214L;
 	private String result;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
