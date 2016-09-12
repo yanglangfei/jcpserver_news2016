@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.model.FeedBack;
 import com.jucaipen.service.FeedBackSer;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.MsgCode;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
 
@@ -36,7 +37,7 @@ public class AddFeedBack extends HttpServlet {
 		String userId = request.getParameter("userId");
 		String bodys = request.getParameter("bodys");
 		String deviceType = request.getParameter("deviceType");
-	    request.getHeaderNames();
+		request.getHeaderNames();
 		if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
 			int uId = Integer.parseInt(userId);
 			if (uId > 0) {
@@ -49,8 +50,12 @@ public class AddFeedBack extends HttpServlet {
 								result = inserAdvice(trueName, contact, uId,
 										bodys, ip, devType);
 							} else {
-								result = JsonUtil.getRetMsg(6,
-										"deviceType 参数异常");
+								result = MsgCode.CURRENT_VERSION == MsgCode.HISTORY_VISION_1 ? JsonUtil
+										.getRetMsg(6, "deviceType 参数异常")
+										: JsonUtil
+												.getRetMsg(
+														MsgCode.RET_FAIL_PARAMERROR_CODE,
+														MsgCode.RET_FAIL_PARAMERROR);
 							}
 						} else {
 							result = JsonUtil.getRetMsg(5, "反馈内容不能为空");
@@ -75,10 +80,10 @@ public class AddFeedBack extends HttpServlet {
 	private String inserAdvice(String trueName, String contact, int uId,
 			String bodys, String ip, int devType) {
 		FeedBack feedBack = new FeedBack();
-		if(devType==0){
-			feedBack.setBody("android问题反馈:"+bodys);
-		}else{
-			feedBack.setBody("ios问题反馈:"+bodys);
+		if (devType == 0) {
+			feedBack.setBody("android问题反馈:" + bodys);
+		} else {
+			feedBack.setBody("ios问题反馈:" + bodys);
 		}
 		feedBack.setInsertDate(TimeUtils.format(new Date(),
 				"yyyy-MM-dd HH:mm:ss"));
@@ -88,8 +93,9 @@ public class AddFeedBack extends HttpServlet {
 		feedBack.setUserId(uId);
 		feedBack.setType(0);
 		int isSuccess = FeedBackSer.insertFeedBack(feedBack);
-		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "反馈提交成功") : JsonUtil
-				.getRetMsg(1, "反馈提交失败");
+		return isSuccess == 1 ? JsonUtil.getRetMsg(MsgCode.RET_SUCCESS_CODE,
+				MsgCode.RET_SUCCESS) : JsonUtil.getRetMsg(
+				MsgCode.RET_FAIL_CODE, MsgCode.RET_FAIL);
 	}
-	
+
 }

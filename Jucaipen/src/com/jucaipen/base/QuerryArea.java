@@ -2,19 +2,17 @@ package com.jucaipen.base;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.Area;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.service.AreaServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.MsgCode;
 import com.jucaipen.utils.StringUtil;
 
 /**
@@ -26,37 +24,43 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class QuerryArea extends HttpServlet {
 	private String result;
-	private List<Area> areas = new ArrayList<Area>();
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		response.setCharacterEncoding("UTF-8");                         
+		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String userAgent=request.getParameter("User-Agent");
-		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
-		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
-		if(isDevice==HeaderUtil.PHONE_APP){
+		String userAgent = request.getParameter("User-Agent");
+		ClientOsInfo os = HeaderUtil.getMobilOS(userAgent);
+		int isDevice = HeaderUtil.isVaildDevice(os, userAgent);
+		if (isDevice == HeaderUtil.PHONE_APP) {
 			String cityId = request.getParameter("cityId");
 			if (StringUtil.isInteger(cityId)) {
 				int cId = Integer.parseInt(cityId);
-				initAreaData(cId);
-				result = JsonUtil.getObject(areas);
+				result = initAreaData(cId);
 			} else {
-				result = JsonUtil.getRetMsg(1, "城市id参数数字格式化异常");
+				result = MsgCode.CURRENT_VERSION == MsgCode.HISTORY_VISION_1 ? JsonUtil
+						.getRetMsg(1, "城市id参数数字格式化异常") : JsonUtil.getAreaV2(
+						null, MsgCode.RET_FAIL_PARAMERROR_CODE,
+						MsgCode.RET_FAIL_PARAMERROR);
 			}
-		}else{
-			result=StringUtil.isVaild;
+		} else {
+			result = MsgCode.CURRENT_VERSION == MsgCode.HISTORY_VISION_1 ? StringUtil.isVaild
+					: JsonUtil.getAreaV2(null, MsgCode.RET_FAIL_DEVERROR_CODE,
+							MsgCode.RET_FAIL_DEVERROR);
 		}
 		out.print(result);
 		out.flush();
 		out.close();
 	}
 
-	private void initAreaData(int cId) {
+	private String initAreaData(int cId) {
 		// 初始化区信息
-		areas = AreaServer.getAreas(0, cId);
+		List<Area> areas = AreaServer.getAreas(0, cId);
+		return MsgCode.CURRENT_VERSION == MsgCode.HISTORY_VISION_1 ? JsonUtil
+				.getObject(areas) : JsonUtil.getAreaV2(areas,
+				MsgCode.RET_SUCCESS_CODE, MsgCode.RET_SUCCESS);
 
 	}
 

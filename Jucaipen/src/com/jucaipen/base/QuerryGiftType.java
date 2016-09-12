@@ -61,5 +61,6 @@ public class QuerryGiftType extends HttpServlet {
 		List<GiftClass> leftClass = GiftClassSer.findTopClass(4);
 		return JsonUtil.getGiftClass(leftClass);
 	}
+	
 
 }

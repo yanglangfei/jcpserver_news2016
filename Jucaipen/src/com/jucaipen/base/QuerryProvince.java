@@ -2,19 +2,17 @@ package com.jucaipen.base;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.Province;
 import com.jucaipen.service.ProvinceServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.MsgCode;
 import com.jucaipen.utils.StringUtil;
 
 /**
@@ -26,7 +24,6 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class QuerryProvince extends HttpServlet {
 	private String result;
-	private List<Province> provinces = new ArrayList<Province>();
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -38,19 +35,18 @@ public class QuerryProvince extends HttpServlet {
 		ClientOsInfo os=HeaderUtil.getMobilOS(userAgent);
 		int isDevice=HeaderUtil.isVaildDevice(os, userAgent);
 		if(isDevice==HeaderUtil.PHONE_APP){
-			initProvinceInfo();
-			result = JsonUtil.getObject(provinces);
+			result=initProvinceInfo();
 		}else{
-			result=StringUtil.isVaild;
+			result=MsgCode.CURRENT_VERSION==MsgCode.HISTORY_VISION_1 ? StringUtil.isVaild : JsonUtil.getProvinceV2(null, MsgCode.RET_FAIL_DEVERROR_CODE, MsgCode.RET_FAIL_DEVERROR);
 		}
 		out.print(result);
 		out.flush();
 		out.close();
 	}
 
-	private void initProvinceInfo() {
-		provinces.clear();
-		provinces = ProvinceServer.getProvinces();
+	private String initProvinceInfo() {
+		List<Province> provinces = ProvinceServer.getProvinces();
+		return MsgCode.CURRENT_VERSION==MsgCode.HISTORY_VISION_1 ? JsonUtil.getObject(provinces) : JsonUtil.getProvinceV2(provinces, MsgCode.RET_SUCCESS_CODE, MsgCode.RET_SUCCESS);
 
 	}
 

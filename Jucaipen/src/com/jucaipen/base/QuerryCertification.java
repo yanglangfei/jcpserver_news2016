@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.model.Certification;
 import com.jucaipen.service.CertificationSer;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.MsgCode;
 
 /**
  * @author Administrator
@@ -39,7 +40,7 @@ public class QuerryCertification extends HttpServlet {
 	 */
 	private String initCertificationList() {
 		List<Certification> certs = CertificationSer.findAllCertification();
-		return JsonUtil.getCertificationList(certs);
+		return MsgCode.CURRENT_VERSION==MsgCode.HISTORY_VISION_1 ? JsonUtil.getCertificationList(certs) : JsonUtil.getCertificationListV2(certs, MsgCode.RET_SUCCESS_CODE, MsgCode.RET_SUCCESS);
 	}
 
 }

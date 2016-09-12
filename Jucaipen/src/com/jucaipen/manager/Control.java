@@ -1,18 +1,14 @@
 package com.jucaipen.manager;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.utils.StringUtil;
 /**
- * @author Administrator
- *
- */
+* @author Administrator
+*/
 public class Control extends HttpServlet {
 	private static final long serialVersionUID = 4906602039828919994L;
 	private String result;

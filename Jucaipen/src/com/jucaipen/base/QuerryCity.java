@@ -3,15 +3,18 @@ package com.jucaipen.base;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.model.City;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.service.CityServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.MsgCode;
 import com.jucaipen.utils.StringUtil;
 
 /**
@@ -36,10 +39,10 @@ public class QuerryCity extends HttpServlet {
 				int pId=Integer.parseInt(provinceId);
 				result=initCityInfo(pId);
 			}else {
-				result=JsonUtil.getRetMsg(1, "省份id参数数字格式化异常");
+				result=MsgCode.CURRENT_VERSION==MsgCode.HISTORY_VISION_1 ? JsonUtil.getRetMsg(1, "省份id参数数字格式化异常") : JsonUtil.getCityV2(null, MsgCode.RET_FAIL_PARAMERROR_CODE, MsgCode.RET_FAIL_PARAMERROR);
 			}
 		}else{
-			result=StringUtil.isVaild;
+			result=MsgCode.CURRENT_VERSION==MsgCode.HISTORY_VISION_1 ? StringUtil.isVaild : JsonUtil.getCityV2(null, MsgCode.RET_FAIL_DEVERROR_CODE, MsgCode.RET_FAIL_DEVERROR);
 		}
 		out.print(result);
 		out.flush();
@@ -48,7 +51,7 @@ public class QuerryCity extends HttpServlet {
 
 	private String initCityInfo(int pId) {
 		List<City> cities = CityServer.getCitys(pId);
-		return JsonUtil.getObject(cities);
+		return MsgCode.CURRENT_VERSION==MsgCode.HISTORY_VISION_1 ? JsonUtil.getObject(cities) : JsonUtil.getCityV2(cities, MsgCode.RET_SUCCESS_CODE, MsgCode.RET_SUCCESS);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

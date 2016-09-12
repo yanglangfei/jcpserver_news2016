@@ -48,7 +48,7 @@ public class QuerryAdvise extends HttpServlet {
 				result = MsgCode.CURRENT_VERSION==MsgCode.HISTORY_VISION_1 ?JsonUtil.getRetMsg(4, "参数不能为空") :JsonUtil.getAdvertive(null, MsgCode.RET_FAIL_PARAMERROR_CODE, MsgCode.RET_FAIL_PARAMERROR);
 			}
 		} else {
-			result = StringUtil.isVaild;
+			result = MsgCode.CURRENT_VERSION==MsgCode.HISTORY_VISION_1?StringUtil.isVaild : JsonUtil.getAdvertive(null,MsgCode.RET_FAIL_DEVERROR_CODE, MsgCode.RET_FAIL_DEVERROR);
 		}
 		out.print(result);
 		out.flush();

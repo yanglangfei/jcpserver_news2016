@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
+import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.PushResult;
+import cn.jpush.api.push.model.PushPayload;
+
+import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.XinGeUtil;
 /**
  * @author Administrator
@@ -22,7 +27,6 @@ import com.jucaipen.utils.XinGeUtil;
 public class WebPush extends HttpServlet {
 	private static final long serialVersionUID = -7443274292656349638L;
 	private String result;
-
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -77,8 +81,9 @@ public class WebPush extends HttpServlet {
 
 	private String pushAllDevMsg(String msgType, String title, String message) {
 		// 发送全部设备指定消息
-		JSONObject res = XinGeUtil.getInstance(false).pushAllDevMsg(title,
-				message);
+		JPushClient puch = JPushUtils.getJPush();
+		PushPayload msg = JPushUtils.createNptify(message, "notiy", 1);
+		PushResult res=JPushUtils.pushMsg(puch, msg);
 		return res.toString();
 	}
 
