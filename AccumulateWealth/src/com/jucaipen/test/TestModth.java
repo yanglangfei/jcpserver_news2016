@@ -2,11 +2,10 @@ package com.jucaipen.test;
 
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class TestModth extends JFrame{
+public class TestModth extends JFrame {
 	private JButton btn1 = new JButton("Button 1");
 	private JButton btn2 = new JButton("Button 2");
 	private Robot robot;
@@ -15,17 +14,6 @@ public class TestModth extends JFrame{
 		setLayout(new GridLayout(0, 1));
 		add(btn1);
 		add(btn2);
-		
-		Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
-			
-			@Override
-			public void eventDispatched(AWTEvent event) {
-				if(event.getID()==KeyEvent.KEY_PRESSED){
-					System.out.println("PRESS");
-				}
-				
-			}
-		}, AWTEvent.KEY_EVENT_MASK);
 
 		btn1.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent event) {
@@ -76,32 +64,15 @@ public class TestModth extends JFrame{
 	 */
 
 	public static void main(String[] args) {
-	/*	Robot robot;
+		Robot robot;
 		try {
 			robot = new Robot();
 			robot.mouseMove(190, 10);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}*/
-		
-		/*TestModth modth=new TestModth();
-		modth.setVisible(true);
-		modth.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
-		
-		
-		try {
-			while (true) {
-				Robot robot=new Robot();
-				robot.delay(1000*5);
-				// BUTTON1_MASK   ×ó¼ü      BUTTON3_MASK  ÓÒ¼ü   BUTTON2_MASK   Ë«»÷    
-				robot.mousePress(InputEvent.BUTTON2_MASK);
-			}
-		} catch (AWTException e) {
-			e.printStackTrace();
-		} 
+		}
 
 	}
-
 
 	/*
 	 * public static void main(String[] args) { EventQueue.invokeLater(03ew

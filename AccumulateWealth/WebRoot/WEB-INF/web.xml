@@ -536,6 +536,11 @@
     <servlet-name>CompleteTeacherInfo</servlet-name>
     <servlet-class>com.jucaipen.main.user.CompleteTeacherInfo</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>GetOrderInfo</servlet-name>
+    <servlet-class>com.jucaipen.main.order.GetOrderInfo</servlet-class>
+  </servlet>
+
 
 
 
@@ -1097,5 +1102,9 @@
   <servlet-mapping>
     <servlet-name>CompleteTeacherInfo</servlet-name>
     <url-pattern>/jucaipen/completeteacherinfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetOrderInfo</servlet-name>
+    <url-pattern>/jucaipen/getorderinfo</url-pattern>
   </servlet-mapping>
 </web-app>
