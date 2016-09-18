@@ -19,13 +19,17 @@ import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
 
+/**
+ * @author Administrator
+ *
+ *   获取订单号  和  通联支付的 userId
+ */
 public class GetOrderInfo extends HttpServlet {
 	private static final long serialVersionUID = -7055306551181829233L;
 	private String result;
 	private static final String GET_ORDER_CODE = "http://www.jucaipen.com/ashx/AndroidUser.ashx?action=PayOrder";
 	private Map<String, String> map = new HashMap<String, String>();
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -64,7 +68,6 @@ public class GetOrderInfo extends HttpServlet {
 		} else {
 			result = JsonUtil.getPayUserInfo(6, "paymoney 参数异常", null, null);
 		}
-
 		out.println(result);
 		out.flush();
 		out.close();
@@ -79,6 +82,7 @@ public class GetOrderInfo extends HttpServlet {
 		JSONObject object = new JSONObject(res);
 		boolean Result = object.getBoolean("Result");
 		if (Result) {
+			//String userId=SunMd5.TextRegister("008310107420099", sdf.format(new Date()), "1234567890");
 			String userId = SunMd5.allinpayRegister("008310189990108",
 					sdf.format(new Date()), "1234567890");
 			String Msg = object.getString("Msg");
