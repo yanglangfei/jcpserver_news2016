@@ -931,7 +931,7 @@ public class VideoImp implements VideoDao {
 			res = sta
 					.executeQuery("select TOP "
 							+ count
-							+ " FK_Pecial,FK_ClassId,Id,Title,Description,ImagesUrl,PlayCount,VideoDate,VideoPageUrl,PlayXNCount from JCP_Video"
+							+ " FK_Pecial,FK_ClassId,Id,Title,Description,ImagesUrl,PlayCount,VideoDate,VideoPageUrl,VideoUrl,PlayXNCount from JCP_Video"
 							+ " WHERE IsIndex=1 AND IsTuiJian=1 ORDER BY InsertDate DESC");
 
 			while (res.next()) {
@@ -942,6 +942,7 @@ public class VideoImp implements VideoDao {
 				int playCount = res.getInt("PlayCount");
 				String videoDate = res.getString("VideoDate");
 				String videoPageUrl = res.getString("VideoPageUrl");
+				String VideoUrl=res.getString("VideoUrl");
 				int cId = res.getInt("FK_ClassId");
 				int specialId = res.getInt("FK_Pecial");
 				int xnHits = res.getInt("PlayXNCount");
@@ -951,6 +952,7 @@ public class VideoImp implements VideoDao {
 				video.setXnHitCount(xnHits);
 				video.setHtmlUrl(videoPageUrl);
 				video.setHitCount(playCount);
+				video.setVideoUrl(VideoUrl);
 				video.setVideoDate(videoDate);
 				video.setPecialId(specialId);
 				video.setClassId(cId);

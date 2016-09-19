@@ -61,12 +61,12 @@ public class LoginUtil {
 		try {
 			builder = new StringBuilder(url);
 			if (param != null && param.size() > 0) {
+				builder.append("?");
 				for (Map.Entry<String, String> p : param.entrySet()) {
-					builder.append("&");
 					builder.append(p.getKey());
 					builder.append("=");
 					builder.append(p.getValue());
-					builder.append("?");
+					builder.append("&");
 				}
 				builder.replace(builder.length() - 1, builder.length(), "");
 			}

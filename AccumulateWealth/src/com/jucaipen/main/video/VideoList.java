@@ -90,13 +90,11 @@ public class VideoList extends HttpServlet {
 			}
 		}
 		
-		
-		
 		List<Video> videos = VideoServer.findAll(p);
 		for (Video video : videos) {
 		   createVideo(video, uId);
 		}
-		return JsonUtil.getVideoList(videos);
+		return JsonUtil.getHVideoList(videos);
 	}
 
 	private String initIndexData(String userId) {
@@ -117,7 +115,7 @@ public class VideoList extends HttpServlet {
 				createVideo(video, uId);
 			}
 		}
-		return JsonUtil.getVideoList(videos);
+		return JsonUtil.getHVideoList(videos);
 	}
 	
 	public void createVideo(Video video,int uId){
