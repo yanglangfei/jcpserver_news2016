@@ -115,7 +115,7 @@ public class QuerryVideoList extends HttpServlet {
 					createVideo(video, uId);
 				}
 			}
-			return JsonUtil.getVideoList(videos);
+			return JsonUtil.getHVideoList(videos);
 		}else
 		// cId>0
 		if (cId >= 0 && type <= 0 && tId <= 0) {
@@ -137,7 +137,7 @@ public class QuerryVideoList extends HttpServlet {
 				}
 			}
 
-			return JsonUtil.getVideoList(videos);
+			return JsonUtil.getHVideoList(videos);
 		}else
 
 		if (cId >= 0 && type > 0 && tId <= 0) {
@@ -159,7 +159,7 @@ public class QuerryVideoList extends HttpServlet {
 				}
 			}
 
-			return JsonUtil.getVideoList(videos);
+			return JsonUtil.getHVideoList(videos);
 		}else
 
 		if (cId >= 0 && type <= 0 && tId > 0) {
@@ -181,7 +181,7 @@ public class QuerryVideoList extends HttpServlet {
 					createVideo(video, uId);
 				}
 			}
-			return JsonUtil.getVideoList(videos);
+			return JsonUtil.getHVideoList(videos);
 		}
 		
 		return null;
