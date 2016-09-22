@@ -92,7 +92,7 @@ public class RelateVideo extends HttpServlet {
 				createVideo(video, uId);
 			}
 		}
-		return JsonUtil.getVideoList(videos);
+		return JsonUtil.getContainVideoList(videos);
 	}
 
 	public void createVideo(Video video, int uId) {

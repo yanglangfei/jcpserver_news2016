@@ -344,7 +344,7 @@ public class VideoImp implements VideoDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 20 FK_ClassId,Id,Title,ImagesUrl,Description,VideoPageUrl,FK_Pecial,VideoType,PlayCount,VideoDate,PlayXNCount FROM "
+					.executeQuery("SELECT TOP 20 FK_ClassId,Id,Title,ImagesUrl,Description,VideoPageUrl,FK_Pecial,VideoType,PlayCount,VideoDate,VideoUrl,PlayXNCount FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Video WHERE FK_ClassId IN ("
 							+ classId
 							+ ") AND TearcherId="
@@ -362,11 +362,13 @@ public class VideoImp implements VideoDao {
 				int hits = res.getInt("PlayCount");
 				String videoDate = res.getString("VideoDate");
 				int xnHits = res.getInt("PlayXNCount");
+				String videoUrl=res.getString("VideoUrl");
 				Video video = new Video(id, title);
 				video.setImages(Images);
 				video.setDescript(desc);
 				video.setVideoDate(videoDate);
 				video.setHitCount(hits);
+				video.setVideoUrl(videoUrl);
 				video.setVideoType(videoType);
 				video.setPecialId(specialId);
 				video.setTotlePage(totlePage);
@@ -399,7 +401,7 @@ public class VideoImp implements VideoDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 20 FK_ClassId,Id,Title,ImagesUrl,VideoPageUrl,FK_Pecial,VideoType,PlayCount,VideoDate,PlayXNCount FROM "
+					.executeQuery("SELECT TOP 20 FK_ClassId,Id,Title,ImagesUrl,VideoPageUrl,FK_Pecial,VideoType,PlayCount,VideoDate,PlayXNCount,VideoUrl FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Video WHERE FK_ClassId IN ("
 							+ classId
 							+ ") AND FK_TypeId="
@@ -417,8 +419,10 @@ public class VideoImp implements VideoDao {
 				int hits = res.getInt("PlayCount");
 				String videoDate = res.getString("VideoDate");
 				int xnHits = res.getInt("PlayXNCount");
+				String videoUrl=res.getString("VideoUrl");
 				Video video = new Video(id, title);
 				video.setImages(Images);
+				video.setVideoUrl(videoUrl);
 				video.setVideoDate(videoDate);
 				video.setTotlePage(totlePage);
 				video.setHtmlUrl(pageUrl);
@@ -453,7 +457,7 @@ public class VideoImp implements VideoDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT TOP 20 FK_ClassId,Id,Title,ImagesUrl,VideoPageUrl,PlayCount,FK_Pecial,VideoType,VideoDate,PlayXNCount FROM "
+					.executeQuery("SELECT TOP 20 FK_ClassId,Id,Title,ImagesUrl,VideoPageUrl,PlayCount,FK_Pecial,VideoType,VideoDate,PlayXNCount,VideoUrl FROM "
 							+ "(SELECT ROW_NUMBER() OVER (ORDER BY InsertDate desc) AS RowNumber,* FROM JCP_Video WHERE FK_ClassId IN ("
 							+ classId
 							+ ") AND FK_TypeId="
@@ -473,7 +477,9 @@ public class VideoImp implements VideoDao {
 				String videoDate = res.getString("VideoDate");
 				int specialId = res.getInt("FK_Pecial");
 				int xnHits = res.getInt("PlayXNCount");
+				String videoUrl=res.getString("VideoUrl");
 				Video video = new Video(id, title);
+				video.setVideoUrl(videoUrl);
 				video.setImages(Images);
 				video.setHtmlUrl(pageUrl);
 				video.setHitCount(hits);

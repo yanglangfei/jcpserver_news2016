@@ -97,7 +97,7 @@ public class UploadApk extends HttpServlet {
 							createApkDate(param, filePath);
 							if (info != null) {
 								updateApkInfo(info);
-								pushUpdateInfo(filePath);
+								//pushUpdateInfo(filePath);
 								out.print("文件上传处理成功");
 							} else {
 								out.print("文件处理失败");
@@ -121,7 +121,7 @@ public class UploadApk extends HttpServlet {
 
 	/**
 	 * @param filePath
-	 *            更新APK
+	 *         更新APK
 	 */
 	private void pushUpdateInfo(String filePath) {
 		JPushClient client = JPushUtils.getJPush();
