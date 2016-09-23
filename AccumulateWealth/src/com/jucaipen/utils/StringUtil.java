@@ -14,6 +14,8 @@ public class StringUtil {
 	public static final String playUrl_MU="http://hls-w.quklive.com/live/w1469002576632934/playlist.m3u8";
 
 	public static final String  playUrl_flv="http://hdl-w.quklive.com/live/w1469002576632934.flv";
+	
+	public static final String play_IOS="http://recordcdn.quklive.com/upload/vod/user1445329249621940/1468907345907846/2/video.m3u8";
 	/**
 	 * @param string
 	 * @return ≈–∂œ” œ‰’˝»∑–‘
