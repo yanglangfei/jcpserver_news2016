@@ -1,7 +1,6 @@
 package com.jucaipen.utils;
 
 import java.util.Map;
-
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
@@ -18,6 +17,9 @@ public class JPushUtils {
 	private static final String appKey = "7ea0243b8390b06fa4789b34";
 	private static JPushClient client;
 
+	/**
+	 * @return  获取推送构造器
+	 */
 	public static JPushClient getJPush() {
 		if (client == null) {
 			client = new JPushClient(masterSecret, appKey);
@@ -55,7 +57,14 @@ public class JPushUtils {
 								.setTitle(title).build())
 				.setAudience(Audience.all()).build();
 	}
+	
+	
 
+	/**
+	 * @param client
+	 * @param payLoad
+	 * @return   推送消息
+	 */
 	public static PushResult pushMsg(JPushClient client, PushPayload payLoad) {
 		try {
 			PushResult result = client.sendPush(payLoad);

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.PushPayload;
 
 import com.jucaipen.model.ChatMsgObject;
@@ -166,7 +167,7 @@ public class StudioChat extends HttpServlet {
 				JPushClient client = JPushUtils.getJPush();
 				PushPayload msgs = JPushUtils.createMsg("msg", "studioMsg",
 						pushMsg, null);
-				JPushUtils.pushMsg(client, msgs);
+				PushResult res = JPushUtils.pushMsg(client, msgs);
 			}
 			if (msgObjs.size() > 0) {
 				if (isManager) {
@@ -191,7 +192,7 @@ public class StudioChat extends HttpServlet {
 	private  int getTopCountId(int userType,int isServer) {
 		params.clear();
 		params.put("userType", userType+"");
-		params.put("topCount", 10+"");
+		params.put("topCount", 5+"");
 		params.put("roomId", 1+"");
 		params.put("", isServer+"");
 		String result = LoginUtil.sendHttpPost(GETTOPID, params);

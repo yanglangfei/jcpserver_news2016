@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.TimerTask;
 
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.PushPayload;
 
 import com.jucaipen.model.Studio;
@@ -96,7 +97,7 @@ public class StudioMsgTask extends TimerTask{
 			if(msgObjs.size()>0&&pushMsg!=null){
 				JPushClient client = JPushUtils.getJPush();
 				PushPayload msgs = JPushUtils.createMsg("msg", "studioMsg", pushMsg, null);
-			    JPushUtils.pushMsg(client, msgs);
+			    PushResult res = JPushUtils.pushMsg(client, msgs);
 			}
 		    if(msgObjs.size()>0){
 				if(isM){

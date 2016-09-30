@@ -175,16 +175,15 @@ public class PurchVideoLive extends HttpServlet {
 				.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 		rebate.setRemark("用户购买直播返利");
 		
-		
 		Rebate sysRebate=new Rebate();
-		rebate.setTeacherId(teacherId);
+		sysRebate.setTeacherId(teacherId);
 		// 返利类型（0讲师返利记录，1系统收入记录）
-		rebate.setType(1);
-		rebate.setRebateMoney(b * (1-teacher.getReturnRate()));
-		rebate.setFromId(uId);
-		rebate.setInsertDate(TimeUtils
+		sysRebate.setType(1);
+		sysRebate.setRebateMoney(b * (1-teacher.getReturnRate()));
+		sysRebate.setFromId(uId);
+		sysRebate.setInsertDate(TimeUtils
 				.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
-		rebate.setRemark("用户购买直播返利");
+		sysRebate.setRemark("用户购买直播返利");
 		
 		int isSuccess=RollBackUtil.purchLiveVideo(sale,detail,integeralDetail,b,account,uId,user,contribute,sysAccount,detailAccount,rebate,sysRebate);
 		return isSuccess==1 ? JsonUtil.getRetMsg(0, "购买成功") : JsonUtil.getRetMsg(1, "购买失败");

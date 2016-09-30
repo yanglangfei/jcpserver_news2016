@@ -1114,6 +1114,6 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>PurchVideoLive</servlet-name>
-    <url-pattern>/servlet/purchvideolive</url-pattern>
+    <url-pattern>/jucaipen/purchvideolive</url-pattern>
   </servlet-mapping>
 </web-app>
