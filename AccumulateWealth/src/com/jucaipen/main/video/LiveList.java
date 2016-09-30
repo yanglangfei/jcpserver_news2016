@@ -111,8 +111,7 @@ public class LiveList extends HttpServlet {
 					teacher = new FamousTeacher();
 				}
 				live.setLiveVideo(teacher.getIsUserLiveUrl() == 1);
-				// live.setCharge(teacher.getLiveFree()==1);
-				live.setCharge(false);
+				live.setCharge(teacher.getLiveFree()==1);
 				live.setLivePrice(teacher.getLivePrice());
 				live.setVideoUrl(teacher.getVideoLiveUrl());
 				live.setTeacherName(teacher.getNickName());

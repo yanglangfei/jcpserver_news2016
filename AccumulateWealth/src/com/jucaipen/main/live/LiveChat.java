@@ -35,8 +35,6 @@ import com.jucaipen.utils.StringUtil;
  *   ÷±≤•¡ƒÃÏ “
  */
 public class LiveChat extends HttpServlet {
-	//private static final String GET_LIVE_MSG="http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
-	//private static final String SEND_LIVE_MSG="http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
 	private static final long serialVersionUID = 2946753218351995165L;
 	private static final String GET_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
 	private static final String SEND_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
@@ -60,7 +58,7 @@ public class LiveChat extends HttpServlet {
 					int maxId=requestMsg(userId, liveId);
 					timer = new Timer();
 					VideoLiveMsgTask task=new VideoLiveMsgTask(maxId,userId,liveId,isManager);
-					timer.scheduleAtFixedRate(task, new Date(), 2000);
+					timer.scheduleAtFixedRate(task, new Date(), 1000*10);
 				}else if(opType==2){
 					//¡ƒÃÏ
 					String msg=chatMsg.getMsg();

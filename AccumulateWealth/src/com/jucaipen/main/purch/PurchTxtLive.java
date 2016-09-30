@@ -55,6 +55,7 @@ public class PurchTxtLive extends HttpServlet {
 			String userId = request.getParameter("userId");
 			String txtLiveId = request.getParameter("txtLiveId");
 			String bills = request.getParameter("bills");
+			String days=request.getParameter("days");
 			if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
 				int uId = Integer.parseInt(userId);
 				if (uId > 0) {
@@ -64,7 +65,12 @@ public class PurchTxtLive extends HttpServlet {
 						if (StringUtil.isNotNull(bills)
 								&& StringUtil.isInteger(bills)) {
 							int b = Integer.parseInt(bills);
-							result = purchTxtLive(ip, uId, b, txtId);
+							if(StringUtil.isNotNull(days)&&StringUtil.isInteger(days)){
+								int d=Integer.parseInt(days);
+								result = purchTxtLive(ip, uId, b, txtId,d);
+							}else{
+								result = JsonUtil.getRetMsg(5, "days 参数异常");
+							}
 						} else {
 							result = JsonUtil.getRetMsg(4, "bills 参数异常");
 						}
@@ -85,7 +91,7 @@ public class PurchTxtLive extends HttpServlet {
 		out.close();
 	}
 
-	private String purchTxtLive(String ip, int uId, int b, int txtId) {
+	private String purchTxtLive(String ip, int uId, int b, int txtId, int d) {
 		Account account = AccountSer.findAccountByUserId(uId);
 		TextLive txtLive = TxtLiveSer.findTextLiveById(txtId);
 		User user = UserServer.findBaseInfoById(uId);
@@ -103,6 +109,11 @@ public class PurchTxtLive extends HttpServlet {
 		if (account == null || account.getJucaiBills() < b) {
 			return JsonUtil.getRetMsg(5, "余额不足，请先充值");
 		}
+		
+		
+		String startDate = TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
+		String endDate = TimeUtils.format(TimeUtils.addBaseDay(new Date(), d),
+				"yyyy-MM-dd HH:mm:ss");
 
 		AccountDetail accountDetail = new AccountDetail();
 		accountDetail.setDetailMoney(b);
@@ -137,11 +148,13 @@ public class PurchTxtLive extends HttpServlet {
 		sale.setTeacherId(teacherId);
 		sale.setOrderCode("");
 		sale.setFk_txtId(txtId);
+		sale.setStartDate(startDate);
+		sale.setEndDate(endDate);
 		sale.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 
 		Contribute contribute = new Contribute();
 		contribute.setAllJucaiBills(b);
-		contribute.setComType(6);
+		contribute.setComType(12);
 		contribute.setFk_id(txtId);
 		contribute.setTeacherId(teacherId);
 		contribute.setUserId(uId);

@@ -27,9 +27,15 @@ public class VideoLiveSaleImp implements VideoLiveSaleDao {
 			while (res.next()) {
 				int id = res.getInt(1);
 				String insertDate = res.getString(6);
+				String startDate=res.getString(7);
+				String endDate=res.getString(8);
+				int isStop=res.getInt(9);
 				VideoLiveSale sale = new VideoLiveSale();
 				sale.setId(id);
 				sale.setInsertDate(insertDate);
+				sale.setStartDate(startDate);
+				sale.setEndDate(endDate);
+				sale.setIsStop(isStop);
 				return sale;
 			}
 		} catch (SQLException e) {

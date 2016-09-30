@@ -54,7 +54,7 @@ public class TxtChat extends HttpServlet {
 				timer = new Timer();
 				TxtChatMsgTask task = new TxtChatMsgTask(maxId, userId, liveId,
 						isManager,msgType);
-				timer.scheduleAtFixedRate(task, new Date(), 2000);
+				timer.scheduleAtFixedRate(task, new Date(), 1000*10);
 			} else if (opType == 2) {
 				// адлЛ
 				String msg = chatMsg.getMsg();

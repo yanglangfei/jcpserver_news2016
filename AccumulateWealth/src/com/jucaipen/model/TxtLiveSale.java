@@ -22,12 +22,22 @@ public class TxtLiveSale implements Serializable{
 	private int fk_txtIsEnd;
 	private int fk_txtId;
 	private String insertDate;
+	private String startDate;
+	private String endDate;
 	
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
 	private boolean isGurdian;
-	
-	
-	
-	
 	
 	public boolean isGurdian() {
 		return isGurdian;

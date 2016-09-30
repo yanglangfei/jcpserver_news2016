@@ -540,6 +540,11 @@
     <servlet-name>GetOrderInfo</servlet-name>
     <servlet-class>com.jucaipen.main.order.GetOrderInfo</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>PurchVideoLive</servlet-name>
+    <servlet-class>com.jucaipen.main.purch.PurchVideoLive</servlet-class>
+  </servlet>
+
 
 
 
@@ -1106,5 +1111,9 @@
   <servlet-mapping>
     <servlet-name>GetOrderInfo</servlet-name>
     <url-pattern>/jucaipen/getorderinfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PurchVideoLive</servlet-name>
+    <url-pattern>/servlet/purchvideolive</url-pattern>
   </servlet-mapping>
 </web-app>

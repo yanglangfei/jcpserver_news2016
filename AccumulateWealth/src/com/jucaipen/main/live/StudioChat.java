@@ -18,21 +18,14 @@ import cn.jpush.api.JPushClient;
 import cn.jpush.api.push.model.PushPayload;
 
 import com.jucaipen.model.ChatMsgObject;
-import com.jucaipen.model.Guardian;
-import com.jucaipen.model.Studio;
 import com.jucaipen.model.User;
-import com.jucaipen.model.VideoLive;
 import com.jucaipen.model.VideoLiveMsg;
-import com.jucaipen.service.GuardianSer;
-import com.jucaipen.service.StudioSer;
 import com.jucaipen.service.UserServer;
-import com.jucaipen.service.VideoLiveServer;
 import com.jucaipen.timetask.StudioMsgTask;
 import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  *         
@@ -42,11 +35,9 @@ public class StudioChat extends HttpServlet {
 	private static final long serialVersionUID = -3343269386742774065L;
 	private Timer timer;
 	private boolean isManager;
-	//private static final String GET_LIVE_MSG = "http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
-	//private static final String SEND_LIVE_MSG = "http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
-
-	private static final String GET_LIVE_MSG = "http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
-	private static final String SEND_LIVE_MSG = "http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
+	private static final String  GETTOPID="http://chat.jucaipen.com/ashx/chat_msg.ashx?action=getTopId";
+	private static final String GET_LIVE_MSG = "http://chat.jucaipen.com/ashx/chat_msg.ashx?action=getlist";
+	private static final String SEND_LIVE_MSG = "http://chat.jucaipen.com/ashx/chat_msg.ashx?action=appadd";
 	private Map<String, String> params = new HashMap<String, String>();
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -66,7 +57,7 @@ public class StudioChat extends HttpServlet {
 				timer = new Timer();
 				StudioMsgTask task = new StudioMsgTask(maxId, userId, liveId,
 						isManager);
-				timer.scheduleAtFixedRate(task, new Date(), 2000);
+				timer.scheduleAtFixedRate(task, new Date(), 1000*5);
 			} else if (opType == 2) {
 				// 聊天
 				String msg = chatMsg.getMsg();
@@ -84,6 +75,7 @@ public class StudioChat extends HttpServlet {
 		out.flush();
 		out.close();
 	}
+	
 
 	/**
 	 * @param uId
@@ -93,23 +85,10 @@ public class StudioChat extends HttpServlet {
 	 * @return 发送消息
 	 */
 	public String sendMsg(int uId, int sId, String msg, int toId) {
-		Studio studio = StudioSer.findStudioById(sId);
-		int liveId = studio.getVideoLiveId();
-		int gurdianId;
-		int teacherId=0;
-		Guardian fromGuardian=null;
-		VideoLive live = VideoLiveServer.getRoomInfo(liveId);
-		if(live!=null){
-			teacherId=live.getTeacherId();
-		}
-		if (liveId <= 0) {
-			return null;
-		}
 		User fromUser;
 		User toUser;
 		if (uId > 0) {
 			fromUser = UserServer.findUserChatInfo(uId);
-			fromGuardian = GuardianSer.findIsGuardian(teacherId, uId);
 			toUser = UserServer.findUserChatInfo(toId);
 			if (toUser == null) {
 				toUser = new User();
@@ -117,25 +96,16 @@ public class StudioChat extends HttpServlet {
 		} else {
 			return JsonUtil.getRetMsg(3, "请先登录");
 		}
-		
-		if(fromGuardian!=null){
-			gurdianId=fromGuardian.getId();
-		}else{
-			gurdianId=0;
-		}
 		params.clear();
-		params.put("lid", liveId + "");
-		params.put("msg", msg);
-		params.put("userlevel", fromUser.getUserLeval() + "");
-		params.put("isroomadmin", fromUser.getIsRoomAdmin() + "");
-		params.put("issysadmin", fromUser.getIsSysAdmin() + "");
-		params.put("ischatadmin", fromUser.getIsRoomManager() + "");
-		params.put("isserverid", fromUser.getServerId() + "");
-		params.put("isshouhuzhe", gurdianId+ "");
-		params.put("isteacher", fromUser.getIsTeacher() + "");
-		params.put("buyproductid", fromUser.getBuyProductId() + "");
-		params.put("nickName", fromUser.getNickName());
-		params.put("userid", uId + "");
+		params.put("type", 1+"");
+		params.put("roomid", 1 + "");
+		params.put("msgcontent", msg);
+		params.put("sendusername", fromUser.getNickName());
+		params.put("fasongface", fromUser.getFaceImage());
+		params.put("SendUserId", uId + "");
+		params.put("SendManager", isManager+"");
+		params.put("SendServiceId", fromUser.getServerId()+"");
+		params.put("MessType", 0+"");
 		String result = LoginUtil.sendHttpPost(SEND_LIVE_MSG, params);
 		JSONObject object = new JSONObject(result);
 		boolean isSend = object.getBoolean("IsLogin");
@@ -157,16 +127,6 @@ public class StudioChat extends HttpServlet {
 	public int requestMsg(int uId, int sId) {
 		int serverId=0;
 		int teacherId=0;
-		Studio studio = StudioSer.findStudioById(sId);
-		if (studio == null) {
-			return -1;
-		}
-		int liveId = studio.getVideoLiveId();
-		VideoLive live=VideoLiveServer.getRoomInfo(liveId);
-		if(live!=null){
-		   teacherId=live.getTeacherId();
-		}
-		params.clear();
 		User user;
 		if (uId > 0) {
 			user = UserServer.findUserChatInfo(uId);
@@ -182,11 +142,10 @@ public class StudioChat extends HttpServlet {
 			isManager = false;
 			serverId=0;
 		}
-		params.put("lid", liveId + "");
-		params.put("Topid", 0 + "");
-		params.put("IsServerId", serverId + "");
-		String result = LoginUtil.sendHttpPost(GET_LIVE_MSG, params);
-		List<VideoLiveMsg> msgObjs = JsonUtil.repCompleMsgObj(result);
+		
+		int topId=getTopCountId(serverId,isRoomAdmin);
+		String msg=getOnLineMsg(topId,uId,serverId);
+		List<VideoLiveMsg> msgObjs = JsonUtil.repCompleMsgObj(msg);
 		if (msgObjs != null) {
 			for (VideoLiveMsg liveMsg : msgObjs) {
 				int sendId = liveMsg.getSendUserId();
@@ -219,5 +178,25 @@ public class StudioChat extends HttpServlet {
 		}
 		return 0;
 	}
+
+	private String getOnLineMsg(int topId,int uId,int serverId) {
+		params.clear();
+		params.put("roomid", 1 + "");
+		params.put("topId", topId + "");
+		params.put("userId", uId+"");
+		params.put("isServer", serverId + "");
+		return LoginUtil.sendHttpPost(GET_LIVE_MSG, params);
+	}
+
+	private  int getTopCountId(int userType,int isServer) {
+		params.clear();
+		params.put("userType", userType+"");
+		params.put("topCount", 10+"");
+		params.put("roomId", 1+"");
+		params.put("", isServer+"");
+		String result = LoginUtil.sendHttpPost(GETTOPID, params);
+		return StringUtil.isInteger(result) ? Integer.parseInt(result) : 0;
+	}
+
 
 }

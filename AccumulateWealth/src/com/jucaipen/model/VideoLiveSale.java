@@ -14,6 +14,9 @@ public class VideoLiveSale implements Serializable{
 	private String orderCode;
 	private int fk_liveId;
 	private String insertDate;
+	private String startDate;
+	private String endDate;
+	private int isStop;
 	public int getId() {
 		return id;
 	}
@@ -49,5 +52,23 @@ public class VideoLiveSale implements Serializable{
 	}
 	public void setInsertDate(String insertDate) {
 		this.insertDate = insertDate;
+	}
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	public int getIsStop() {
+		return isStop;
+	}
+	public void setIsStop(int isStop) {
+		this.isStop = isStop;
 	}
 }

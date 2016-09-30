@@ -25,8 +25,7 @@ public class StudioMsgTask extends TimerTask{
 	private int liveId;
 	private  Map<String, String> params=new HashMap<String, String>();
 	private boolean isManager;
-	//private static final String GET_LIVE_MSG="http://192.168.1.132/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
-	private static final String GET_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
+	private static final String GET_LIVE_MSG="http://chat.jucaipen.com/ashx/chat_msg.ashx?action=getlist";
 
 	public StudioMsgTask(int maxId, int userId, int liveId,boolean isManager) {
 		this.maxId=maxId;
@@ -72,9 +71,10 @@ public class StudioMsgTask extends TimerTask{
 			serverId=0;
 		}
 		params.clear();
-		params.put("lid", liveId+"");
-		params.put("Topid", mId+"");
-		params.put("IsServerId", serverId+"");
+		params.put("roomid", 1+"");
+		params.put("topId", mId+"");
+		params.put("userId", uId+"");
+		params.put("isServer", serverId+"");
 		String result=LoginUtil.sendHttpPost(GET_LIVE_MSG, params);
 		List<VideoLiveMsg>  msgObjs =JsonUtil.repCompleMsgObj(result);
 		if(msgObjs!=null){

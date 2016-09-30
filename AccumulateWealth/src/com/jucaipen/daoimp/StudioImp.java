@@ -180,7 +180,7 @@ public class StudioImp implements StudioDao {
 		try {
 			sta=dbConn.createStatement();
 			res=sta.executeQuery("SELECT Id,Title,RenQi,StratDate,EndDate,"
-					+ "StudioUrl,ImageUrl FROM JCP_Studio "
+					+ "StudioUrl,ImageUrl,VideoLiveId FROM JCP_Studio "
 					+ "WHERE BeginShowDate LIKE ('%"+week+"%') AND IsDel=0 ORDER BY SortId ASC");
 			while (res.next()) {
 				int id=res.getInt("Id");
@@ -190,8 +190,10 @@ public class StudioImp implements StudioDao {
 				String endDate=res.getString("EndDate");
 				String studioUrl=res.getString("StudioUrl");
 				String imageUrl=res.getString("ImageUrl");
+				int liveId=res.getInt("VideoLiveId");
 				Studio studio=new Studio();
 				studio.setId(id);
+				studio.setVideoLiveId(liveId);
 				studio.setTitle(title);
 				studio.setStartDate(startDate);
 				studio.setEndDate(endDate);

@@ -23,7 +23,6 @@ import com.jucaipen.utils.TimeUtils;
 public class QuerryCurrentStudio extends HttpServlet {
 	private static final long serialVersionUID = 845421431112793609L;
 	private String result;
-	private String userAgent;
 	private String playUrl;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,13 +30,8 @@ public class QuerryCurrentStudio extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-		userAgent = request.getHeader("User-Agent");
 		PrintWriter out = response.getWriter();
-		if(userAgent.contains("iOS")){
-			playUrl=StringUtil.play_IOS;
-		}else{
-			playUrl=StringUtil.playUrl_MU;
-		}
+		playUrl=StringUtil.playUrl_MU;
 		result = initCurrentStudio();
 		out.println(result);
 		out.flush();

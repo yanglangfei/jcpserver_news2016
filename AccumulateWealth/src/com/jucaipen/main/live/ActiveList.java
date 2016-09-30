@@ -52,7 +52,7 @@ public class ActiveList extends HttpServlet {
 	public void initBangList(int tId) {
 		Timer timer = new Timer();
 		UpdateOnLine task = new UpdateOnLine(tId);
-		timer.scheduleAtFixedRate(task, new Date(), 1000 * 60);
+		timer.scheduleAtFixedRate(task, new Date(), 1000 * 10);
 	}
 
 	class UpdateOnLine extends TimerTask {
