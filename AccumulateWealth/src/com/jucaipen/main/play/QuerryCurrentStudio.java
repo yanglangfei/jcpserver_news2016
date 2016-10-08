@@ -31,7 +31,12 @@ public class QuerryCurrentStudio extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		playUrl=StringUtil.playUrl_MU;
+		String userAgent=request.getHeader("User-Agent");
+		if(userAgent.contains("iOS")){
+			playUrl=StringUtil.play_IOS;
+		}else{
+			playUrl=StringUtil.playUrl_MU;
+		}
 		result = initCurrentStudio();
 		out.println(result);
 		out.flush();

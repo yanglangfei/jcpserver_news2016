@@ -19,7 +19,7 @@ import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
  * 
- *         意见反馈 deviceType 0 android 1 ios
+ *       意见反馈 deviceType 0 android 1 ios
  */
 @SuppressWarnings("serial")
 public class AddFeedBack extends HttpServlet {
