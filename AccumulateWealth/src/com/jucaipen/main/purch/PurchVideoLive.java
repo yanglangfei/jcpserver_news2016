@@ -88,7 +88,7 @@ public class PurchVideoLive extends HttpServlet {
 		
 		VideoLiveSale liveSale = VideoLiveSaleSer.findSaleByUidAndLiveId(uId, vId);
 		if(liveSale!=null){
-			if(TimeUtils.isBetwent(liveSale.getStartDate(), liveSale.getEndDate())){
+			if(TimeUtils.isLive(liveSale.getStartDate(), liveSale.getEndDate())){
 				return JsonUtil.getRetMsg(3, "该直播已经购买");
 			}
 		}

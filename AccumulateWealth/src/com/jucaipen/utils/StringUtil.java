@@ -257,6 +257,13 @@ public class StringUtil {
 		return newStr;
 	}
 	
+	public static String spliteStr(String old,int count){
+		if(old.length()<=count){
+			return old;
+		}
+		return old.substring(0, count);
+	}
+	
 
 
 }

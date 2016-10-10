@@ -3,6 +3,7 @@ package com.jucaipen.main.purch;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -98,13 +99,17 @@ public class PurchTxtLive extends HttpServlet {
 		int teacherId = txtLive.getTeacherId();
 		FamousTeacher teacher = FamousTeacherSer
 				.findFamousTeacherById(teacherId);
-		TxtLiveSale saled = TxtLiveSaleSer.findSaleByUidAndTxtId(uId, txtId);
+		List<TxtLiveSale> saled = TxtLiveSaleSer.findSaleByUserIdAndTiD(uId, teacher.getId());
 		if(b<=0){
 			return JsonUtil.getRetMsg(6, "暂不支持购买");
 		}
 		
 		if(saled!=null){
-			return JsonUtil.getRetMsg(6, "文字直播已经购买，不能重复购买");
+			for(TxtLiveSale sale : saled){
+				if(TimeUtils.isLive(sale.getStartDate(),sale.getEndDate())){
+					return JsonUtil.getRetMsg(6, "文字直播已经购买，不能重复购买");
+				}
+			}
 		}
 		if (account == null || account.getJucaiBills() < b) {
 			return JsonUtil.getRetMsg(5, "余额不足，请先充值");

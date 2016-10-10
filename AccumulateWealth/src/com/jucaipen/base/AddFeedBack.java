@@ -24,7 +24,6 @@ import com.jucaipen.utils.TimeUtils;
 @SuppressWarnings("serial")
 public class AddFeedBack extends HttpServlet {
 	private String result;
-
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

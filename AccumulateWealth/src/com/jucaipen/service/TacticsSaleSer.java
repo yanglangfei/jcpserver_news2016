@@ -54,5 +54,10 @@ public class TacticsSaleSer {
 		TacticsSaleDao dao = new TacticsSaleImp();
 		return dao.findTacticsIsSale(uId, tacticsId);
 	}
+	
+	public static List<TacticsSale> findTacticsIsSale(int tacticsId) {
+		TacticsSaleDao dao = new TacticsSaleImp();
+		return dao.findTacticsIsSale(tacticsId);
+	}
 
 }

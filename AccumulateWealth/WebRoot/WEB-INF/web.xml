@@ -544,6 +544,16 @@
     <servlet-name>PurchVideoLive</servlet-name>
     <servlet-class>com.jucaipen.main.purch.PurchVideoLive</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>UpDateInfo</servlet-name>
+    <servlet-class>com.jucaipen.main.push.UpDateInfo</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>TacticsDetail</servlet-name>
+    <servlet-class>com.jucaipen.main.index.TacticsDetail</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -1115,5 +1125,13 @@
   <servlet-mapping>
     <servlet-name>PurchVideoLive</servlet-name>
     <url-pattern>/jucaipen/purchvideolive</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpDateInfo</servlet-name>
+    <url-pattern>/jucaipen/updateinfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TacticsDetail</servlet-name>
+    <url-pattern>/jucaipen/tacticsdetail</url-pattern>
   </servlet-mapping>
 </web-app>

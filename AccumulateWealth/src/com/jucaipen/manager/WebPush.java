@@ -41,7 +41,7 @@ public class WebPush extends HttpServlet {
 		String tokenName = request.getParameter("tokenName");
 		if ("1".equals(all)) {
 			// 全部设备
-			result = pushAllDevMsg(msgType, title, message);
+		//	result = pushAllDevMsg(msgType, title, message);
 		} else if ("2".equals(all)) {
 			// 指定TAG
 			result = pushTagDevMsg(msgType, tagName, title, message);
@@ -79,12 +79,12 @@ public class WebPush extends HttpServlet {
 		return res.toString();
 	}
 
-	private String pushAllDevMsg(String msgType, String title, String message) {
+	/*private String pushAllDevMsg(String msgType, String title, String message) {
 		// 发送全部设备指定消息
 		JPushClient puch = JPushUtils.getJPush();
 		PushPayload msg = JPushUtils.createNptify(message, "notiy", 1);
 		PushResult res=JPushUtils.pushMsg(puch, msg);
 		return res.toString();
-	}
+	}*/
 
 }

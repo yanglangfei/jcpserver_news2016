@@ -22,5 +22,10 @@ public class TxtLiveSaleSer {
 		TxtLiveSaleDao dao=new TxtLiveSaleImp();
 		return dao.addSale(sale);
 	}
+	
+	public static List<TxtLiveSale> findSaleByUserIdAndTiD(int userId, int teacherId) {
+		TxtLiveSaleDao dao=new TxtLiveSaleImp();
+		return dao.findSaleByUserIdAndTiD(userId, teacherId);
+	}
 
 }

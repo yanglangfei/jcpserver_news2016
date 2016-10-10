@@ -38,6 +38,10 @@ public interface TacticsSaleDao {
 	
 	public TacticsSale findTacticsIsSale(int uId,int tacticsId);
 	
+	public List<TacticsSale> findTacticsIsSale(int tacticsId);
+	
+	
+	
 	
 	
 	

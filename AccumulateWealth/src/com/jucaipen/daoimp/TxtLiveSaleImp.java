@@ -118,4 +118,28 @@ public class TxtLiveSaleImp implements TxtLiveSaleDao {
 		return 0;
 	}
 
+	@Override
+	public List<TxtLiveSale> findSaleByUserIdAndTiD(int userId, int teacherId) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT * FROM JCP_TxtLiveSale WHERE FK_UserId="
+							+ userId + " AND FK_TearchId=" + teacherId);
+			while (res.next()) {
+				int id = res.getInt(1);
+				String insertDate = res.getString(6);
+				TxtLiveSale sale = new TxtLiveSale();
+				sale.setId(id);
+				sale.setInsertDate(insertDate);
+				sales.add(sale);
+			}
+			return sales;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 }

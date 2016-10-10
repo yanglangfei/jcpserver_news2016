@@ -28,6 +28,7 @@ import com.jucaipen.service.VideoLiveServer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
+import com.jucaipen.utils.TimeUtils;
 
 /**
  * @author Administrator
@@ -111,7 +112,7 @@ public class LiveList extends HttpServlet {
 					teacher = new FamousTeacher();
 				}
 				live.setLiveVideo(teacher.getIsUserLiveUrl() == 1);
-				live.setCharge(teacher.getLiveFree()==1);
+				live.setCharge(teacher.getLiveFree() == 1);
 				live.setLivePrice(teacher.getLivePrice());
 				live.setVideoUrl(teacher.getVideoLiveUrl());
 				live.setTeacherName(teacher.getNickName());
@@ -144,18 +145,23 @@ public class LiveList extends HttpServlet {
 		List<TextLive> txtLives = TxtLiveSer.findTextLiveByIsEnd(2);
 		for (TextLive txt : txtLives) {
 			int tId = txt.getTeacherId();
-			Guardian guardian=GuardianSer.findIsGuardian(tId, uId);
-			txt.setGuardian(guardian!=null);
+			Guardian guardian = GuardianSer.findIsGuardian(tId, uId);
+			txt.setGuardian(guardian != null);
 			FamousTeacher teacher = FamousTeacherSer.findFamousTeacherById(tId);
 			if (teacher == null) {
 				teacher = new FamousTeacher();
 			}
-			if(uId>0){
+			if (uId > 0) {
 				Account account = AccountSer.findAccountByUserId(uId);
-				TxtLiveSale sale = TxtLiveSaleSer.findSaleByUidAndTxtId(uId,
-						txt.getId());
+				List<TxtLiveSale> sale = TxtLiveSaleSer.findSaleByUserIdAndTiD(
+						uId, tId);
 				if (sale != null) {
-					isPurch = 0;
+					for (TxtLiveSale sa : sale) {
+						if (TimeUtils.isLive(sa.getStartDate(),
+								sa.getEndDate())) {
+							isPurch = 0;
+						}
+					}
 				} else {
 					isPurch = 1;
 				}

@@ -1,6 +1,8 @@
 package com.jucaipen.utils;
 
+import java.util.Collection;
 import java.util.Map;
+
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.common.resp.APIConnectionException;
 import cn.jpush.api.common.resp.APIRequestException;
@@ -18,7 +20,7 @@ public class JPushUtils {
 	private static JPushClient client;
 
 	/**
-	 * @return  获取推送构造器
+	 * @return 获取推送构造器
 	 */
 	public static JPushClient getJPush() {
 		if (client == null) {
@@ -26,18 +28,23 @@ public class JPushUtils {
 		}
 		return client;
 	}
-	
-	
+
 	/**
 	 * @param msg
-	 * @return  创建通知  目标 ： android iOS
+	 * @return 创建通知 目标 ： android iOS
 	 */
-	public static PushPayload createNptify(String msg,String key,Number value){
-		return PushPayload.newBuilder().setPlatform(Platform.android_ios())
+	public static PushPayload createNptify(String msg, String key,
+			Number value, String dataKay, int dataValue,
+			Collection<String> aliases) {
+		return PushPayload
+				.newBuilder()
+				.setPlatform(Platform.android_ios())
 				.setNotification(Notification.alert(msg))
-				.setMessage(Message.newBuilder().addExtra(key, value).build())
-				.setAudience(Audience.all())
-				.build();
+				.setMessage(
+						Message.newBuilder().setMsgContent(msg)
+								.addExtra(key, value)
+								.addExtra(dataKay, dataValue).build())
+				.setAudience(Audience.alias(aliases)).build();
 	}
 
 	/**
@@ -45,7 +52,7 @@ public class JPushUtils {
 	 * @param title
 	 * @param content
 	 * @param extras
-	 * @return   创建透传消息  目标 ： android iOS
+	 * @return 创建透传消息 目标 ： android iOS
 	 */
 	public static PushPayload createMsg(String alert, String title,
 			String content, Map<String, String> extras) {
@@ -57,13 +64,11 @@ public class JPushUtils {
 								.setTitle(title).build())
 				.setAudience(Audience.all()).build();
 	}
-	
-	
 
 	/**
 	 * @param client
 	 * @param payLoad
-	 * @return   推送消息
+	 * @return 推送消息
 	 */
 	public static PushResult pushMsg(JPushClient client, PushPayload payLoad) {
 		try {
@@ -71,8 +76,10 @@ public class JPushUtils {
 			return result;
 		} catch (APIConnectionException e) {
 			e.printStackTrace();
+			System.out.println("e:" + e.getMessage());
 		} catch (APIRequestException e) {
 			e.printStackTrace();
+			System.out.println("e2:" + e.getMessage());
 		}
 		return null;
 

@@ -26,7 +26,7 @@ import com.jucaipen.utils.TimeUtils;
  * @author Administrator
  * 
  * 
- *         payState 1 未支付 2 已支付 3 支付失败 payType 1网上银行（通联） 2支付宝 3微信支付4：余额支付
+ *         payState 1 未支付 2 已支付 3 支付失败 payType 1网上银行（通联） 2支付宝 3微信支付4：余额支付   6   ios
  *         5网上银行(汇付宝)
  */
 public class Recharge extends HttpServlet {
@@ -55,7 +55,6 @@ public class Recharge extends HttpServlet {
 					if (StringUtil.isNotNull(jucaiBills)
 							&& StringUtil.isInteger(jucaiBills)) {
 						int bills = Integer.parseInt(jucaiBills);
-						if (StringUtil.isNotNull(orderCode)) {
 							if (StringUtil.isNotNull(payState)
 									&& StringUtil.isInteger(payState)) {
 								int pState = Integer.parseInt(payState);
@@ -83,10 +82,6 @@ public class Recharge extends HttpServlet {
 							} else {
 								result = JsonUtil.getRetMsg(6, "支付状态异常");
 							}
-
-						} else {
-							result = JsonUtil.getRetMsg(4, "订单号不能为空");
-						}
 
 					} else {
 						result = JsonUtil.getRetMsg(1, "jucaiBills 参数异常");
