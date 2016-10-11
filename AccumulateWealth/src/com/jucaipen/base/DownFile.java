@@ -8,11 +8,13 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 /**
@@ -23,7 +25,7 @@ import com.jucaipen.utils.StringUtil;
 public class DownFile extends HttpServlet {
 	private String rootPath;
 	private String loadPath;
-	private String fileName;
+	private String fm;
 	private String result;
 
 	@Override
@@ -37,13 +39,17 @@ public class DownFile extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
-			fileName = request.getParameter("fileName");
-			System.out.println("fileName:"+fileName);
+			String fileName = request.getParameter("fileName");
 			if (StringUtil.isNotNull(fileName)) {
-				loadPath = rootPath + fileName;
+				String adr=request.getLocalAddr();
+				if(adr.equals("121.40.227.121")){
+					fm = fileName;
+				}else{
+					fm = new String(fileName.getBytes("ISO-8859-1"),"utf-8");
+				}
+				loadPath = rootPath + fm;
 				File apkFile = new File(loadPath);
 				if (apkFile.exists()) {
-					System.out.println("exit:"+loadPath+"   f:"+apkFile.length());
 					downLoadApk(response);
 				} else {
 					result=JsonUtil.getRetMsg(3, "文件不存在");
@@ -61,7 +67,7 @@ public class DownFile extends HttpServlet {
 		try {
 			// 设置响应头，控制浏览器下载该文件
 			response.setHeader("content-disposition", "attachment;filename="
-					+ URLEncoder.encode(fileName, "UTF-8"));
+					+ URLEncoder.encode(fm, "UTF-8"));
 			// 读取要下载的文件，保存到文件输入流
 			FileInputStream in = new FileInputStream(loadPath);
 			// 创建输出流

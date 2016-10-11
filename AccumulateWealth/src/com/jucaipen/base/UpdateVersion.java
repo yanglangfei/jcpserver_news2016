@@ -55,7 +55,6 @@ public class UpdateVersion extends HttpServlet {
 		} else {
 			result = StringUtil.isVaild;
 		}
-		System.out.println("result:"+result);
 		out.print(result);
 		out.flush();
 		out.close();
@@ -63,15 +62,15 @@ public class UpdateVersion extends HttpServlet {
 
 	private String initServerVersion() {
 		// 获取服务器app最新版本号
-		//ApkInfo info = ApkInfoServer.findLastApkInfo(1);
-		String path = rootPath+"/f93a3e58-227d-434e-91bb-a0810418jucaipen/jcpV2.3.apk";
+		ApkInfo info = ApkInfoServer.findLastApkInfo(1);
+		String path = rootPath+info.getApkPath();
 		File file=new File(path);
 		if(file.exists()){
 			length=(int) file.length();
 		}else{
 			length=0;
 		}
-		return JsonUtil.getApkInfo(null,length);
+		return JsonUtil.getApkInfo(info,length);
 	}
 
 }
