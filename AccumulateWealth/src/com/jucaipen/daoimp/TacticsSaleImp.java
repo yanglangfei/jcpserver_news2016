@@ -187,7 +187,7 @@ public class TacticsSaleImp implements TacticsSaleDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT Id,StratDate,EndDate,UserId FROM JCP_TacticsSale WHERE UserId="
+					.executeQuery("SELECT Id,StratDate,EndDate FROM JCP_TacticsSale WHERE UserId="
 							+ uId
 							+ " AND  TacticsId="
 							+ tacticsId
@@ -196,7 +196,6 @@ public class TacticsSaleImp implements TacticsSaleDao {
 				int id = res.getInt(1);
 				String startDate = res.getString(2);
 				String endDate = res.getString(3);
-				int userId=res.getInt(4);
 				TacticsSale sale = new TacticsSale();
 				sale.setId(id);
 				sale.setUserId(uId);
@@ -217,15 +216,17 @@ public class TacticsSaleImp implements TacticsSaleDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT Id,StratDate,EndDate FROM JCP_TacticsSale WHERE TacticsId="
+					.executeQuery("SELECT Id,StratDate,EndDate,UserId FROM JCP_TacticsSale WHERE TacticsId="
 							+ tacticsId + " AND IsStop=0");
 			while (res.next()) {
 				int id = res.getInt(1);
 				String startDate = res.getString(2);
 				String endDate = res.getString(3);
+				int uId=res.getInt(4);
 				TacticsSale sale = new TacticsSale();
 				sale.setId(id);
 				sale.setStartDate(startDate);
+				sale.setUserId(uId);
 				sale.setEndDate(endDate);
 				sales.add(sale);
 			}

@@ -38,10 +38,12 @@ public class DownFile extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 			fileName = request.getParameter("fileName");
+			System.out.println("fileName:"+fileName);
 			if (StringUtil.isNotNull(fileName)) {
 				loadPath = rootPath + fileName;
 				File apkFile = new File(loadPath);
 				if (apkFile.exists()) {
+					System.out.println("exit:"+loadPath+"   f:"+apkFile.length());
 					downLoadApk(response);
 				} else {
 					result=JsonUtil.getRetMsg(3, "文件不存在");

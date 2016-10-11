@@ -254,7 +254,7 @@ public class UpLoadFileUtils {
 				while ((len = in.read(buffer)) > 0) {
 					// 输出缓冲区的内容到浏览器，实现文件下载
 					out.write(buffer, 0, len);
-				}
+				}  
 				// 关闭文件输入流
 				in.close();
 				// 关闭输出流

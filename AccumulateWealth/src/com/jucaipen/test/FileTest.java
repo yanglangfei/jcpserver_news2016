@@ -7,9 +7,11 @@ import java.io.IOException;
 public class FileTest {
 	
 	public static void main(String[] args) {
-		File f = createFile();
+		/*File f = createFile();
 		writeMsg(f,"msg");
-		readMsg(f);
+		readMsg(f);*/
+		
+		File file=new File("");
 	}
 
 	private static String readMsg(File f) {

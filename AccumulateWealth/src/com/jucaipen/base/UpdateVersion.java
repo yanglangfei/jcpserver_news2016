@@ -1,8 +1,10 @@
 package com.jucaipen.base;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,10 +26,19 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class UpdateVersion extends HttpServlet {
 	private String result;
+	private String rootPath;
+	private int length;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doPost(request, response);
+	}
+	
+	
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		rootPath = "D:/apkInfo/apk/";
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -44,6 +55,7 @@ public class UpdateVersion extends HttpServlet {
 		} else {
 			result = StringUtil.isVaild;
 		}
+		System.out.println("result:"+result);
 		out.print(result);
 		out.flush();
 		out.close();
@@ -51,8 +63,15 @@ public class UpdateVersion extends HttpServlet {
 
 	private String initServerVersion() {
 		// 获取服务器app最新版本号
-		ApkInfo info = ApkInfoServer.findLastApkInfo(1);
-		return JsonUtil.getApkInfo(info);
+		//ApkInfo info = ApkInfoServer.findLastApkInfo(1);
+		String path = rootPath+"/f93a3e58-227d-434e-91bb-a0810418jucaipen/jcpV2.3.apk";
+		File file=new File(path);
+		if(file.exists()){
+			length=(int) file.length();
+		}else{
+			length=0;
+		}
+		return JsonUtil.getApkInfo(null,length);
 	}
 
 }
