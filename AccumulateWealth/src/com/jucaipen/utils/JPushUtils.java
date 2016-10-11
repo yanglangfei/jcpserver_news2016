@@ -31,9 +31,9 @@ public class JPushUtils {
 
 	/**
 	 * @param msg
-	 * @return 创建通知 目标 ： android iOS
+	 * @return 创建通知 目标 ： android iOS   指定别名
 	 */
-	public static PushPayload createNptify(String msg, String key,
+	public static PushPayload createNptifyForAliase(String msg, String key,
 			Number value, String dataKay, int dataValue,
 			Collection<String> aliases) {
 		return PushPayload
@@ -45,6 +45,26 @@ public class JPushUtils {
 								.addExtra(key, value)
 								.addExtra(dataKay, dataValue).build())
 				.setAudience(Audience.alias(aliases)).build();
+	}
+	
+	
+	
+	/**
+	 * @param msg
+	 * @return 创建通知 目标 ： android iOS   指定TAG
+	 */
+	public static PushPayload createNptifyForTag(String msg, String key,
+			Number value, String dataKay, int dataValue,
+			Collection<String> tagValues) {
+		return PushPayload
+				.newBuilder()
+				.setPlatform(Platform.android_ios())
+				.setNotification(Notification.alert(msg))
+				.setMessage(
+						Message.newBuilder().setMsgContent(msg)
+								.addExtra(key, value)
+								.addExtra(dataKay, dataValue).build())
+				.setAudience(Audience.tag(tagValues)).build();
 	}
 
 	/**

@@ -15,7 +15,7 @@ public class PushTest {
 		Collection<String> p=new ArrayList<String>();
 		p.add("6750");
 		JPushClient client = JPushUtils.getJPush();
-		PushPayload msg = JPushUtils.createNptify("msg", "key", 1, "id", 4, p);
+		PushPayload msg = JPushUtils.createNptifyForAliase("msg", "key", 1, "id", 4, p);
 		PushResult res = JPushUtils.pushMsg(client, msg);
 		System.out.println(res.toString());
 	}

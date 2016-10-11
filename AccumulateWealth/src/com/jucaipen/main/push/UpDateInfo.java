@@ -93,7 +93,7 @@ public class UpDateInfo extends HttpServlet {
 			aliases2.remove(element);
 		}
 		if(aliases2.size()>0){
-			PushPayload payLoad = JPushUtils.createNptify(title, "type", 1, "id",
+			PushPayload payLoad = JPushUtils.createNptifyForAliase(title, "type", 1, "id",
 					id, aliases2);
 			PushResult result = JPushUtils.pushMsg(client, payLoad);
 			System.out.println(result.toString());
