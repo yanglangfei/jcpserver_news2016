@@ -65,9 +65,6 @@ public class ActiveList extends HttpServlet {
 
 		public UpdateOnLine(int tId) {
 			this.tId = tId;
-			
-			
-			//  13407
 		}
 
 		@Override
