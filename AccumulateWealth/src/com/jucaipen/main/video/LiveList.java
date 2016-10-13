@@ -160,6 +160,9 @@ public class LiveList extends HttpServlet {
 						if (TimeUtils.isLive(sa.getStartDate(),
 								sa.getEndDate())) {
 							isPurch = 0;
+							break ;
+						}else{
+							isPurch=1;
 						}
 					}
 				} else {

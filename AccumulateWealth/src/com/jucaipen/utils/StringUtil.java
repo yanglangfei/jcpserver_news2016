@@ -1,6 +1,7 @@
 package com.jucaipen.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -29,7 +30,6 @@ public class StringUtil {
 		}
 		return false;
 	}
-	
 	
 	/**
 	 * 判断对象或对象数组中每一个对象是否为空: 对象为null，字符序列长度为0，集合类、Map为empty

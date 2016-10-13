@@ -6,13 +6,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.json.JSONArray;
+
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.PushPayload;
+
 import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
@@ -60,6 +65,9 @@ public class ActiveList extends HttpServlet {
 
 		public UpdateOnLine(int tId) {
 			this.tId = tId;
+			
+			
+			//  13407
 		}
 
 		@Override
@@ -72,7 +80,7 @@ public class ActiveList extends HttpServlet {
 				JPushClient client = JPushUtils.getJPush();
 				PushPayload msgObj = JPushUtils.createMsg("msg", "onLine", array.toString(),
 						null);
-				JPushUtils.pushMsg(client, msgObj);
+				PushResult ret = JPushUtils.pushMsg(client, msgObj);
 			}
 		}
 

@@ -45,7 +45,6 @@ import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
-
 /**
  * @author Administrator type (0 观点) (1 问答) (2 文字直播) (3 视频直播)
  */
@@ -203,14 +202,19 @@ public class QuerryTeacherIdea extends HttpServlet {
 				txt.setTxtPrice(teacher.getTxtLivePrice());
 				if (usId > 0 && txt.isCharge()) {
 					Account account = AccountSer.findAccountByUserId(usId);
-					TxtLiveSale sale = TxtLiveSaleSer.findSaleByUidAndTxtId(
-							usId, txt.getId());
-					if (sale != null) {
-						txt.setIsPurch(0);
+					List<TxtLiveSale> sales = TxtLiveSaleSer.findSaleByUserIdAndTiD(usId, tId);
+					if (sales != null&&sales.size()>0) {
+						for(TxtLiveSale sale : sales){
+							if(TimeUtils.isLive(sale.getStartDate(), sale.getEndDate())){
+								txt.setIsPurch(0);
+								break ;
+							}else{
+								txt.setIsPurch(1);
+							}
+						}
 					} else {
 						txt.setIsPurch(1);
 					}
-
 					if (account != null) {
 						ownJucaiBills = account.getJucaiBills();
 					}
@@ -232,10 +236,17 @@ public class QuerryTeacherIdea extends HttpServlet {
 					tx.setCharge(teacher.getTxtLiveFree() == 1);
 					tx.setTxtPrice(teacher.getTxtLivePrice());
 					if (usId > 0 && txt.isCharge()) {
-						TxtLiveSale sale = TxtLiveSaleSer
-								.findSaleByUidAndTxtId(usId, txt.getId());
-						if (sale != null) {
-							tx.setIsPurch(0);
+						List<TxtLiveSale> sales = TxtLiveSaleSer
+								.findSaleByUserIdAndTiD(usId, tId);
+						if (sales != null&&sales.size()>0) {
+							for(TxtLiveSale sale : sales){
+								if(TimeUtils.isLive(sale.getStartDate(), sale.getEndDate())){
+									tx.setIsPurch(0);
+									continue ;
+								}else{
+									tx.setIsPurch(1);
+								}
+							}
 						} else {
 							tx.setIsPurch(1);
 						}

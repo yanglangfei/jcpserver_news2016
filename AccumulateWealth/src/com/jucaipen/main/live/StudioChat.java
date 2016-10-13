@@ -35,7 +35,20 @@ import com.jucaipen.utils.StringUtil;
 public class StudioChat extends HttpServlet {
 	private static final long serialVersionUID = -3343269386742774065L;
 	private Timer timer;
+	private String result;
 	private boolean isManager;
+	//获取是否禁言
+	private static final String CHECKSHUT="http://chat.jucaipen.com/ashx/user.ashx?action=checkshutup"; 
+	//用户统计
+	private static final String LIVE_NUM="http://chat.jucaipen.com/ashx/user.ashx?action=appuser";
+	//登录用户上线
+	private static final int ADDLOGIN=1;
+	//登录用户下线
+	private static final int REMOVELOGIN=2;
+	//创建游客
+	private static final int ADDVISITOR=3;
+	//游客下线
+	private static final int REMOVEVISITOR=4;
 	private static final String  GETTOPID="http://chat.jucaipen.com/ashx/chat_msg.ashx?action=getTopId";
 	private static final String GET_LIVE_MSG = "http://chat.jucaipen.com/ashx/chat_msg.ashx?action=getlist";
 	private static final String SEND_LIVE_MSG = "http://chat.jucaipen.com/ashx/chat_msg.ashx?action=appadd";
@@ -59,18 +72,30 @@ public class StudioChat extends HttpServlet {
 				StudioMsgTask task = new StudioMsgTask(maxId, userId, liveId,
 						isManager);
 				timer.scheduleAtFixedRate(task, new Date(), 1000*5);
+				out.print(result);
 			} else if (opType == 2) {
 				// 聊天
 				String msg = chatMsg.getMsg();
 				int toId = chatMsg.getToId();
-				String result = sendMsg(userId, liveId, msg, toId);
-				out.print(result);
+				String res = sendMsg(userId, liveId, msg, toId);
+				out.print(res);
 			} else {
 				// 下线
+				params.clear();
+				if(userId>0){
+					params.put("userid", userId+"");
+					params.put("type", REMOVELOGIN+"");
+					String res = LoginUtil.sendHttpPost(LIVE_NUM, params);
+				}else{
+					//TODO   移除游客处理
+					
+					
+				}
 				if (timer != null) {
 					timer.cancel();
 					timer = null;
 				}
+				out.print(result);
 			}
 		}
 		out.flush();
@@ -86,15 +111,27 @@ public class StudioChat extends HttpServlet {
 	 * @return 发送消息
 	 */
 	public String sendMsg(int uId, int sId, String msg, int toId) {
+		params.clear();
 		User fromUser;
 		User toUser;
 		if (uId > 0) {
 			fromUser = UserServer.findUserChatInfo(uId);
+			String name = fromUser.getTrueName();
+			params.put("nickname", name);
+			String res = LoginUtil.sendHttpPost(CHECKSHUT, params);
+			if(res!=null){
+				JSONObject object=new JSONObject(res);
+				boolean isShut = object.getBoolean("Result");
+				if(isShut){
+					return JsonUtil.getRetMsg(5,"您已经被禁言，暂时不能发言！");
+				}
+			}
 			toUser = UserServer.findUserChatInfo(toId);
 			if (toUser == null) {
 				toUser = new User();
 			}
 		} else {
+			//TODO 游客禁言处理  
 			return JsonUtil.getRetMsg(3, "请先登录");
 		}
 		params.clear();
@@ -126,13 +163,21 @@ public class StudioChat extends HttpServlet {
 	 *            上线请求消息
 	 */
 	public int requestMsg(int uId, int sId) {
+		params.clear();
 		int serverId=0;
 		int teacherId=0;
 		User user;
 		if (uId > 0) {
 			user = UserServer.findUserChatInfo(uId);
+			// 添加登录用户
+			params.put("userid", uId+"");
+			params.put("type", ADDLOGIN+"");
+			String res = LoginUtil.sendHttpPost(LIVE_NUM, params);
 		} else {
 			user = new User();
+			//TODO 创建游客信息
+			params.put("type", ADDVISITOR+"");
+			result=LoginUtil.sendHttpPost(LIVE_NUM, params);
 		}
 		int isRoomAdmin = user.getIsRoomAdmin();
 		int fk_teacherId = user.getFk_roomTeacherId();

@@ -58,7 +58,9 @@ public class UpDateInfo extends HttpServlet {
 			for (TacticsSale sale : sales) {
 				if (TimeUtils.isLive(sale.getStartDate(), sale.getEndDate())) {
 					int uId = sale.getUserId();
-					aliases.add(uId + "");
+					if(uId>0){
+						aliases.add(uId + "");
+					}
 				}
 			}
 			if (!aliases.isEmpty()) {

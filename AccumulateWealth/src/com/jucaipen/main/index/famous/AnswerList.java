@@ -21,7 +21,6 @@ import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  * 
@@ -70,9 +69,6 @@ public class AnswerList extends HttpServlet {
 	}
 
 	private String initQuestion(int uId, int fId, int askUid, int type) {
-		
-		
-		
 		if (type == 1) {
 			// 提问 追问
 			List<Ask> asks;
@@ -83,7 +79,6 @@ public class AnswerList extends HttpServlet {
 				// 获取主提问
 				asks = AskSer.findAskByParentId(fId);
 			}
-
 			if (asks != null) {
 				for (Ask ask : asks) {
 					int userId = ask.getUserId();
@@ -124,22 +119,6 @@ public class AnswerList extends HttpServlet {
 
 			return JsonUtil.getAnswerDetailList(answers);
 		}
-
-		/*
-		 * if (askUid == uId) { List<Answer> reAns; List<Ask> reAsks; //
-		 * 当前用户是提问者 ，全部显示信息 //1 获取所有的主回复 List<Answer>
-		 * mainAnswers=AnswerSer.findAnswerByAskId(aId); for (Answer answer :
-		 * mainAnswers) { //追问主回复
-		 * reAsks=AskSer.findAskByParentId(answer.getId()); for(Ask ask :
-		 * reAsks){ int isReply=ask.getIsReply(); if(isReply==2){ //回复追问 reAns =
-		 * AnswerSer.findAnswerByAskId(ask.getId()); } } } return null;
-		 * 
-		 * } else { List<Answer> answers = AnswerSer.findAnswerByAskId(aId);
-		 * return JsonUtil.getAnswerList(answers);
-		 * 
-		 * }
-		 */
-
 	}
 
 	// 主回复

@@ -16,7 +16,7 @@ public class NewTextLiveTasker extends TimerTask {
 		//推送最新直播信息到客户端
 		if(textLives.size()>0){
 			for(TextLive textLive :textLives){
-				//String title=textLive.getTitle();
+				//String title=textLive.getTitle();  
 				String startDate=textLive.getStartDate();
 				//int id=textLive.getId();             
 				boolean isPush=TimeUtils.isToday(startDate);               

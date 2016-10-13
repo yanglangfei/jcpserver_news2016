@@ -6,17 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.json.JSONObject;
-
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.PushPayload;
-
 import com.jucaipen.model.ChatMsgObject;
 import com.jucaipen.model.Guardian;
 import com.jucaipen.model.User;
@@ -154,8 +151,13 @@ public class LiveChat extends HttpServlet {
 		}
 		if(uId>0){
 			user=UserServer.findUserChatInfo(uId);
+			//登录用户上线
+			
+			
 		}else{
 			user=new User();
+			//TODO 添加游客处理
+	
 		}
 		int isRoomAdmin=user.getIsRoomAdmin();
 		int fk_roomId=user.getFk_roomTeacherId();
@@ -171,7 +173,7 @@ public class LiveChat extends HttpServlet {
 		params.put("Topid", 0+"");
 		params.put("IsServerId", serverId+"");
 		String result=LoginUtil.sendHttpPost(GET_LIVE_MSG, params);
-		List<VideoLiveMsg>  msgObjs =JsonUtil.repCompleMsgObj(result);
+		List<VideoLiveMsg>  msgObjs =JsonUtil.repCompleLiveMsgObj(result);
 		if(msgObjs!=null){
 			for(VideoLiveMsg liveMsg : msgObjs){
 				int sendId=liveMsg.getSendUserId();
@@ -190,7 +192,7 @@ public class LiveChat extends HttpServlet {
 			String pushMsg=JsonUtil.createLiveMsg(msgObjs,false,uId);
 			JPushClient client = JPushUtils.getJPush();
 			PushPayload msgs = JPushUtils.createMsg("msg", "liveMsg", pushMsg, null);
-		    JPushUtils.pushMsg(client, msgs);
+		    PushResult res = JPushUtils.pushMsg(client, msgs);
 			if(msgObjs.size()>0){
 				if(isManager){
 					return  msgObjs.get(msgObjs.size()-1).getId();
@@ -199,7 +201,6 @@ public class LiveChat extends HttpServlet {
 				}
 			}
 		}
-		
 		return 0;
 	}
 

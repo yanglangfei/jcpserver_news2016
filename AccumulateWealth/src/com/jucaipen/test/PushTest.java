@@ -1,22 +1,22 @@
 package com.jucaipen.test;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
 import com.jucaipen.utils.JPushUtils;
-
 import cn.jpush.api.JPushClient;
-import cn.jpush.api.push.PushResult;
-import cn.jpush.api.push.model.PushPayload;
-
+import cn.jpush.api.common.resp.APIConnectionException;
+import cn.jpush.api.common.resp.APIRequestException;
+import cn.jpush.api.device.AliasDeviceListResult;
 public class PushTest {
 
 	public static void main(String[] args) {
-		Collection<String> p=new ArrayList<String>();
-		p.add("6750");
 		JPushClient client = JPushUtils.getJPush();
-		PushPayload msg = JPushUtils.createNptifyForAliase("msg", "key", 1, "id", 4, p);
-		PushResult res = JPushUtils.pushMsg(client, msg);
-		System.out.println(res.toString());
+		AliasDeviceListResult res;
+		try {
+			res = client.getAliasDeviceList("6750", "ios");
+			System.out.println(res.toString());
+		} catch (APIConnectionException e) {
+			e.printStackTrace();
+		} catch (APIRequestException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

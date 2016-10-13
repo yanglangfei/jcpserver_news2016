@@ -68,7 +68,7 @@ public class VideoLiveMsgTask extends TimerTask{
 		params.put("Topid", mId+"");
 		params.put("IsServerId", serverId+"");
 		String result=LoginUtil.sendHttpPost(GET_LIVE_MSG, params);
-		List<VideoLiveMsg>  msgObjs =JsonUtil.repCompleMsgObj(result);
+		List<VideoLiveMsg>  msgObjs =JsonUtil.repCompleLiveMsgObj(result);
 		if(msgObjs!=null){
 			for(VideoLiveMsg liveMsg : msgObjs){
 				int sendId=liveMsg.getSendUserId();
