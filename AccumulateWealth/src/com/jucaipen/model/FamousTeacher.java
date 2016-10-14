@@ -202,6 +202,17 @@ public class FamousTeacher implements Serializable{
      *  ĞéÄâÎÄÕÂÔÄ¶ÁÊı
      */
     private int xnArticleReadNum;
+    
+    private String mobileLiveUrl;
+    
+    
+    
+	public String getMobileLiveUrl() {
+		return mobileLiveUrl;
+	}
+	public void setMobileLiveUrl(String mobileLiveUrl) {
+		this.mobileLiveUrl = mobileLiveUrl;
+	}
 	public String getBankName() {
 		return bankName;
 	}

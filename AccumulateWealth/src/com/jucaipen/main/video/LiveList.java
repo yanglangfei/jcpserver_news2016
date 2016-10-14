@@ -114,7 +114,7 @@ public class LiveList extends HttpServlet {
 				live.setLiveVideo(teacher.getIsUserLiveUrl() == 1);
 				live.setCharge(teacher.getLiveFree() == 1);
 				live.setLivePrice(teacher.getLivePrice());
-				live.setVideoUrl(teacher.getVideoLiveUrl());
+				live.setVideoUrl(teacher.getMobileLiveUrl());
 				live.setTeacherName(teacher.getNickName());
 				if (uId > 0) {
 					Account account = AccountSer.findAccountByUserId(uId);
