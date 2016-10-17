@@ -129,8 +129,12 @@ public class TxtLiveSaleImp implements TxtLiveSaleDao {
 			while (res.next()) {
 				int id = res.getInt(1);
 				String insertDate = res.getString(6);
+				String endDate=res.getString(7);
+				String startDate=res.getString(8);
 				TxtLiveSale sale = new TxtLiveSale();
 				sale.setId(id);
+				sale.setEndDate(endDate);
+				sale.setStartDate(startDate);
 				sale.setInsertDate(insertDate);
 				sales.add(sale);
 			}
