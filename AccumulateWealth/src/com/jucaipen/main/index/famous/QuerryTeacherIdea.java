@@ -215,6 +215,12 @@ public class QuerryTeacherIdea extends HttpServlet {
 					} else {
 						txt.setIsPurch(1);
 					}
+					
+					if(guardian!=null){
+						txt.setIsPurch(0);
+					}
+					
+					
 					if (account != null) {
 						ownJucaiBills = account.getJucaiBills();
 					}
@@ -252,6 +258,10 @@ public class QuerryTeacherIdea extends HttpServlet {
 						}
 					} else {
 						tx.setIsPurch(1);
+					}
+					
+					if(guardian!=null){
+						txt.setIsPurch(0);
 					}
 				}
 			}

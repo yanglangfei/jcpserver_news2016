@@ -25,7 +25,7 @@ import com.jucaipen.utils.StringUtil;
 /**
  * @author Administrator
  * 
- *     现场贵宾 ---讲师守护者
+ *   现场贵宾 ---讲师守护者
  */
 public class ActiveList extends HttpServlet {
 	private static final long serialVersionUID = -5016293502380259661L;

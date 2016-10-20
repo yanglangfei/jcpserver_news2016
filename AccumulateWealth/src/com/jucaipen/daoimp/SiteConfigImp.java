@@ -35,6 +35,7 @@ public class SiteConfigImp implements SiteConfigDao {
 			double answerRate = res.getDouble("TearchAnswerRebate");
 			double givenRate = res.getDouble("UserGiveRebate");
 			double isShouhu = res.getDouble("UserIsShouhu");
+			int liveDetailCount=res.getInt("LiveDetailCount");
 			config = new SiteConfig();
 			config.setAskNum(askNum);
 			config.setCommType(commType);
@@ -46,6 +47,7 @@ public class SiteConfigImp implements SiteConfigDao {
 			config.setRecommIntegeral(recommIntegeral);
 			config.setRegIntegeral(regIntegeral);
 			config.setSubRat(subRate);
+			config.setLiveDetailCount(liveDetailCount);
 			config.setTeacherLiveRebat(liveRate);
 			config.setTeacherAnswerRebat(answerRate);
 			config.setUserGiveRebat(givenRate);

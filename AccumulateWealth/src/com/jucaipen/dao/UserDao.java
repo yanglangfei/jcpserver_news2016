@@ -131,6 +131,12 @@ public interface UserDao {
 	 * @return 修改第三方账号id
 	 */
 	public int upDataAccountId(int id,int accountType,String accountId);
+	
+	/**
+	 * @param id
+	 * @return   解除第三方账号
+	 */
+	public int delAccountId(int id,int accountType);
 	/**
 	 * @param accountId
 	 * @return 通过账号id 登录 程序

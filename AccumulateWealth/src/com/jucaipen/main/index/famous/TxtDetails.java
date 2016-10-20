@@ -2,18 +2,22 @@ package com.jucaipen.main.index.famous;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.model.Account;
 import com.jucaipen.model.FamousTeacher;
+import com.jucaipen.model.Guardian;
 import com.jucaipen.model.LiveDetailSale;
 import com.jucaipen.model.SiteConfig;
 import com.jucaipen.model.TextLive;
 import com.jucaipen.model.TxtLiveDetails;
 import com.jucaipen.service.AccountSer;
 import com.jucaipen.service.FamousTeacherSer;
+import com.jucaipen.service.GuardianSer;
 import com.jucaipen.service.LiveDetailSaleSer;
 import com.jucaipen.service.SiteConfigSer;
 import com.jucaipen.service.TxtLiveDetaileSer;
@@ -71,6 +75,8 @@ public class TxtDetails extends HttpServlet {
 		FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(teacherId);
 		List<TxtLiveDetails> txtDetails = TxtLiveDetaileSer
 				.findTextDetaileByLiveId(tId,0);
+		
+		Guardian guardian=GuardianSer.findIsGuardian(tId, uId);
 		if(txtDetails!=null){
 			for(TxtLiveDetails detail : txtDetails){
 				int isTxtFree=teacher.getTxtLiveFree();
@@ -90,11 +96,10 @@ public class TxtDetails extends HttpServlet {
 					detail.setIsFree(0);
 				}
 				detail.setOwnJucaiBills(ownJucaiBills);
-				detail.setIsPurch(isPurch);
 			}
 		}
 		initTxtHits(tId,live.getHits(),live.getXnHits());
-		return JsonUtil.getTxtDetails(txtDetails);
+		return JsonUtil.getTxtDetails(txtDetails,guardian);
 	}
 
 	

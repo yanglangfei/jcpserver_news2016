@@ -85,6 +85,29 @@ public class SiteConfig implements Serializable{
 	 * 系统设置提问数量
 	 */
 	private int askNum;
+	
+	/**
+	 *   文字直播试看次数
+	 */
+	private int liveSeeCont;
+	
+	/**
+	 *  文字直播详情试看次数
+	 */
+	private int liveDetailCount;
+	
+	public int getLiveSeeCont() {
+		return liveSeeCont;
+	}
+	public void setLiveSeeCont(int liveSeeCont) {
+		this.liveSeeCont = liveSeeCont;
+	}
+	public int getLiveDetailCount() {
+		return liveDetailCount;
+	}
+	public void setLiveDetailCount(int liveDetailCount) {
+		this.liveDetailCount = liveDetailCount;
+	}
 	public String getSiteName() {
 		return siteName;
 	}

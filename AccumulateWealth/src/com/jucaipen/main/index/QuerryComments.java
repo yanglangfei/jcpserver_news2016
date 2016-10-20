@@ -28,7 +28,6 @@ import com.jucaipen.utils.StringUtil;
 public class QuerryComments extends HttpServlet {
 	private String result;
 	private List<User> users = new ArrayList<User>();
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");

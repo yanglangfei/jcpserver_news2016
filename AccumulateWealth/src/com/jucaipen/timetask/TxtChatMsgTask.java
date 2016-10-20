@@ -51,7 +51,25 @@ public class TxtChatMsgTask extends TimerTask{
 			isM=false;
 			msgs = TxtMsgSer.findTxtMsgByMaxId(mId, liveId, true,type);
 		}
-		if(msgs!=null&&msgs.size()>0){
+		
+		if (msgs != null&&msgs.size()>0) {
+			for (TxtLiveMsg m : msgs) {
+				int senId = m.getUserId();
+				int toId = m.getReceiverId();
+				User fu = UserServer.findBaseInfoById(senId);
+				if (fu == null) {
+					fu = new User();
+				}
+				m.setSendFace(fu.getFaceImage());
+				User tu = UserServer.findBaseInfoById(toId);
+				if (tu == null) {
+					tu = new User();
+				}
+				m.setReceiverFace(tu.getFaceImage());
+				m.setUserName(fu.getNickName());
+				m.setReceiverName(fu.getNickName());
+				m.setUserLeavel(fu.getUserLeval());
+			}
 			String pushMsg = JsonUtil.createTxtMsgArray(msgs);
 			JPushClient client = JPushUtils.getJPush();
 			if(type==0){
@@ -65,7 +83,6 @@ public class TxtChatMsgTask extends TimerTask{
 			}else{
 				maxId=msgs.get(msgs.size()-1).getShenhe();
 			}
-			
 		}
 	}
 

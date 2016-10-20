@@ -28,6 +28,24 @@ public class JPushUtils {
 		}
 		return client;
 	}
+	
+	
+	/**
+	 * @param msg
+	 * @return 创建通知 目标 ： android iOS   全部
+	 */
+	public static PushPayload createNptifyForAll(String msg, String key,
+			Number value, String dataKay, int dataValue) {
+		return PushPayload
+				.newBuilder()
+				.setPlatform(Platform.android_ios())
+				.setNotification(Notification.alert(msg))
+				.setMessage(
+						Message.newBuilder().setMsgContent(msg)
+								.addExtra(key, value)
+								.addExtra(dataKay, dataValue).build())
+				.build();
+	}
 
 	/**
 	 * @param msg
@@ -72,7 +90,7 @@ public class JPushUtils {
 	 * @param title
 	 * @param content
 	 * @param extras
-	 * @return 创建透传消息 目标 ： android iOS
+	 * @return 创建透传消息 目标 ： android iOS   全部
 	 */
 	public static PushPayload createMsg(String alert, String title,
 			String content, Map<String, String> extras) {
@@ -84,7 +102,7 @@ public class JPushUtils {
 								.setTitle(title).build())
 				.setAudience(Audience.all()).build();
 	}
-
+	
 	/**
 	 * @param client
 	 * @param payLoad
@@ -96,10 +114,8 @@ public class JPushUtils {
 			return result;
 		} catch (APIConnectionException e) {
 			e.printStackTrace();
-			System.out.println("e:" + e.getMessage());
 		} catch (APIRequestException e) {
 			e.printStackTrace();
-			System.out.println("e2:" + e.getMessage());
 		}
 		return null;
 

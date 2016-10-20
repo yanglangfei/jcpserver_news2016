@@ -2,18 +2,25 @@ package com.jucaipen.main.purch;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.derby.tools.sysinfo;
+
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.Contribute;
 import com.jucaipen.model.FamousTeacher;
+import com.jucaipen.model.Guardian;
 import com.jucaipen.model.LiveDetailSale;
 import com.jucaipen.model.Rebate;
+import com.jucaipen.model.SaleRecoder;
+import com.jucaipen.model.SiteConfig;
 import com.jucaipen.model.SysAccount;
 import com.jucaipen.model.SysDetailAccount;
 import com.jucaipen.model.TextLive;
@@ -21,7 +28,10 @@ import com.jucaipen.model.TxtLiveDetails;
 import com.jucaipen.model.User;
 import com.jucaipen.service.AccountSer;
 import com.jucaipen.service.FamousTeacherSer;
+import com.jucaipen.service.GuardianSer;
 import com.jucaipen.service.LiveDetailSaleSer;
+import com.jucaipen.service.SaleRecoderSer;
+import com.jucaipen.service.SiteConfigSer;
 import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.service.TxtLiveDetaileSer;
 import com.jucaipen.service.TxtLiveSer;
@@ -95,6 +105,13 @@ public class PurchTxtDetails extends HttpServlet {
 				.findFamousTeacherById(teacherId);
 		LiveDetailSale detailSale = LiveDetailSaleSer
 				.findSaleByUserIdAndTxtIdAndDetailId(uId, detailId);
+		
+		
+		Guardian gurdian = GuardianSer.findIsGuardian(teacherId, uId);
+		if(gurdian!=null){
+			return JsonUtil.getRetMsg(8, "已经成为讲师守护者，不需要购买");
+		}
+		
 		if (detailSale != null) {
 			return JsonUtil.getRetMsg(6, "直播详细已经购买，不能重复购买");
 		}
@@ -102,7 +119,14 @@ public class PurchTxtDetails extends HttpServlet {
 		if(b<=0){
 			return JsonUtil.getRetMsg(6,"暂不支持购买");
 		}
-
+		
+		SiteConfig config = SiteConfigSer.findSiteConfig();
+		int count=config.getLiveDetailCount();
+		int num=SaleRecoderSer.findSaleCountByRecoder(uId);
+		if(num>=count){
+			return JsonUtil.getRetMsg(10,"试看次数用完，需要开通守护查看更多");
+		}
+		
 		if (account == null || account.getJucaiBills() < b) {
 			return JsonUtil.getRetMsg(5, "余额不足，请先充值");
 		}
@@ -167,6 +191,18 @@ public class PurchTxtDetails extends HttpServlet {
 		detailAccount.setUserId(uId);
 		detailAccount.setInsertDate(TimeUtils.format(new Date(),
 				"yyyy-MM-dd HH:mm:ss"));
+		
+		
+		SaleRecoder recoder=new SaleRecoder();
+		recoder.setInsertDate(TimeUtils.format(new Date(),
+				"yyyy-MM-dd HH:mm:ss"));
+		recoder.setGuandianId(detailId);
+		recoder.setIsDel(0);
+		recoder.setLiveId(0);
+		recoder.setReadCount(1);
+		recoder.setUserId(uId);
+		recoder.setType(0);
+		recoder.setRemark("用户试看直播");
 
 		Rebate rebate = new Rebate();
 		rebate.setTeacherId(teacherId);
@@ -190,7 +226,7 @@ public class PurchTxtDetails extends HttpServlet {
 
 		int isSuccess = RollBackUtil.purchTxtDetail(user, b, sysAccount,
 				rebate, sysRebate, sale, account, accountDetail,
-				accountDetailIntegeral, uId, detailAccount, contribute);
+				accountDetailIntegeral, uId, detailAccount, contribute,recoder);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "购买直播观点成功") : JsonUtil
 				.getRetMsg(1, "购买直播观点失败");
 	}

@@ -42,7 +42,6 @@ public class LiveList extends HttpServlet {
 	private static final long serialVersionUID = -3535325712984870701L;
 	private String result;
 	private List<FamousTeacher> teachers = new ArrayList<FamousTeacher>();
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -146,7 +145,6 @@ public class LiveList extends HttpServlet {
 		for (TextLive txt : txtLives) {
 			int tId = txt.getTeacherId();
 			Guardian guardian = GuardianSer.findIsGuardian(tId, uId);
-			txt.setGuardian(guardian != null);
 			FamousTeacher teacher = FamousTeacherSer.findFamousTeacherById(tId);
 			if (teacher == null) {
 				teacher = new FamousTeacher();
@@ -155,7 +153,7 @@ public class LiveList extends HttpServlet {
 				Account account = AccountSer.findAccountByUserId(uId);
 				List<TxtLiveSale> sale = TxtLiveSaleSer.findSaleByUserIdAndTiD(
 						uId, tId);
-				if (sale != null) {
+				if (sale != null&&sale.size()>0) {
 					for (TxtLiveSale sa : sale) {
 						if (TimeUtils.isLive(sa.getStartDate(),
 								sa.getEndDate())) {
@@ -168,13 +166,15 @@ public class LiveList extends HttpServlet {
 				} else {
 					isPurch = 1;
 				}
+				
 				if (account != null) {
 					ownJucaiBills = account.getJucaiBills();
 				}
 			}
 			txt.setOwnJucaiBills(ownJucaiBills);
-			txt.setIsPurch(isPurch);
 			teachers.add(teacher);
+			txt.setGuardian(guardian != null);
+			txt.setIsPurch(guardian!=null ? 0 :isPurch);
 		}
 		return JsonUtil.getTxtLiveList(txtLives, teachers);
 	}

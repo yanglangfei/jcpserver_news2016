@@ -384,6 +384,37 @@ public class UserImp implements UserDao {
 		}
 		return null;
 	}
+	
+	
+	public int delAccountId(int id, int accountType) {
+		// 解除用户的第三方账号信息-----accountType 0 (QQ) 1 (微信) 2 (新浪)
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			if (accountType == 0) {
+				isSuccess = sta.executeUpdate("UPDATE JCP_User SET QQOpenId=NULL"
+						+" WHERE Id=" + id);
+			} else if (accountType == 1) {
+				isSuccess = sta.executeUpdate("UPDATE JCP_User SET WeiXinId=NULL"
+						+  " WHERE Id=" + id);
+			} else if (accountType == 2) {
+				isSuccess = sta.executeUpdate("UPDATE JCP_User SET WeiboId=NULL"
+						+  " WHERE Id=" + id);
+			}
+			return isSuccess;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
+	}
+	
+	
 
 	public int upDataAccountId(int id, int accountType, String accountId) {
 		// 修改用户的第三方账号信息-----accountType 0 (QQ) 1 (微信) 2 (新浪)

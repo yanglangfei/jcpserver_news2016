@@ -217,6 +217,16 @@ public class UserServer {
 		UserDao dao = new UserImp();
 		return dao.upDataAccountId(id, accountType, accountId);
 	}
+	
+	/**
+	 * @param id
+	 * @param accountType
+	 * @return  解除第三方账号
+	 */
+	public static int delAccountId(int id,int accountType){
+		UserDao dao = new UserImp();
+		return dao.delAccountId(id, accountType);
+	}
 
 	/**
 	 * @param id

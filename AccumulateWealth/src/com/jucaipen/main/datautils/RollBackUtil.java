@@ -20,6 +20,7 @@ import com.jucaipen.model.MySpecial;
 import com.jucaipen.model.MyVideo;
 import com.jucaipen.model.Rebate;
 import com.jucaipen.model.RebateIntegeralDetail;
+import com.jucaipen.model.SaleRecoder;
 import com.jucaipen.model.Sign;
 import com.jucaipen.model.SignDetail;
 import com.jucaipen.model.SysAccount;
@@ -1536,13 +1537,15 @@ public class RollBackUtil {
 	 * @param accountDetail
 	 * @param account
 	 * @param detailAccount
+	 * @param recoder
 	 * @return 购买直播详情
 	 */
 	public static int purchTxtDetail(User user, int b, SysAccount sysAccount,
 			Rebate rebate, Rebate sysRebate, LiveDetailSale sale,
 			Account account, AccountDetail accountDetail,
 			AccountDetail accountDetailIntegeral, int uId,
-			SysDetailAccount detailAccount, Contribute contribute) {
+			SysDetailAccount detailAccount, Contribute contribute,
+			SaleRecoder recoder) {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			dbConn.setAutoCommit(false);
@@ -1554,6 +1557,16 @@ public class RollBackUtil {
 					+ ",'" + sale.getOrderCode() + "',"
 					+ sale.getLiveDetailId() + ",'" + sale.getInsertDate()
 					+ "')");
+
+			// 试看记录表
+			sta.executeUpdate("INSERT INTO JCP_ShiKanSale "
+					+ "(UserId,Type,GuandianId,LiveId,ReadCount,InsertDate,Remark,IsDel) "
+					+ "VALUES(" + recoder.getUserId() + "," + recoder.getType()
+					+ "," + recoder.getGuandianId() + "," + recoder.getLiveId()
+					+ "," + recoder.getReadCount() + ",'"
+					+ recoder.getInsertDate() + "','" + recoder.getRemark()
+					+ "'," + recoder.getIsDel() + ")");
+
 			// 2、更新账户明细表 JCP_Account_Detail
 			// 聚财币减少
 			sta.executeUpdate("INSERT INTO JCP_Account_Detail"

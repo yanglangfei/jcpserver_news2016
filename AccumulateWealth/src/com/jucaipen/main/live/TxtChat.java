@@ -127,7 +127,7 @@ public class TxtChat extends HttpServlet {
 			isManager = false;
 			msgs = TxtMsgSer.findLastTxtMsg(10, liveId, true,msgType);
 		}
-		if (msgs != null) {
+		if (msgs != null&&msgs.size()>0) {
 			for (TxtLiveMsg m : msgs) {
 				int senId = m.getUserId();
 				int toId = m.getReceiverId();
@@ -145,27 +145,26 @@ public class TxtChat extends HttpServlet {
 				m.setReceiverName(fu.getNickName());
 				m.setUserLeavel(fu.getUserLeval());
 			}
-		}
-
-		String pushMsg = JsonUtil.createTxtMsgArray(msgs);
-		JPushClient client = JPushUtils.getJPush();
-		if(msgType==0){
-			 msgObj = JPushUtils.createMsg("msg", "qiaoqiao", pushMsg,
-					null);
-		}else{
-			 msgObj = JPushUtils.createMsg("msg", "txtMsg", pushMsg,
-					null);
-		}
-		JPushUtils.pushMsg(client, msgObj);
-		if (msgs != null && msgs.size() > 0) {
+			
+			String pushMsg = JsonUtil.createTxtMsgArray(msgs);
+			JPushClient client = JPushUtils.getJPush();
+			if(msgType==0){
+				 msgObj = JPushUtils.createMsg("msg", "qiaoqiao", pushMsg,
+						null);
+			}else{
+				 msgObj = JPushUtils.createMsg("msg", "txtMsg", pushMsg,
+						null);
+			}
+			JPushUtils.pushMsg(client, msgObj);
+			
 			if (isManager) {
 				return msgs.get(msgs.size() - 1).getId();
 			} else {
 				return msgs.get(msgs.size() - 1).getShenhe();
 			}
-		} else {
-			return -1;
+			
 		}
+		return 0;
 	}
 
 }

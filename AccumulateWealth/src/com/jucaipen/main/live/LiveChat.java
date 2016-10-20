@@ -70,7 +70,6 @@ public class LiveChat extends HttpServlet {
 					}
 				}
 		}
-		
 		out.flush();
 		out.close();
 	}
