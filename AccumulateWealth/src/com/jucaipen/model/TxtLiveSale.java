@@ -24,7 +24,21 @@ public class TxtLiveSale implements Serializable{
 	private String insertDate;
 	private String startDate;
 	private String endDate;
+	private String remark;
+	private int payPrice;
 	
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	public int getPayPrice() {
+		return payPrice;
+	}
+	public void setPayPrice(int payPrice) {
+		this.payPrice = payPrice;
+	}
 	public String getStartDate() {
 		return startDate;
 	}

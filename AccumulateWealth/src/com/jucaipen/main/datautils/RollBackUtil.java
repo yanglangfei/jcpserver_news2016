@@ -1408,11 +1408,12 @@ public class RollBackUtil {
 			sta = dbConn.createStatement();
 			// 1、添加文字直播购买表 JCP_TxtLiveSale
 			sta.executeUpdate("INSERT INTO JCP_TxtLiveSale"
-					+ "(FK_UserId,FK_TearchId,OrderCode,FK_TxtLiveId,InsertDate,StartDate,EndDate) VALUES ("
+					+ "(FK_UserId,FK_TearchId,OrderCode,FK_TxtLiveId,InsertDate,StartDate,EndDate,Remark,PayPrice) VALUES ("
 					+ sale.getUserId() + "," + sale.getTeacherId() + ",'"
 					+ sale.getOrderCode() + "'," + sale.getFk_txtId() + ",'"
 					+ sale.getInsertDate() + "','" + sale.getStartDate()
-					+ "','" + sale.getEndDate() + "')");
+					+ "','" + sale.getEndDate() + "','" + sale.getRemark()
+					+ "'," + sale.getPayPrice() + ")");
 			// 2、更新账户明细表 JCP_Account_Detail
 			// 聚财币减少
 			sta.executeUpdate("INSERT INTO JCP_Account_Detail"
@@ -1552,11 +1553,12 @@ public class RollBackUtil {
 			sta = dbConn.createStatement();
 			// 1、添加文字直播详情购买表 JCP_LiveDetailSale
 			sta.executeUpdate("INSERT INTO JCP_LiveDetailSale "
-					+ "(FK_UserId,FK_TearchId,OrderCode,FK_LiveDetailId,InsertDate) "
+					+ "(FK_UserId,FK_TearchId,OrderCode,FK_LiveDetailId,InsertDate,Remark,PayPrice) "
 					+ "VALUES(" + sale.getUserId() + "," + sale.getTeacherId()
 					+ ",'" + sale.getOrderCode() + "',"
 					+ sale.getLiveDetailId() + ",'" + sale.getInsertDate()
-					+ "')");
+					+ "','" + sale.getRemark() + "'," + sale.getPayPrice()
+					+ ")");
 
 			// 试看记录表
 			sta.executeUpdate("INSERT INTO JCP_ShiKanSale "
@@ -2092,11 +2094,12 @@ public class RollBackUtil {
 			sta = dbConn.createStatement();
 			// 1、添加视频直播购买表 JCP_VideoLiveSale
 			sta.executeUpdate("INSERT INTO JCP_VideoLiveSale "
-					+ "(FK_UserId,FK_TearchId,OrderCode,FK_VideoLiveId,InsertDate,StartDate,EndDate,IsStop) "
+					+ "(FK_UserId,FK_TearchId,OrderCode,FK_VideoLiveId,InsertDate,StartDate,EndDate,IsStop,Remark,PayPrice) "
 					+ "VALUES(" + sale.getUserId() + "," + sale.getTeacherId()
 					+ ",'" + sale.getOrderCode() + "'," + sale.getFk_liveId()
 					+ ",'" + sale.getInsertDate() + "','" + sale.getStartDate()
-					+ "','" + sale.getEndDate() + "'," + sale.getIsStop() + ")");
+					+ "','" + sale.getEndDate() + "'," + sale.getIsStop()
+					+ ",'" + sale.getRemark() + "'," + sale.getPayPrice() + ")");
 			// 2、更新账户明细表 JCP_Account_Detail
 			// 聚财币减少
 			sta.executeUpdate("INSERT INTO JCP_Account_Detail"

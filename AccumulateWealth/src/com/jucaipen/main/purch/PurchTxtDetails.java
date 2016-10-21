@@ -7,9 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.derby.tools.sysinfo;
-
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
@@ -165,6 +162,8 @@ public class PurchTxtDetails extends HttpServlet {
 		sale.setOrderCode("");
 		sale.setLiveDetailId(detailId);
 		sale.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		sale.setPayPrice(b);
+		sale.setRemark("”√ªßπ∫¬Ú(App÷ß∏∂)");
 
 		Contribute contribute = new Contribute();
 		contribute.setAllJucaiBills(b);

@@ -48,7 +48,21 @@ public class LiveDetailSale implements Serializable{
 	 *  InsertDate
 	 */
 	private String insertDate;
+	private String remark;
+	private int payPrice;
 	
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	public int getPayPrice() {
+		return payPrice;
+	}
+	public void setPayPrice(int payPrice) {
+		this.payPrice = payPrice;
+	}
 	public String getFk_txtTitle() {
 		return fk_txtTitle;
 	}

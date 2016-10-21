@@ -19,8 +19,6 @@ import org.json.JSONObject;
 
 
 public class HttpJSONTest {
-
-
 	public static String loadJSON (String url) {
         StringBuilder json = new StringBuilder();
         try {

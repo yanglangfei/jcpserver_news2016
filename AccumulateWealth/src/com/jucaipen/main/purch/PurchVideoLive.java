@@ -138,7 +138,8 @@ public class PurchVideoLive extends HttpServlet {
 		sale.setStartDate(startDate);
 		sale.setTeacherId(teacherId);
 		sale.setUserId(uId);
-		
+		sale.setPayPrice(b);
+		sale.setRemark("”√ªßπ∫¬Ú(App÷ß∏∂)");
 		
 		Contribute contribute = new Contribute();
 		contribute.setAllJucaiBills(b);

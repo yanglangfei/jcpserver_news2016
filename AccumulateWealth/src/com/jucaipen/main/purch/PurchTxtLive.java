@@ -156,6 +156,8 @@ public class PurchTxtLive extends HttpServlet {
 		sale.setStartDate(startDate);
 		sale.setEndDate(endDate);
 		sale.setInsertDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+		sale.setPayPrice(b);
+		sale.setRemark("”√ªßπ∫¬Ú(App÷ß∏∂)");
 
 		Contribute contribute = new Contribute();
 		contribute.setAllJucaiBills(b);

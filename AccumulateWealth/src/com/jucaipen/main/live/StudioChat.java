@@ -201,7 +201,7 @@ public class StudioChat extends HttpServlet {
 				if (fromUser == null) {
 					fromUser = new User();
 				}
-				liveMsg.setSendFace(fromUser.getFaceImage());
+				liveMsg.setSendFace(fromUser.getFaceImage()==null ? "" :fromUser.getFaceImage());
 				if (toUser == null) {
 					toUser = new User();
 				}

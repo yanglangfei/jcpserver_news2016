@@ -32,6 +32,7 @@ import com.jucaipen.utils.StringUtil;
 @SuppressWarnings("serial")
 public class TxtDetails extends HttpServlet {
 	private String result;
+	private Account account ;
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -74,14 +75,12 @@ public class TxtDetails extends HttpServlet {
 		int teacherId=live.getTeacherId();
 		FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(teacherId);
 		List<TxtLiveDetails> txtDetails = TxtLiveDetaileSer
-				.findTextDetaileByLiveId(tId,0);
-		
+				.findTextDetaileByLiveId(tId,0);		 account =AccountSer.findAccountByUserId(uId);
 		Guardian guardian=GuardianSer.findIsGuardian(tId, uId);
 		if(txtDetails!=null){
 			for(TxtLiveDetails detail : txtDetails){
 				int isTxtFree=teacher.getTxtLiveFree();
-				if(uId>0&&isTxtFree==0){
-					Account account=AccountSer.findAccountByUserId(uId);
+				if(isTxtFree==0){
 					LiveDetailSale sale = LiveDetailSaleSer.findSaleByUserIdAndTxtIdAndDetailId(uId, detail.getId());
 				    if(sale!=null){
 				    	isPurch=0;
@@ -92,6 +91,7 @@ public class TxtDetails extends HttpServlet {
 				    	ownJucaiBills=account.getJucaiBills();
 				    }
 				}
+				detail.setIsPurch(isPurch);
 				if(isTxtFree==1){
 					detail.setIsFree(0);
 				}
