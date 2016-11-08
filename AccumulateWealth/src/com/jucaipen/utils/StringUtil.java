@@ -1,8 +1,10 @@
 package com.jucaipen.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -89,7 +91,7 @@ public class StringUtil {
 		}
 	}
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		StringBuffer buffer=new StringBuffer();
 		buffer.append(createMsg("Œ“ «À≠", 1));
 		buffer.append(createMsg("http://img.jucaipen.com/jucaipenUpload/2016/2/15/201621515955.gif",0));
@@ -98,7 +100,7 @@ public class StringUtil {
 		buffer.append(createMsg("http://img.jucaipen.com/jucaipenUpload/2015/7/15/2015715174423.gif",0));
 		buffer.append(createMsg("∫«∫«", 1));
 		System.out.println(buffer.toString());
-	}
+	}*/
 	
 	  
 	/**
@@ -242,6 +244,59 @@ public class StringUtil {
          html = html.replaceAll("<strong>", "");
          return html;
      }
+	
+	public static String getTime(String date){
+		try {
+			if(date!=null&&date.contains("/")){
+				date=date.replaceAll("/", "-");
+			}
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date d=sdf.parse(date);
+			int year=d.getYear()+1900;
+			int month=d.getMonth()+1;
+			int day=d.getDate();
+			int hour=d.getHours();
+			int minte=d.getMinutes();
+			int seconds=d.getSeconds();
+			String monthStr;
+			if(month<10){
+				monthStr = "0" + month;
+			}else {
+				monthStr = month + "";
+			}
+			String dayStr;
+            if (day < 10) {
+            	dayStr = "0" + day;
+            } else {
+            	dayStr = day + "";
+            }
+			
+			 String hourStr;
+	            if (hour < 10) {
+	                hourStr = "0" + hour;
+	            } else {
+	                hourStr = hour + "";
+	            }
+	            String mintStr;
+	            if (minte < 10) {
+	                mintStr = "0" + minte;
+	            } else {
+	                mintStr = minte + "";
+	            }
+
+	            String secondStr;
+	            if (seconds < 10) {
+	                secondStr = "0" + seconds;
+	            } else {
+	                secondStr = seconds + "";
+	            }
+			return year+"-"+mintStr+"-"+dayStr+" "+hourStr+":"+mintStr+":"+secondStr;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
+	
 	
 	/**
 	 * @param str

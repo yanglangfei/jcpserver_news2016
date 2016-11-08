@@ -207,7 +207,7 @@ public class StudioChat extends HttpServlet {
 				}
 				liveMsg.setReceiverFace(toUser.getFaceImage());
 			}
-			String pushMsg = JsonUtil.createLiveMsg(msgObjs,false,uId);
+			String pushMsg = JsonUtil.createStudioMsg(msgObjs,false,uId);
 			if (msgObjs.size() > 0 && pushMsg != null) {
 				JPushClient client = JPushUtils.getJPush();
 				PushPayload msgs = JPushUtils.createMsg("msg", "studioMsg",

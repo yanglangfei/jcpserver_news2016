@@ -93,7 +93,7 @@ public class StudioMsgTask extends TimerTask{
 				}
 				liveMsg.setReceiverFace(toUser.getFaceImage());
 			}
-			String pushMsg=JsonUtil.createLiveMsg(msgObjs,true,uId);
+			String pushMsg=JsonUtil.createStudioMsg(msgObjs,true,uId);
 			if(msgObjs.size()>0&&pushMsg!=null){
 				JPushClient client = JPushUtils.getJPush();
 				PushPayload msgs = JPushUtils.createMsg("msg", "studioMsg", pushMsg, null);

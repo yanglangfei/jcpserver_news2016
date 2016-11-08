@@ -20,7 +20,7 @@ public class JdbcUtil {
 	private static final String SQLSERVER_UNAME_TEST = "sa";
 	private static final String SQLSERVER_UPWD_TEST = "111111";
 
-	private static boolean isTest = true;
+	private static boolean isTest = false;
 
 	/**
 	 * 新数据库 正式
@@ -169,6 +169,8 @@ public class JdbcUtil {
 		return null;
 
 	}
+	
+	
 
 	/**
 	 * @return 连接mySql_TEST 数据库
@@ -179,12 +181,15 @@ public class JdbcUtil {
 				Class.forName(MYSQL_DRIVER_TEST);
 				dbConn = DriverManager.getConnection(MYSQL_URL_TEST,
 						MYSQL_UNAME_TEST, MYSQL_UPWD_TEST);
+				System.out.println("success...");
 				return dbConn;
 			} catch (SQLException e) {
 				e.printStackTrace();
+				System.out.println("e1...");
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+			System.out.println("e2...");
 		}
 		return null;
 

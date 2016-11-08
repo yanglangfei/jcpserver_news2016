@@ -51,7 +51,6 @@ import com.jucaipen.utils.TimeUtils;
 @SuppressWarnings("serial")
 public class QuerryTeacherIdea extends HttpServlet {
 	private String result;
-
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -188,9 +187,7 @@ public class QuerryTeacherIdea extends HttpServlet {
 			if(usId<=0){
 				isPurch=1;
 			}
-			
 			Guardian guardian = GuardianSer.findIsGuardian(tId, usId);
-			
 			int ownJucaiBills = 0;
 			TextLive txt = null;
 			List<TextLive> txts = TxtLiveSer.findTxtLiveByTeacherIdAndLast(tId,

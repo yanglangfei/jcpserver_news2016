@@ -35,7 +35,6 @@ import com.jucaipen.utils.StringUtil;
  * @author YLF
  * 
  *         文件上传
- * 
  *         versionName versionCode file
  * 
  */
@@ -150,7 +149,6 @@ public class UploadApk extends HttpServlet {
 	 */
 	private void updateApkInfo(ApkInfo info) {
 		ApkInfoServer.insertApkInfo(info);
-
 	}
 
 	/**

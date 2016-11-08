@@ -189,6 +189,7 @@ public class LiveChat extends HttpServlet {
 				liveMsg.setReceiverFace(toUser.getFaceImage());
 			}
 			String pushMsg=JsonUtil.createLiveMsg(msgObjs,false,uId);
+			System.out.println("pushMsg:"+pushMsg);
 			JPushClient client = JPushUtils.getJPush();
 			PushPayload msgs = JPushUtils.createMsg("msg", "liveMsg", pushMsg, null);
 		    PushResult res = JPushUtils.pushMsg(client, msgs);
