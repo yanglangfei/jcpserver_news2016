@@ -140,7 +140,6 @@ public class VideoList extends HttpServlet {
 						isPurch=1;
 					}
 				}
-				
 				if(uId>0&&specialId<=0){
 					MyVideo myVideo=MyVideoSer.findIsMyVideo(uId, video.getId());
 					if(myVideo!=null){
