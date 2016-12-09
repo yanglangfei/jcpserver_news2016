@@ -47,7 +47,7 @@ public class RelateNews extends HttpServlet {
 	}
 
 	private String initReleData(int id) {
-		// 初始化数据
+		// 初始化数据 
 		List<JcpNews> news = JcpNewsSer.findRelatedNewsById(id, 4);
 		if (news != null) {
 			for (JcpNews n : news) {
