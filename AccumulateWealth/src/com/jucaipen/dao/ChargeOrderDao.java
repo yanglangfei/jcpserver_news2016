@@ -22,7 +22,6 @@ public interface ChargeOrderDao {
 	 * @return  通过用户id获取充值记录
 	 */
 	public List<ChargeOrder> findOrderByUid(int userId,int page);
-	
 	public List<ChargeOrder> findOrderByUidAndState(int uId,int state,int page);
 	
 	/**
