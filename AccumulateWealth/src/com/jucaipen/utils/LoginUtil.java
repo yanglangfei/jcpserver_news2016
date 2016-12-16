@@ -1,7 +1,9 @@
 package com.jucaipen.utils;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -51,6 +53,51 @@ public class LoginUtil {
 		return null;
 
 	}
+	
+	
+	
+
+	/*
+	 * @param url
+	 * 
+	 * @return ∑¢ÀÕ get «Î«Û
+	 */
+	public static byte[] sendTest(String url, Map<String, String> param) {
+		try {
+			builder = new StringBuilder(url);
+			if (param != null && param.size() > 0) {
+				builder.append("?");
+				for (Map.Entry<String, String> p : param.entrySet()) {
+					builder.append(p.getKey());
+					builder.append("=");
+					builder.append(p.getValue());
+					builder.append("&");
+				}
+				builder.replace(builder.length() - 1, builder.length(), "");
+			}
+			URL path = new URL(builder.toString());
+			HttpURLConnection conn = (HttpURLConnection) path.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Proxy-Connection", "Keep-Alive");
+			conn.setReadTimeout(1000 * 10);
+			conn.setConnectTimeout(1000 * 10);
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			int responseCode = conn.getResponseCode();
+			if (responseCode == HttpURLConnection.HTTP_OK) {
+				InputStream is = conn.getInputStream();
+				DataInputStream dis = new DataInputStream(is);
+				byte bs[] = new byte[dis.available()];
+				dis.read(bs);
+				return bs;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
 
 	/*
 	 * @param url

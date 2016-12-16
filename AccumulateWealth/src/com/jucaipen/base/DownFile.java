@@ -27,6 +27,7 @@ public class DownFile extends HttpServlet {
 	private String loadPath;
 	private String fm;
 	private String result;
+	//http://img.jucaipen.com/jucaipenUpload/2015/7/3/20157317140_300_200.jpg
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
