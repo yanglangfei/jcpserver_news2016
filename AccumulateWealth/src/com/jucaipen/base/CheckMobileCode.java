@@ -98,7 +98,6 @@ public class CheckMobileCode extends HttpServlet {
 			mobileMessage.setMsgType(3);
 		}
 		MobileMessageSer.upDateMessageType(msgId, mobileMessage);
-		
 	}
 	private void checkMobileCode(String mobile, String actionCode) {
 		try {

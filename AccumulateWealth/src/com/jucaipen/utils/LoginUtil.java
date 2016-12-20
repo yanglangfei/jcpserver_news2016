@@ -1,9 +1,6 @@
 package com.jucaipen.utils;
-
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
