@@ -13,14 +13,15 @@ public class ImgUtils {
 	/**
 	 * 将网络图片进行Base64位编码
 	 * @param imgUrl  图片URL
+	 * @param format  图片格式
 	 * @return  Base64图片字符串信息
 	 */
-	public static String encodeImgageToBase64(URL imageUrl) {
+	public static String encodeImgageToBase64(URL imageUrl,String format) {
 		ByteArrayOutputStream outputStream = null;
 		try {
 			BufferedImage bufferedImage = ImageIO.read(imageUrl);
 			outputStream = new ByteArrayOutputStream();
-			ImageIO.write(bufferedImage, "jpg", outputStream);
+			ImageIO.write(bufferedImage, format, outputStream);
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 		} catch (IOException e) {
@@ -34,14 +35,15 @@ public class ImgUtils {
 	 * 将本地图片进行Base64位编码
 	 * 
 	 * @param imgUrl   本地图片URL
+	 * @param format 图片格式
 	 * @return  Base64图片字符串信息
 	 */
-	public static String encodeImgageToBase64(File imageFile) {
+	public static String encodeImgageToBase64(File imageFile,String format) {
 		ByteArrayOutputStream outputStream = null;
 		try {
 			BufferedImage bufferedImage = ImageIO.read(imageFile);
 			outputStream = new ByteArrayOutputStream();
-			ImageIO.write(bufferedImage, "jpg", outputStream);
+			ImageIO.write(bufferedImage, format, outputStream);
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
 		} catch (IOException e) {
