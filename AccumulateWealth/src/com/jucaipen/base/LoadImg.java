@@ -41,7 +41,6 @@ public class LoadImg extends HttpServlet{
 		out.println(resultMsg);
 		out.flush();
 		out.close();
-		
 	}
 
 

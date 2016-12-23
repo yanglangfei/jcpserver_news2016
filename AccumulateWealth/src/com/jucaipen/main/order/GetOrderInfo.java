@@ -18,7 +18,6 @@ import com.jucaipen.main.userid.SunMd5;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  * 

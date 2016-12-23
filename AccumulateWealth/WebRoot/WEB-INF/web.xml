@@ -408,6 +408,12 @@
 		<servlet-name>BindOtherAccount</servlet-name>
 		<servlet-class>com.jucaipen.main.user.BindOtherAccount</servlet-class>
 	</servlet>
+	
+	<servlet>
+	  <servlet-name>GetOrderCode</servlet-name>
+	  <servlet-class>com.jucaipen.main.order.GetOrderCode</servlet-class>
+	</servlet>
+	
 	<servlet>
 		<servlet-name>UploadApk</servlet-name>
 		<servlet-class>com.jucaipen.base.UploadApk</servlet-class>
@@ -670,6 +676,12 @@
 		<servlet-name>DownFile</servlet-name>
 		<url-pattern>/jucaipen/downLoadApk</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+	  <servlet-name>GetOrderCode</servlet-name>
+	  <url-pattern>/jucaipen/getOrderCode</url-pattern>
+	</servlet-mapping>
+	
 	<servlet-mapping>
 		<servlet-name>CheckMobileCode</servlet-name>
 		<url-pattern>/jucaipen/checkmobile</url-pattern>
@@ -1150,6 +1162,25 @@
         <servlet-name>GetImag</servlet-name>
         <url-pattern>/jucaipen/getImg</url-pattern>
     </servlet-mapping>
+    
+    <filter>
+    <filter-name>myFilter</filter-name>
+    <filter-class>com.jucaipen.base.MyFilter</filter-class>
+    <init-param>
+      <param-name>charset</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+    </filter>
+    <filter-mapping>
+      <filter-name>myFilter</filter-name>
+      <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <!-- <error-page>
+      <error-code>404</error-code>
+      <location></location>
+    
+    </error-page> -->
   
   
 </web-app>
