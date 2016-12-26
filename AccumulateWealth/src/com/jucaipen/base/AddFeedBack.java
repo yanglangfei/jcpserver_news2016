@@ -16,8 +16,6 @@ import com.jucaipen.utils.MsgCode;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
 /**
- * 
- * 
  * @author Administrator
  *       Òâ¼û·´À¡ deviceType 0 android 1 ios
  */
