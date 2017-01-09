@@ -53,5 +53,4 @@ public class QuerryPosition extends HttpServlet {
 		List<Position> positions = PositionSer.findPositionByCid(type);
 		return JsonUtil.getPositionlist(positions);
 	}
-
 }

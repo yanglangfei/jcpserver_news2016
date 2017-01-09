@@ -63,6 +63,9 @@ public class QuerryAdvise extends HttpServlet {
 		} else {
 			advertives = AdverSer.findAdverByPid(13);
 		}
-		return MsgCode.CURRENT_VERSION==MsgCode.HISTORY_VISION_1 ? JsonUtil.getObject(advertives) : JsonUtil.getAdvertive(advertives,MsgCode.RET_SUCCESS_CODE,MsgCode.RET_SUCCESS);
+		
+		
+		
+		return MsgCode.CURRENT_VERSION==MsgCode.HISTORY_VISION_1 ? JsonUtil.getAdvertive1(advertives) : JsonUtil.getAdvertive(advertives,MsgCode.RET_SUCCESS_CODE,MsgCode.RET_SUCCESS);
 	}
 }

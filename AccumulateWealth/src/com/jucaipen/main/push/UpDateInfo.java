@@ -23,7 +23,6 @@ import com.jucaipen.service.TacticsSaleSer;
 import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
-
 /**
  * @author Administrator
  *

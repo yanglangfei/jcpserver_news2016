@@ -46,7 +46,10 @@ import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
 /**
- * @author Administrator type (0 观点) (1 问答) (2 文字直播) (3 视频直播)
+ * @author 
+ * 
+ * Administrator type (0 观点) (1 问答) (2 文字直播) (3 视频直播)
+ * 
  */
 @SuppressWarnings("serial")
 public class QuerryTeacherIdea extends HttpServlet {

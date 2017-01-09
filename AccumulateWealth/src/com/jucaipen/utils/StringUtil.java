@@ -99,9 +99,9 @@ public class StringUtil {
 	
 	/**
 	 * @param url
-	 * @return  http 转换为https
+	 * @return  http url 转换为https
 	 */
-	public  String changeHttps(String url){
+	public static  String changeHttps(String url){
 		StringBuffer newUrl=new StringBuffer();
 		if(url==null||"".equals(url)){
 			return url;
@@ -110,7 +110,7 @@ public class StringUtil {
 			String[] urlStr = url.split(":");
 			for(int i=0;i<urlStr.length;i++){
 				if(i==0){
-					newUrl.append(urlStr[i]+"s");
+					newUrl.append(urlStr[i]+"s:");
 				}else{
 					newUrl.append(urlStr[i]);
 				}
@@ -118,6 +118,10 @@ public class StringUtil {
 		}
 		return newUrl.toString();
 	}
+	
+	
+	
+	
 	
 	/*public static void main(String[] args) {
 		StringBuffer buffer=new StringBuffer();

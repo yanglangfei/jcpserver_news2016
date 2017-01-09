@@ -76,7 +76,7 @@ public class TxtDetails extends HttpServlet {
 		FamousTeacher teacher=FamousTeacherSer.findFamousTeacherById(teacherId);
 		List<TxtLiveDetails> txtDetails = TxtLiveDetaileSer
 				.findTextDetaileByLiveId(tId,0);		 account =AccountSer.findAccountByUserId(uId);
-		Guardian guardian=GuardianSer.findIsGuardian(tId, uId);
+		Guardian guardian=GuardianSer.findIsGuardian(teacherId, uId);
 		if(txtDetails!=null){
 			for(TxtLiveDetails detail : txtDetails){
 				int isTxtFree=teacher.getTxtLiveFree();
