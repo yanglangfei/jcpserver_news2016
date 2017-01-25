@@ -1016,7 +1016,7 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Control</servlet-name>
-		<url-pattern>/jcp/control</url-pattern>
+		<url-pattern>/changeState</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>LevLiveUrl</servlet-name>
@@ -1158,10 +1158,28 @@
         <servlet-name>GetImag</servlet-name>
         <servlet-class>com.jucaipen.base.LoadImg</servlet-class>
     </servlet>
+  <servlet>
+    <servlet-name>Shark</servlet-name>
+    <servlet-class>com.jucaipen.main.play.Shark</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SharkInfo</servlet-name>
+    <servlet-class>com.jucaipen.main.play.SharkInfo</servlet-class>
+  </servlet>
+
+
     <servlet-mapping>
         <servlet-name>GetImag</servlet-name>
         <url-pattern>/jucaipen/getImg</url-pattern>
     </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Shark</servlet-name>
+    <url-pattern>/jucaipen/shark</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SharkInfo</servlet-name>
+    <url-pattern>/jucaipen/sharkinfo</url-pattern>
+  </servlet-mapping>
     
     <filter>
     <filter-name>myFilter</filter-name>
@@ -1181,6 +1199,9 @@
       <location></location>
     
     </error-page> -->
+    <listener>
+        <listener-class>com.jucaipen.base.WebListener</listener-class>
+    </listener>
   
   
 </web-app>

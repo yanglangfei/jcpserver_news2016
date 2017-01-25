@@ -15,16 +15,13 @@ public class JdbcUtil {
 	private static boolean isTest = false;
 	private static Connection dbConn;
 	private static boolean isNormal;
-
 	private static Connection dbConn_test;
 	private static boolean isNormal_test;
-
 	/**
 	 * @return 连接sqlServer 正式数据库
 	 */
 	public static Connection connSqlServer() {
 		try {
-
 			if (isTest) {
 				Class.forName(Constant.SQLSERVER_DRIVER_TEST);
 				dbConn = DriverManager.getConnection(Constant.SQLSERVER_URL_TEST,

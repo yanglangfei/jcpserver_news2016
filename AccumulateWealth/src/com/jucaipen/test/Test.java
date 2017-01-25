@@ -1,31 +1,17 @@
 package com.jucaipen.test;
 
+import java.util.Date;
+import java.util.List;
+
+import com.jucaipen.model.TextLive;
+import com.jucaipen.service.TxtLiveSer;
+import com.jucaipen.utils.TimeUtils;
+
 public class Test {
 	
-	public static String changeHttps(String url){
-		StringBuffer newUrl=new StringBuffer();
-		if(url==null||"".equals(url)){
-			return url;
-		}
-		if(url.startsWith("http")){
-			String[] urlStr = url.split(":");
-			for(int i=0;i<urlStr.length;i++){
-				if(i==0){
-					newUrl.append(urlStr[i]+"s");
-				}else{
-					newUrl.append(urlStr[i]);
-				}
-			}
-		}
-		return newUrl.toString();
-		
-	}
-	
-	
 	public static void main(String[] args) {
-		String url="http://www.baidu.com";
-		String https=changeHttps(url);
-		System.out.println("https:"+https);
-		
+		String time=TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
+		System.out.println(time);
 	}
+	
 }

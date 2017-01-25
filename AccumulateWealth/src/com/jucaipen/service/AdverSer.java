@@ -20,5 +20,14 @@ public class AdverSer {
 		AdverticeDao dao = new AdverticeImp();
 		return dao.findAdByPid(pId);
 	}
+	
+	/** 
+	 * @param pId
+	 * @return   根据幻灯id 获取相应广告
+	 */
+	public static int updateState(int classId, String urls,String state) {
+		AdverticeDao dao = new AdverticeImp();
+		return dao.updateState(classId, urls, state);
+	}
 
 }

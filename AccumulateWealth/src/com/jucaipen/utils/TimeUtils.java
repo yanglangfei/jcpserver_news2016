@@ -87,31 +87,30 @@ public class TimeUtils {
 		return 0;
 
 	}
-	
-	
+
 	/**
 	 * @param startDate
 	 * @param endDate
-	 * @return   判断当前时间是否在设定时间内    时分秒
+	 * @return 判断当前时间是否在设定时间内 时分秒
 	 */
-	public static boolean isHourLive(String startDate,String endDate){
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	public static boolean isHourLive(String startDate, String endDate) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
-			Date start=sdf.parse(startDate);
-			Date end=sdf.parse(endDate);
-			Date now=new Date();
+			Date start = sdf.parse(startDate);
+			Date end = sdf.parse(endDate);
+			Date now = new Date();
 			start.setYear(now.getYear());
 			start.setMonth(now.getMonth());
 			start.setDate(now.getDate());
-			
+
 			end.setYear(now.getYear());
 			end.setMonth(now.getMonth());
 			end.setDate(now.getDate());
-			
-			long s=start.getTime();
-			long e=end.getTime();
-			long n=now.getTime();
-			if(n>s&&n<e){
+
+			long s = start.getTime();
+			long e = end.getTime();
+			long n = now.getTime();
+			if (n > s && n < e) {
 				return true;
 			}
 		} catch (ParseException e) {
@@ -119,9 +118,6 @@ public class TimeUtils {
 		}
 		return false;
 	}
-	
-	
-	
 
 	/**
 	 * @param startDate
@@ -171,18 +167,17 @@ public class TimeUtils {
 			return false;
 		}
 	}
-	
-	
-	public static boolean isBetwent(String start,String end){
+
+	public static boolean isBetwent(String start, String end) {
 		try {
 			Date date1 = new Date();
 			DateFormat df = DateFormat.getDateTimeInstance();
-			return (date1.before(df.parse(end)))&&(date1.after(df.parse(start)));
+			return (date1.before(df.parse(end)))
+					&& (date1.after(df.parse(start)));
 		} catch (ParseException e) {
 			return false;
 		}
 	}
-	
 
 	/**
 	 * @param birth
@@ -331,6 +326,16 @@ public class TimeUtils {
 		}
 		return whichWeek;
 	}
+
+	public static String getLastDate(int index) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, index); // 得到前一天
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH) + 1;
+		int day=calendar.get(calendar.DATE);
+		return year+"-0"+month+"-"+day;
+	}
+	
 
 	public static Date getDate(String year, String month, String day)
 			throws ParseException {

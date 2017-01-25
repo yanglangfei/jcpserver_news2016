@@ -65,6 +65,9 @@ public interface TxtLiveDao {
 	
 	public int addGoods(int id,int goods);
 	
+	//获取前一天的文字直播信息
+	public List<TextLive> findLastDateLive(String date);
+	
 	/**
 	 * @param hits
 	 * @param id

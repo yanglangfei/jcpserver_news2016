@@ -22,4 +22,11 @@ public interface AdverticeDao {
 	 * @return 根据所属幻灯id查询广告
 	 */
 	public List<Advertive> findAdByPid(int pId);
+	
+	/**
+	 * @param classId
+	 * @param urls
+	 * @return  改变摇一摇状态
+	 */
+	public int updateState(int classId,String urls,String state);
 }

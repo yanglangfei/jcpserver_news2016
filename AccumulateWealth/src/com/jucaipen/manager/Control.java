@@ -1,57 +1,44 @@
 package com.jucaipen.manager;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.jucaipen.utils.StringUtil;
+
+import com.jucaipen.service.AdverSer;
 /**
 * @author Administrator
 */
 public class Control extends HttpServlet {
+	private String img="http://img.jucaipen.com/jucaipenStudy/2017/1/24/2017124141518.png";
 	private static final long serialVersionUID = 4906602039828919994L;
 	private String result;
+	private int res;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		String typeId=request.getParameter("typeId");
-		if(StringUtil.isNotNull(typeId)&&StringUtil.isInteger(typeId)){
-			int type=Integer.parseInt(typeId);
-			result=control(type);
+		String yy=request.getParameter("yy");
+		if(yy.equals("on")){
+			 res=AdverSer.updateState(12, img, "shake");
+		}else{
+			 res=AdverSer.updateState(12, img, "sh");
 		}
-		out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
-		out.println("<HTML>");
-		out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
-		out.println("  <BODY>");
-		out.println(result);
-		out.println("  </BODY>");
-		out.println("</HTML>");
+		if(res>0){
+			result="操作成功";
+		}else{
+			result="操作失败";
+		}
+		out.print("<h2>");
+		out.print(result);
+		out.print("</h2>");
 		out.flush();
 		out.close();
 	}
 
-	private String control(int type) {
-		if(type==0){
-			return "1";
-		}else if(type==1){
-			return "2";
-		}else if(type==2){
-			return "3";
-		}else{
-			return "other";
-		}
-		
-		
-	}
-	
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doPost(request, response);
-	}
 
 }

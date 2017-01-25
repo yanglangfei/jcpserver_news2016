@@ -164,7 +164,7 @@ public class AccountImp implements AccountDao {
 							+ ","
 							+ account.getIntegeral()
 							+ ","
-							+ 0+ ")");
+							+ account.getJucaiBills()+ ")");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally{

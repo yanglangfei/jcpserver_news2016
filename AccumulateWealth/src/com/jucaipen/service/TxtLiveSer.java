@@ -22,6 +22,12 @@ public class TxtLiveSer{
 		return dao.findHitsAndGoods(id);
 	}
 	
+	
+	public static List<TextLive> findLastLive(String date){
+		TxtLiveDao dao=new TextLiveImp();
+		return dao.findLastDateLive(date);
+	}
+	
 	public static int addGoods(int id, int goods){
 		TxtLiveDao dao=new TextLiveImp();
 		return dao.addGoods(id, goods);

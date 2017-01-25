@@ -395,4 +395,18 @@ public class TextLiveImp implements TxtLiveDao {
 		return 0;
 	}
 
+	@Override
+	public List<TextLive> findLastDateLive(String date) {
+		//获取前一天直播信息
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta=dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM JCP_TxtLive WHERE Convert(varchar,StartDate,120) LIKE '"+date+"%'");
+			textLives = getTxtLive(res, 0, 0);
+			return textLives;
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
 }

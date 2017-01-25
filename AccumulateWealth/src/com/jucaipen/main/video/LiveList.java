@@ -141,7 +141,16 @@ public class LiveList extends HttpServlet {
 		int isPurch = 1;
 		int ownJucaiBills = 0;
 		teachers.clear();
-		List<TextLive> txtLives = TxtLiveSer.findTextLiveByIsEnd(2);
+		 List<TextLive> txtLives = TxtLiveSer.findTextLiveByIsEnd(2);
+		if(txtLives.size()<=0){
+			//获取前一天的文字直播信息
+			 String time=TimeUtils.getLastDate(-1);
+			 txtLives = TxtLiveSer.findLastLive(time);
+		}
+		if(txtLives.size()<=0){
+			 String time=TimeUtils.getLastDate(-2);
+			 txtLives = TxtLiveSer.findLastLive(time);
+		}
 		for (TextLive txt : txtLives) {
 			int tId = txt.getTeacherId();
 			Guardian guardian = GuardianSer.findIsGuardian(tId, uId);
