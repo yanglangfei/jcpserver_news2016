@@ -1,14 +1,11 @@
 package com.jucaipen.base;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.FeedBack;
 import com.jucaipen.service.FeedBackSer;
 import com.jucaipen.utils.JsonUtil;
@@ -17,8 +14,8 @@ import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
 /**
  * @author Administrator
- *       意见反馈 deviceType 0 android 1 ios
- *       
+ *     
+ *   意见反馈 deviceType 0 android 1 ios
  */
 @SuppressWarnings("serial")
 public class AddFeedBack extends HttpServlet {
