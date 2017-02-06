@@ -53,7 +53,7 @@ public class SharkInfo extends HttpServlet {
 						}
 					}
 				}else{
-					result=JsonUtil.getSharkResult(0,"今日暂无活动",5);
+					result=JsonUtil.getSharkResult(0,"活动还未开始",3);
 				}
 			}else{
 				result=JsonUtil.getSharkResult(2,"请先登录",-1);

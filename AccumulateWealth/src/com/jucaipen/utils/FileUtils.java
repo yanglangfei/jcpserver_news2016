@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.RandomAccessFile;
 
 public class FileUtils {
-
 	/**
 	 * 创建文件
 	 * 
@@ -89,7 +88,7 @@ public class FileUtils {
 		try {
 			File f = new File(filePath);
 			if (f.exists()) {
-				System.out.print("文件存在");
+				//System.out.print("文件存在");
 			} else {
 				System.out.print("文件不存在");
 				f.createNewFile();// 不存在则创建
@@ -101,7 +100,6 @@ public class FileUtils {
 			}
 			input.close();
 			s1 += content;
-
 			BufferedWriter output = new BufferedWriter(new FileWriter(f));
 			output.write(s1);
 			output.close();

@@ -18,7 +18,6 @@ public class Task extends TimerTask {
 	private static final String url="http://user.jucaipen.com/activity/activitydata.ashx?action=updatecount";
 	private static final String key="jcp168!@#";
 	public void run() {
-		System.out.println("test");
 		param.clear();
 		param.put("key", key);
 		String result = LoginUtil.sendHttpPost(url, param);
