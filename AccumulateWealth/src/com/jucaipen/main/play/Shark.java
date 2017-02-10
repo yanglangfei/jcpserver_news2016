@@ -103,12 +103,19 @@ public class Shark extends HttpServlet {
 		out.close();
 	}
 
+	/**
+	 * @param uId
+	 * @return  摇一摇次数是否用完
+	 */
 	private boolean checkCount(int uId) {
 		// 获取当前用户摇一摇次数
 		int count = SharkDetailServer.getSharkCount(uId);
 		return count < MAX_COUNT;
 	}
 
+	/**
+	 * @return  摇一摇时间是否有效
+	 */
 	private boolean checkTime() {
 		// 获取摇一摇时间
 		SharkInfo info = SharkInfoServer.getSharkInfo();
@@ -130,26 +137,32 @@ public class Shark extends HttpServlet {
 	}
 
 	/**
-	 * @return 创建随机的额度
+	 * @return 在 50-500 之间产生随机的额度
 	 */
 	private void createBill() {
 		ran = ran(50, 500);
 		getCount1(ran);
 	}
 
+	/**
+	 * @param ran   对第一次摇一摇的结果进行判断处理
+	 */
 	public void getCount1(int ran) {
+		//  400-500
 		if (ran > 400 && ran <= 500) {
 			int num = SharkDetailServer.getMaxCount(400, 500);
 			if (num >= Max_Price) {
 				ran = ran(300, 400);
 				getCount2(ran);
 			}
+			//  300-400
 		} else if (ran > 300 && ran <= 400) {
 			int num = SharkDetailServer.getMaxCount(300, 400);
 			if (num >= Middle_Price) {
 				ran = ran(200, 300);
 				getCount3(ran);
 			}
+			//  200-300
 		} else if (ran > 200 && ran <= 300) {
 			int num = SharkDetailServer.getMaxCount(200, 300);
 			if (num >= Low_Price) {
@@ -161,7 +174,7 @@ public class Shark extends HttpServlet {
 	/**
 	 * @param min
 	 * @param max
-	 * @return 随机数
+	 * @return 在 min-max 之间产生随机数
 	 */
 	public static int ran(int min, int max) {
 		// Random random=new Random();
@@ -171,7 +184,7 @@ public class Shark extends HttpServlet {
 
 	/**
 	 * @param ran
-	 * @return //300-400
+	 * @return //产生的额度在 300-400之间
 	 */
 	public void getCount2(int ran) {
 		int num = SharkDetailServer.getMaxCount(300, 400);
@@ -184,7 +197,7 @@ public class Shark extends HttpServlet {
 
 	/**
 	 * @param ran
-	 * @return // 200-300
+	 * @return // 产生的额度在 200-300 之间
 	 */
 	public void getCount3(int ran) {
 		int num = SharkDetailServer.getMaxCount(200, 300);
@@ -195,7 +208,7 @@ public class Shark extends HttpServlet {
 
 	/**
 	 * @param ran
-	 * @return // 50-200
+	 * @return // 产生的额度在 50-200 之间
 	 */
 	public void getCount4() {
 		ran = ran(50, 200);
@@ -205,7 +218,7 @@ public class Shark extends HttpServlet {
 	 * @param uId
 	 * @param path
 	 * @param ran
-	 * @return 修改总账户
+	 * @return  修改总账户聚财币数量
 	 */
 	private boolean createAccount(int uId, int path, int ran) {
 		Account account = AccountSer.findAccountByUserId(uId);
@@ -227,7 +240,7 @@ public class Shark extends HttpServlet {
 	 * @param uId
 	 * @param path
 	 * @param ran
-	 * @return 添加账单记录
+	 * @return 添加账单聚财币增加记录
 	 */
 	private boolean createAccountDeatil(int uId, int path, int ran) {
 		AccountDetail detail = new AccountDetail();

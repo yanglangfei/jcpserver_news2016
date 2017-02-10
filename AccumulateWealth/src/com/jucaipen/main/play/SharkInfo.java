@@ -16,7 +16,7 @@ import com.jucaipen.utils.TimeUtils;
 /**
  * @author 杨朗飞
  *2017年1月23日  下午1:09:43
- *   获取摇一摇信息
+ *    获取摇一摇信息
  */
 public class SharkInfo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -66,6 +66,10 @@ public class SharkInfo extends HttpServlet {
 		out.close();
 	}
 	
+	/**
+	 * @param uId
+	 * @return  摇一摇次数是否用完
+	 */
 	private boolean checkCount(int uId) {
 		// 获取当前用户摇一摇次数
 		int count = SharkDetailServer.getSharkCount(uId);

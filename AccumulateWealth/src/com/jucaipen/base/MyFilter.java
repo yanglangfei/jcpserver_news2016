@@ -11,14 +11,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 public class MyFilter implements Filter {
-
 	private String charset;
-
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		chain.doFilter(request, response);
-
 	}
 
 	@Override
@@ -31,5 +28,4 @@ public class MyFilter implements Filter {
 	public void destroy() {
 		
 	}
-
 }
