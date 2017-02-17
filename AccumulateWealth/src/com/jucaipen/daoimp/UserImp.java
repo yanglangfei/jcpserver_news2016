@@ -891,7 +891,7 @@ public class UserImp implements UserDao {
 			sta = dbConn.createStatement();
 			res = sta
 					.executeQuery("SELECT NickName,BuyProductId,IsSysAdmin,IsRoomAdmin,"
-							+ "FK_RoomTearchId,Isteacher,IsRoomManager,UserLevel,"
+							+ "FK_RoomTearchId,Isteacher,IsRoomManager,UserLevel,TrueName,UserName,"
 							+ "ServerId FROM JCP_User WHERE Id=" + uId);
 			while (res.next()) {
 				String nickName = res.getString(1);
@@ -902,6 +902,8 @@ public class UserImp implements UserDao {
 				int isTeacher = res.getInt(6);
 				int isChatMess = res.getInt(7);
 				int userLeavel = res.getInt(8);
+				String trueName=res.getString(9);
+				String UserName=res.getString(10);
 				User user = new User();
 				user.setNickName(nickName);
 				user.setIsRoomAdmin(isRoom);
@@ -911,6 +913,8 @@ public class UserImp implements UserDao {
 				user.setIsSysAdmin(isSysAdmin);
 				user.setFk_roomTeacherId(fk_roomId);
 				user.setIsTeacher(isTeacher);
+				user.setUserName(UserName);
+				user.setTrueName(trueName);
 				return user;
 			}
 		} catch (SQLException e) {

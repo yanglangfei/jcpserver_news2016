@@ -6,18 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.json.JSONObject;
-
 import cn.jpush.api.JPushClient;
-import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.PushPayload;
-
 import com.jucaipen.model.ChatMsgObject;
 import com.jucaipen.model.User;
 import com.jucaipen.model.VideoLiveMsg;
@@ -85,11 +80,11 @@ public class StudioChat extends HttpServlet {
 				if(userId>0){
 					params.put("userid", userId+"");
 					params.put("type", REMOVELOGIN+"");
-					String res = LoginUtil.sendHttpPost(LIVE_NUM, params);
+					LoginUtil.sendHttpPost(LIVE_NUM, params);
 				}else{
 					//TODO   移除游客处理
-					
-					
+					params.put("type", REMOVEVISITOR+"");
+					LoginUtil.sendHttpPost(LIVE_NUM, params);
 				}
 				if (timer != null) {
 					timer.cancel();
@@ -116,7 +111,7 @@ public class StudioChat extends HttpServlet {
 		User toUser;
 		if (uId > 0) {
 			fromUser = UserServer.findUserChatInfo(uId);
-			String name = fromUser.getTrueName();
+			String name = fromUser.getUserName();
 			params.put("nickname", name);
 			String res = LoginUtil.sendHttpPost(CHECKSHUT, params);
 			if(res!=null){
@@ -138,7 +133,9 @@ public class StudioChat extends HttpServlet {
 		params.put("type", 1+"");
 		params.put("roomid", 1 + "");
 		params.put("msgcontent", msg);
+		params.put("userLevel", fromUser.getBuyProductId()+"");
 		params.put("sendusername", fromUser.getNickName());
+		params.put("SendUserNameId", fromUser.getUserName());
 		params.put("fasongface", fromUser.getFaceImage());
 		params.put("SendUserId", uId + "");
 		params.put("SendManager", isManager+"");
@@ -172,7 +169,7 @@ public class StudioChat extends HttpServlet {
 			// 添加登录用户
 			params.put("userid", uId+"");
 			params.put("type", ADDLOGIN+"");
-			String res = LoginUtil.sendHttpPost(LIVE_NUM, params);
+			LoginUtil.sendHttpPost(LIVE_NUM, params);
 		} else {
 			user = new User();
 			//TODO 创建游客信息
@@ -212,7 +209,7 @@ public class StudioChat extends HttpServlet {
 				JPushClient client = JPushUtils.getJPush();
 				PushPayload msgs = JPushUtils.createMsg("msg", "studioMsg",
 						pushMsg, null);
-				PushResult res = JPushUtils.pushMsg(client, msgs);
+				JPushUtils.pushMsg(client, msgs);
 			}
 			if (msgObjs.size() > 0) {
 				if (isManager) {
