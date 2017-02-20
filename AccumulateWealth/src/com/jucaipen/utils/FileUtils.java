@@ -62,6 +62,14 @@ public class FileUtils {
 		return result;
 	}
 
+	/**
+	 * @param content
+	 * @param fileName
+	 * @return
+	 * @throws Exception
+	 * 
+	 *    清空写入
+	 */
 	public static boolean writeTxtFile(String content, File fileName)
 			throws Exception {
 		RandomAccessFile mm = null;
@@ -82,6 +90,11 @@ public class FileUtils {
 		return flag;
 	}
 
+	/**
+	 * @param filePath
+	 * @param content
+	 *    追加写入
+	 */
 	public static void contentToTxt(String filePath, String content) {
 		String str = new String(); // 原有txt内容
 		String s1 = new String();// 内容更新
@@ -108,4 +121,6 @@ public class FileUtils {
 
 		}
 	}
+	
+
 }

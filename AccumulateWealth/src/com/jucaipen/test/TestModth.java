@@ -54,14 +54,6 @@ public class TestModth extends JFrame {
 		robot.mouseMove(x, y);
 	}
 
-	/*
-	 * public static void main(String[] args) { String ss =
-	 * "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe www.baidu.com"
-	 * ; try { Process p = Runtime.getRuntime().exec(ss); } catch (IOException
-	 * e) { 
-	 * 
-	 * }
-	 */
 
 	public static void main(String[] args) {
 		Robot robot;
@@ -74,12 +66,4 @@ public class TestModth extends JFrame {
 
 	}
 
-	/*
-	 * public static void main(String[] args) { EventQueue.invokeLater(03ew
-	 * Runnable() { public void run() { TestModth frame = new TestModth();
-	 * frame.pack(); frame.setVisible(true);
-	 * frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); try {
-	 * frame.simulationClick(); } catch (AWTException e) { e.printStackTrace();03
-	 * } } }); }
-	 */
 }

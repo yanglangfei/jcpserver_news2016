@@ -24,8 +24,6 @@ public class ParseHtml {
 				System.out.println(a.toString());
 				
 			}
-		    
-		    
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
