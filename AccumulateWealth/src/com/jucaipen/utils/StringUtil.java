@@ -39,7 +39,6 @@ public class StringUtil {
 	 * @param obj
 	 * @return
 	 */
-	@SuppressWarnings("rawtypes")
 	public static boolean isNullOrEmpty(Object obj) {
 		if (obj == null)
 			return true;
@@ -99,7 +98,7 @@ public class StringUtil {
 	
 	/**
 	 * @param url
-	 * @return  http url 转换为https
+	 * @return  http url 转换为https    
 	 */
 	public static  String changeHttps(String url){
 		StringBuffer newUrl=new StringBuffer();
@@ -118,21 +117,6 @@ public class StringUtil {
 		}
 		return newUrl.toString();
 	}
-	
-	
-	
-	
-	
-	/*public static void main(String[] args) {
-		StringBuffer buffer=new StringBuffer();
-		buffer.append(createMsg("我是谁", 1));
-		buffer.append(createMsg("http://img.jucaipen.com/jucaipenUpload/2016/2/15/201621515955.gif",0));
-		buffer.append(createMsg("好滴", 1));
-		buffer.append(createMsg("http://img.jucaipen.com/jucaipenUpload/2015/7/15/2015715174157.gif",0));
-		buffer.append(createMsg("http://img.jucaipen.com/jucaipenUpload/2015/7/15/2015715174423.gif",0));
-		buffer.append(createMsg("呵呵", 1));
-		System.out.println(buffer.toString());
-	}*/
 	
 	  
 	/**
@@ -196,7 +180,6 @@ public class StringUtil {
 	 * @return false if null || ""
 	 */
 	public static boolean isNotNull(String string) {
-
 		if (string == null || "".equals(string)) {
 			return false;
 		} else {

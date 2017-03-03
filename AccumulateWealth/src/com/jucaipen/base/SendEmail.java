@@ -39,8 +39,8 @@ public class SendEmail extends HttpServlet {
 					if (uId > 0) {
 						if (StringUtil.isNotNull(email) && StringUtil.isMail(email)) {
 							String code = RandomUtils.getRandomData(4);
-							result = EmailUtils.send(email, "您的验证码是" + code,
-									"聚财盆绑定邮箱激活码");
+							result = EmailUtils.send(email, "<h1>点击下方的链接，绑定聚财盆账号</h1>"+"<h3><a href='http://baidu.com?code="+code+"'>"+"http://baidu.com?code="+code+"</a></h3>",
+									"聚财盆绑定邮箱激活邮件");
 						} else {
 							result = JsonUtil.getRetMsg(4, "email　参数异常");
 						}

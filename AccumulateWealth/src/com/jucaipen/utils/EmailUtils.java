@@ -22,8 +22,8 @@ public class EmailUtils {
 	private static String HOST = "smtp.163.com";
 	private static String PROTOCOL = "smtp";
 	private static int PORT = 25;
-	private static String FROM="13524261375@163.com";
-	private static String PWD="wz5899117";
+	private static String FROM="13****1375@163.com";
+	private static String PWD="******";
 
 	/**
 	 * @param email
