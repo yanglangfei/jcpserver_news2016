@@ -28,11 +28,11 @@ public class InvestmentTypeImp implements InvestmentTypeDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			res = sta.executeQuery("SELECT * FROM JCP_InvestmentType WHERE Id="
+			res = sta.executeQuery("SELECT ISNULL(TypeName,''),SortId FROM JCP_InvestmentType WHERE Id="
 					+ id);
 			while (res.next()) {
-				String name = res.getString(2); // TypeName
-				int sortId = res.getInt(3); // SortId
+				String name = res.getString(1); // TypeName
+				int sortId = res.getInt(2); // SortId
 				InvestmentType type = new InvestmentType();
 				type.setId(id);
 				type.setTypeName(name);

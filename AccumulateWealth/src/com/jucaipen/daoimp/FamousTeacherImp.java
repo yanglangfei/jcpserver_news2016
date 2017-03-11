@@ -9,7 +9,9 @@ import java.util.List;
 
 import com.jucaipen.dao.FamousTeacherDao;
 import com.jucaipen.model.FamousTeacher;
+import com.jucaipen.model.Video;
 import com.jucaipen.utils.JdbcUtil;
+import com.jucaipen.utils.SqlUtil;
 
 /**
  * @author Administrator
@@ -48,6 +50,24 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		return 0;
 
 	}
+	
+	
+	@Override
+	public List<FamousTeacher> findTeacherByKeyWord(String keyWord) {
+		teachers.clear();
+		try {
+			dbConn = JdbcUtil.connSqlServer();
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT * FROM JCP_Tearcher WHERE State=0 AND NickName LIKE '%"+keyWord+"%'");
+			teachers = getTeacher(res, 1, 1);
+			return teachers;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 
 	public List<FamousTeacher> findIndexData() {
 		teachers.clear();
@@ -383,7 +403,7 @@ public class FamousTeacherImp implements FamousTeacherDao {
 		try {
 			sta = dbConn.createStatement();
 			res = sta
-					.executeQuery("SELECT NickName,DayPrice,QuarterPrice,MonthPrice,YearPrice FROM JCP_Tearcher WHERE Id="
+					.executeQuery("SELECT NickName,DayPrice,QuarterPrice,MonthPrice,YearPrice,WeekPrice FROM JCP_Tearcher WHERE Id="
 							+ tId + "  AND State=0");
 			while (res.next()) {
 				String nickName = res.getString(1);
@@ -391,12 +411,14 @@ public class FamousTeacherImp implements FamousTeacherDao {
 				int quartPrice = res.getInt(3);
 				int mothPrice = res.getInt(4);
 				int yearPrice = res.getInt(5);
+				int weekPrice=res.getInt(6);
 				FamousTeacher teacher = new FamousTeacher();
 				teacher.setNickName(nickName);
 				teacher.setDayPrice(dayPrice);
 				teacher.setMothPrice(mothPrice);
 				teacher.setQulaterPrice(quartPrice);
 				teacher.setYaerPrice(yearPrice);
+				teacher.setWeekPrice(weekPrice);
 				return teacher;
 			}
 		} catch (SQLException e) {

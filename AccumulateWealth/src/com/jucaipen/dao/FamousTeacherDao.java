@@ -84,5 +84,11 @@ public interface FamousTeacherDao {
 	
 	public int updateIdeaReadNum(int id,int readNum,int xnNum);
 	
+	/**
+	 * @param keyWord
+	 * @return  根据关键词搜索讲师
+	 */
+	public List<FamousTeacher>  findTeacherByKeyWord(String keyWord);
+	
 
 }

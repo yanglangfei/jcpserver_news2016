@@ -32,7 +32,7 @@ public class VideoLive implements Serializable{
 	 */
 	private int livePrice;
 	/**
-	 *   ÊÇ·ñ¹ºÂò  
+	 *   ÊÇ·ñ¹ºÂò  0   ÒÑ¹ºÂò   1   Î´¹ºÂò
 	 */
 	private int isPurch;
 	/**

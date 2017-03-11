@@ -173,7 +173,6 @@ public class QuerryTeacherIdea extends HttpServlet {
 					} else {
 						isPurch = 1;
 					}
-
 				} else {
 					if (usId == uId) {
 						isPurch = 0;
@@ -272,8 +271,7 @@ public class QuerryTeacherIdea extends HttpServlet {
 			VideoLive live = VideoLiveServer.findLiveBytId(tId);
 			if (live != null) {
 				live.setLiveVideo(teacher.getIsUserLiveUrl() == 1);
-				// live.setCharge(teacher.getLiveFree() == 1);
-				live.setCharge(false);
+				live.setCharge(teacher.getLiveFree() == 1);
 				live.setLivePrice(teacher.getLivePrice());
 				live.setVideoUrl(teacher.getVideoLiveUrl());
 				if (usId > 0 && live.isCharge()) {

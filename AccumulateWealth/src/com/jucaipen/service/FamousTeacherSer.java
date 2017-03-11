@@ -67,6 +67,15 @@ public class FamousTeacherSer {
 	}
 	
 	/**
+	 * @param keyWord
+	 * @return  根据关键词搜索讲师
+	 */
+	public static List<FamousTeacher> findTeacherByKeyWord(String keyWord){
+		FamousTeacherDao dao = new FamousTeacherImp();
+		return dao.findTeacherByKeyWord(keyWord);
+	}
+	
+	/**
 	 * @param num
 	 * @param id
 	 * @return 更新提问数

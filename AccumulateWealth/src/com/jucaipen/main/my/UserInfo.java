@@ -93,6 +93,8 @@ public class UserInfo extends HttpServlet {
 		if(type!=null){
 			String typeName=type.getTypeName();
 			user.setInvestStr(typeName);
+		}else{
+			user.setInvestStr("");
 		}
 		if (tel != null) {
 			// Ω‚√‹
