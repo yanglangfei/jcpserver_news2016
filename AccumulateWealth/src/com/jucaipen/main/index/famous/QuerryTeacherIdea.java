@@ -1,15 +1,12 @@
 package com.jucaipen.main.index.famous;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.model.Account;
 import com.jucaipen.model.Answer;
 import com.jucaipen.model.AnswerSale;
@@ -18,6 +15,8 @@ import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.Guardian;
 import com.jucaipen.model.HotIdea;
 import com.jucaipen.model.IdeaSale;
+import com.jucaipen.model.LiveRecoder;
+import com.jucaipen.model.LiveRecoderSale;
 import com.jucaipen.model.MySpecial;
 import com.jucaipen.model.MyVideo;
 import com.jucaipen.model.TextLive;
@@ -34,6 +33,8 @@ import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.GuardianSer;
 import com.jucaipen.service.HotIdeaServ;
 import com.jucaipen.service.IdeaSaleServer;
+import com.jucaipen.service.LiveRecoderSaleSer;
+import com.jucaipen.service.LiveRecoderSer;
 import com.jucaipen.service.MySpecialSer;
 import com.jucaipen.service.MyVideoSer;
 import com.jucaipen.service.TxtLiveSaleSer;
@@ -43,12 +44,14 @@ import com.jucaipen.service.VideoLiveSaleSer;
 import com.jucaipen.service.VideoLiveServer;
 import com.jucaipen.service.VideoServer;
 import com.jucaipen.utils.JsonUtil;
+import com.jucaipen.utils.LiveUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
+
 /**
- * @author 
+ * @author
  * 
- * Administrator type (0 观点) (1 问答) (2 文字直播) (3 视频直播)
+ *         Administrator type (0 观点) (1 问答) (2 文字直播) (3 视频直播)
  * 
  */
 @SuppressWarnings("serial")
@@ -186,8 +189,8 @@ public class QuerryTeacherIdea extends HttpServlet {
 			return JsonUtil.getAskList(asks, users, 0);
 		} else if (type == 2) {
 			// 文字直播
-			if(usId<=0){
-				isPurch=1;
+			if (usId <= 0) {
+				isPurch = 1;
 			}
 			Guardian guardian = GuardianSer.findIsGuardian(tId, usId);
 			int ownJucaiBills = 0;
@@ -201,25 +204,26 @@ public class QuerryTeacherIdea extends HttpServlet {
 				txt.setTxtPrice(teacher.getTxtLivePrice());
 				if (usId > 0 && txt.isCharge()) {
 					Account account = AccountSer.findAccountByUserId(usId);
-					List<TxtLiveSale> sales = TxtLiveSaleSer.findSaleByUserIdAndTiD(usId, tId);
-					if (sales != null&&sales.size()>0) {
-						for(TxtLiveSale sale : sales){
-							if(TimeUtils.isLive(sale.getStartDate(), sale.getEndDate())){
+					List<TxtLiveSale> sales = TxtLiveSaleSer
+							.findSaleByUserIdAndTiD(usId, tId);
+					if (sales != null && sales.size() > 0) {
+						for (TxtLiveSale sale : sales) {
+							if (TimeUtils.isLive(sale.getStartDate(),
+									sale.getEndDate())) {
 								txt.setIsPurch(0);
-								break ;
-							}else{
+								break;
+							} else {
 								txt.setIsPurch(1);
 							}
 						}
 					} else {
 						txt.setIsPurch(1);
 					}
-					
-					if(guardian!=null){
+
+					if (guardian != null) {
 						txt.setIsPurch(0);
 					}
-					
-					
+
 					if (account != null) {
 						ownJucaiBills = account.getJucaiBills();
 					}
@@ -233,7 +237,7 @@ public class QuerryTeacherIdea extends HttpServlet {
 
 			if (isIndex == 0) {
 				// 首页
-				return JsonUtil.getIndexTxtArray(txts,guardian);
+				return JsonUtil.getIndexTxtArray(txts, guardian);
 			}
 
 			if (allTxts != null) {
@@ -243,12 +247,13 @@ public class QuerryTeacherIdea extends HttpServlet {
 					if (usId > 0 && txt.isCharge()) {
 						List<TxtLiveSale> sales = TxtLiveSaleSer
 								.findSaleByUserIdAndTiD(usId, tId);
-						if (sales != null&&sales.size()>0) {
-							for(TxtLiveSale sale : sales){
-								if(TimeUtils.isLive(sale.getStartDate(), sale.getEndDate())){
+						if (sales != null && sales.size() > 0) {
+							for (TxtLiveSale sale : sales) {
+								if (TimeUtils.isLive(sale.getStartDate(),
+										sale.getEndDate())) {
 									tx.setIsPurch(0);
-									continue ;
-								}else{
+									continue;
+								} else {
 									tx.setIsPurch(1);
 								}
 							}
@@ -258,41 +263,55 @@ public class QuerryTeacherIdea extends HttpServlet {
 					} else {
 						tx.setIsPurch(1);
 					}
-					
-					if(guardian!=null){
+
+					if (guardian != null) {
 						txt.setIsPurch(0);
 					}
 				}
 			}
-			return JsonUtil.getTxtLiveByTeacherId(txt, allTxts,guardian);
+			return JsonUtil.getTxtLiveByTeacherId(txt, allTxts, guardian);
 		} else {
 			// 视频直播
 			int ownJucaiBills = 0;
 			VideoLive live = VideoLiveServer.findLiveBytId(tId);
 			if (live != null) {
+				// 讲师是否开通直播 0 否 1 是
 				live.setLiveVideo(teacher.getIsUserLiveUrl() == 1);
+				// 直播是否收费 0 否 1 是
 				live.setCharge(teacher.getLiveFree() == 1);
+				// 单次直播的价格
 				live.setLivePrice(teacher.getLivePrice());
-				live.setVideoUrl(teacher.getVideoLiveUrl());
-				if (usId > 0 && live.isCharge()) {
-					Account account = AccountSer.findAccountByUserId(usId);
-					VideoLiveSale sale = VideoLiveSaleSer
-							.findSaleByUidAndLiveId(usId, live.getId());
-					if (sale != null) {
-						live.setIsPurch(0);
+				// 视频直播url
+				live.setVideoUrl(teacher.getMobileLiveUrl());
+				if (live.isCharge()) {
+					// 收费
+					if (usId > 0) {
+						Account account = AccountSer.findAccountByUserId(usId);
+						live.setGradian(LiveUtil.isGradian(tId, usId));
+						LiveRecoder recoder = LiveRecoderSer
+						.getRecoderByLiveId(live.getId());
+						if(recoder!=null){
+							LiveRecoderSale sale = LiveRecoderSaleSer
+									.getLiveSaleByUidAndLiveId(usId, 
+											recoder.getId());
+							if (sale != null) {
+								live.setIsPurch(0);
+							} else {
+								live.setIsPurch(1);
+							}
+						}else{
+							live.setIsPurch(1);
+						}
+						if (account != null) {
+							ownJucaiBills = account.getJucaiBills();
+						}
+
 					} else {
 						live.setIsPurch(1);
 					}
-					if (account != null) {
-						ownJucaiBills = account.getJucaiBills();
-					}
-
-				} else {
-					live.setIsPurch(1);
 				}
 				live.setOwnJucaiBills(ownJucaiBills);
 			}
-
 			if (isIndex == 0) {
 				// 首页
 				return JsonUtil.getIndexVideoLive(live);
@@ -333,7 +352,6 @@ public class QuerryTeacherIdea extends HttpServlet {
 								video.setIsPurch(1);
 							}
 						}
-
 					}
 				}
 			}

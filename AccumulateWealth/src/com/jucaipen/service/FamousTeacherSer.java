@@ -16,11 +16,20 @@ public class FamousTeacherSer {
 		return dao.findAllFamousTeacher(page);
 	}
 	
+	/**
+	 * @param userId
+	 * @return  根据用户id获取讲师
+	 */
 	public static FamousTeacher findFamousTeacherByUserId(int userId){
 		FamousTeacherDao dao = new FamousTeacherImp();
 		return dao.findFamousTeacherByUserId(userId);
 	}
 	
+	/**
+	 * @param teacherId
+	 * @param teacher
+	 * @return  更新讲师基本信息
+	 */
 	public static int updateTeacherBaseInfo(int teacherId, FamousTeacher teacher){
 		FamousTeacherDao dao = new FamousTeacherImp();
 		return dao.updateTeacherBaseInfo(teacherId, teacher);
@@ -43,6 +52,12 @@ public class FamousTeacherSer {
 		return dao.findPurchInfo(tId);
 	}
 	
+	/**
+	 * @param id
+	 * @param readNum
+	 * @param xnNum
+	 * @return  更新观点阅读数
+	 */
 	public static int updateIdeaReadNum(int id,int readNum,int xnNum){
 		FamousTeacherDao dao=new FamousTeacherImp();
 		return dao.updateIdeaReadNum(id, readNum, xnNum);
@@ -56,11 +71,20 @@ public class FamousTeacherSer {
 		return dao.findIndexData();
 	}
 	
+	/**
+	 * @param tId
+	 * @return  获取讲师基本信息
+	 */
 	public static FamousTeacher findTeacherBaseInfo(int tId){
 		FamousTeacherDao dao = new FamousTeacherImp();
 		return dao.findTeacherBaseInfo(tId);
 	}
 	
+	/**
+	 * @param fans
+	 * @param id
+	 * @return  更新粉丝数量
+	 */
 	public static int updateFansNum(int fans,int id){
 		FamousTeacherDao dao = new FamousTeacherImp();
 		return dao.updateFansNum(fans, id);

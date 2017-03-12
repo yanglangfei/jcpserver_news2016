@@ -43,6 +43,11 @@ public class LiveRecoderSale {
 	 */
 	private String remark;
 	
+	
+	
+	public LiveRecoderSale() {
+	}
+
 	public LiveRecoderSale(int id, int liveRecoderId, int teacherId,
 			String purchDate, int payBills, int userId, String remark) {
 		this.id = id;

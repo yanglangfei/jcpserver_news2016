@@ -258,8 +258,8 @@ public class VideoLiveImp implements VideoLiveDao {
 	@Override
 	public List<VideoLive> findLiveByIsEnd(int isEnd) {
 		chatRooms.clear();
-		dbConn = JdbcUtil.connSqlServer();
 		try {
+			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			res = sta.executeQuery("SELECT * FROM JCP_VideoLive WHERE IsEnd="
 					+ isEnd);

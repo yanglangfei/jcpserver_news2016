@@ -13,6 +13,7 @@ import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.Guardian;
 import com.jucaipen.model.IdeaSale;
 import com.jucaipen.model.LiveDetailSale;
+import com.jucaipen.model.LiveRecoderSale;
 import com.jucaipen.model.Marker;
 import com.jucaipen.model.MyGifts;
 import com.jucaipen.model.MyPresent;
@@ -60,33 +61,47 @@ public class RollBackUtil {
 			AccountDetail detailIntegeral, int uId, User user,
 			SysAccount account2, SysDetailAccount detailAccount,
 			Contribute contribute, FamousTeacher teacher, Rebate sysRebate,
-			int gurdianId) {
+			int gurdianId,int type,LiveRecoderSale sale) {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			dbConn.setAutoCommit(false);
 			sta = dbConn.createStatement();
-			// 1 更新守护 JCP_ShouHuZhe
-			if (gurdianId > 0) {
-				// 续约
-				sta.executeUpdate("UPDATE JCP_ShouHuZhe SET EndDate='"
-						+ guardian.getEndDate() + "',State=0 WHERE Id="
-						+ gurdianId);
-			} else {
-				// 签约
-				sta.executeUpdate("INSERT INTO JCP_ShouHuZhe(FK_UserId,FK_TearchId,InsertDate,Ip,StartDate,EndDate,State) VALUES ("
-						+ guardian.getUserId()
-						+ ","
-						+ guardian.getTeacherId()
-						+ ",'"
-						+ guardian.getInsertDate()
-						+ "','"
-						+ guardian.getIp()
-						+ "','"
-						+ guardian.getStartDate()
-						+ "','"
-						+ guardian.getEndDate()
-						+ "',"
-						+ guardian.getState() + ")");
+			if(type==1){
+				//购买单次直播
+				// 1、更新单次购买表
+				sta.executeUpdate("INSERT INTO JCP_VideoLive_RecordSale("
+							+ "LiveCodeId,TeacherId,InsertDate,PayJCB,UserId,Remark) VALUES("
+							+ sale.getLiveRecoderId() + ","
+							+ sale.getTeacherId() + ",'" + sale.getPurchDate()
+							+ "'," + sale.getPayBills() + ","
+							+ sale.getUserId() + ",'" + sale.getRemark() + "')");
+			}else{
+				//开通守护
+				// 1 更新守护 JCP_ShouHuZhe
+				if (gurdianId > 0) {
+					// 续约
+					sta.executeUpdate("UPDATE JCP_ShouHuZhe SET EndDate='"
+							+ guardian.getEndDate() + "',State=0 WHERE Id="
+							+ gurdianId);
+				} else {
+					// 签约
+					sta.executeUpdate("INSERT INTO JCP_ShouHuZhe(FK_UserId,FK_TearchId,InsertDate,Ip,StartDate,EndDate,State) VALUES ("
+							+ guardian.getUserId()
+							+ ","
+							+ guardian.getTeacherId()
+							+ ",'"
+							+ guardian.getInsertDate()
+							+ "','"
+							+ guardian.getIp()
+							+ "','"
+							+ guardian.getStartDate()
+							+ "','"
+							+ guardian.getEndDate()
+							+ "',"
+							+ guardian.getState() + ")");
+				}
+				
+				
 			}
 			// 2、 返利 积分 JCP_Rebate 讲师返利
 			sta.executeUpdate("INSERT INTO JCP_Rebate(FK_TearchId,RebateType,RebateMoney,FK_FromUserId,InsertDate,Ramerk) VALUES("

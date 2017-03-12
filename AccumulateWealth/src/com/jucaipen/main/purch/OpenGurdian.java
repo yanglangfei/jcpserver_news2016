@@ -4,12 +4,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
@@ -17,6 +15,7 @@ import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.Contribute;
 import com.jucaipen.model.FamousTeacher;
 import com.jucaipen.model.Guardian;
+import com.jucaipen.model.LiveRecoderSale;
 import com.jucaipen.model.Rebate;
 import com.jucaipen.model.SysAccount;
 import com.jucaipen.model.SysDetailAccount;
@@ -24,6 +23,7 @@ import com.jucaipen.model.User;
 import com.jucaipen.service.AccountSer;
 import com.jucaipen.service.FamousTeacherSer;
 import com.jucaipen.service.GuardianSer;
+import com.jucaipen.service.LiveRecoderSer;
 import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.service.UserServer;
 import com.jucaipen.utils.HeaderUtil;
@@ -56,25 +56,44 @@ public class OpenGurdian extends HttpServlet {
 			String userId = request.getParameter("userId");
 			String teacherId = request.getParameter("teacherId");
 			String bills = request.getParameter("bills");
+			String type=request.getParameter("type");
+			String liveId=request.getParameter("liveId");
 			if (StringUtil.isNotNull(userId) && StringUtil.isInteger(userId)) {
 				int uId = Integer.parseInt(userId);
 				if (uId > 0) {
 					if (StringUtil.isNotNull(teacherId)
 							&& StringUtil.isInteger(teacherId)) {
 						int tId = Integer.parseInt(teacherId);
-						if (StringUtil.isNotNull(days)
-								&& StringUtil.isInteger(days)) {
-							int d = Integer.parseInt(days);
-							if (StringUtil.isNotNull(bills)
-									&& StringUtil.isInteger(bills)) {
-								int b = Integer.parseInt(bills);
-								result = openGurdian(uId, tId, d, b);
-							} else {
-								result = JsonUtil.getRetMsg(3, "bill 参数异常");
+						if (StringUtil.isNotNull(bills)
+								&& StringUtil.isInteger(bills)) {
+							int b = Integer.parseInt(bills);
+						if(StringUtil.isNotNull(type)&&StringUtil.isInteger(type)){
+							int typeId=Integer.parseInt(type);
+							if(typeId==1){
+								//单次购买
+								if(StringUtil.isNotNull(liveId)
+										&& StringUtil.isInteger(liveId)){
+									int lId=Integer.parseInt(liveId);
+									result=openGurdian(uId, tId, 0, b,typeId,lId);
+								}else{
+									result = JsonUtil.getRetMsg(12, "liveId 参数异常");
+								}
+							}else{
+								//开通守护
+								if (StringUtil.isNotNull(days)
+										&& StringUtil.isInteger(days)) {
+									int d = Integer.parseInt(days);
+									result=openGurdian(uId, tId, d, b,typeId,0);
+								} else {
+									result = JsonUtil.getRetMsg(1, "days 参数异常");
+								}
 							}
-
-						} else {
-							result = JsonUtil.getRetMsg(1, "days 参数异常");
+						}else{
+							result = JsonUtil.getRetMsg(11, "type 参数异常");
+						}
+						}else{
+							result = JsonUtil.getRetMsg(3, "bill 参数异常");
+							
 						}
 					} else {
 						result = JsonUtil.getRetMsg(2, "teacherId 参数异常");
@@ -95,10 +114,17 @@ public class OpenGurdian extends HttpServlet {
 		out.close();
 	}
 
-	private String openGurdian(int uId, int tId, int d, int b) {
+	private String openGurdian(int uId, int tId, int d, int b,int type,int liveId) {
 		// 聚财币是否足够
+		String startDate;
+		String endDate = null;
 		int gurdianId = 0;
+		LiveRecoderSale sale=null;
+		Guardian guardian=null;
+		
 		Account account = AccountSer.findAccountByUserId(uId);
+		FamousTeacher teacher = FamousTeacherSer.findTeacherBaseInfo(tId);
+		User user = UserServer.querryIntegeralByUid(uId);
 		if(b<=0){
 			return JsonUtil.getRetMsg(6, "暂不支持开通");
 		}
@@ -106,40 +132,50 @@ public class OpenGurdian extends HttpServlet {
 		if (account == null||account.getJucaiBills() < b) {
 			return JsonUtil.getRetMsg(3, "账户聚财币不足，请充值");
 		}
-		// 是否开通守护
-		String startDate;
-		String endDate = null;
-		Guardian guardianM = GuardianSer.findIsGuardian(tId, uId);
-		if (guardianM != null) {
-			// 续约
-			gurdianId = guardianM.getId();
-			startDate = guardianM.getStartDate();
-			try {
-				Date endD = TimeUtils.parse(guardianM.getEndDate(),
+		
+		if(type==1){
+			//单次购买
+			sale=new LiveRecoderSale();
+			sale.setLiveRecoderId(LiveRecoderSer.getRecoderByLiveId(liveId).getId());
+			sale.setPayBills(b);
+			sale.setPurchDate(TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
+			sale.setRemark("购买【"+teacher.getNickName()+"】视频直播1次");
+			sale.setTeacherId(tId);
+			sale.setUserId(uId);
+		}else{
+			//开通守护
+			Guardian guardianM = GuardianSer.findIsGuardian(tId, uId);
+			if (guardianM != null) {
+				// 续约
+				gurdianId = guardianM.getId();
+				startDate = guardianM.getStartDate();
+				try {
+					Date endD = TimeUtils.parse(guardianM.getEndDate(),
+							"yyyy-MM-dd HH:mm:ss");
+					endDate = TimeUtils.format(TimeUtils.addBaseDay(endD, d),
+							"yyyy-MM-dd HH:mm:ss");
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			} else {
+				startDate = TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
+				endDate = TimeUtils.format(TimeUtils.addBaseDay(new Date(), d),
 						"yyyy-MM-dd HH:mm:ss");
-				endDate = TimeUtils.format(TimeUtils.addBaseDay(endD, d),
-						"yyyy-MM-dd HH:mm:ss");
-			} catch (ParseException e) {
-				e.printStackTrace();
 			}
-		} else {
-			startDate = TimeUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
-			endDate = TimeUtils.format(TimeUtils.addBaseDay(new Date(), d),
-					"yyyy-MM-dd HH:mm:ss");
+			
+			
+			guardian = new Guardian();
+			guardian.setIp(ip);
+			guardian.setTeacherId(tId);
+			guardian.setUserId(uId);
+			guardian.setInsertDate(TimeUtils.format(new Date(),
+					"yyyy-MM-dd HH:mm:ss"));
+			guardian.setStartDate(startDate);
+			guardian.setEndDate(endDate);
+			guardian.setState(0);
+			
+			
 		}
-
-		FamousTeacher teacher = FamousTeacherSer.findTeacherBaseInfo(tId);
-		User user = UserServer.querryIntegeralByUid(uId);
-
-		Guardian guardian = new Guardian();
-		guardian.setIp(ip);
-		guardian.setTeacherId(tId);
-		guardian.setUserId(uId);
-		guardian.setInsertDate(TimeUtils.format(new Date(),
-				"yyyy-MM-dd HH:mm:ss"));
-		guardian.setStartDate(startDate);
-		guardian.setEndDate(endDate);
-		guardian.setState(0);
 
 		// 讲师返利
 		Rebate rebate = new Rebate();
@@ -210,8 +246,8 @@ public class OpenGurdian extends HttpServlet {
 
 		int isSuccess = RollBackUtil.synchrGuardian(guardian, rebate, account,
 				b, detailJ, detailIntegeral, uId, user, account2,
-				detailAccount, contribute, teacher, sysRebate, gurdianId);
-		return isSuccess == 1 ? JsonUtil.getOpenGurdianSuccess(guardian)
+				detailAccount, contribute, teacher, sysRebate, gurdianId,type,sale);
+		return isSuccess == 1 ? JsonUtil.getOpenGurdianSuccess(guardian,type)
 				: JsonUtil.getRetMsg(1, "开通守护失败");
 	}
 

@@ -161,7 +161,7 @@ public class FamousTeacher implements Serializable {
 	 */
 	private String videoLiveUrl;
 	/**
-	 *  
+	 *  是否开通视频直播
 	 */
 	private int isUserLiveUrl;
 	/**
@@ -189,12 +189,12 @@ public class FamousTeacher implements Serializable {
 	private int livePrice;
 
 	/**
-	 * 文字直播是否收费
+	 * 文字直播是否收费  0 否    1是
 	 */
 	private int txtLiveFree;
 
 	/**
-	 * 直播是否收费
+	 * 直播是否收费  0   否   1  是
 	 */
 	private int liveFree;
 

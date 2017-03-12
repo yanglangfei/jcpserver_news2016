@@ -88,6 +88,17 @@ public class VideoLive implements Serializable{
 	 */
 	private int renQi;
 	
+	/**
+	 *   是否开通守护
+	 */
+	private boolean isGradian;
+	
+	public boolean isGradian() {
+		return isGradian;
+	}
+	public void setGradian(boolean isGradian) {
+		this.isGradian = isGradian;
+	}
 	public int getOwnJucaiBills() {
 		return ownJucaiBills;
 	}
