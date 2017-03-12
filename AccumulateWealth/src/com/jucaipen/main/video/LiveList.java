@@ -118,6 +118,7 @@ public class LiveList extends HttpServlet {
 				// 播放url
 				live.setVideoUrl(teacher.getMobileLiveUrl());
 				live.setTeacherName(teacher.getNickName());
+				live.setTeacherFace(teacher.getHeadFace());
 				// 默认未开通守护
 				live.setGradian(false);
 				if (live.isCharge()) {

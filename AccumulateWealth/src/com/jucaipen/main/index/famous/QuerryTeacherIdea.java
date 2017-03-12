@@ -283,6 +283,8 @@ public class QuerryTeacherIdea extends HttpServlet {
 				live.setLivePrice(teacher.getLivePrice());
 				// 视频直播url
 				live.setVideoUrl(teacher.getMobileLiveUrl());
+				live.setTeacherName(teacher.getNickName());
+				live.setTeacherFace(teacher.getHeadFace());
 				if (live.isCharge()) {
 					// 收费
 					if (usId > 0) {

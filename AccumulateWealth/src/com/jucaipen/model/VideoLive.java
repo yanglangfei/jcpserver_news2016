@@ -71,6 +71,12 @@ public class VideoLive implements Serializable{
 	private int teacherId;
 	
 	private String teacherName;
+	
+	
+	/**
+	 *   讲师头像
+	 */
+	private String teacherFace;
 	/**
 	 * 直播状态 1未开始 2进行中 3已结束
 	 */
@@ -93,6 +99,13 @@ public class VideoLive implements Serializable{
 	 */
 	private boolean isGradian;
 	
+	
+	public String getTeacherFace() {
+		return teacherFace;
+	}
+	public void setTeacherFace(String teacherFace) {
+		this.teacherFace = teacherFace;
+	}
 	public boolean isGradian() {
 		return isGradian;
 	}
