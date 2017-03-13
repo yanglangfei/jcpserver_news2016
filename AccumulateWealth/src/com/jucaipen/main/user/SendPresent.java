@@ -84,9 +84,8 @@ public class SendPresent extends HttpServlet {
 		// 送礼品信息
 		// 1、检测礼品数量是否足够
 		MyPresent present = MyPresentSer.findParentByUid(uId, pId);
-		int count = present.getPresentNum();
-		if (count < num) {
-			return JsonUtil.getRetMsg(1, "您的礼品数量不足");
+		if (present==null || present.getPresentNum() < num) {
+			return JsonUtil.getRetMsg(7, "您的礼品数量不足");
 		}
 
 		Gifts g = GiftsSer.findGiftById(pId);

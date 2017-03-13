@@ -89,7 +89,6 @@ public class PurchGift extends HttpServlet {
 		} else {
 			result = StringUtil.isVaild;
 		}
-
 		out.println(result);
 		out.flush();
 		out.close();
@@ -97,7 +96,6 @@ public class PurchGift extends HttpServlet {
 
 	private String purchGifts(int pId, int num, int uId, int b) {
 		// ¹ºÂòÀñÆ·
-
 		// 1¡¢²é¿´¾Û²Æ±ÒÊÇ·ñ×ã¹»
 		User user = UserServer.findBaseInfoById(uId);
 		Account a = AccountSer.findAccountByUserId(uId);
@@ -107,7 +105,7 @@ public class PurchGift extends HttpServlet {
 		
 		
 		if (a == null || a.getJucaiBills() < b) {
-			return JsonUtil.getRetMsg(1, "¾Û²Æ±ÒÓà¶î²»×ã");
+			return JsonUtil.getRetMsg(8, "¾Û²Æ±ÒÓà¶î²»×ã");
 		}
 
 		Gifts gift = GiftsSer.findGiftById(pId);

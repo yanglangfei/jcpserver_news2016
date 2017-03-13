@@ -1166,6 +1166,16 @@
     <servlet-name>SharkInfo</servlet-name>
     <servlet-class>com.jucaipen.main.play.SharkInfo</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>QuerrySysMessage</servlet-name>
+    <servlet-class>com.jucaipen.main.my.QuerrySysMessage</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PushSysMessage</servlet-name>
+    <servlet-class>com.jucaipen.main.push.PushSysMessage</servlet-class>
+  </servlet>
+
+
 
 
     <servlet-mapping>
@@ -1179,6 +1189,14 @@
   <servlet-mapping>
     <servlet-name>SharkInfo</servlet-name>
     <url-pattern>/jucaipen/sharkinfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>QuerrySysMessage</servlet-name>
+    <url-pattern>/jucaipen/getSysMessage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PushSysMessage</servlet-name>
+    <url-pattern>/jucaipen/pushSysMessage</url-pattern>
   </servlet-mapping>
     
     <filter>
