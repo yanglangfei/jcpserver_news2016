@@ -5,11 +5,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.jucaipen.utils.StringUtil;
 /**
  * @author 杨朗飞
- *2017年3月13日  上午9:30:55
- *
- *  推送系统消息
+ * 
  */
 public class PushSysMessage extends HttpServlet {
 	private static final long serialVersionUID = 3463292037748376005L;
@@ -21,6 +20,11 @@ public class PushSysMessage extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
+		String id=request.getParameter("id");
+		if(!id.isEmpty()&&StringUtil.isInteger(id)){
+			int mId=Integer.parseInt(id);
+			
+		}
 	
 		
 		out.println(result);

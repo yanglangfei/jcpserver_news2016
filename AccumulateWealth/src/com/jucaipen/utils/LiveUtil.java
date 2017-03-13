@@ -50,8 +50,5 @@ public class LiveUtil {
 		LiveRecoder recoder = LiveRecoderSer.getRecoderByLiveId(liveId);
 		return LiveRecoderSaleSer.getLiveSaleByUidAndLiveId(userId, recoder.getId())!=null ? true : false;
 	}
-	
-	
-	
 
 }
