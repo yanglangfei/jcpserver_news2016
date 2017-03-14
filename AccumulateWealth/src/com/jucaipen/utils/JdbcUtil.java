@@ -11,12 +11,9 @@ import java.sql.Statement;
  * 
  */
 public class JdbcUtil {
-
 	private static boolean isTest = false;
 	private static Connection dbConn;
 	private static boolean isNormal;
-	private static Connection dbConn_test;
-	private static boolean isNormal_test;
 	/**
 	 * @return 连接sqlServer 正式数据库
 	 */

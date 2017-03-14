@@ -23,8 +23,8 @@ import com.jucaipen.utils.StringUtil;
 
 /**
  * @author Administrator 问答 
- *                           type 0 全部 
- *                                1 根据讲师id获取：
+ *                     type 0 全部 
+ *                          1 根据讲师id获取：
  */
 @SuppressWarnings("serial")
 public class Question extends HttpServlet {

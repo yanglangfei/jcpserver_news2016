@@ -1174,6 +1174,11 @@
     <servlet-name>PushSysMessage</servlet-name>
     <servlet-class>com.jucaipen.main.push.PushSysMessage</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>RechargeResult</servlet-name>
+    <servlet-class>com.jucaipen.main.purch.RechargeResult</servlet-class>
+  </servlet>
+
 
 
 
@@ -1197,6 +1202,10 @@
   <servlet-mapping>
     <servlet-name>PushSysMessage</servlet-name>
     <url-pattern>/jucaipen/pushSysMessage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RechargeResult</servlet-name>
+    <url-pattern>/jucaipen/rechargeResult</url-pattern>
   </servlet-mapping>
     
     <filter>

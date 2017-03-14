@@ -38,6 +38,12 @@ public interface ChargeOrderDao {
 	
 	/**
 	 * @param orderCode
+	 * @return  查询订单是否存在
+	 */
+	public ChargeOrder findOrderByOrderCode(String orderCode);
+	
+	/**
+	 * @param orderCode
 	 * @param state
 	 * @param payDate
 	 * @param ip

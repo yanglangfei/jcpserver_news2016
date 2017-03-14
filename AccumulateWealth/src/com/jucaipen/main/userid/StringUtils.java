@@ -3,7 +3,6 @@ package com.jucaipen.main.userid;
 import java.util.Random;
 
 public class StringUtils {
-
     static StringBuffer buffer = new StringBuffer(
             "0123456789_abcdefghijklmno_pqrstuv_wxyzABCD_EFGHIJKLMNOP_QRSTUVWX_YZ");
     static StringBuffer bufferN = new StringBuffer("0123456789");

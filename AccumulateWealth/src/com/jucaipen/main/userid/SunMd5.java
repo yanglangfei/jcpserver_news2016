@@ -17,7 +17,7 @@ public class SunMd5 {
 	public static String Url_Test = "http://192.168.103.39/usercenter/merchant/UserInfo/reg.do";
 
 	public final static String signType = "0";// Md5 在这个地方要修改成0
-	public static String merchantId = "008310107420054";
+	public static String merchantId = "008310189990108";
 	public static String partnerUserId = "008310107420024";
 	public static String signMsg = "";
 	public static String key = "1234567890";

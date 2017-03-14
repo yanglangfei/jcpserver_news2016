@@ -58,5 +58,15 @@ public class ChargeOrderSer {
 		ChargeOrderDao dao=new ChargeOrderImp();
 		return dao.updatePayState(orderCode, state, payDate, ip);
 	}
+	
+	
+	/**
+	 * @param orderCode
+	 * @return  查询当前订单是否存在
+	 */
+	public static ChargeOrder findOrderByOrderCode(String orderCode){
+		ChargeOrderDao dao=new ChargeOrderImp();
+		return dao.findOrderByOrderCode(orderCode);
+	}
 
 }

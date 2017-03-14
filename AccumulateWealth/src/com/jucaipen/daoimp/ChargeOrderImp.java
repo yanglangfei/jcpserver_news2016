@@ -262,4 +262,22 @@ public class ChargeOrderImp implements ChargeOrderDao {
 		return 0;
 	}
 
+	@Override
+	public ChargeOrder findOrderByOrderCode(String orderCode) {
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res=sta.executeQuery("SELECT * FROM JCP_AddOrder WHERE OrderCode='"+orderCode+"'");
+			while (res.next()) {
+				int id = res.getInt(1);
+				ChargeOrder order=new ChargeOrder();
+				order.setId(id);
+				return order;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

@@ -12,10 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
+import com.jucaipen.model.ChargeOrder;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.SysAccount;
 import com.jucaipen.model.SysDetailAccount;
 import com.jucaipen.service.AccountSer;
+import com.jucaipen.service.ChargeOrderSer;
 import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
@@ -46,6 +48,7 @@ public class Recharge extends HttpServlet {
 			String jucaiBills = request.getParameter("jucaiBills");
 			String orderCode = request.getParameter("orderCode");
 			String payState = request.getParameter("payState");
+			String prePayDate=request.getParameter("prePayDate");
 			String payDate = request.getParameter("payDate");
 			String payType = request.getParameter("payType");
 			String ip = request.getRemoteAddr();
@@ -56,7 +59,7 @@ public class Recharge extends HttpServlet {
 							&& StringUtil.isInteger(jucaiBills)) {
 						int bills = Integer.parseInt(jucaiBills);
 							if (StringUtil.isNotNull(payState)
-									&& StringUtil.isInteger(payState)) {
+									&& StringUtil.isInteger(payState)&&StringUtil.isNotNull(prePayDate)) {
 								int pState = Integer.parseInt(payState);
 								if (StringUtil.isNotNull(payType)
 										&& StringUtil.isInteger(payType)) {
@@ -65,7 +68,7 @@ public class Recharge extends HttpServlet {
 										if (StringUtil.isNotNull(payDate)) {
 											result = initRecharge(uId, bills,
 													ip, orderCode, payDate,
-													pState, type);
+													pState, type,prePayDate);
 										} else {
 											result = JsonUtil.getRetMsg(5,
 													"支付时间不能为空");
@@ -73,7 +76,7 @@ public class Recharge extends HttpServlet {
 									} else {
 										result = initRecharge(uId, bills, ip,
 												orderCode, payDate, pState,
-												type);
+												type,prePayDate);
 									}
 								} else {
 									result = JsonUtil.getRetMsg(1,
@@ -101,7 +104,12 @@ public class Recharge extends HttpServlet {
 	}
 
 	private String initRecharge(int uId, int bills, String ip,
-			String orderCode, String payDate, int pState, int type) {
+			String orderCode, String payDate, int pState, int type,String prePayDate) {
+		// 判断订单号是否已经存在
+		ChargeOrder order = ChargeOrderSer.findOrderByOrderCode(orderCode);
+		if(order!=null){
+			return JsonUtil.getRetMsg(8, "订单号已存在");
+		}
 		Account a = AccountSer.findAccountByUserId(uId);
 		AccountDetail detail = new AccountDetail();
 		SysAccount account = SysAccountSer.findAccountInfo();
@@ -138,7 +146,7 @@ public class Recharge extends HttpServlet {
 		}
 		detailAccount.setUserId(uId);
 		int isSuccess = RollBackUtil.recharge(orderCode, pState, payDate, ip,
-				bills, a, uId, detail, account, detailAccount, type);
+				bills, a, uId, detail, account, detailAccount, type,prePayDate);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "账单更新成功") : JsonUtil
 				.getRetMsg(1, "账单更新失败");
 	}

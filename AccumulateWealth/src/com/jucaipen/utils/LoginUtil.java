@@ -33,6 +33,7 @@ public class LoginUtil {
 				}
 				builder.replace(builder.length() - 1, builder.length(), "");
 			}
+			System.out.println(builder.toString());
 			out.print(builder.toString());
 			out.flush();
 			int responseCode = conn.getResponseCode();
