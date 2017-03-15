@@ -10,11 +10,20 @@ public class GiftsSer{
 
 	/**
 	 * @param page
-	 * @return 获取商店所有礼品
+	 * @return 获取商店所有礼品   分页
 	 */
 	public static List<Gifts> findAllGift(int page) {
 		GiftsDao dao=new GiftsImp();
 		return dao.findAllGift(page);
+	}
+	
+	/**
+	 * @param page
+	 * @return 获取商店所有礼品
+	 */
+	public static List<Gifts> findAllGifts() {
+		GiftsDao dao=new GiftsImp();
+		return dao.findAllGifts();
 	}
 
 	/**

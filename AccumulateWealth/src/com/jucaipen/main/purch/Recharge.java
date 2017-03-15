@@ -3,21 +3,17 @@ package com.jucaipen.main.purch;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
-import com.jucaipen.model.ChargeOrder;
 import com.jucaipen.model.ClientOsInfo;
 import com.jucaipen.model.SysAccount;
 import com.jucaipen.model.SysDetailAccount;
 import com.jucaipen.service.AccountSer;
-import com.jucaipen.service.ChargeOrderSer;
 import com.jucaipen.service.SysAccountSer;
 import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
@@ -49,6 +45,7 @@ public class Recharge extends HttpServlet {
 			String orderCode = request.getParameter("orderCode");
 			String payState = request.getParameter("payState");
 			String prePayDate=request.getParameter("prePayDate");
+			System.out.println("prePayDate="+prePayDate+";orderCode="+orderCode+";");
 			String payDate = request.getParameter("payDate");
 			String payType = request.getParameter("payType");
 			String ip = request.getRemoteAddr();
@@ -106,10 +103,6 @@ public class Recharge extends HttpServlet {
 	private String initRecharge(int uId, int bills, String ip,
 			String orderCode, String payDate, int pState, int type,String prePayDate) {
 		// 判断订单号是否已经存在
-		ChargeOrder order = ChargeOrderSer.findOrderByOrderCode(orderCode);
-		if(order!=null){
-			return JsonUtil.getRetMsg(8, "订单号已存在");
-		}
 		Account a = AccountSer.findAccountByUserId(uId);
 		AccountDetail detail = new AccountDetail();
 		SysAccount account = SysAccountSer.findAccountInfo();

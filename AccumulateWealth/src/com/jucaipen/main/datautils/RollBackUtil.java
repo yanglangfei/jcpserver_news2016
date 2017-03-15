@@ -230,22 +230,23 @@ public class RollBackUtil {
 	public static int recharge(String orderCode, int pState, String payDate,
 			String ip, int bills, Account a, int uId, AccountDetail detail,
 			SysAccount account2, SysDetailAccount detailAccount, int type,String prePayDate) {
+		int update=0;
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			dbConn.setAutoCommit(false);
 			sta = dbConn.createStatement();
 			// 1 充值 JCP_AddOrder
 			if (pState == 2) {
-				sta.executeUpdate("UPDATE JCP_AddOrder SET OrderState="
+				update = sta.executeUpdate("UPDATE JCP_AddOrder SET OrderState="
 						+ pState + ",PaymentDate='" + payDate + "',IP='" + ip
 						+ "',PaymentMethod=" + type + ",InsertDate='"+prePayDate+"'  WHERE OrderCode='"
 						+ orderCode + "'");
 			} else {
 				sta.executeUpdate("UPDATE JCP_AddOrder SET OrderState="
 						+ pState + ",IP='" + ip + "',PaymentMethod=" + type
-						+ "InsertDate='"+prePayDate+"' WHERE OrderCode='" + orderCode + "'");
+						+ ",InsertDate='"+prePayDate+"' WHERE OrderCode='" + orderCode + "'");
 			}
-			if (pState == 2) {
+			if (pState == 2&&update>0) {
 				// 2 、总账户 聚财币减少 JCP_Account
 				if (a != null) {
 					sta.executeUpdate("UPDATE JCP_Account SET JucaiBi="

@@ -267,10 +267,14 @@ public class ChargeOrderImp implements ChargeOrderDao {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			res=sta.executeQuery("SELECT * FROM JCP_AddOrder WHERE OrderCode='"+orderCode+"'");
+			res=sta.executeQuery("SELECT * FROM JCP_AddOrder WHERE OrderCode='"+orderCode+"' ORDER BY Id DESC");
 			while (res.next()) {
 				int id = res.getInt(1);
+				int userId = res.getInt(2);
+				int orderState = res.getInt(12);
 				ChargeOrder order=new ChargeOrder();
+				order.setUserId(userId);
+				order.setOrderState(orderState);
 				order.setId(id);
 				return order;
 			}

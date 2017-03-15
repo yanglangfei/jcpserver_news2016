@@ -10,7 +10,6 @@ import java.util.List;
 import com.jucaipen.dao.GiftsDao;
 import com.jucaipen.model.Gifts;
 import com.jucaipen.utils.JdbcUtil;
-
 /**
  * @author Administrator
  * 
@@ -21,7 +20,6 @@ public class GiftsImp implements GiftsDao {
 	private Statement sta;
 	private ResultSet res;
 	private List<Gifts> gifts = new ArrayList<Gifts>();
-
 	/**
 	 * @return 查询礼品总页数
 	 */
@@ -213,6 +211,40 @@ public class GiftsImp implements GiftsDao {
 			return gifts;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Gifts> findAllGifts() {
+		// 获取所有礼品
+		gifts.clear();
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT * FROM JCP_LiPin");
+			while (res.next()) {
+				int id = res.getInt("Id");
+				String title = res.getString("Title");
+				int price = res.getInt("Price");
+				String image = res.getString("ImagesUrl");
+				Gifts gift = new Gifts();
+				gift.setId(id);
+				gift.setTitle(title);
+				gift.setPrice(price);
+				gift.setImageUrl(image);
+				gifts.add(gift);
+			}
+			return gifts;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}

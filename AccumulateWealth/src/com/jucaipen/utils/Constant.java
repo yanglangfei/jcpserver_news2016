@@ -1,7 +1,4 @@
 package com.jucaipen.utils;
-
-import java.sql.Connection;
-
 public class Constant {
 	
 	public static final String CONNECT_DRIVER="";

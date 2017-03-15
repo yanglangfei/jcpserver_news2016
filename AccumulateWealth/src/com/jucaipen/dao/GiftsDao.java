@@ -12,9 +12,14 @@ import com.jucaipen.model.Gifts;
 public interface GiftsDao {
 	
 	/**
-	 * @return  获取所有礼品
+	 * @return  获取所有礼品   分页
 	 */
 	public List<Gifts>  findAllGift(int page);
+	
+	/**
+	 * @return  获取所有礼品
+	 */
+	public List<Gifts>  findAllGifts();
 	
 	/**
 	 * @param page
