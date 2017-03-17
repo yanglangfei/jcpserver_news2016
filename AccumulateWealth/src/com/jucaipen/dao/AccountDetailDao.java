@@ -38,6 +38,16 @@ public interface AccountDetailDao {
 	 * @return  获取用户分类下的不同状态账户信息
 	 */
 	public List<AccountDetail> findDetailByUidAndState(int uId,int state,int page);
+	
+	
+	/**
+	 * @param uId
+	 * @param state
+	 * @param type
+	 * @param page
+	 * @return  获取用户分类下的不同状态账户信息
+	 */
+	public AccountDetail findDetailByOrderCode(String orderCode);
 	/**
 	 * @param detail
 	 * @return  添加账户详细信息

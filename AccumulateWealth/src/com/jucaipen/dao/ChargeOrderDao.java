@@ -35,7 +35,6 @@ public interface ChargeOrderDao {
 	 * @return  删除充值订单信息
 	 */
 	public int deleteOrder(int id);
-	
 	/**
 	 * @param orderCode
 	 * @return  查询订单是否存在
@@ -49,6 +48,7 @@ public interface ChargeOrderDao {
 	 * @param ip
 	 * @return  修改支付状态
 	 */
-	public int updatePayState(String orderCode,int state,String payDate,String ip);
+	public int updatePayState(String orderCode, int state, String payDate,
+			String ip,String prePayDate,int type);
 	
 }

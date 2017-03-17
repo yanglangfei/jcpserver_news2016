@@ -3,6 +3,7 @@ package com.jucaipen.main.datautils;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
@@ -30,12 +31,29 @@ import com.jucaipen.model.TacticsSale;
 import com.jucaipen.model.TxtLiveSale;
 import com.jucaipen.model.User;
 import com.jucaipen.model.VideoLiveSale;
+import com.jucaipen.service.AccountDetailSer;
+import com.jucaipen.service.AccountSer;
+import com.jucaipen.service.ChargeOrderSer;
+import com.jucaipen.service.SysAccountSer;
+import com.jucaipen.service.SysDetailAccountSer;
 import com.jucaipen.utils.BaseData;
 import com.jucaipen.utils.JdbcUtil;
 
 public class RollBackUtil {
-	private static Connection dbConn;
-	private static Statement sta;
+	private Connection dbConn;
+	private Statement sta;
+	private static RollBackUtil util;
+
+	private RollBackUtil() {
+
+	}
+
+	public static RollBackUtil getInstance() {
+		if (util == null) {
+			util = new RollBackUtil();
+		}
+		return util;
+	}
 
 	/**
 	 * 开通守护
@@ -56,27 +74,27 @@ public class RollBackUtil {
 	 * @param gurdianId
 	 *            开通守护
 	 */
-	public static int synchrGuardian(Guardian guardian, Rebate rebate,
+	public int synchrGuardian(Guardian guardian, Rebate rebate,
 			Account account, int b, AccountDetail detail,
 			AccountDetail detailIntegeral, int uId, User user,
 			SysAccount account2, SysDetailAccount detailAccount,
 			Contribute contribute, FamousTeacher teacher, Rebate sysRebate,
-			int gurdianId,int type,LiveRecoderSale sale) {
+			int gurdianId, int type, LiveRecoderSale sale) {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			dbConn.setAutoCommit(false);
 			sta = dbConn.createStatement();
-			if(type==1){
-				//购买单次直播
+			if (type == 1) {
+				// 购买单次直播
 				// 1、更新单次购买表
 				sta.executeUpdate("INSERT INTO JCP_VideoLive_RecordSale("
-							+ "LiveCodeId,TeacherId,InsertDate,PayJCB,UserId,Remark) VALUES("
-							+ sale.getLiveRecoderId() + ","
-							+ sale.getTeacherId() + ",'" + sale.getPurchDate()
-							+ "'," + sale.getPayBills() + ","
-							+ sale.getUserId() + ",'" + sale.getRemark() + "')");
-			}else{
-				//开通守护
+						+ "LiveCodeId,TeacherId,InsertDate,PayJCB,UserId,Remark) VALUES("
+						+ sale.getLiveRecoderId() + "," + sale.getTeacherId()
+						+ ",'" + sale.getPurchDate() + "',"
+						+ sale.getPayBills() + "," + sale.getUserId() + ",'"
+						+ sale.getRemark() + "')");
+			} else {
+				// 开通守护
 				// 1 更新守护 JCP_ShouHuZhe
 				if (gurdianId > 0) {
 					// 续约
@@ -100,8 +118,7 @@ public class RollBackUtil {
 							+ "',"
 							+ guardian.getState() + ")");
 				}
-				
-				
+
 			}
 			// 2、 返利 积分 JCP_Rebate 讲师返利
 			sta.executeUpdate("INSERT INTO JCP_Rebate(FK_TearchId,RebateType,RebateMoney,FK_FromUserId,InsertDate,Ramerk) VALUES("
@@ -227,26 +244,33 @@ public class RollBackUtil {
 	 * @param type
 	 * @return 充值 --------------------NO
 	 */
-	public static int recharge(String orderCode, int pState, String payDate,
+	public int recharge(String orderCode, int pState, String payDate,
 			String ip, int bills, Account a, int uId, AccountDetail detail,
-			SysAccount account2, SysDetailAccount detailAccount, int type,String prePayDate) {
-		int update=0;
-		dbConn = JdbcUtil.connSqlServer();
+			SysAccount account2, SysDetailAccount detailAccount, int type,
+			String prePayDate, List<String> orderCodes) {
+		int update = 0;
 		try {
+			dbConn = JdbcUtil.connSqlServer();
 			dbConn.setAutoCommit(false);
 			sta = dbConn.createStatement();
 			// 1 充值 JCP_AddOrder
 			if (pState == 2) {
-				update = sta.executeUpdate("UPDATE JCP_AddOrder SET OrderState="
-						+ pState + ",PaymentDate='" + payDate + "',IP='" + ip
-						+ "',PaymentMethod=" + type + ",InsertDate='"+prePayDate+"'  WHERE OrderCode='"
-						+ orderCode + "'");
+				update = sta
+						.executeUpdate("UPDATE JCP_AddOrder SET OrderState="
+								+ pState + ",PaymentDate='" + payDate
+								+ "',IP='" + ip + "',PaymentMethod=" + type
+								+ ",InsertDate='" + prePayDate
+								+ "'  WHERE OrderCode='" + orderCode + "'");
+				if (update > 0) {
+					orderCodes.add(orderCode);
+				}
 			} else {
 				sta.executeUpdate("UPDATE JCP_AddOrder SET OrderState="
 						+ pState + ",IP='" + ip + "',PaymentMethod=" + type
-						+ ",InsertDate='"+prePayDate+"' WHERE OrderCode='" + orderCode + "'");
+						+ ",InsertDate='" + prePayDate + "' WHERE OrderCode='"
+						+ orderCode + "'");
 			}
-			if (pState == 2&&update>0) {
+			if (pState == 2 && update > 0) {
 				// 2 、总账户 聚财币减少 JCP_Account
 				if (a != null) {
 					sta.executeUpdate("UPDATE JCP_Account SET JucaiBi="
@@ -307,6 +331,76 @@ public class RollBackUtil {
 		} finally {
 			try {
 				dbConn.setAutoCommit(true);
+				sta.close();
+				dbConn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
+	}
+
+	/**
+	 * @param ip
+	 * @param payDate
+	 * @param pState
+	 * @param orderCode
+	 * @param bills
+	 * @param a
+	 * @param uId
+	 * @param detail
+	 * @param account2
+	 * @param detailAccount
+	 * @param type
+	 * @return 充值 --------------------NO
+	 */
+	public int rechargeNoRollBack(String orderCode, int pState, String payDate,
+			String ip, int bills, Account a, int uId, AccountDetail detail,
+			SysAccount account2, SysDetailAccount detailAccount, int type,
+			String prePayDate) {
+		int updateBills = 0;
+		try {
+			// 1 充值 JCP_AddOrder
+			if (pState == 2) {
+				int update = ChargeOrderSer.updatePayState(orderCode, pState,
+						prePayDate, ip, prePayDate, type);
+				if (update > 0) {
+					// 2 、总账户 聚财币减少 JCP_Account
+					if (a != null) {
+						updateBills = AccountSer.updateBills(uId,
+								(a.getJucaiBills() + bills));
+					} else {
+						Account account = new Account();
+						account.setIntegeral(0);
+						account.setJucaiBills(bills);
+						account.setUserId(uId);
+						updateBills = AccountSer.addAccount(account);
+					}
+					// 3、 账户详细 聚财币变化 JCP_Account_Detail
+					AccountDetail accountDetail = AccountDetailSer.findDetailByOrderCode(orderCode);
+					if (accountDetail==null&&updateBills > 0) {
+						int addDetails = AccountDetailSer.addDetails(detail);
+						// 4、系统账户 JCP_SysAccount
+						if (addDetails > 0) {
+							int purchInfo = SysAccountSer
+									.updatePurchInfo(
+											(account2.getSysAccount() + bills),
+											(account2.getSysChildAccount()),
+											(account2.getSysAccount() + bills - account2
+													.getSysChildAccount()));
+							// 5、 系统账户详细 JCP_SysAccountDateil
+							if (purchInfo > 0) {
+								SysDetailAccountSer.addDetails(detailAccount);
+
+							}
+						}
+					}
+
+				}
+			}
+		} finally {
+			try {
+				sta.close();
 				dbConn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -331,11 +425,10 @@ public class RollBackUtil {
 	 * @param detailIntegeral
 	 * @return 打赏
 	 */
-	public static int addReward(Marker marker, AccountDetail detail,
-			int integeral, int markerMoney, int jucaiBills, int uId,
-			Contribute contribute, SysAccount sysAccount,
-			SysDetailAccount sysDetail, User user, Rebate rebate,
-			Rebate sysRebate, AccountDetail detailIntegeral) {
+	public int addReward(Marker marker, AccountDetail detail, int integeral,
+			int markerMoney, int jucaiBills, int uId, Contribute contribute,
+			SysAccount sysAccount, SysDetailAccount sysDetail, User user,
+			Rebate rebate, Rebate sysRebate, AccountDetail detailIntegeral) {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			dbConn.setAutoCommit(false);
@@ -476,11 +569,10 @@ public class RollBackUtil {
 	 * @param saleId
 	 * @return 订阅战法
 	 */
-	public static int orderTactisc(TacticsSale sale, Account account,
-			int bills, int uId, AccountDetail detail,
-			AccountDetail detailInteger, Rebate teacherRebate,
-			Rebate sysRebate, Contribute contribute, SysAccount sysAccount,
-			SysDetailAccount sysDetailAccount, User user) {
+	public int orderTactisc(TacticsSale sale, Account account, int bills,
+			int uId, AccountDetail detail, AccountDetail detailInteger,
+			Rebate teacherRebate, Rebate sysRebate, Contribute contribute,
+			SysAccount sysAccount, SysDetailAccount sysDetailAccount, User user) {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			dbConn.setAutoCommit(false);
@@ -617,7 +709,7 @@ public class RollBackUtil {
 	 * @param contribute
 	 * @return 购买视频
 	 */
-	public static int purchVideo(MyVideo myVideo, Account a, int uId, int b,
+	public int purchVideo(MyVideo myVideo, Account a, int uId, int b,
 			AccountDetail detail, AccountDetail detailInteger,
 			SysAccount sysAccount, SysDetailAccount sysDetailAccount, User user) {
 		dbConn = JdbcUtil.connSqlServer();
@@ -721,10 +813,9 @@ public class RollBackUtil {
 	 * @param sysDetailAccount
 	 * @return 购买礼品
 	 */
-	public static int purchGifts(MyPresent presentExit, MyPresent present,
-			Account a, int b, int uId, AccountDetail detail,
-			AccountDetail detailInteger, User user, SysAccount sysAccount,
-			SysDetailAccount sysDetailAccount) {
+	public int purchGifts(MyPresent presentExit, MyPresent present, Account a,
+			int b, int uId, AccountDetail detail, AccountDetail detailInteger,
+			User user, SysAccount sysAccount, SysDetailAccount sysDetailAccount) {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			dbConn.setAutoCommit(false);
@@ -830,7 +921,7 @@ public class RollBackUtil {
 	 * @param rebate
 	 * @return 购买问答
 	 */
-	public static int purchQuestion(Account a, int uId, User user,
+	public int purchQuestion(Account a, int uId, User user,
 			SysAccount sysAccount, int bs, AccountDetail detail,
 			AccountDetail detailInteger, SysDetailAccount sysDetailAccount,
 			AnswerSale sale, Rebate rebate) {
@@ -951,7 +1042,7 @@ public class RollBackUtil {
 	 * @param gifts
 	 * @return 赠送礼品
 	 */
-	public static int sendGifts(MyPresent present, int num, int bill, int uId,
+	public int sendGifts(MyPresent present, int num, int bill, int uId,
 			SysAccount sysAccount, Rebate sysRebate, Rebate rebate,
 			Contribute contribute, MyGifts gifts) {
 		dbConn = JdbcUtil.connSqlServer();
@@ -1054,8 +1145,8 @@ public class RollBackUtil {
 	 * @param user
 	 * @return 购买专辑
 	 */
-	public static int purchSpecial(MySpecial mySpecial, Account a, int uId,
-			int b, AccountDetail detail, AccountDetail detailInteger,
+	public int purchSpecial(MySpecial mySpecial, Account a, int uId, int b,
+			AccountDetail detail, AccountDetail detailInteger,
 			SysAccount sysAccount, SysDetailAccount sysDetailAccount, User user) {
 
 		dbConn = JdbcUtil.connSqlServer();
@@ -1158,7 +1249,7 @@ public class RollBackUtil {
 	 * @param user
 	 * @return 签到
 	 */
-	public static int signIn(SignDetail detail, Sign sign,
+	public int signIn(SignDetail detail, Sign sign,
 			RebateIntegeralDetail inDetail, AccountDetail accountDetail,
 			Account a, int uId, int signIntegeral, User user) {
 		dbConn = JdbcUtil.connSqlServer();
@@ -1271,11 +1362,10 @@ public class RollBackUtil {
 	 * @param rebate
 	 * @return 购买名家日志观点
 	 */
-	public static int purchTeacherLogs(IdeaSale ideaSale,
-			AccountDetail accountDetail, AccountDetail accountDetailIntegeral,
-			Account acount, int b, int uId, User user, Contribute contribute,
-			SysAccount sysAccount, SysDetailAccount detailAccount,
-			Rebate rebate, Rebate sysRebate) {
+	public int purchTeacherLogs(IdeaSale ideaSale, AccountDetail accountDetail,
+			AccountDetail accountDetailIntegeral, Account acount, int b,
+			int uId, User user, Contribute contribute, SysAccount sysAccount,
+			SysDetailAccount detailAccount, Rebate rebate, Rebate sysRebate) {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			dbConn.setAutoCommit(false);
@@ -1413,11 +1503,11 @@ public class RollBackUtil {
 	 * @param rebate
 	 * @return 购买文字直播 （整个）
 	 */
-	public static int purchTxtLive(Account account,
-			AccountDetail accountDetail, AccountDetail accountDetailIntegeral,
-			int uId, int b, TxtLiveSale sale, Contribute contribute,
-			SysAccount sysAccount, SysDetailAccount detailAccount, User user,
-			Rebate rebate, Rebate sysRebate) {
+	public int purchTxtLive(Account account, AccountDetail accountDetail,
+			AccountDetail accountDetailIntegeral, int uId, int b,
+			TxtLiveSale sale, Contribute contribute, SysAccount sysAccount,
+			SysDetailAccount detailAccount, User user, Rebate rebate,
+			Rebate sysRebate) {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			dbConn.setAutoCommit(false);
@@ -1557,7 +1647,7 @@ public class RollBackUtil {
 	 * @param recoder
 	 * @return 购买直播详情
 	 */
-	public static int purchTxtDetail(User user, int b, SysAccount sysAccount,
+	public int purchTxtDetail(User user, int b, SysAccount sysAccount,
 			Rebate rebate, Rebate sysRebate, LiveDetailSale sale,
 			Account account, AccountDetail accountDetail,
 			AccountDetail accountDetailIntegeral, int uId,
@@ -1709,8 +1799,8 @@ public class RollBackUtil {
 	 * @param sysDetailAccount
 	 * @return 付费提问
 	 */
-	public static int payAsk(Ask ask, Account account, int uId, User user,
-			int bs, SysAccount sysAccount, AccountDetail accountDetail,
+	public int payAsk(Ask ask, Account account, int uId, User user, int bs,
+			SysAccount sysAccount, AccountDetail accountDetail,
 			AccountDetail detailInteger, SysDetailAccount sysDetailAccount) {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
@@ -1845,10 +1935,9 @@ public class RollBackUtil {
 	 * @param contribute
 	 * @return 采纳回答
 	 */
-	public static int catchAnswers(Account account,
-			AccountDetail accountDetail, Rebate rebate, SysAccount sysAccount,
-			Rebate sysRebate, int uId, User user, int aId, int g, int bills,
-			Contribute contribute) {
+	public int catchAnswers(Account account, AccountDetail accountDetail,
+			Rebate rebate, SysAccount sysAccount, Rebate sysRebate, int uId,
+			User user, int aId, int g, int bills, Contribute contribute) {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			dbConn.setAutoCommit(false);
@@ -1961,7 +2050,7 @@ public class RollBackUtil {
 	 * @param accountDetailIntegeral
 	 * @return 付费追问
 	 */
-	public static int payRecycleAsk(Ask ask, SysDetailAccount detailAccount,
+	public int payRecycleAsk(Ask ask, SysDetailAccount detailAccount,
 			SysAccount sysAccount, int uId, User user, Account account,
 			AccountDetail accountDetail, int aId,
 			SysDetailAccount detailAccount2, int bs,
@@ -2100,7 +2189,7 @@ public class RollBackUtil {
 	 * 
 	 *         购买视频直播
 	 */
-	public static int purchLiveVideo(VideoLiveSale sale, AccountDetail detail,
+	public int purchLiveVideo(VideoLiveSale sale, AccountDetail detail,
 			AccountDetail integeralDetail, int b, Account account, int uId,
 			User user, Contribute contribute, SysAccount sysAccount,
 			SysDetailAccount sysDetailAccount, Rebate rebate, Rebate sysRebate) {

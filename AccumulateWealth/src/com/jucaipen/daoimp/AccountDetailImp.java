@@ -262,4 +262,30 @@ public class AccountDetailImp implements AccountDetailDao {
 		return 0;
 	}
 
+	@Override
+	public AccountDetail findDetailByOrderCode(String orderCode) {
+		// 根据用户id获取账户详细信息
+		dbConn = JdbcUtil.connSqlServer();
+		try {
+			sta = dbConn.createStatement();
+			res = sta
+					.executeQuery("SELECT * FROM JCP_Account_Detail WHERE OrderCode='"+orderCode+"'");
+			while (res.next()) {
+				int id = res.getInt("Id");
+				AccountDetail detail = new AccountDetail();
+				detail.setId(id);
+				return detail;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				JdbcUtil.closeConn(sta, dbConn, res);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
 }

@@ -36,8 +36,10 @@ public class LiveChat extends HttpServlet {
 	private static final String GET_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=GetMsgList";
 	private static final String SEND_LIVE_MSG="http://www.jucaipen.com/TeacherLive/ashx/VideoLive.ashx?action=APPSendMsg";
 	private  Map<String, String> params=new HashMap<String, String>();
+	public static int maxId=0;
 	private Timer timer;
 	private boolean isManager;
+	
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -52,7 +54,7 @@ public class LiveChat extends HttpServlet {
 			int opType=chatMsg.getOpType();
 				if(opType==1){
 					//上线   --推送历史记录
-					int maxId=requestMsg(userId, liveId);
+					maxId=requestMsg(userId, liveId);
 					timer = new Timer();
 					VideoLiveMsgTask task=new VideoLiveMsgTask(maxId,userId,liveId,isManager);
 					timer.scheduleAtFixedRate(task, new Date(), 1000*10);
@@ -112,6 +114,7 @@ public class LiveChat extends HttpServlet {
 		params.clear();
 		params.put("lid", lId+"");
 		params.put("msg", msg);
+		params.put("msgtype", 0+"");
 		params.put("userlevel", fromUser.getUserLeval()+"");
 		params.put("isroomadmin", fromUser.getIsRoomAdmin()+"");
 		params.put("issysadmin", fromUser.getIsSysAdmin()+"");
@@ -152,7 +155,6 @@ public class LiveChat extends HttpServlet {
 			user=UserServer.findUserChatInfo(uId);
 			//登录用户上线
 			
-			
 		}else{
 			user=new User();
 			//TODO 添加游客处理
@@ -173,7 +175,7 @@ public class LiveChat extends HttpServlet {
 		params.put("IsServerId", serverId+"");
 		String result=LoginUtil.sendHttpPost(GET_LIVE_MSG, params);
 		List<VideoLiveMsg>  msgObjs =JsonUtil.repCompleLiveMsgObj(result);
-		if(msgObjs!=null){
+		if(msgObjs!=null&&msgObjs.size()>0){
 			for(VideoLiveMsg liveMsg : msgObjs){
 				int sendId=liveMsg.getSendUserId();
 				int receiverId=liveMsg.getReceiverId();
@@ -189,17 +191,15 @@ public class LiveChat extends HttpServlet {
 				liveMsg.setReceiverFace(toUser.getFaceImage());
 			}
 			String pushMsg=JsonUtil.createLiveMsg(msgObjs,false,uId);
-			System.out.println("pushMsg:"+pushMsg);
 			JPushClient client = JPushUtils.getJPush();
 			PushPayload msgs = JPushUtils.createMsg("msg", "liveMsg", pushMsg, null);
 		    PushResult res = JPushUtils.pushMsg(client, msgs);
-			if(msgObjs.size()>0){
 				if(isManager){
 					return  msgObjs.get(msgObjs.size()-1).getId();
 				}else{
 					return msgObjs.get(msgObjs.size()-1).getShenhe();
+					
 				}
-			}
 		}
 		return 0;
 	}

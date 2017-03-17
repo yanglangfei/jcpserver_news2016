@@ -165,7 +165,7 @@ public class PurchQuestion extends HttpServlet {
 		rebate.setInsertDate(TimeUtils
 				.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 
-		int isSuccess = RollBackUtil.purchQuestion(a, uId, user, sysAccount,
+		int isSuccess = RollBackUtil.getInstance().purchQuestion(a, uId, user, sysAccount,
 				bs, detail, detailInteger, sysDetailAccount, sale, rebate);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "¹ºÂò³É¹¦") : JsonUtil
 				.getRetMsg(1, "¹ºÂòÊ§°Ü");

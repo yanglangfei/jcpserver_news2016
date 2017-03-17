@@ -22,6 +22,12 @@ public class VideoLiveMsg implements Serializable{
 	 */
 	private String sendName;
 	
+	/**
+	 *    消息类型     1   系统消息   0  普通消息
+	 */
+	private int msgType;
+	
+	
 	private String sendFace;
 	/**
 	 *  Msg
@@ -66,16 +72,17 @@ public class VideoLiveMsg implements Serializable{
 	private int isChatAdmin;
 	private int userLeavel;
 	private int isServer;
-	
 	/**
 	 *  IP
 	 */
 	private String ip;
 	
-	
-	
-	
-	
+	public int getMsgType() {
+		return msgType;
+	}
+	public void setMsgType(int msgType) {
+		this.msgType = msgType;
+	}
 	public String getSendFace() {
 		return sendFace;
 	}

@@ -87,18 +87,13 @@ public class GiftsImp implements GiftsDao {
 	}
 
 	@Override
-	public List<Gifts> findGiftByClassId(int page, int classId) {
+	public List<Gifts> findGiftByClassId(int classId) {
 		// 根据分类获取礼品
 		gifts.clear();
-		int totlePage = getTotlePage("WHERE ClassId="+classId+" AND  SaleType=1 AND IsDel=1");
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
-			res = sta
-					.executeQuery("SELECT TOP 15 * FROM "
-							+ "(SELECT ROW_NUMBER() OVER (ORDER BY Id) AS RowNumber,* FROM JCP_LiPin WHERE  ClassId="
-							+ classId + " AND SaleType=1 AND IsDel=1) A " + "WHERE RowNumber > " + 15
-							* (page - 1));
+			res=sta.executeQuery("SELECT * FROM JCP_LiPin WHERE  ClassId="+classId+" AND SaleType=1 AND IsDel=1");
 			while (res.next()) {
 				int id = res.getInt("Id");
 				String title = res.getString("Title");
@@ -108,8 +103,8 @@ public class GiftsImp implements GiftsDao {
 				gift.setId(id);
 				gift.setTitle(title);
 				gift.setPrice(price);
-				gift.setTotlePage(totlePage);
-				gift.setPage(page);
+				gift.setTotlePage(1);
+				gift.setPage(1);
 				gift.setImageUrl(image);
 				gifts.add(gift);
 			}

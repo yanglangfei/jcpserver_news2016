@@ -165,7 +165,7 @@ public class PurchVideo extends HttpServlet {
 		sysDetailAccount.setUserId(uId);
 		sysDetailAccount.setRemark("π∫¬Ú ”∆µ°æ" + video.getTitle() + "°ø");
 
-		int isSuccess = RollBackUtil.purchVideo(myVideo, a, uId, b, detail,
+		int isSuccess = RollBackUtil.getInstance().purchVideo(myVideo, a, uId, b, detail,
 				detailInteger, sysAccount, sysDetailAccount, user);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "π∫¬Ú ”∆µ≥…π¶") : JsonUtil
 				.getRetMsg(1, "π∫¬Ú ”∆µ ß∞‹");

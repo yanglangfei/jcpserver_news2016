@@ -153,7 +153,7 @@ public class PurchGift extends HttpServlet {
 		sysDetailAccount.setUserId(uId);
 		sysDetailAccount.setType(4);
 
-		int isSuccess = RollBackUtil.purchGifts(presentExit, present, a, b,
+		int isSuccess = RollBackUtil.getInstance().purchGifts(presentExit, present, a, b,
 				uId, detail, detailInteger, user, sysAccount, sysDetailAccount);
 
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "ÀñÆ·¹ºÂò³É¹¦") : JsonUtil

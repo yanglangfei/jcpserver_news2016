@@ -168,7 +168,7 @@ public class PurchSpecial extends HttpServlet {
 		sysDetailAccount.setUserId(uId);
 		sysDetailAccount.setRemark("¹ºÂò×¨¼­¡¾" + special.getName() + "¡¿");
 
-		int isSuccess = RollBackUtil.purchSpecial(mySpecial, a, uId, b, detail,
+		int isSuccess = RollBackUtil.getInstance().purchSpecial(mySpecial, a, uId, b, detail,
 				detailInteger, sysAccount, sysDetailAccount, user);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "¹ºÂòÊÓÆµ³É¹¦") : JsonUtil
 				.getRetMsg(1, "¹ºÂòÊÓÆµÊ§°Ü");

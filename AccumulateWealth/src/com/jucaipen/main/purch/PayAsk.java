@@ -165,7 +165,7 @@ public class PayAsk extends HttpServlet {
 		sysDetailAccount.setUserId(uId);
 		sysDetailAccount.setRemark("【" + user.getNickName() + "】向讲师付费提问："
 				+ askBody);
-		int isSuccess = RollBackUtil.payAsk(ask, account, uId, user, bs,
+		int isSuccess = RollBackUtil.getInstance().payAsk(ask, account, uId, user, bs,
 				sysAccount,accountDetail,detailInteger,sysDetailAccount);
 
 		return isSuccess==1 ? JsonUtil.getRetMsg(0, "提问成功") : JsonUtil.getRetMsg(1,"提问失败");

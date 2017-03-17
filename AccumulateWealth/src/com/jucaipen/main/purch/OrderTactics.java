@@ -214,7 +214,7 @@ public class OrderTactics extends HttpServlet {
 				+ (days/30)+"¸öÔÂ");
 
 
-		int isSuccess = RollBackUtil.orderTactisc(sale, account, bills, uId,
+		int isSuccess = RollBackUtil.getInstance().orderTactisc(sale, account, bills, uId,
 				detail, detailInteger, teacherRebate, sysRebate, contribute,
 				sysAccount, sysDetailAccount, user);
 

@@ -249,13 +249,13 @@ public class ChargeOrderImp implements ChargeOrderDao {
 
 	@Override
 	public int updatePayState(String orderCode, int state, String payDate,
-			String ip) {
+			String ip,String prePayDate,int type) {
 		dbConn = JdbcUtil.connSqlServer();
 		try {
 			sta = dbConn.createStatement();
 			return sta.executeUpdate("UPDATE JCP_AddOrder SET OrderState="
 					+ state + ",PaymentDate='" + payDate + "',IP='" + ip
-					+ "' WHERE OrderCode='" + orderCode + "'");
+					+ "',PaymentMethod="+type+",InsertDate='"+prePayDate+"' WHERE OrderCode='" + orderCode + "'");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -244,7 +244,7 @@ public class OpenGurdian extends HttpServlet {
 		contribute.setUserId(uId);
 		contribute.setFk_id(0);
 
-		int isSuccess = RollBackUtil.synchrGuardian(guardian, rebate, account,
+		int isSuccess = RollBackUtil.getInstance().synchrGuardian(guardian, rebate, account,
 				b, detailJ, detailIntegeral, uId, user, account2,
 				detailAccount, contribute, teacher, sysRebate, gurdianId,type,sale);
 		return isSuccess == 1 ? JsonUtil.getOpenGurdianSuccess(guardian,type)

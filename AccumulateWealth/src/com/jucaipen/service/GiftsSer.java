@@ -31,9 +31,9 @@ public class GiftsSer{
 	 * @param classId
 	 * @return 根据分类id获取商店礼品
 	 */
-	public static List<Gifts> findGiftByClassId(int page, int classId) {
+	public static List<Gifts> findGiftByClassId(int classId) {
 		GiftsDao dao=new GiftsImp();
-		return dao.findGiftByClassId(page, classId);
+		return dao.findGiftByClassId( classId);
 	}
 
 	/**

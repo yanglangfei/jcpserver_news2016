@@ -2,11 +2,15 @@ package com.jucaipen.main.purch;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.jucaipen.main.datautils.RollBackUtil;
 import com.jucaipen.model.Account;
 import com.jucaipen.model.AccountDetail;
@@ -29,6 +33,7 @@ import com.jucaipen.utils.TimeUtils;
  */
 public class Recharge extends HttpServlet {
 	private static final long serialVersionUID = 4058444946640167655L;
+	private List<String> orderCodes = new ArrayList<String>();
 	private String result;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -138,8 +143,8 @@ public class Recharge extends HttpServlet {
 			detailAccount.setRemark("用户汇付宝充值聚财币");
 		}
 		detailAccount.setUserId(uId);
-		int isSuccess = RollBackUtil.recharge(orderCode, pState, payDate, ip,
-				bills, a, uId, detail, account, detailAccount, type,prePayDate);
+		int isSuccess = RollBackUtil.getInstance().recharge(orderCode, pState, payDate, ip,
+				bills, a, uId, detail, account, detailAccount, type,prePayDate,orderCodes);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "账单更新成功") : JsonUtil
 				.getRetMsg(1, "账单更新失败");
 	}

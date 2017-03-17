@@ -205,7 +205,7 @@ public class PurchTxtLive extends HttpServlet {
 		sysRebate.setInsertDate(TimeUtils.format(new Date(),
 				"yyyy-MM-dd HH:mm:ss"));
 
-		int isSuccess = RollBackUtil.purchTxtLive(account, accountDetail,
+		int isSuccess = RollBackUtil.getInstance().purchTxtLive(account, accountDetail,
 				accountDetailIntegeral, uId, b, sale, contribute, sysAccount,
 				detailAccount, user, rebate, sysRebate);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "购买文字直播成功") : JsonUtil

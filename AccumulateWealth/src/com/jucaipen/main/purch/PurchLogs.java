@@ -31,7 +31,6 @@ import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.StringUtil;
 import com.jucaipen.utils.TimeUtils;
-
 /**
  * @author Administrator
  * 
@@ -182,7 +181,7 @@ public class PurchLogs extends HttpServlet {
 		sysRebate.setInsertDate(TimeUtils.format(new Date(),
 				"yyyy-MM-dd HH:mm:ss"));
 		sysRebate.setRemark("用户购买日志返利");
-		int isSuccess = RollBackUtil.purchTeacherLogs(ideaSale, accountDetail,
+		int isSuccess = RollBackUtil.getInstance().purchTeacherLogs(ideaSale, accountDetail,
 				accountDetailIntegeral, acount, b, uId, user, contribute,
 				sysAccount, detailAccount, rebate, sysRebate);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "观点购买成功") : JsonUtil

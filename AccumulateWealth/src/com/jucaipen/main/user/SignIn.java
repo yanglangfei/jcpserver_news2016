@@ -117,7 +117,7 @@ public class SignIn extends HttpServlet {
 		// 更新总账户积分信息
 		Account a = AccountSer.findAccountByUserId(uId);
 
-		int isSuccess = RollBackUtil.signIn(detail, sign, inDetail,
+		int isSuccess = RollBackUtil.getInstance().signIn(detail, sign, inDetail,
 				accountDetail, a, uId, signIntegeral, user);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "签到成功") : JsonUtil
 				.getRetMsg(1, "签到失败");

@@ -179,7 +179,7 @@ public class PayRecycleAsk extends HttpServlet {
 		ask.setAskFrom(2);
 		ask.setJucaiBills(bs);
 		ask.setIsReturnJcb(0);
-		int isSuccess = RollBackUtil.payRecycleAsk(ask, detailAccount,
+		int isSuccess = RollBackUtil.getInstance().payRecycleAsk(ask, detailAccount,
 				sysAccount, uId, user, account, accountDetail, aId,
 				detailAccount, bs, accountDetailIntegeral);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "×·ÎÊ³É¹¦") : JsonUtil

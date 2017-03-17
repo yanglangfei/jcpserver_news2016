@@ -37,7 +37,6 @@ public class GiftShop extends HttpServlet {
 		if(isDevice==HeaderUtil.PHONE_APP){
 			String userId = request.getParameter("userId");
 			String type = request.getParameter("type");
-			String page=request.getParameter("page");
 			if (StringUtil.isNotNull(userId)) {
 				if (StringUtil.isInteger(userId)) {
 					int uId = Integer.parseInt(userId);
@@ -45,7 +44,7 @@ public class GiftShop extends HttpServlet {
 							if (StringUtil.isNotNull(type)&&StringUtil.isInteger(type)) {
 									// 根据分类获取礼品信息
 									int t = Integer.parseInt(type);
-									result = initGiftByClassId(t, page,uId);
+									result = initGiftByClassId(t,uId);
 							} else {
 								// 获取所有礼品信息
 								result = JsonUtil
@@ -69,7 +68,7 @@ public class GiftShop extends HttpServlet {
 		out.close();
 	}
 
-	private String initGiftByClassId(int t, String p, int uId) {
+	private String initGiftByClassId(int t, int uId) {
 		//根据分类获取礼品信息
 		int ownJucaiBills;
 		Account account=AccountSer.findAccountByUserId(uId);
@@ -81,16 +80,16 @@ public class GiftShop extends HttpServlet {
 		List<Gifts> gifts;
 		if(t==10){
 			//按推荐查询
-			 gifts=GiftsSer.findIsTuijian(1,Integer.parseInt(p));
+			 gifts=GiftsSer.findIsTuijian(1);
 		}else if(t==0){
 			//所有礼品
 			 gifts = GiftsSer.findAllGifts();
 		}else if(t==20){
 			  //视频直播
-			gifts=GiftsSer.findGiftByClassId(Integer.parseInt(p), 5);
+			gifts=GiftsSer.findGiftByClassId(5);
 		}else{
 			//按分类获取
-			 gifts=GiftsSer.findGiftByClassId(Integer.parseInt(p), t);
+			 gifts=GiftsSer.findGiftByClassId(t);
 		}
 		return JsonUtil.getGiftList(gifts,ownJucaiBills);
 	}

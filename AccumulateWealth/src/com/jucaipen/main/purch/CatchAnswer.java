@@ -130,7 +130,7 @@ public class CatchAnswer extends HttpServlet {
 				"yyyy-MM-dd HH:mm:ss"));
 		sysRebate.setRemark("用户采纳讲师回答返利");
 
-		int isSuccess = RollBackUtil.catchAnswers(account, accountDetail,
+		int isSuccess = RollBackUtil.getInstance().catchAnswers(account, accountDetail,
 				rebate, sysAccount, sysRebate, uId, user, aId, g, bills,
 				contribute);
 		return isSuccess == 1 ? JsonUtil.getRetMsg(0, "采纳回答成功") : JsonUtil

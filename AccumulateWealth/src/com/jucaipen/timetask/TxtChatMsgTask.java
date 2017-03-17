@@ -2,8 +2,11 @@ package com.jucaipen.timetask;
 
 import java.util.List;
 import java.util.TimerTask;
+
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.PushPayload;
+
 import com.jucaipen.model.TxtLiveMsg;
 import com.jucaipen.model.User;
 import com.jucaipen.service.TxtMsgSer;
@@ -77,7 +80,9 @@ public class TxtChatMsgTask extends TimerTask{
 			}else{
 				msgObj = JPushUtils.createMsg("msg", "txtMsg", pushMsg, null);
 			}
-			JPushUtils.pushMsg(client, msgObj);
+			PushResult res = JPushUtils.pushMsg(client, msgObj);
+			System.out.println("msg:"+pushMsg);
+			System.out.println("res:"+res.toString());
 			if(isM){
 				maxId= msgs.get(msgs.size()-1).getId();
 			}else{

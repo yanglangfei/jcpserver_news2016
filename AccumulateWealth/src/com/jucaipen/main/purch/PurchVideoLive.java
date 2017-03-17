@@ -186,7 +186,7 @@ public class PurchVideoLive extends HttpServlet {
 				.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 		sysRebate.setRemark("用户购买直播返利");
 		
-		int isSuccess=RollBackUtil.purchLiveVideo(sale,detail,integeralDetail,b,account,uId,user,contribute,sysAccount,detailAccount,rebate,sysRebate);
+		int isSuccess=RollBackUtil.getInstance().purchLiveVideo(sale,detail,integeralDetail,b,account,uId,user,contribute,sysAccount,detailAccount,rebate,sysRebate);
 		return isSuccess==1 ? JsonUtil.getRetMsg(0, "购买成功") : JsonUtil.getRetMsg(1, "购买失败");
 	}
 

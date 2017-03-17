@@ -25,7 +25,7 @@ public interface GiftsDao {
 	 * @param page
 	 * @return 根据分类id获取礼品信息
 	 */
-	public List<Gifts> findGiftByClassId(int page,int classId);
+	public List<Gifts> findGiftByClassId(int classId);
 	
 	/**
 	 * @param id
