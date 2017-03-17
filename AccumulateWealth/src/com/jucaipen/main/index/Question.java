@@ -157,7 +157,6 @@ public class Question extends HttpServlet {
 				}
 			}
 			ask.setIsPurch(isPurch);
-
 			users.add(user);
 		}
 		return JsonUtil.getAskList(asks, users, 1);
