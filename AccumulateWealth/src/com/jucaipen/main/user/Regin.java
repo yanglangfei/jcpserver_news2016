@@ -14,7 +14,6 @@ import com.jucaipen.utils.HeaderUtil;
 import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author Administrator
  * 
@@ -83,6 +82,14 @@ public class Regin extends HttpServlet {
 		out.close();
 	}
 
+	/**
+	 * @param userName
+	 * @param password
+	 * @param telPhone
+	 * @param checkCode
+	 * @param investCode
+	 * @return  зЂВс
+	 */
 	private String regin(String userName, String password, String telPhone,
 			String checkCode, String investCode) {
 		param.put("username", userName);
