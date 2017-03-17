@@ -1,5 +1,4 @@
 package com.jucaipen.main.live;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -34,6 +33,7 @@ public class TxtChat extends HttpServlet {
 	private String ip;
 	private Timer timer;
 	private PushPayload msgObj;
+	public static int  maxId=0;
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setCharacterEncoding("UTF-8");
@@ -50,9 +50,9 @@ public class TxtChat extends HttpServlet {
 			int msgType=chatMsg.getMsgType();
 			if (opType == 1) {
 				// 上线 --推送历史记录
-				int maxId = requestChatMsg(userId, liveId,msgType);
+				maxId = requestChatMsg(userId, liveId,msgType);
 				timer = new Timer();
-				TxtChatMsgTask task = new TxtChatMsgTask(maxId, userId, liveId,
+				TxtChatMsgTask task = new TxtChatMsgTask(userId, liveId,
 						isManager,msgType);
 				timer.scheduleAtFixedRate(task, new Date(), 1000*10);
 			} else if (opType == 2) {
@@ -156,11 +156,10 @@ public class TxtChat extends HttpServlet {
 						null);
 			}
 			JPushUtils.pushMsg(client, msgObj);
-			
 			if (isManager) {
 				return msgs.get(msgs.size() - 1).getId();
 			} else {
-				return msgs.get(msgs.size() - 1).getShenhe();
+				return msgs.get(msgs.size() - 1).getId();
 			}
 			
 		}

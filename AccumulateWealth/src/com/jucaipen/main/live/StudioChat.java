@@ -7,13 +7,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.json.JSONObject;
+
 import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.PushPayload;
+
 import com.jucaipen.model.ChatMsgObject;
 import com.jucaipen.model.User;
 import com.jucaipen.model.VideoLiveMsg;
@@ -50,6 +55,8 @@ public class StudioChat extends HttpServlet {
 	private static final String GET_LIVE_MSG = "http://chat.jucaipen.com/ashx/chat_msg.ashx?action=getlist";
 	private static final String SEND_LIVE_MSG = "http://chat.jucaipen.com/ashx/chat_msg.ashx?action=appadd";
 	private Map<String, String> params = new HashMap<String, String>();
+	
+	public static int maxId=0;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -65,12 +72,11 @@ public class StudioChat extends HttpServlet {
 			int opType = chatMsg.getOpType();
 			if (opType == 1) {
 				// 上线 --推送历史记录
-				int maxId = requestMsg(userId, liveId);
+				maxId = requestMsg(userId, liveId);
 				timer = new Timer();
-				StudioMsgTask task = new StudioMsgTask(maxId, userId, liveId,
+				StudioMsgTask task = new StudioMsgTask(userId, liveId,
 						isManager);
 				timer.scheduleAtFixedRate(task, new Date(), 1000 * 5);
-				out.print(result);
 			} else if (opType == 2) {
 				// 聊天
 				String msg = chatMsg.getMsg();
@@ -211,7 +217,7 @@ public class StudioChat extends HttpServlet {
 			JPushClient client = JPushUtils.getJPush();
 			PushPayload msgs = JPushUtils.createMsg("msg", "studioMsg",
 					pushMsg, null);
-			JPushUtils.pushMsg(client, msgs);
+			PushResult res = JPushUtils.pushMsg(client, msgs);
 			if (isManager) {
 				return msgObjs.get(msgObjs.size() - 1).getId();
 			} else {

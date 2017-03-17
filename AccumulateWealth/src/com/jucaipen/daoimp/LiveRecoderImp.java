@@ -4,9 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.jucaipen.dao.LiveRecoderDao;
 import com.jucaipen.model.LiveRecoder;
 import com.jucaipen.utils.JdbcUtil;
@@ -15,8 +12,6 @@ public class LiveRecoderImp implements LiveRecoderDao {
 	private Connection conn;
 	private Statement sta;
 	private ResultSet res;
-	private List<LiveRecoder> recoders = new ArrayList<LiveRecoder>();
-
 	@Override
 	public LiveRecoder getRecoderByRect() {
 		//获取最近进行的直播

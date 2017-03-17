@@ -4,8 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimerTask;
+
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.push.model.PushPayload;
+
+import com.jucaipen.main.live.StudioChat;
 import com.jucaipen.model.Studio;
 import com.jucaipen.model.User;
 import com.jucaipen.model.VideoLive;
@@ -18,15 +21,13 @@ import com.jucaipen.utils.JsonUtil;
 import com.jucaipen.utils.LoginUtil;
 
 public class StudioMsgTask extends TimerTask {
-	private int maxId;
 	private int userId;
 	private int liveId;
 	private Map<String, String> params = new HashMap<String, String>();
 	private boolean isManager;
 	private static final String GET_LIVE_MSG = "http://chat.jucaipen.com/ashx/chat_msg.ashx?action=getlist";
 
-	public StudioMsgTask(int maxId, int userId, int liveId, boolean isManager) {
-		this.maxId = maxId;
+	public StudioMsgTask(int userId, int liveId, boolean isManager) {
 		this.userId = userId;
 		this.liveId = liveId;
 		this.isManager = isManager;
@@ -34,10 +35,10 @@ public class StudioMsgTask extends TimerTask {
 
 	@Override
 	public void run() {
-		checkMsg(maxId, liveId, userId, isManager);
+		checkMsg(liveId, userId, isManager);
 	}
 
-	private void checkMsg(int mId, int sId, int uId, boolean isM) {
+	private void checkMsg(int sId, int uId, boolean isM) {
 		int serverId = 0;
 		int teacherId = 0;
 		Studio studio = StudioSer.findStudioById(sId);
@@ -69,7 +70,7 @@ public class StudioMsgTask extends TimerTask {
 		}
 		params.clear();
 		params.put("roomid", 1 + "");
-		params.put("topId", mId + "");
+		params.put("topId", StudioChat.maxId + "");
 		params.put("userId", uId + "");
 		params.put("isServer", serverId + "");
 		String result = LoginUtil.sendHttpPost(GET_LIVE_MSG, params);
@@ -95,9 +96,9 @@ public class StudioMsgTask extends TimerTask {
 					pushMsg, null);
 			JPushUtils.pushMsg(client, msgs);
 			if (isM) {
-				maxId = msgObjs.get(msgObjs.size() - 1).getId();
+				StudioChat.maxId = msgObjs.get(msgObjs.size() - 1).getId();
 			} else {
-				maxId = msgObjs.get(msgObjs.size() - 1).getShenhe();
+				StudioChat.maxId = msgObjs.get(msgObjs.size() - 1).getShenhe();
 			}
 		}
 	}

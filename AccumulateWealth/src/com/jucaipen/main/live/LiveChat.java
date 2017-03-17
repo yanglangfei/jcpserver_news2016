@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.json.JSONObject;
 import cn.jpush.api.JPushClient;
-import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.PushPayload;
 import com.jucaipen.model.ChatMsgObject;
 import com.jucaipen.model.Guardian;
@@ -193,7 +192,7 @@ public class LiveChat extends HttpServlet {
 			String pushMsg=JsonUtil.createLiveMsg(msgObjs,false,uId);
 			JPushClient client = JPushUtils.getJPush();
 			PushPayload msgs = JPushUtils.createMsg("msg", "liveMsg", pushMsg, null);
-		    PushResult res = JPushUtils.pushMsg(client, msgs);
+		    JPushUtils.pushMsg(client, msgs);
 				if(isManager){
 					return  msgObjs.get(msgObjs.size()-1).getId();
 				}else{

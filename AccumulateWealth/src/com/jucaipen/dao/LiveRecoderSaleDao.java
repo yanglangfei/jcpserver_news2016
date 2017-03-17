@@ -1,9 +1,5 @@
 package com.jucaipen.dao;
-
-import java.util.List;
-
 import com.jucaipen.model.LiveRecoderSale;
-
 /**
  * @author 杨朗飞
  *2017年3月11日  下午1:40:12

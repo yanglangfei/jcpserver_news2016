@@ -25,7 +25,7 @@ public class TxtMsgImp implements TxtMsgDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			if (isCheck) {
-				// 审核后的数据
+				// 审核后的数据  ---普通用户
 				res = sta
 						.executeQuery("SELECT  * FROM (SELECT TOP "
 								+ count
@@ -33,6 +33,7 @@ public class TxtMsgImp implements TxtMsgDao {
 								+ liveId
 								+ " AND shenhe>0 AND MsgType="+msgType+" ORDER BY InsertDate DESC) as a ORDER BY InsertDate ASC");
 			} else {
+				// 管理员
 				res = sta
 						.executeQuery("SELECT  * FROM (SELECT TOP "
 								+ count
@@ -82,10 +83,12 @@ public class TxtMsgImp implements TxtMsgDao {
 			dbConn = JdbcUtil.connSqlServer();
 			sta = dbConn.createStatement();
 			if (isCheck) {
+				// 普通用户
 				res = sta
 						.executeQuery("SELECT * FROM JCP_TxtLive_Msg WHERE Fk_TxtLiveId="
-								+ liveId + " AND shenhe>0  AND shenhe>" + maxId+" AND MsgType="+msgType+" ORDER BY InsertDate ASC");
+								+ liveId + " AND shenhe>0  AND Id>" + maxId+" AND MsgType="+msgType+" ORDER BY InsertDate ASC");
 			} else {
+				// 管理员
 				res = sta
 						.executeQuery("SELECT * FROM JCP_TxtLive_Msg WHERE Fk_TxtLiveId="
 								+ liveId + " AND Id>" + maxId+" AND MsgType="+msgType+" ORDER BY InsertDate ASC");

@@ -1,5 +1,4 @@
 package com.jucaipen.base;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,27 +9,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
-import cn.jpush.api.JPushClient;
-import cn.jpush.api.push.PushResult;
-import cn.jpush.api.push.model.PushPayload;
-
-import com.google.gson.JsonObject;
 import com.jucaipen.model.ApkInfo;
 import com.jucaipen.service.ApkInfoServer;
-import com.jucaipen.utils.JPushUtils;
 import com.jucaipen.utils.StringUtil;
-
 /**
  * @author YLF
  * 
@@ -116,22 +105,6 @@ public class UploadApk extends HttpServlet {
 		}
 		out.flush();
 		out.close();
-	}
-
-	/**
-	 * @param filePath
-	 *         更新APK
-	 */
-	private void pushUpdateInfo(String filePath) {
-		JPushClient client = JPushUtils.getJPush();
-		JsonObject object = new JsonObject();
-		object.addProperty("versionCode", info.getVersionCode());
-		object.addProperty("versionName", info.getVsionName());
-		object.addProperty("path", info.getApkPath());
-		PushPayload msg = JPushUtils.createMsg("update", "versionChange",
-				object.toString(), null);
-		PushResult res=JPushUtils.pushMsg(client, msg);
-		System.out.println("res:"+res.toString());
 	}
 
 	/**

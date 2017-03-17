@@ -4,11 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimerTask;
-
 import cn.jpush.api.JPushClient;
-import cn.jpush.api.push.PushResult;
 import cn.jpush.api.push.model.PushPayload;
-
 import com.jucaipen.main.live.LiveChat;
 import com.jucaipen.model.User;
 import com.jucaipen.model.VideoLive;
@@ -89,7 +86,7 @@ public class VideoLiveMsgTask extends TimerTask {
 			JPushClient client = JPushUtils.getJPush();
 			PushPayload msgs = JPushUtils.createMsg("msg", "liveMsg", pushMsg,
 					null);
-			PushResult res = JPushUtils.pushMsg(client, msgs);
+			 JPushUtils.pushMsg(client, msgs);
 			if (isM) {
 				maxId = msgObjs.get(msgObjs.size() - 1).getId();
 				LiveChat.maxId = maxId;
